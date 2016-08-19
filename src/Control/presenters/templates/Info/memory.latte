@@ -1,0 +1,35 @@
+{snippet memory}
+    {ifset $server->memory}
+        <div class="cell memoryInfo">
+            <div class="header">
+                {_'main.info.memory.info'}
+            </div>
+            <table>
+                <tr class="odd">
+                    <th>{_'main.info.memory.usage'}</th>
+                    <th>{_'main.info.memory.free'}</th>
+                    <th>{_'main.info.memory.used'}</th>
+                    <th>{_'main.info.memory.size'}</th>
+                </tr>
+                <tr class="even">
+                    <td>
+                        <div class="status-bar">
+                            <div class="apps" style="width: {$server->memory->application|percent:$server->memory->total:0|noescape};"></div>
+                            <div class="cache" style="width: {$server->memory->cache|percent:$server->memory->total:0|noescape};"></div>
+                            <div class="buffers" style="width: {$server->memory->buffer|percent:$server->memory->total:0|noescape};"></div>
+                        </div>
+                        <div>
+                            {_'main.info.memory.total'}: {$server->memory->used|percent:$server->memory->total:0}
+                            ({_'main.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0} -
+                            {_'main.info.memory.cache'}: {$server->memory->cache|percent:$server->memory->total:0} -
+                            {_'main.info.memory.buffers'}: {$server->memory->buffer|percent:$server->memory->total:0})
+                        </div>
+                    </td>
+                    <td>{$server->memory->free|size}</td>
+                    <td>{$server->memory->used|size}</td>
+                    <td>{$server->memory->total|size}</td>
+                </tr>
+            </table>
+        </div>
+    {/ifset}
+{/snippet}

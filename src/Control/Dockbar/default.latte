@@ -1,0 +1,46 @@
+{snippet dockBar}
+    <div id="dockbar">
+        <div class="dockbar-content">
+            <ul class="button">
+                <li n:class="$shifted ? active"><div></div></li>
+            </ul>
+            <ul class="dockbar-menu">
+                <li class="frontPage">
+                    <a href="{plink :Front:Homepage:}"><span>{_'main.dockbar.frontPage'}</span></a>
+                </li>
+                {include item, parent => 'main.dockbar.', rows => $links}
+            </ul>
+            <ul class="identity">
+                <li>
+                    <div><span>{$userName}</span></div>
+                    <ul class="menu">
+                        <li class="myProfile"><a href="{$profileLink}">{_'main.dockbar.myProfile'}</a></li>
+                        <li class="logout"><a n:href="logout">{_'main.dockbar.logout'}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+{/snippet}
+
+{define item}
+
+    {default $final = FALSE}
+
+    <li n:class="$name" n:foreach="$rows as $name => $row">
+        {if isset($row[link]) || isset($row[handler])}
+            <a 
+                n:class="$name, isset($row[ajax]) ? ajax"
+                {ifset $row[ajax]}data-ajax-off="history"{/ifset}
+                {ifset $row[link]}href="{plink $row[link]}"{/ifset}
+                {ifset $row[handler]}href="{link $row[handler]}"{/ifset}
+                {ifset $row[confirm]}data-confirm="{_$row[confirm]}"{/ifset}
+                >{_$parent.$name}</a>
+        {else}
+            <div><span>{_$parent.$name.'.title'}</span></div>
+            <ul>
+                {include item, parent => $parent.$name.'.', rows => $row}
+            </ul>
+        {/if}
+    </li>
+{/define}

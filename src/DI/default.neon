@@ -1,0 +1,69 @@
+namespace: 'Crm'
+url: '/crm/'
+secured: false
+sender: NULL
+
+fileManagerDir: %appDir%/../
+infoRefresh: 15 # vteriny
+
+minPasswordLength: 8
+passwordChars: '0-9a-zA-Z'
+
+loginExpiration: '20 minutes'
+sessionExpiration: '14 days'
+
+layout: NULL
+
+menu: 
+
+permissions:
+    settings:
+        users:
+            link: 'Users:'
+        permissions:
+            link: 'Permissions:'
+        configuration:
+            link: 'Configuration:'
+    application:
+        fileManager:
+            link: 'FileManager:'
+    management:
+        application:
+            restoreCss:
+                ajax: TRUE
+            restoreJs:
+                ajax: TRUE
+            clearCache:
+                ajax: TRUE
+            invalidateCache:
+                ajax: TRUE
+            clearSessions:
+                confirm: 'main.dockbar.management.application.confirmDeleteSessions'
+                ajax: TRUE
+            clearTemp:
+                confirm: 'main.dockbar.management.application.confirmDeleteTemp'
+        source:
+            deploy:
+                confirm: 'main.dockbar.management.source.confirmDeploy'
+                ajax: TRUE
+            composerUpdate:
+                confirm: 'main.dockbar.management.source.confirmComposerUpdate'
+                ajax: TRUE
+        database:
+            backupDatabase:
+                confirm: 'main.dockbar.management.database.confirmBackupDatabase'
+            uploadDatabase:
+                advanced: TRUE
+                link: 'Database:upload'
+            dropDatabase:
+                confirm: 'main.dockbar.management.database.confirmDropDatabase'
+                advanced: TRUE
+                ajax: TRUE
+
+    info:
+        logs:
+            link: 'Logs:'
+        server:
+            link: 'Info:server'
+        php:
+            link: 'Info:php'

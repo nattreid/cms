@@ -1,0 +1,12 @@
+{block title}{_'main.dockbar.myProfile'}{/block}
+{block content}
+    {panel}
+        {view, class => form}
+            {snippet userForm}
+                {control userForm}
+            {/snippet}
+            {snippet passwordForm}
+                {control passwordForm}
+            {/snippet}
+        {/view}
+    {/panel}

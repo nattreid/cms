@@ -1,0 +1,32 @@
+<div class="cell fileSystemInfo">
+    <div class="header">
+        {_'main.info.fileSystem.info'}
+    </div>
+    <table n:snippet="fileSystem">
+        <tr class="odd">
+            <th>{_'main.info.fileSystem.mountPoint'}</th>
+            <th>{_'main.info.fileSystem.type'}</th>
+            <th>{_'main.info.fileSystem.partition'}</th>
+            <th>{_'main.info.fileSystem.usage'}</th>
+            <th>{_'main.info.fileSystem.free'}</th>
+            <th>{_'main.info.fileSystem.used'}</th>
+            <th>{_'main.info.fileSystem.size'}</th>
+        </tr>
+        {foreach $server->fileSystem as $fileSystem}
+            <tr n:class="$iterator->counter % 2 == 1 ? even">
+                <td><strong>{$fileSystem->mountPoint}</strong></td>
+                <td>{$fileSystem->type}</td>
+                <td>{$fileSystem->partition}</td>
+                <td class="status">
+                    <div class="status-bar">
+                        <div style="width: {$fileSystem->usage|noescape};"></div>
+                    </div>
+                    {$fileSystem->usage}
+                </td>
+                <td>{$fileSystem->free|size}</td>
+                <td>{$fileSystem->used|size}</td>
+                <td>{$fileSystem->size|size}</td>
+            </tr>
+        {/foreach}
+    </table>
+</div>

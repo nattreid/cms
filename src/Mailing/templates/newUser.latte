@@ -1,0 +1,5 @@
+{extends '@layout.latte'}
+{block #body}
+<p>{_'mailing.newUser.message', ['link' => $link]|noescape}</p>
+<p>{_'crm.user.username'}: <strong>{$username}</strong><br/>
+    {_'crm.user.password'}: <strong>{$password}</strong></p>

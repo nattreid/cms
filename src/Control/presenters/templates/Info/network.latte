@@ -1,0 +1,31 @@
+{snippet network}
+    {ifset $server->network}
+        <div class="cell networkInfo">
+            <div class="header">
+                {_'main.info.network.info'}
+            </div>
+            <table>
+                <tr class="odd">
+                    <th>{_'main.info.network.device'}</th>
+                    <th>{_'main.info.network.ip'}</th>
+                    <th>{_main.info.network.ip6}</th>
+                    <th>{_'main.info.network.mac'}</th>
+                    <th>{_'main.info.network.recieve'}</th>
+                    <th>{_'main.info.network.sent'}</th>
+                    <th>{_'main.info.network.error'}/{_'main.info.network.drop'}</th>
+                </tr>
+                {foreach $server->network as $network}
+                    <tr n:class="$iterator->counter % 2 == 1 ? even">
+                        <td><strong>{$network->name}</strong></td>
+                        <td>{isset($network->ip) ? $network->ip}</td>
+                        <td>{$network->ip6}</td>
+                        <td>{isset($network->mac) ? $network->mac}</td>
+                        <td>{$network->recieve|size:2}</td>
+                        <td>{$network->sent|size:2}</td>
+                        <td>{$network->error}/{$network->drop}</td>
+                    </tr>
+                {/foreach}
+            </table>
+        </div>
+    {/ifset}
+{/snippet}

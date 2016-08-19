@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="{$locale}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+        <meta name="viewport" content="{ifset viewport}{include viewport|striptags|strip}{else}width=device-width,initial-scale=1{/ifset}">
+
+        <title>{ifset title}{include title|striptags|strip} | {/ifset} {_'main.title'}</title>
+
+        <meta name="robots" content="noindex,nofollow"/>
+        <meta name="author" content=""/>
+
+        {control css}
+        {control js}
+
+        {block head}{/block}
+    </head>
+    <body class="preload">
+        {block body}
+            {control dockbar}
+            <div id="crm-container" n:class="$shifted ? shifted">
+                <div id="crm-menu-container">
+                    <a n:href=":Crm:Homepage:">
+                        <img n:img="$headerLogo, '100x100', 'fit', 'default/crmLogo.png'">
+                    </a>
+                    {control menu}
+                </div>
+                <div id="crm-content">
+                    {control flashMessages}
+                    {control breadcrumb, id => breadcrumb}
+                    {include content}
+                    {block footer}{/block}
+                </div>
+            </div>
+            {block boxes}{/block}
+        {/block}
+        {control tryUser}
+    </body>
+</html>

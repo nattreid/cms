@@ -1,0 +1,52 @@
+<div class="cell hardwareInfo">
+    <div class="header">
+        {_'main.info.hardware.info'}
+    </div>
+    <table>
+        {ifset $server->hardware->server}
+            <tr class="odd">
+                <th>{_'main.info.hardware.server'}</th>
+            </tr>
+            <tr class="even">
+                <td>{$server->hardware->server}</td>
+            </tr>
+        {/ifset}
+        {ifset $server->hardware->cpu}
+            <tr class="odd">
+                <th>{_main.info.hardware.cpu, count($server->hardware->cpu)}</th>
+            </tr>
+            <tr class="even" n:snippet="cpu">
+                <td>
+                    {ifset $server->hardware->cpu}
+                        {foreach $server->hardware->cpu as $cpu}
+                            <div>
+                                <strong>{$cpu->model}</strong>
+                            </div>
+                            <div>
+                                {_'main.info.hardware.cpuLoad'}: <strong>{$cpu->usage|number:2,',':' '}%</strong>,
+                                {_'main.info.hardware.cpuSpeed'}: <strong>{$cpu->speed|frequency}
+                                    {if isset($cpu->speedMin) && isset($cpu->speedMax)}
+                                        ({$cpu->speedMin|frequency} / {$cpu->speedMax|frequency})
+                                    {/if}</strong>,
+                                {_'main.info.hardware.cache'}: <strong>{$cpu->cache|size:0:TRUE}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature.'°C'}
+                            </div>
+                            <div class="status-bar">
+                                <div style="width: {$cpu->usage|number:2,'.':''|noescape}%;"></div>
+                            </div>
+                        {/foreach}
+                    {/ifset}
+                </td>
+            </tr>
+        {/ifset}
+        {ifset $server->hardware->scsi}
+            <tr class="odd">
+                <th>{_'main.info.hardware.scsi'}</th>
+            </tr>
+            <tr class="even" n:foreach="$server->hardware->scsi as $scsi">
+                <td>
+                    <strong>{$scsi->name}</strong> ({$scsi->type})
+                </td>
+            </tr>
+        {/ifset}
+    </table>
+</div>
