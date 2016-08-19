@@ -29,7 +29,6 @@
         "nattreid/mailing": "~1.0",
         "nattreid/datagrid": "~4.4",
         "nattreid/filemanager": "~1.0",
-        "nattreid/tracking": "~1.0",
         "webchemistry/images": "~2.1",
         "nextras/secured-links": "~1.3"
     },
