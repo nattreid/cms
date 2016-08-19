@@ -22,7 +22,6 @@
     "history.nette.ajax.js": "~2.0",
     "nprogress": "~0.2",
     "moment": "~2.13",
-    "bootstrap-daterangepicker": "~2.0",
     "bootstrap-select": "~1.10",
     "datagrid": "git@git.newtravel.cz:nattreid/datagrid.git#~4.4",
     "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#~1.0",
