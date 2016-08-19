@@ -28,9 +28,11 @@
         "nattreid/routing": "~1.0",
         "nattreid/mailing": "~1.0",
         "nattreid/datagrid": "~4.4",
+        "nattreid/tracyplugin": "~1.0",
         "nattreid/filemanager": "~1.0",
         "webchemistry/images": "~2.1",
-        "nextras/secured-links": "~1.3"
+        "nextras/secured-links": "~1.3",
+        "kdyby/translation": "dev-master"
     },
     "require-dev": {
         "nette/tester": "~1.7"
