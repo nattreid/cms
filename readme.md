@@ -25,6 +25,13 @@ crm:
     layout: '%appDir%/modules/CrmExt/templates/layout.latte' # hlavní šablona
 ```
 
+a přidejte model do ORM. V příkladu je extension orm pod nazvem **orm**
+```neon
+orm:
+    add:
+        - NAttreid\Crm\Model\Orm
+```
+
 Přídání dalších modulů
 ```neon
 crm:
@@ -50,13 +57,6 @@ class TestPresenter extends \NAttreid\Crm\Control\Presenter {
 **Layout.latte**
 ```latte
 {extends $layout}
-```
-
-a přidejte model do ORM. V příkladu je extension orm pod nazvem **orm**
-```neon
-orm:
-    add:
-        - NAttreid\Crm\Model\Orm
 ```
 
 ## Rozšiřitelnost pomocí extension
