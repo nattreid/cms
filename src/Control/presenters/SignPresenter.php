@@ -6,7 +6,7 @@ use NAttreid\Form\Form,
     Nette\Utils\Random,
     NAttreid\Security\Model\Orm,
     Nextras\Orm\Model\Model,
-    Nattreid\Crm\Mailing\Mailer,
+    NAttreid\Crm\Mailing\Mailer,
     NAttreid\Utils\Hasher,
     NAttreid\Security\Model\AclRolesMapper,
     Nette\Utils\ArrayHash;

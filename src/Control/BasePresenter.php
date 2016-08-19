@@ -130,10 +130,10 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
     /* ###################################################################### */
     /*                              Configuration                             */
 
-    /** @var \Nattreid\Crm\Configurator @inject */
+    /** @var \NAttreid\Crm\Configurator @inject */
     protected $configurator;
 
-    public function injectConfiguration(\Nattreid\Crm\Configurator $configurator) {
+    public function injectConfiguration(\NAttreid\Crm\Configurator $configurator) {
         $this->configurator = $configurator;
     }
 

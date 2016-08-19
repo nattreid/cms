@@ -1,6 +1,6 @@
 <?php
 
-namespace Nattreid\Crm\Mailing;
+namespace NAttreid\Crm\Mailing;
 
 /**
  * Mailer

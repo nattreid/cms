@@ -3,7 +3,7 @@
 namespace NAttreid\Crm\Control;
 
 use NAttreid\Form\Form,
-    Nattreid\Crm\Mailing\Mailer,
+    NAttreid\Crm\Mailing\Mailer,
     NAttreid\Security\Model\User,
     Nette\Forms\Container,
     Nextras\Dbal\UniqueConstraintViolationException,

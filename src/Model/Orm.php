@@ -1,6 +1,6 @@
 <?php
 
-namespace Nattreid\Crm\Model;
+namespace NAttreid\Crm\Model;
 
 /**
  * @property-read ConfigurationRepository $configuration

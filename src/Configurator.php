@@ -1,12 +1,12 @@
 <?php
 
-namespace Nattreid\Crm;
+namespace NAttreid\Crm;
 
-use Nattreid\Crm\Model\Orm,
+use NAttreid\Crm\Model\Orm,
     Nextras\Orm\Model\Model,
     Nette\Caching\IStorage,
     Nette\Caching\Cache,
-    Nattreid\Crm\Model\Configuration,
+    NAttreid\Crm\Model\Configuration,
     NAttreid\AppManager\AppManager;
 
 /**

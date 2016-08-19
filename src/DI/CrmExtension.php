@@ -6,7 +6,7 @@ use NAttreid\Routing\RouterFactory,
     Nette\Utils\Strings,
     NAttreid\Crm\Control\BasePresenter,
     NAttreid\Crm\Control\Presenter,
-    Nattreid\Crm\Mailing\Mailer,
+    NAttreid\Crm\Mailing\Mailer,
     NAttreid\Security\Authenticator,
     NAttreid\TracyPlugin\Tracy,
     Kdyby\Translation\Translator,
@@ -36,7 +36,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
                 ->setArguments([$config['namespace'], $config['url'], $config['secured']]);
 
         $builder->addDefinition($this->prefix('configurator'))
-                ->setClass(\Nattreid\Crm\Configurator::class);
+                ->setClass(\NAttreid\Crm\Configurator::class);
 
         $builder->addDefinition($this->prefix('formFactory'))
                 ->setClass(\NAttreid\Crm\Factories\FormFactory::class);
