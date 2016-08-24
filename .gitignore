@@ -1,4 +1,5 @@
-vendor
-nbproject
-composer.lock
-bower_components
+/vendor
+/nbproject
+/composer.lock
+/resources/assets/vendor
+/node_modules

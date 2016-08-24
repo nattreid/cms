@@ -1,0 +1,169 @@
+var gulp = require('gulp'),
+        less = require('gulp-less'),
+        minify = require('gulp-clean-css'),
+        concat = require('gulp-concat'),
+        uglify = require('gulp-uglify'),
+        rename = require('gulp-rename');
+
+var paths = {
+    'dev': {
+        'less': './resources/assets/less/',
+        'css': './resources/assets/css/',
+        'js': './resources/assets/js/',
+        'vendor': './resources/assets/vendor/'
+    },
+    'production': {
+        'js': './assets/js',
+        'css': './assets/css',
+        'lang': './assets/js/i18n'
+    }
+};
+
+// *****************************************************************************
+// ************************************  JS  ***********************************
+
+var boundledJS = [
+    paths.dev.vendor + 'jquery/dist/jquery.js',
+    paths.dev.vendor + 'jquery-ui/jquery-ui.js',
+    paths.dev.vendor + 'nette-forms/src/assets/netteForms.js',
+    paths.dev.vendor + 'nette.ajax.js/nette.ajax.js',
+    paths.dev.vendor + 'nette.ajax.js/extensions/confirm.ajax.js',
+    paths.dev.vendor + 'jquery-ui-touch-punch/jquery.ui.touch-punch.js',
+    paths.dev.vendor + 'nette-live-form-validation/live-form-validation.js',
+    paths.dev.vendor + 'utils/assets/utils.js',
+    paths.dev.vendor + 'bootstrap/dist/js/bootstrap.js',
+    paths.dev.vendor + 'nprogress/nprogress.js',
+    paths.dev.js + 'nette.nprogress.js',
+    paths.dev.vendor + 'history.nette.ajax.js/client-side/history.ajax.js',
+    // localize
+    paths.dev.js + 'locale.js',
+    paths.dev.vendor + 'moment/moment.js',
+    // datagrid
+    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.js',
+    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.js',
+    paths.dev.vendor + 'happy/dist/happy.js',
+    paths.dev.vendor + 'bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
+    paths.dev.vendor + 'jquery-ui-sortable/jquery-ui-sortable.js',
+    paths.dev.vendor + 'bootstrap-select/dist/js/bootstrap-select.js',
+    // form
+    paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
+    // crm
+    paths.dev.js + 'crm.js',
+    paths.dev.js + 'dockbar.js',
+    paths.dev.js + 'info.js'
+];
+
+var locale = {
+    'cs': [
+        paths.dev.vendor + 'moment/locale/cs.js',
+        paths.dev.vendor + 'jquery-ui/ui/i18n/datepicker-cs.js',
+        paths.dev.vendor + 'bootstrap-select/dist/js/i18n/defaults-cs_CZ.js'
+    ]
+};
+
+gulp.task('js', function () {
+    return gulp.src(paths.dev.js + '*.js')
+            .pipe(concat('crm.js'))
+            .pipe(gulp.dest(paths.production.js));
+});
+
+gulp.task('jsBoundled', function () {
+    return gulp.src(boundledJS)
+            .pipe(concat('crm.boundled.js'))
+            .pipe(gulp.dest(paths.production.js));
+});
+
+gulp.task('jsMin', function () {
+    return gulp.src(paths.dev.js + '*.js')
+            .pipe(concat('crm.min.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest(paths.production.js));
+});
+
+gulp.task('jsBoundledMin', function () {
+    return gulp.src(boundledJS)
+            .pipe(concat('crm.boundled.min.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest(paths.production.js));
+});
+
+gulp.task('jsCs', function () {
+    return gulp.src(locale.cs)
+            .pipe(concat('crm.cs.js'))
+            .pipe(gulp.dest(paths.production.lang));
+});
+
+gulp.task('jsCsMin', function () {
+    return gulp.src(locale.cs)
+            .pipe(concat('crm.cs.min.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest(paths.production.lang));
+});
+
+// *****************************************************************************
+// ***********************************  CSS  ***********************************
+
+var boundledCSS = [
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/jquery-ui/themes/base/jquery-ui.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/font-awesome/css/font-awesome.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap/dist/css/bootstrap.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap/dist/css/bootstrap-theme.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/nprogress/nprogress.css',
+    // datagrid
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/ublaboo-datagrid/assets/dist/datagrid.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/ublaboo-datagrid/assets/dist/datagrid-spinners.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/happy/dist/happy.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-select/dist/css/bootstrap-select.css',
+    // crm
+    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/filemanager/client-side/fileManager.css',
+    paths.dev.css + '*.css',
+    paths.dev.less + '*.less'
+];
+
+gulp.task('css', function () {
+    return gulp.src([
+        paths.dev.css + '*.css',
+        paths.dev.less + '*.less'
+    ])
+            .pipe(less())
+            .pipe(concat('crm.css'))
+            .pipe(gulp.dest(paths.production.css));
+});
+
+gulp.task('cssBoundled', function () {
+    return gulp.src(boundledCSS)
+            .pipe(less())
+            .pipe(concat('crm.boundled.css'))
+            .pipe(gulp.dest(paths.production.css));
+});
+
+gulp.task('cssMin', function () {
+    return gulp.src([
+        paths.dev.css + '*.css',
+        paths.dev.less + '*.less'
+    ])
+            .pipe(concat('crm.min.css'))
+            .pipe(less())
+            .pipe(gulp.dest(paths.production.css));
+});
+
+gulp.task('cssBoundledMin', function () {
+    return gulp.src(boundledCSS)
+            .pipe(concat('crm.boundled.min.css'))
+            .pipe(less())
+            .pipe(gulp.dest(paths.production.css));
+});
+
+gulp.task('watch', function () {
+    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
+    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
+
+    gulp.watch(paths.dev.css + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
+    gulp.watch(paths.dev.less + '*.less', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
+    gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
+});
+
+gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
+

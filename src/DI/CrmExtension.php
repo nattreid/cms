@@ -10,7 +10,8 @@ use NAttreid\Routing\RouterFactory,
     NAttreid\Security\Authenticator,
     NAttreid\TracyPlugin\Tracy,
     Kdyby\Translation\Translator,
-    Nette\DI\Statement;
+    Nette\DI\Statement,
+    IPub\FlashMessages\FlashNotifier;
 
 /**
  * Rozsireni
@@ -30,6 +31,10 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
                 ->setImplement(\NAttreid\Crm\Control\IDockbarFactory::class)
                 ->setFactory(\NAttreid\Crm\Control\Dockbar::class)
                 ->setArguments([$config['permissions'], $config['namespace']]);
+
+        $builder->addDefinition($this->prefix('fileManagerFactory'))
+                ->setImplement(\NAttreid\Filemanager\IFileManagerFactory::class)
+                ->setFactory(\NAttreid\Filemanager\FileManager::class);
 
         $builder->addDefinition($this->prefix('router'))
                 ->setClass(\NAttreid\Crm\Routing\Router::class)
@@ -111,6 +116,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $this->setRouting();
         $this->setTranslation();
         $this->setTracy();
+        $this->setFlash();
         $this->setModule($config, $namespace);
         $this->setCrmModule($config, $namespace);
 
@@ -185,6 +191,16 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
                     ->addSetup('enableMail', ['@' . $this->prefix('configurator') . '::mailPanel']);
         } catch (\Nette\DI\MissingServiceException $ex) {
             throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/tracyplugin'");
+        }
+    }
+
+    private function setFlash() {
+        $builder = $this->getContainerBuilder();
+        try {
+            $flash = $builder->getByType(FlashNotifier::class);
+            $builder->getDefinition($flash);
+        } catch (\Nette\DI\MissingServiceException $ex) {
+            throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/flash-messages'");
         }
     }
 

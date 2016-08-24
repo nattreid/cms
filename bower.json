@@ -10,12 +10,18 @@
       "email": "attreid@gmail.com"
     }
   ],
+  "main": [
+    "./assets/crm.js",
+    "./assets/crm.css"
+  ],
   "ignore": [
-    "src",
+    "/src",
+    "/resources",
     "*.json"
   ],
   "dependencies": {
     "jquery": "~1.12",
+    "jquery-ui": "~1.12",
     "nette.ajax.js": "~2.1",
     "jquery-ui-touch-punch": "latest",
     "nette-live-form-validation": "~1.6",
@@ -23,13 +29,14 @@
     "nprogress": "~0.2",
     "moment": "~2.13",
     "bootstrap-select": "~1.10",
-    "datagrid": "git@git.newtravel.cz:nattreid/datagrid.git#~4.4",
+    "ublaboo-datagrid": "~4.4",
     "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#~1.0",
     "menu": "git@git.newtravel.cz:nattreid/menu.git#~2.0",
     "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0",
     "form": "git@git.newtravel.cz:nattreid/form.git#~1.0"
   },
   "resolutions": {
-    "nette.ajax.js": "~2.1"
+    "nette.ajax.js": "~2.1",
+    "nette-forms": "2.2 || 2.3"
   }
 }

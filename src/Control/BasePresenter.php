@@ -192,32 +192,6 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
     }
 
     /* ###################################################################### */
-    /*                               Webloader                                */
-
-    /** @var \WebLoader\Nette\LoaderFactory */
-    private $webLoader;
-
-    public function injectWebLoader(\WebLoader\Nette\LoaderFactory $webLoader) {
-        $this->webLoader = $webLoader;
-    }
-
-    /** @return \WebLoader\Nette\CssLoader */
-    protected function createComponentCss() {
-        if ($this->module === NULL) {
-            throw new \Nette\InvalidStateException('Module is not set.');
-        }
-        return $this->webLoader->createCssLoader($this->module);
-    }
-
-    /** @return \WebLoader\Nette\JavaScriptAsyncLoader */
-    protected function createComponentJs() {
-        if ($this->module === NULL) {
-            throw new \Nette\InvalidStateException('Module is not set.');
-        }
-        return $this->webLoader->createJavaScriptLoader($this->module, $this->module . Strings::firstUpper($this->locale));
-    }
-
-    /* ###################################################################### */
     /*                                  Form                                  */
 
     /** @var FormFactory */
