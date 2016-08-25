@@ -167,7 +167,6 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
             $class = $def->getClass();
 
             $m = Strings::matchAll($class, '#(\w+)Module#');
-            \Tracy\Debugger::barDump($m);
             $module = Strings::firstLower(end($m)[1]);
             $def->addSetup('setCrmModule', [$module]);
         }
