@@ -104,20 +104,20 @@ gulp.task('jsCsMin', function () {
 // ***********************************  CSS  ***********************************
 
 var boundledCSS = [
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/jquery-ui/themes/base/jquery-ui.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/font-awesome/css/font-awesome.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap/dist/css/bootstrap.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap/dist/css/bootstrap-theme.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/nprogress/nprogress.css',
+    paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
+    paths.dev.vendor + 'font-awesome/css/font-awesome.css',
+    paths.dev.vendor + 'bootstrap/dist/css/bootstrap.css',
+    paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
+    paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.css',
+    paths.dev.vendor + 'nprogress/nprogress.css',
     // datagrid
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/ublaboo-datagrid/assets/dist/datagrid.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/ublaboo-datagrid/assets/dist/datagrid-spinners.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/happy/dist/happy.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/bootstrap-select/dist/css/bootstrap-select.css',
+    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.css',
+    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.css',
+    paths.dev.vendor + 'happy/dist/happy.css',
+    paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+    paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
     // crm
-    paths.dev.vendor + '/home/attreid/NetBeansProjects/nattreid/crm/resources/assets/vendor/filemanager/client-side/fileManager.css',
+    paths.dev.vendor + 'filemanager/client-side/fileManager.css',
     paths.dev.css + '*.css',
     paths.dev.less + '*.less'
 ];
