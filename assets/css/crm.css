@@ -827,12 +827,12 @@ body.preload * {
   padding: 0px;
   list-style: none;
 }
-#crm-container #crm-menu-container > ul.menu-container > li:hover {
-  background-color: #222;
-}
 #crm-container #crm-menu-container > ul.menu-container > li > a {
   padding: 5px 10px;
   font-size: 16px;
+}
+#crm-container #crm-menu-container > ul.menu-container > li > a:hover {
+  background-color: #222;
 }
 #crm-container #crm-menu-container div.menu-current > dl {
   margin: 0 0 10px 0;
