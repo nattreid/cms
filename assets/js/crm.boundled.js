@@ -35694,24 +35694,6 @@ $.nette.ext('history', {
 
 })(jQuery);
 
-(function ($, window) {
-    if (window.jQuery === undefined) {
-        console.error('Plugin "jQuery" required by "locale.js" is missing!');
-        return;
-    }
-    if (window.moment === undefined) {
-        console.error('Plugin "moment" required by "locale.js" is missing!');
-        return;
-    }
-
-    var locale = $('html').attr('lang');
-    if (locale !== undefined) {
-        window.moment.locale(locale);
-    }
-
-})(jQuery, window);
-
-
 //! moment.js
 //! version : 2.13.0
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -39752,6 +39734,24 @@ $.nette.ext('history', {
     return _moment;
 
 }));
+(function ($, window) {
+    if (window.jQuery === undefined) {
+        console.error('Plugin "jQuery" required by "locale.js" is missing!');
+        return;
+    }
+    if (window.moment === undefined) {
+        console.error('Plugin "moment" required by "locale.js" is missing!');
+        return;
+    }
+
+    var locale = $('html').attr('lang');
+    if (locale !== undefined) {
+        window.moment.locale(locale);
+    }
+
+})(jQuery, window);
+
+
 var datagridFitlerMultiSelect, datagridSortable, datagridSortableTree;
 
 $(document).on('click', '[data-datagrid-confirm]', function(e) {

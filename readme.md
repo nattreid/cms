@@ -68,6 +68,12 @@ class ExampleExtension extends \NAttreid\Crm\DI\ModuleExtension {
     protected $dir = __DIR__;
     protected $package = 'Package\\';
 
+    public function beforeCompile() {
+        parent::beforeCompile();
+        $this->addLoaderFile('cestaKCssNeboJs');
+        $this->addLoaderFile('cestaKLocalizovanemuJs','cs');
+    }
+
 }
 ```
 

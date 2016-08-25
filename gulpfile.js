@@ -36,8 +36,8 @@ var boundledJS = [
     paths.dev.js + 'nette.nprogress.js',
     paths.dev.vendor + 'history.nette.ajax.js/client-side/history.ajax.js',
     // localize
-    paths.dev.js + 'locale.js',
     paths.dev.vendor + 'moment/moment.js',
+    paths.dev.js + 'locale.js',
     // datagrid
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.js',
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.js',
