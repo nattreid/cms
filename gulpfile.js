@@ -37,6 +37,7 @@ var boundledJS = [
     paths.dev.vendor + 'history.nette.ajax.js/client-side/history.ajax.js',
     // localize
     paths.dev.vendor + 'moment/moment.js',
+    paths.dev.vendor + 'moment/locale/cs.js',
     paths.dev.js + 'locale.js',
     // datagrid
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.js',
@@ -58,7 +59,6 @@ var boundledJS = [
 
 var locale = {
     'cs': [
-        paths.dev.vendor + 'moment/locale/cs.js',
         paths.dev.vendor + 'jquery-ui/ui/i18n/datepicker-cs.js',
         paths.dev.vendor + 'bootstrap-select/dist/js/i18n/defaults-cs_CZ.js'
     ]
