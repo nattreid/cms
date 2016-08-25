@@ -1,6 +1,5 @@
 {
     "name": "crm",
-    "version": "1.0.0",
     "description": "Crm for Nette Framework",
     "main": "gulpfile.js",
     "repository": {
