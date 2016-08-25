@@ -7,7 +7,7 @@
         "url": "git@git.newtravel.cz:nattreid/crm.git"
     },
     "author": "Attreid",
-    "license": "ISC",
+    "license": "Unlicense",
     "devDependencies": {
         "gulp": "^3.9.1",
         "gulp-clean-css": "^2.0.12",
