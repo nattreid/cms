@@ -37,7 +37,7 @@ class LoaderFactory {
         $this->httpRequest = $httpRequest;
         if ($loader !== NULL) {
             foreach ($loader->getTempPaths() as $path) {
-                $this->outputDir[] = $path;
+                $this->outputDir = $path;
                 break;
             }
         }
