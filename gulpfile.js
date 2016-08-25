@@ -146,6 +146,7 @@ gulp.task('cssMin', function () {
     ])
             .pipe(concat('crm.min.css'))
             .pipe(less())
+            .pipe(minify())
             .pipe(gulp.dest(paths.production.css));
 });
 
@@ -153,6 +154,7 @@ gulp.task('cssBoundledMin', function () {
     return gulp.src(boundledCSS)
             .pipe(concat('crm.boundled.min.css'))
             .pipe(less())
+            .pipe(minify())
             .pipe(gulp.dest(paths.production.css));
 });
 
