@@ -50,7 +50,10 @@ var boundledJS = [
     // crm
     paths.dev.js + 'crm.js',
     paths.dev.js + 'dockbar.js',
-    paths.dev.js + 'info.js'
+    paths.dev.js + 'info.js',
+    // plugins
+    paths.dev.vendor + 'form/assets/form.js',
+    paths.dev.vendor + 'menu/assets/menu.js'
 ];
 
 var locale = {
