@@ -24,6 +24,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $builder = $this->getContainerBuilder();
         $config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
 
+        $config['wwwDir'] = \Nette\DI\Helpers::expand($config['wwwDir'], $builder->parameters);
         $config['fileManagerDir'] = \Nette\DI\Helpers::expand($config['fileManagerDir'], $builder->parameters);
         $config['layout'] = \Nette\DI\Helpers::expand($config['layout'], $builder->parameters);
 
@@ -53,11 +54,21 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
                 ->setClass(\NAttreid\Security\Authenticator\MainAuthenticator::class)
                 ->setAutowired(FALSE);
 
+        $this->setLoader($config);
         $this->setPresenters($config);
-
         $this->setMenu($config);
-
         $this->setMailing($config);
+    }
+
+    private function setLoader($config) {
+        $builder = $this->getContainerBuilder();
+
+        $builder->addDefinition($this->prefix('loaderFactory'))
+                ->setClass(\NAttreid\Crm\LoaderFactory::class)
+                ->setArguments([$config['wwwDir']])
+                ->addSetup('addFile', ['css/crm.boundled.min.css'])
+                ->addSetup('addFile', ['js/crm.boundled.min.js'])
+                ->addSetup('addFile', ['crm.cs.min', 'cs']);
     }
 
     private function setPresenters($config) {

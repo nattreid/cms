@@ -30,6 +30,7 @@
         "nattreid/datagrid": "~4.4",
         "nattreid/tracyplugin": "~1.0",
         "nattreid/filemanager": "~1.0",
+        "nattreid/webloader": "~2.5",
         "webchemistry/images": "~2.1",
         "nextras/secured-links": "~1.3",
         "kdyby/translation": "dev-master"

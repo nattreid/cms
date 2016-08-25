@@ -5,7 +5,8 @@ namespace NAttreid\Crm\DI;
 use NAttreid\Crm\Routing\Router,
     Kdyby\Translation\Translator,
     Nette\DI\Statement,
-    Nette\Utils\Strings;
+    Nette\Utils\Strings,
+    NAttreid\Crm\LoaderFactory;
 
 /**
  * Rozsireni modulu crm
@@ -31,6 +32,9 @@ abstract class ModuleExtension extends \Nette\DI\CompilerExtension {
      * @var string 
      */
     protected $package;
+
+    /** @var LoaderFactory */
+    private $loader;
 
     public function beforeCompile() {
         $builder = $this->getContainerBuilder();
@@ -80,7 +84,7 @@ abstract class ModuleExtension extends \Nette\DI\CompilerExtension {
 
         $menu = [
             $this->namespace => [
-                'link' => $config['link']
+        'link' => $config['link']
             ] + $config['menu']
         ];
 
@@ -88,6 +92,21 @@ abstract class ModuleExtension extends \Nette\DI\CompilerExtension {
             $builder->getDefinition($service)
                     ->addSetup('addMenu', [$menu, NULL, $config['position']]);
         }
+    }
+
+    /**
+     * Prida soubor do loaderu
+     * @param string $file
+     * @param string $locale
+     */
+    protected function addLoaderFile($file, $locale = NULL) {
+        if ($this->loader === NULL) {
+            $builder = $this->getContainerBuilder();
+
+            $loader = $builder->getByType(LoaderFactory::class);
+            $this->loader = $builder->getDefinition($loader);
+        }
+        $this->loader->addSetup('addFile', [$file, $locale]);
     }
 
 }

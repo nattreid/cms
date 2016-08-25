@@ -192,6 +192,26 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
     }
 
     /* ###################################################################### */
+    /*                             LoaderFactory                              */
+
+    /** @var \NAttreid\Crm\LoaderFactory */
+    private $loaderFactory;
+
+    public function injectLoaderFactory(\NAttreid\Crm\LoaderFactory $loaderFactory) {
+        $this->loaderFactory = $loaderFactory;
+    }
+
+    /** @return \WebLoader\Nette\CssLoader */
+    protected function createComponentLoadCss() {
+        return $this->loaderFactory->createCssLoader();
+    }
+
+    /** @return \WebLoader\Nette\JavaScriptLoader */
+    protected function createComponentLoadJs() {
+        return $this->loaderFactory->createJavaScriptLoader($this->locale);
+    }
+
+    /* ###################################################################### */
     /*                                  Form                                  */
 
     /** @var FormFactory */
