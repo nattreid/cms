@@ -103,7 +103,7 @@ class LoaderFactory {
             }
         }
 
-        return new JavaScriptLoader($this->httpRequest->url->basePath . $this->outputDir, $compilers);
+        return new JavaScriptLoader($this->httpRequest->url->basePath . $this->outputDir, ...$compilers);
     }
 
     /**
