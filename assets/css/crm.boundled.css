@@ -14739,6 +14739,11 @@ body.preload * {
   -o-transition: margin 0.3s;
   transition: margin 0.3s;
 }
+#crm-container #crm-content #copyright {
+  width: 300px;
+  text-align: center;
+  margin: 5px auto;
+}
 #crm-container #crm-content.sign {
   margin-left: 0px;
   display: flex;
