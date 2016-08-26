@@ -2,6 +2,7 @@ namespace: 'Crm'
 url: '/crm/'
 secured: false
 sender: NULL
+front: NULL
 
 fileManagerDir: %appDir%/../
 infoRefresh: 15 # vteriny

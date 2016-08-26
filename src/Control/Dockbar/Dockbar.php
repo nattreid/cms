@@ -6,8 +6,7 @@ use NAttreid\AppManager\AppManager,
     NAttreid\Security\User,
     NAttreid\Crm\Configurator,
     Nette\Utils\Strings,
-    IPub\FlashMessages\FlashNotifier,
-    Nette\Localization\ITranslator;
+    IPub\FlashMessages\FlashNotifier;
 
 /**
  * DockBar
@@ -19,6 +18,9 @@ class Dockbar extends \Nette\Application\UI\Control {
     /** @var string */
     private $module;
 
+    /** @var string */
+    private $front;
+
     /** @var AppManager */
     private $app;
 
@@ -27,9 +29,6 @@ class Dockbar extends \Nette\Application\UI\Control {
 
     /** @var Configurator */
     private $configurator;
-
-    /** @var ITranslator */
-    private $translator;
 
     /** @var FlashNotifier */
     private $flashNotifier;
@@ -43,31 +42,15 @@ class Dockbar extends \Nette\Application\UI\Control {
     /** @var array */
     private $allowedHandler = [];
 
-    public function __construct($permissions, $module, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier) {
+    public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier) {
         $this->app = $app;
         $this->user = $user;
         $this->configurator = $configurator;
         $this->flashNotifier = $flashNotifier;
 
         $this->module = $module;
+        $this->front = $front;
         $this->links = $this->createLinks('main.dockbar', $permissions);
-    }
-
-    /**
-     * Nastavi modul
-     * @param string $mainPresenter
-     * @param string $module
-     */
-    public function setModule() {
-        
-    }
-
-    /**
-     * Nastavi translator
-     * @param ITranslator $translator
-     */
-    public function setTranslator(ITranslator $translator) {
-        $this->translator = $translator;
     }
 
     /**
@@ -215,8 +198,8 @@ class Dockbar extends \Nette\Application\UI\Control {
     public function render() {
         $template = $this->template;
 
-//        $template->addFilter('translate', [$this->translator, 'translate']);
         // linky pro dockbar
+        $template->front = $this->front;
         $template->links = $this->links;
         $template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 

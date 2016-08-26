@@ -12,6 +12,7 @@ crm:
     url: '/crm/'
     secured: false
     sender: 'Odesilatel <nejaky@mail.cz>'
+    front: ':Front:Homepage:'
 
     fileManagerDir: %appDir%/../
     infoRefresh: 15 # vteriny

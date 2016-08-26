@@ -24,6 +24,10 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $builder = $this->getContainerBuilder();
         $config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
 
+        if ($config['front'] === NULL) {
+            throw new \Nette\InvalidStateException("Crm: 'front' does not set in config.neon");
+        }
+
         $config['wwwDir'] = \Nette\DI\Helpers::expand($config['wwwDir'], $builder->parameters);
         $config['fileManagerDir'] = \Nette\DI\Helpers::expand($config['fileManagerDir'], $builder->parameters);
         $config['layout'] = \Nette\DI\Helpers::expand($config['layout'], $builder->parameters);
@@ -31,7 +35,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $builder->addDefinition($this->prefix('dockbar'))
                 ->setImplement(\NAttreid\Crm\Control\IDockbarFactory::class)
                 ->setFactory(\NAttreid\Crm\Control\Dockbar::class)
-                ->setArguments([$config['permissions'], $config['namespace']]);
+                ->setArguments([$config['permissions'], $config['namespace'], $config['front']]);
 
         $builder->addDefinition($this->prefix('fileManagerFactory'))
                 ->setImplement(\NAttreid\Filemanager\IFileManagerFactory::class)
