@@ -2,8 +2,7 @@
 
 namespace NAttreid\Crm\Control;
 
-use Nette\Utils\Strings,
-    NAttreid\Form\Form,
+use NAttreid\Form\Form,
     NAttreid\Crm\Factories\FormFactory,
     NAttreid\Crm\Factories\DataGridFactory;
 
@@ -76,6 +75,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
         \NAttreid\Utils\Date::setLocale($this->locale);
         $this->template->locale = $this->locale;
 
+        $this->template->baseTitle = $this->configurator->title;
         $this->template->layout = __DIR__ . '/presenters/templates/@layout.latte';
 
         // Prelozeni defaultnich zprav pro pravidla formulare
