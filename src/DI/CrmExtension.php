@@ -5,7 +5,8 @@ namespace NAttreid\Crm\DI;
 use NAttreid\Routing\RouterFactory,
     Nette\Utils\Strings,
     NAttreid\Crm\Control\BasePresenter,
-    NAttreid\Crm\Control\Presenter,
+    NAttreid\Crm\Control\ModulePresenter,
+    NAttreid\Crm\Control\CrmPresenter,
     NAttreid\Crm\Mailing\Mailer,
     NAttreid\Security\Authenticator,
     NAttreid\TracyPlugin\Tracy,
@@ -132,6 +133,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $this->setTranslation();
         $this->setTracy();
         $this->setFlash();
+        $this->setLayout($config);
         $this->setModule($config, $namespace);
         $this->setCrmModule($config, $namespace);
 
@@ -160,6 +162,11 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
     private function setModule($config, $namespace) {
         foreach ($this->findByType(BasePresenter::class) as $def) {
             $def->addSetup('setModule', [$config['namespace'], $namespace]);
+        }
+    }
+
+    private function setLayout($config) {
+        foreach ($this->findByType(CrmPresenter::class) as $def) {
             if ($config['layout'] !== NULL) {
                 $def->addSetup('setLayout', [$config['layout']]);
             }
@@ -167,7 +174,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
     }
 
     private function setCrmModule($config, $namespace) {
-        foreach ($this->findByType(Presenter::class) as $def) {
+        foreach ($this->findByType(ModulePresenter::class) as $def) {
             $class = $def->getClass();
 
             $m = Strings::matchAll($class, '#(\w+)Module#');

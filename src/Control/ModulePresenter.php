@@ -3,10 +3,10 @@
 namespace NAttreid\Crm\Control;
 
 /**
- * Crm presenter
+ * Presenter modulu
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class CrmPresenter extends Presenter {
+abstract class ModulePresenter extends Presenter {
     
 }
