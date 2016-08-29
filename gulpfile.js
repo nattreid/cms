@@ -54,7 +54,8 @@ var boundledJS = [
     paths.dev.js + 'info.js',
     // plugins
     paths.dev.vendor + 'form/assets/form.js',
-    paths.dev.vendor + 'menu/assets/menu.js'
+    paths.dev.vendor + 'menu/assets/menu.js',
+    paths.dev.vendor + 'filemanager/assets/fileManager.js'
 ];
 
 var locale = {
@@ -120,9 +121,10 @@ var boundledCSS = [
     paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
     paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
     // crm
-    paths.dev.vendor + 'filemanager/client-side/fileManager.css',
     paths.dev.css + '*.css',
-    paths.dev.less + '*.less'
+    paths.dev.less + '*.less',
+    // plugins
+    paths.dev.vendor + 'filemanager/assets/fileManager.css'
 ];
 
 gulp.task('css', function () {

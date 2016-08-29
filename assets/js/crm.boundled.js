@@ -29700,26 +29700,7 @@ var widgetsTooltip = $.ui.tooltip;
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
-(function(global, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(function() {
-			return factory(global);
-		});
-	} else if (typeof module === 'object' && typeof module.exports === 'object') {
-		module.exports = factory(global);
-	} else {
-		var init = !global.Nette || !global.Nette.noInit;
-		global.Nette = factory(global);
-		if (init) {
-			global.Nette.initOnLoad();
-		}
-	}
-
-}(typeof window !== 'undefined' ? window : this, function(window) {
-
-'use strict';
-
-var Nette = {};
+var Nette = Nette || {};
 
 /**
  * Attaches a handler to an event for the element.
@@ -29814,7 +29795,7 @@ Nette.getEffectiveValue = function(elem) {
 /**
  * Validates form element against given rules.
  */
-Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
+Nette.validateControl = function(elem, rules, onlyCheck, value) {
 	elem = elem.tagName ? elem : elem[0]; // RadioNodeList
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
 	value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
@@ -29824,20 +29805,15 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 			op = rule.op.match(/(~)?([^?]+)/),
 			curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
 
+		if (!curElem) {
+			continue;
+		}
+
 		rule.neg = op[1];
 		rule.op = op[2];
 		rule.condition = !!rule.rules;
-
-		if (!curElem) {
-			continue;
-		} else if (rule.op === 'optional') {
-			emptyOptional = !Nette.validateRule(elem, ':filled', null, value);
-			continue;
-		} else if (emptyOptional && !rule.condition && rule.op !== ':filled') {
-			return true;
-		}
-
 		curElem = curElem.tagName ? curElem : curElem[0]; // RadioNodeList
+
 		var curValue = elem === curElem ? value : {value: Nette.getEffectiveValue(curElem)},
 			success = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
 
@@ -29848,7 +29824,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 		}
 
 		if (rule.condition && success) {
-			if (!Nette.validateControl(elem, rule.rules, onlyCheck, value, rule.op === ':blank' ? false : emptyOptional)) {
+			if (!Nette.validateControl(elem, rule.rules, onlyCheck, value)) {
 				return false;
 			}
 		} else if (!rule.condition && !success) {
@@ -29865,12 +29841,6 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 			return false;
 		}
 	}
-
-	if (!onlyCheck && elem.type === 'number' && !elem.validity.valid) {
-		Nette.addError(elem, 'Please enter a valid value.');
-		return false;
-	}
-
 	return true;
 };
 
@@ -29982,12 +29952,9 @@ Nette.validateRule = function(elem, op, arg, value) {
 
 Nette.validators = {
 	filled: function(elem, arg, val) {
-		if (elem.type === 'number' && elem.validity.badInput) {
-			return true;
-		}
 		return val !== '' && val !== false && val !== null
 			&& (!Nette.isArray(val) || !!val.length)
-			&& (!window.FileList || !(val instanceof window.FileList) || val.length);
+			&& (!window.FileList || !(val instanceof FileList) || val.length);
 	},
 
 	blank: function(elem, arg, val) {
@@ -30030,35 +29997,14 @@ Nette.validators = {
 	},
 
 	minLength: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.tooShort) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		return val.length >= arg;
 	},
 
 	maxLength: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.tooLong) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		return val.length <= arg;
 	},
 
 	length: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.tooShort || elem.validity.tooLong) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		arg = Nette.isArray(arg) ? arg : [arg, arg];
 		return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
 	},
@@ -30087,21 +30033,15 @@ Nette.validators = {
 
 	pattern: function(elem, arg, val) {
 		try {
-			return typeof arg === 'string' ? (new RegExp('^(?:' + arg + ')$')).test(val) : null;
+			return typeof arg === 'string' ? (new RegExp('^(' + arg + ')$')).test(val) : null;
 		} catch (e) {}
 	},
 
 	integer: function(elem, arg, val) {
-		if (elem.type === 'number' && elem.validity.badInput) {
-			return false;
-		}
 		return (/^-?[0-9]+$/).test(val);
 	},
 
 	'float': function(elem, arg, val, value) {
-		if (elem.type === 'number' && elem.validity.badInput) {
-			return false;
-		}
 		val = val.replace(' ', '').replace(',', '.');
 		if ((/^-?[0-9]*[.,]?[0-9]+$/).test(val)) {
 			value.value = val;
@@ -30111,35 +30051,14 @@ Nette.validators = {
 	},
 
 	min: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.rangeUnderflow) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		return Nette.validators.range(elem, [arg, null], val);
 	},
 
 	max: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.rangeOverflow) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		return Nette.validators.range(elem, [null, arg], val);
 	},
 
 	range: function(elem, arg, val) {
-		if (elem.type === 'number') {
-			if (elem.validity.rangeUnderflow || elem.validity.rangeOverflow) {
-				return false
-			} else if (elem.validity.badInput) {
-				return null;
-			}
-		}
 		return Nette.isArray(arg) ?
 			((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
 	},
@@ -30160,7 +30079,7 @@ Nette.validators = {
 	},
 
 	image: function (elem, arg, val) {
-		if (window.FileList && val instanceof window.FileList) {
+		if (window.FileList && val instanceof FileList) {
 			for (var i = 0; i < val.length; i++) {
 				var type = val[i].type;
 				if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg') {
@@ -30304,24 +30223,6 @@ Nette.initForm = function(form) {
 
 
 /**
- * @private
- */
-Nette.initOnLoad = function() {
-	Nette.addEvent(window, 'load', function() {
-		for (var i = 0; i < document.forms.length; i++) {
-			var form = document.forms[i];
-			for (var j = 0; j < form.elements.length; j++) {
-				if (form.elements[j].getAttribute('data-nette-rules')) {
-					Nette.initForm(form);
-					break;
-				}
-			}
-		}
-	});
-};
-
-
-/**
  * Determines whether the argument is an array.
  */
 Nette.isArray = function(arg) {
@@ -30346,6 +30247,13 @@ Nette.inArray = function(arr, val) {
 };
 
 
+Nette.addEvent(window, 'load', function() {
+	for (var i = 0; i < document.forms.length; i++) {
+		Nette.initForm(document.forms[i]);
+	}
+});
+
+
 /**
  * Converts string to web safe characters [a-z0-9-] text.
  */
@@ -30360,9 +30268,6 @@ Nette.webalize = function(s) {
 };
 
 Nette.webalizeTable = {\u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
-
-return Nette;
-}));
 
 /**
  * AJAX Nette Framework plugin for jQuery
@@ -48556,3 +48461,690 @@ $(document).ready(function () {
     });
 
 })(jQuery, window);
+(function ($, window) {
+    if (window.jQuery === undefined) {
+        console.error('Plugin "jQuery" required by "fileManager.js" is missing!');
+        return;
+    }
+
+    window.FileManager = {};
+
+    window.FileManager.viewer;
+    window.FileManager.container;
+    window.FileManager.loaded;
+
+
+    window.FileManager.redrawViewer = function () {
+        this.loaded = false;
+        this.viewer = $('.fileManagerContainer .viewer');
+        this.container = this.viewer.find('.viewer-container');
+
+        this.viewer.css({visibility: 'hidden', display: 'block'});
+        this.resize();
+        this.viewer.css({visibility: '', display: 'none'});
+        this.viewer.fadeIn();
+
+    };
+
+    window.FileManager.resize = function () {
+        if (this.container) {
+            if (this.container.hasClass('image')) {
+                var img = this.container.find('img');
+
+                function resizeImage() {
+                    var limit = 30;
+
+                    img.removeAttr('style');
+                    var width = img.width();
+                    var height = img.height();
+
+                    var windowWidth = window.innerWidth - limit;
+                    var windowHeight = window.innerHeight - limit;
+
+                    if (width > windowWidth) {
+                        height = height / (width / windowWidth);
+                        width = windowWidth;
+                    }
+                    if (height > windowHeight) {
+                        width = width / (height / windowHeight);
+                        height = windowHeight;
+                    }
+
+                    img.width(width);
+                    img.height(height);
+
+                    window.FileManager.container.centerFixed();
+                }
+
+                if (this.loaded) {
+                    resizeImage();
+                } else {
+                    img.load(function () {
+                        window.FileManager.loaded = true;
+                        resizeImage();
+                    });
+                }
+            } else {
+                this.container.centerFixed();
+            }
+        }
+    };
+
+    $(document).ready(function () {
+
+        // *************************************************************************
+        // properties
+
+        var ajax = null;
+        var timer = null;
+        var position = {
+            left: 0,
+            top: 0
+        };
+
+        function disableCallSizeInfo() {
+            if (ajax !== null) {
+                ajax.abort();
+            }
+            if (timer !== null) {
+                clearTimeout(timer);
+            }
+        }
+
+        $(document).on('mousemove', '.fileManagerContainer .fileManagerContent .itemContainer a.item', function (event) {
+            if (!window.Modernizr.touchevents) {
+                position = $(this).closest('.itemContainer').find('.properties').onPosition(event);
+            }
+        });
+
+        $(document).ajaxStart(function () {
+            disableCallSizeInfo();
+        });
+
+        $(document).on('mouseenter', '.fileManagerContainer .fileManagerContent .itemContainer a.item', function () {
+            if (!window.Modernizr.touchevents) {
+                var item = $(this).closest('.itemContainer');
+
+                timer = setTimeout(function () {
+
+                    if (item.data('request') === 0) {
+                        item.data('request', 1);
+                        ajax = $.nette.ajax(item.data('file-size-handler'))
+                                .success(function () {
+                                    item.find('.properties')
+                                            .show()
+                                            .css({
+                                                left: position.left,
+                                                top: position.top
+                                            });
+                                    item.data('request', 2);
+                                })
+                                .complete(function () {
+                                    if (item.data('request') !== 2) {
+                                        item.data('request', 0);
+                                    }
+                                    ajax = null;
+                                });
+                        timer = null;
+                    }
+                }, 2000);
+                item.find('.properties').show();
+            }
+        });
+
+        $(document).on('mouseleave', '.fileManagerContainer .fileManagerContent .itemContainer a.item', function () {
+            if (!window.Modernizr.touchevents) {
+                disableCallSizeInfo();
+                $(this).closest('.itemContainer')
+                        .find('.properties')
+                        .hide();
+            }
+        });
+
+        // *************************************************************************
+        // context menu
+        $(document).on('click', '.fileManagerContainer .fileManagerContent .itemContainer a.item', function (event) {
+            disableCallSizeInfo();
+            return false;
+        });
+
+        $(document).on('contextmenu', '.fileManagerContainer .fileManagerContent .itemContainer', function (event) {
+            var menu = $(this).find('.fileContextMenu');
+            menu.onPosition(event, -30, -30);
+
+            if (window.Modernizr.touchevents) {
+                $(this).closest('.fileManagerContent').find('.fileContextMenu').hide();
+
+                menu.clickOut(function (o) {
+                    o.hide();
+                    return true;
+                });
+            } else {
+                disableCallSizeInfo();
+                $(this).find('.properties').hide();
+                $(this).find('.fileContextMenu').hide();
+            }
+
+            menu.show();
+            return false;
+        });
+
+        $(document).on('mouseleave', '.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu', function () {
+            if (!window.Modernizr.touchevents) {
+                $(this).hide();
+            }
+        });
+
+        // *************************************************************************
+        // viewer
+        $(document).on('click', '.fileManagerContainer .viewer .background, .fileManagerContainer .viewer .viewerClose', function () {
+            $(this).closest('.viewer').fadeOut();
+        });
+
+        $(document).on('change', '.fileManagerContainer .viewer .data input[type="checkbox"]', function (ev) {
+            var obj = $(this).closest('.data').find('pre, textarea');
+            if ($(this).is(':checked')) {
+                obj.removeClass('notAlign');
+            } else {
+                obj.addClass('notAlign');
+            }
+        });
+
+        $(window).on('resize.fileManager', function () {
+            window.FileManager.resize();
+        });
+
+    });
+
+})(jQuery, window);
+/*!
+ * modernizr v3.3.1
+ * Build https://modernizr.com/download?-touchevents-dontmin
+ *
+ * Copyright (c)
+ *  Faruk Ates
+ *  Paul Irish
+ *  Alex Sexton
+ *  Ryan Seddon
+ *  Patrick Kettner
+ *  Stu Cox
+ *  Richard Herrera
+
+ * MIT License
+ */
+
+/*
+ * Modernizr tests which native CSS3 and HTML5 features are available in the
+ * current UA and makes the results available to you in two ways: as properties on
+ * a global `Modernizr` object, and as classes on the `<html>` element. This
+ * information allows you to progressively enhance your pages with a granular level
+ * of control over the experience.
+*/
+
+;(function(window, document, undefined){
+  var tests = [];
+  
+
+  /**
+   *
+   * ModernizrProto is the constructor for Modernizr
+   *
+   * @class
+   * @access public
+   */
+
+  var ModernizrProto = {
+    // The current version, dummy
+    _version: '3.3.1',
+
+    // Any settings that don't work as separate modules
+    // can go in here as configuration.
+    _config: {
+      'classPrefix': '',
+      'enableClasses': true,
+      'enableJSClass': true,
+      'usePrefixes': true
+    },
+
+    // Queue of tests
+    _q: [],
+
+    // Stub these for people who are listening
+    on: function(test, cb) {
+      // I don't really think people should do this, but we can
+      // safe guard it a bit.
+      // -- NOTE:: this gets WAY overridden in src/addTest for actual async tests.
+      // This is in case people listen to synchronous tests. I would leave it out,
+      // but the code to *disallow* sync tests in the real version of this
+      // function is actually larger than this.
+      var self = this;
+      setTimeout(function() {
+        cb(self[test]);
+      }, 0);
+    },
+
+    addTest: function(name, fn, options) {
+      tests.push({name: name, fn: fn, options: options});
+    },
+
+    addAsyncTest: function(fn) {
+      tests.push({name: null, fn: fn});
+    }
+  };
+
+  
+
+  // Fake some of Object.create so we can force non test results to be non "own" properties.
+  var Modernizr = function() {};
+  Modernizr.prototype = ModernizrProto;
+
+  // Leak modernizr globally when you `require` it rather than force it here.
+  // Overwrite name so constructor name is nicer :D
+  Modernizr = new Modernizr();
+
+  
+
+  var classes = [];
+  
+
+  /**
+   * is returns a boolean if the typeof an obj is exactly type.
+   *
+   * @access private
+   * @function is
+   * @param {*} obj - A thing we want to check the type of
+   * @param {string} type - A string to compare the typeof against
+   * @returns {boolean}
+   */
+
+  function is(obj, type) {
+    return typeof obj === type;
+  }
+  ;
+
+  /**
+   * Run through all tests and detect their support in the current UA.
+   *
+   * @access private
+   */
+
+  function testRunner() {
+    var featureNames;
+    var feature;
+    var aliasIdx;
+    var result;
+    var nameIdx;
+    var featureName;
+    var featureNameSplit;
+
+    for (var featureIdx in tests) {
+      if (tests.hasOwnProperty(featureIdx)) {
+        featureNames = [];
+        feature = tests[featureIdx];
+        // run the test, throw the return value into the Modernizr,
+        // then based on that boolean, define an appropriate className
+        // and push it into an array of classes we'll join later.
+        //
+        // If there is no name, it's an 'async' test that is run,
+        // but not directly added to the object. That should
+        // be done with a post-run addTest call.
+        if (feature.name) {
+          featureNames.push(feature.name.toLowerCase());
+
+          if (feature.options && feature.options.aliases && feature.options.aliases.length) {
+            // Add all the aliases into the names list
+            for (aliasIdx = 0; aliasIdx < feature.options.aliases.length; aliasIdx++) {
+              featureNames.push(feature.options.aliases[aliasIdx].toLowerCase());
+            }
+          }
+        }
+
+        // Run the test, or use the raw value if it's not a function
+        result = is(feature.fn, 'function') ? feature.fn() : feature.fn;
+
+
+        // Set each of the names on the Modernizr object
+        for (nameIdx = 0; nameIdx < featureNames.length; nameIdx++) {
+          featureName = featureNames[nameIdx];
+          // Support dot properties as sub tests. We don't do checking to make sure
+          // that the implied parent tests have been added. You must call them in
+          // order (either in the test, or make the parent test a dependency).
+          //
+          // Cap it to TWO to make the logic simple and because who needs that kind of subtesting
+          // hashtag famous last words
+          featureNameSplit = featureName.split('.');
+
+          if (featureNameSplit.length === 1) {
+            Modernizr[featureNameSplit[0]] = result;
+          } else {
+            // cast to a Boolean, if not one already
+            /* jshint -W053 */
+            if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
+              Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
+            }
+
+            Modernizr[featureNameSplit[0]][featureNameSplit[1]] = result;
+          }
+
+          classes.push((result ? '' : 'no-') + featureNameSplit.join('-'));
+        }
+      }
+    }
+  }
+  ;
+
+  /**
+   * List of property values to set for css tests. See ticket #21
+   * http://git.io/vUGl4
+   *
+   * @memberof Modernizr
+   * @name Modernizr._prefixes
+   * @optionName Modernizr._prefixes
+   * @optionProp prefixes
+   * @access public
+   * @example
+   *
+   * Modernizr._prefixes is the internal list of prefixes that we test against
+   * inside of things like [prefixed](#modernizr-prefixed) and [prefixedCSS](#-code-modernizr-prefixedcss). It is simply
+   * an array of kebab-case vendor prefixes you can use within your code.
+   *
+   * Some common use cases include
+   *
+   * Generating all possible prefixed version of a CSS property
+   * ```js
+   * var rule = Modernizr._prefixes.join('transform: rotate(20deg); ');
+   *
+   * rule === 'transform: rotate(20deg); webkit-transform: rotate(20deg); moz-transform: rotate(20deg); o-transform: rotate(20deg); ms-transform: rotate(20deg);'
+   * ```
+   *
+   * Generating all possible prefixed version of a CSS value
+   * ```js
+   * rule = 'display:' +  Modernizr._prefixes.join('flex; display:') + 'flex';
+   *
+   * rule === 'display:flex; display:-webkit-flex; display:-moz-flex; display:-o-flex; display:-ms-flex; display:flex'
+   * ```
+   */
+
+  // we use ['',''] rather than an empty array in order to allow a pattern of .`join()`ing prefixes to test
+  // values in feature detects to continue to work
+  var prefixes = (ModernizrProto._config.usePrefixes ? ' -webkit- -moz- -o- -ms- '.split(' ') : ['','']);
+
+  // expose these for the plugin API. Look in the source for how to join() them against your input
+  ModernizrProto._prefixes = prefixes;
+
+  
+
+  /**
+   * docElement is a convenience wrapper to grab the root element of the document
+   *
+   * @access private
+   * @returns {HTMLElement|SVGElement} The root element of the document
+   */
+
+  var docElement = document.documentElement;
+  
+
+  /**
+   * A convenience helper to check if the document we are running in is an SVG document
+   *
+   * @access private
+   * @returns {boolean}
+   */
+
+  var isSVG = docElement.nodeName.toLowerCase() === 'svg';
+  
+
+  /**
+   * createElement is a convenience wrapper around document.createElement. Since we
+   * use createElement all over the place, this allows for (slightly) smaller code
+   * as well as abstracting away issues with creating elements in contexts other than
+   * HTML documents (e.g. SVG documents).
+   *
+   * @access private
+   * @function createElement
+   * @returns {HTMLElement|SVGElement} An HTML or SVG element
+   */
+
+  function createElement() {
+    if (typeof document.createElement !== 'function') {
+      // This is the case in IE7, where the type of createElement is "object".
+      // For this reason, we cannot call apply() as Object is not a Function.
+      return document.createElement(arguments[0]);
+    } else if (isSVG) {
+      return document.createElementNS.call(document, 'http://www.w3.org/2000/svg', arguments[0]);
+    } else {
+      return document.createElement.apply(document, arguments);
+    }
+  }
+
+  ;
+
+  /**
+   * getBody returns the body of a document, or an element that can stand in for
+   * the body if a real body does not exist
+   *
+   * @access private
+   * @function getBody
+   * @returns {HTMLElement|SVGElement} Returns the real body of a document, or an
+   * artificially created element that stands in for the body
+   */
+
+  function getBody() {
+    // After page load injecting a fake body doesn't work so check if body exists
+    var body = document.body;
+
+    if (!body) {
+      // Can't use the real body create a fake one.
+      body = createElement(isSVG ? 'svg' : 'body');
+      body.fake = true;
+    }
+
+    return body;
+  }
+
+  ;
+
+  /**
+   * injectElementWithStyles injects an element with style element and some CSS rules
+   *
+   * @access private
+   * @function injectElementWithStyles
+   * @param {string} rule - String representing a css rule
+   * @param {function} callback - A function that is used to test the injected element
+   * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
+   * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
+   * @returns {boolean}
+   */
+
+  function injectElementWithStyles(rule, callback, nodes, testnames) {
+    var mod = 'modernizr';
+    var style;
+    var ret;
+    var node;
+    var docOverflow;
+    var div = createElement('div');
+    var body = getBody();
+
+    if (parseInt(nodes, 10)) {
+      // In order not to give false positives we create a node for each test
+      // This also allows the method to scale for unspecified uses
+      while (nodes--) {
+        node = createElement('div');
+        node.id = testnames ? testnames[nodes] : mod + (nodes + 1);
+        div.appendChild(node);
+      }
+    }
+
+    style = createElement('style');
+    style.type = 'text/css';
+    style.id = 's' + mod;
+
+    // IE6 will false positive on some tests due to the style element inside the test div somehow interfering offsetHeight, so insert it into body or fakebody.
+    // Opera will act all quirky when injecting elements in documentElement when page is served as xml, needs fakebody too. #270
+    (!body.fake ? div : body).appendChild(style);
+    body.appendChild(div);
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = rule;
+    } else {
+      style.appendChild(document.createTextNode(rule));
+    }
+    div.id = mod;
+
+    if (body.fake) {
+      //avoid crashing IE8, if background image is used
+      body.style.background = '';
+      //Safari 5.13/5.1.4 OSX stops loading if ::-webkit-scrollbar is used and scrollbars are visible
+      body.style.overflow = 'hidden';
+      docOverflow = docElement.style.overflow;
+      docElement.style.overflow = 'hidden';
+      docElement.appendChild(body);
+    }
+
+    ret = callback(div, rule);
+    // If this is done after page load we don't want to remove the body so check if body exists
+    if (body.fake) {
+      body.parentNode.removeChild(body);
+      docElement.style.overflow = docOverflow;
+      // Trigger layout so kinetic scrolling isn't disabled in iOS6+
+      docElement.offsetHeight;
+    } else {
+      div.parentNode.removeChild(div);
+    }
+
+    return !!ret;
+
+  }
+
+  ;
+
+  /**
+   * testStyles injects an element with style element and some CSS rules
+   *
+   * @memberof Modernizr
+   * @name Modernizr.testStyles
+   * @optionName Modernizr.testStyles()
+   * @optionProp testStyles
+   * @access public
+   * @function testStyles
+   * @param {string} rule - String representing a css rule
+   * @param {function} callback - A function that is used to test the injected element
+   * @param {number} [nodes] - An integer representing the number of additional nodes you want injected
+   * @param {string[]} [testnames] - An array of strings that are used as ids for the additional nodes
+   * @returns {boolean}
+   * @example
+   *
+   * `Modernizr.testStyles` takes a CSS rule and injects it onto the current page
+   * along with (possibly multiple) DOM elements. This lets you check for features
+   * that can not be detected by simply checking the [IDL](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Interface_development_guide/IDL_interface_rules).
+   *
+   * ```js
+   * Modernizr.testStyles('#modernizr { width: 9px; color: papayawhip; }', function(elem, rule) {
+   *   // elem is the first DOM node in the page (by default #modernizr)
+   *   // rule is the first argument you supplied - the CSS rule in string form
+   *
+   *   addTest('widthworks', elem.style.width === '9px')
+   * });
+   * ```
+   *
+   * If your test requires multiple nodes, you can include a third argument
+   * indicating how many additional div elements to include on the page. The
+   * additional nodes are injected as children of the `elem` that is returned as
+   * the first argument to the callback.
+   *
+   * ```js
+   * Modernizr.testStyles('#modernizr {width: 1px}; #modernizr2 {width: 2px}', function(elem) {
+   *   document.getElementById('modernizr').style.width === '1px'; // true
+   *   document.getElementById('modernizr2').style.width === '2px'; // true
+   *   elem.firstChild === document.getElementById('modernizr2'); // true
+   * }, 1);
+   * ```
+   *
+   * By default, all of the additional elements have an ID of `modernizr[n]`, where
+   * `n` is its index (e.g. the first additional, second overall is `#modernizr2`,
+   * the second additional is `#modernizr3`, etc.).
+   * If you want to have more meaningful IDs for your function, you can provide
+   * them as the fourth argument, as an array of strings
+   *
+   * ```js
+   * Modernizr.testStyles('#foo {width: 10px}; #bar {height: 20px}', function(elem) {
+   *   elem.firstChild === document.getElementById('foo'); // true
+   *   elem.lastChild === document.getElementById('bar'); // true
+   * }, 2, ['foo', 'bar']);
+   * ```
+   *
+   */
+
+  var testStyles = ModernizrProto.testStyles = injectElementWithStyles;
+  
+/*!
+{
+  "name": "Touch Events",
+  "property": "touchevents",
+  "caniuse" : "touch",
+  "tags": ["media", "attribute"],
+  "notes": [{
+    "name": "Touch Events spec",
+    "href": "https://www.w3.org/TR/2013/WD-touch-events-20130124/"
+  }],
+  "warnings": [
+    "Indicates if the browser supports the Touch Events spec, and does not necessarily reflect a touchscreen device"
+  ],
+  "knownBugs": [
+    "False-positive on some configurations of Nokia N900",
+    "False-positive on some BlackBerry 6.0 builds – https://github.com/Modernizr/Modernizr/issues/372#issuecomment-3112695"
+  ]
+}
+!*/
+/* DOC
+Indicates if the browser supports the W3C Touch Events API.
+
+This *does not* necessarily reflect a touchscreen device:
+
+* Older touchscreen devices only emulate mouse events
+* Modern IE touch devices implement the Pointer Events API instead: use `Modernizr.pointerevents` to detect support for that
+* Some browsers & OS setups may enable touch APIs when no touchscreen is connected
+* Future browsers may implement other event models for touch interactions
+
+See this article: [You Can't Detect A Touchscreen](http://www.stucox.com/blog/you-cant-detect-a-touchscreen/).
+
+It's recommended to bind both mouse and touch/pointer events simultaneously – see [this HTML5 Rocks tutorial](http://www.html5rocks.com/en/mobile/touchandmouse/).
+
+This test will also return `true` for Firefox 4 Multitouch support.
+*/
+
+  // Chrome (desktop) used to lie about its support on this, but that has since been rectified: http://crbug.com/36415
+  Modernizr.addTest('touchevents', function() {
+    var bool;
+    if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+      bool = true;
+    } else {
+      // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+      // https://git.io/vznFH
+      var query = ['@media (', prefixes.join('touch-enabled),('), 'heartz', ')', '{#modernizr{top:9px;position:absolute}}'].join('');
+      testStyles(query, function(node) {
+        bool = node.offsetTop === 9;
+      });
+    }
+    return bool;
+  });
+
+
+  // Run each test
+  testRunner();
+
+  delete ModernizrProto.addTest;
+  delete ModernizrProto.addAsyncTest;
+
+  // Run the things that are supposed to run after the tests
+  for (var i = 0; i < Modernizr._q.length; i++) {
+    Modernizr._q[i]();
+  }
+
+  // Leak Modernizr namespace
+  window.Modernizr = Modernizr;
+
+
+;
+
+})(window, document);
