@@ -37,6 +37,7 @@ user:
     incorrectUsernameOrPassword: "Wrong username or password."
     incorrectUsernameOrEmail: "Wrong username or E-mail."
 
+    dataSaved: "User data saved"
     passwordChanged: "Password changed"
     youAreLoggedOut: "You are logout."
     inactivityLogout: "Your account has been logged out due to inactivity. Please sign in again."
