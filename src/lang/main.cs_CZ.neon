@@ -29,6 +29,8 @@ user:
     restorePassword: "Obnovení hesla"
     generatePassword: "Generovat heslo"
 
+    registerAdministrator: "Registrace administrátora"
+
     dupliciteUsername: "Uživatelské jméno je již použito."
     dupliciteEmail: "E-mailová adresa je již použita."
     incorrectPassword: "Nesprávné heslo."

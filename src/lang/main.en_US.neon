@@ -29,6 +29,8 @@ user:
     restorePassword: "Restore password"
     generatePassword: "Generate password"
 
+    registerAdministrator: "Register Administrator"
+
     dupliciteUsername: "Username is used."
     dupliciteEmail: "E-mail is used."
     incorrectPassword: "Wrong password."
