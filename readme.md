@@ -43,11 +43,11 @@ crm:
                 test:
                     link: '' # pokud je prazdny, provede se default action
 ```
-Presenter musí dědit z třídy **\NAttreid\Crm\Control\Presenter**. Příklad presenteru test z ukázky menu
+Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**. Příklad presenteru test z ukázky menu
 ```php
 namespace App\CrmExtModule\ExampleModule\Presenters;
 
-class TestPresenter extends \NAttreid\Crm\Control\Presenter {
+class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
     public function renderDefault() {
         // pro zobrazeni menu v mobilu (defaultne je skryto)
         $this->viewMobileMenu();
