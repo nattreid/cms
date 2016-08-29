@@ -84,7 +84,7 @@ abstract class Presenter extends BasePresenter {
 
     /**
      * Hlavni menu
-     * @return \NAttreid\Menu\Module\Menu
+     * @return \NAttreid\Menu\Menu
      */
     protected function createComponentMenu() {
         $moduleMenu = $this->menuFactory->create();

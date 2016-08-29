@@ -7,6 +7,6 @@ namespace NAttreid\Crm\Control;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class ExtensionPresenter extends Presenter {
+abstract class ExtensionPresenter extends ModulePresenter {
     
 }
