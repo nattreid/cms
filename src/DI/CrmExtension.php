@@ -136,7 +136,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         $this->setFlash();
         $this->setLayout($config);
         $this->setModule($config, $namespace);
-        $this->setCrmModule($config, $namespace);
+        $this->setCrmModule();
 
         $builder->getDefinition('application.presenterFactory')
                 ->addSetup('setMapping', [
@@ -181,13 +181,17 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         }
     }
 
-    private function setCrmModule($config, $namespace) {
+    private function setCrmModule() {
         foreach ($this->findByType(ModulePresenter::class) as $def) {
             $class = $def->getClass();
 
-            $m = Strings::matchAll($class, '#(\w+)Module#');
-            $module = Strings::firstLower(end($m)[1]);
-            $def->addSetup('setCrmModule', [$module]);
+            $m = Strings::matchAll($class, '#\\\\(\w+)\\\\Presenters#');
+
+            $module = end($m)[1];
+            if (Strings::endsWith($module, 'Module')) {
+                $module = substr($module, 0, -6);
+            }
+            $def->addSetup('setCrmModule', [Strings::firstLower($module)]);
         }
     }
 
