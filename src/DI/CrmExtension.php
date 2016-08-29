@@ -7,6 +7,7 @@ use NAttreid\Routing\RouterFactory,
     NAttreid\Crm\Control\BasePresenter,
     NAttreid\Crm\Control\ModulePresenter,
     NAttreid\Crm\Control\CrmPresenter,
+    NAttreid\Crm\Control\ExtensionPresenter,
     NAttreid\Crm\Mailing\Mailer,
     NAttreid\Security\Authenticator,
     NAttreid\TracyPlugin\Tracy,
@@ -166,9 +167,16 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
     }
 
     private function setLayout($config) {
-        foreach ($this->findByType(CrmPresenter::class) as $def) {
-            if ($config['layout'] !== NULL) {
+        if ($config['layout'] !== NULL) {
+            foreach ($this->findByType(CrmPresenter::class) as $def) {
                 $def->addSetup('setLayout', [$config['layout']]);
+            }
+            foreach ($this->findByType(ExtensionPresenter::class) as $def) {
+                $def->addSetup('setLayout', [$config['layout']]);
+            }
+        } else {
+            foreach ($this->findByType(ExtensionPresenter::class) as $def) {
+                $def->addSetup('setLayout', [__DIR__ . '/../Control/presenters/templates/@layout.latte']);
             }
         }
     }
