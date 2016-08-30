@@ -21,8 +21,8 @@ use NAttreid\Security\Model\Acl,
 class PermissionsPresenter extends CrmPresenter {
 
     private $privileges = [
-        Acl::PRIVILEGE_VIEW => 'main.permissions.view',
-        Acl::PRIVILEGE_EDIT => 'main.permissions.edit'
+        Acl::PRIVILEGE_VIEW => 'default.view',
+        Acl::PRIVILEGE_EDIT => 'default.edit'
     ];
     private $access = [
         1 => 'main.permissions.allowed',
@@ -194,7 +194,7 @@ class PermissionsPresenter extends CrmPresenter {
                 ->setTranslator()
                 ->setItems($this->orm->aclResources->fetchPairsByName());
         $container->addSelect('privilege', 'main.permissions.privilege', $this->privileges);
-        $container->addSelect('allowed', 'main.permissions.state', $this->access);
+        $container->addSelect('allowed', 'default.state', $this->access);
     }
 
     /**
@@ -397,7 +397,7 @@ class PermissionsPresenter extends CrmPresenter {
 
         $grid->addAction('delete', NULL, 'deleteRole!')
                 ->setIcon('trash')
-                ->setTitle('main.permissions.delete')
+                ->setTitle('default.delete')
                 ->setClass('btn btn-xs btn-danger ajax')
                 ->setConfirm(function(AclRole $role) {
                     return $this->translate('main.permissions.confirmDeleteRole', 1, ['name' => $role->title]);
@@ -409,7 +409,7 @@ class PermissionsPresenter extends CrmPresenter {
         $add->onControlAdd[] = [$this, 'roleForm'];
         $add->onSubmit[] = [$this, 'addRole'];
 
-        $grid->addGroupAction('main.permissions.delete')->onSelect[] = [$this, 'deleteRoles'];
+        $grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRoles'];
 
         return $grid;
     }
@@ -423,7 +423,7 @@ class PermissionsPresenter extends CrmPresenter {
 
         $grid->setDataSource($this->orm->acl->findAll());
 
-        $deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'main.permissions.deleteUnusedResources');
+        $deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'default.deleteUnusedResources');
         $deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
         $clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'main.permissions.clearCacheAcl');
         $clearCacheACL->setClass($clearCacheACL->getClass() . ' ajax');
@@ -453,7 +453,7 @@ class PermissionsPresenter extends CrmPresenter {
         }
         $privilege->onChange[] = [$this, 'setRulePrivilege'];
 
-        $state = $grid->addColumnStatus('allowed', 'main.permissions.state');
+        $state = $grid->addColumnStatus('allowed', 'default.state');
         $state->setFilterSelect(['' => 'form.none'] + $this->access)
                 ->setTranslateOptions();
         $state->addOption(1, 'main.permissions.allowed')
@@ -464,7 +464,7 @@ class PermissionsPresenter extends CrmPresenter {
 
         $grid->addAction('delete', NULL, 'deleteRule!')
                 ->setIcon('trash')
-                ->setTitle('main.permissions.delete')
+                ->setTitle('default.delete')
                 ->setClass('btn btn-xs btn-danger ajax')
                 ->setConfirm(function(Acl $rule) {
                     return $this->translate('main.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
@@ -476,7 +476,7 @@ class PermissionsPresenter extends CrmPresenter {
         $add->onControlAdd[] = [$this, 'ruleForm'];
         $add->onSubmit[] = [$this, 'addRule'];
 
-        $grid->addGroupAction('main.permissions.delete')->onSelect[] = [$this, 'deleteRules'];
+        $grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRules'];
 
         return $grid;
     }

@@ -23,9 +23,9 @@
             {ifset $server->system->uptime}
                 <td>{_'main.info.basic.uptime'}</td>
                 <th>
-                    {_'main.time.days', $server->system->uptime->days}
-                    {_'main.time.hours', $server->system->uptime->hours}
-                    {_'main.time.minutes', $server->system->uptime->minutes}
+                    {_'default.time.days', $server->system->uptime->days}
+                    {_'default.time.hours', $server->system->uptime->hours}
+                    {_'default.time.minutes', $server->system->uptime->minutes}
                 </th>
             {/ifset}
         </tr>

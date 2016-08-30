@@ -107,15 +107,11 @@ permissions:
     parent: "Parent"
     resource: "Resource"
     privilege: "Privilege"
-    view: "View"
-    edit: "Edit"
-    state: "State"
     allowed: "Allowed"
     denied: "Denied"
 
     addRole: "Add role"
     addRule: "Add rule"
-    delete: "Delete"
     confirmDeleteRule: "Do you really want to delete rule '%name%'?"
     confirmDeleteRole: "Do you really want to delete role '%name%'?"
 
@@ -208,13 +204,3 @@ info:
         free: "Free"
         used: "Used"
         size: "Size"
-
-time:
-    years: "{0}|{1}%count% year|[2,Inf[%count% years"
-    months: "{0}|{1}%count% month|[2,Inf[%count% months"
-    weeks: "{0}|{1}%count% week|[2,Inf[%count% weeks"
-    days: "{0}|{1}%count% day|[2,Inf[%count% days"
-    hours: "{0}|{1}%count% hour|[2,Inf[%count% hours"
-    minutes: "{0}|{1}%count% minute|[2,Inf[%count% minutes"
-    seconds: "{0}|{1}%count% second|[2,Inf[%count% seconds"
-    inDays: "{0}Today|{1}Tomorrow|[2,Inf[In %count% days"

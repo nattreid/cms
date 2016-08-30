@@ -107,15 +107,11 @@ permissions:
     parent: "Rodič"
     resource: "Zdroj"
     privilege: "Operace"
-    view: "Zobrazit"
-    edit: "Editovat"
-    state: "Stav"
     allowed: "Povoleno"
     denied: "Zakázano"
 
     addRole: "Přidat roli"
     addRule: "Přidat pravidlo"
-    delete: "Smazat"
     confirmDeleteRule: "Opravdu chcete smazat pravidlo '%name%'?"
     confirmDeleteRole: "Opravdu chcete smazat roli '%name%'?"
 
@@ -208,13 +204,3 @@ info:
         free: "Volné"
         used: "Použité"
         size: "Velikost"
-
-time:
-    years: "{0}|{1}%count% rok|[2,4]%count% roky|[5,Inf[%count% let"
-    months: "{0}|{1}%count% měsíc|[2,4]%count% měsíce|[5,Inf[%count% měsíců"
-    weeks: "{0}|{1}%count% týden|[2,4]%count% týdny|[5,Inf[%count% týdnů"
-    days: "{0}|{1}%count% den|[2,4]%count% dny|[5,Inf[%count% dní"
-    hours: "{0}|{1}%count% hodina|[2,4]%count% hodiny|[5,Inf[%count% hodin"
-    minutes: "{0}|{1}%count% minuta|[2,4]%count% minuty|[5,Inf[%count% minut"
-    seconds: "{0}|{1}%count% vteřina|[2,4]%count% vteřiny|[5,Inf[%count% vteřin"
-    inDays: "{0}Dnes|{1}Zítra|[2,4]Za %count% dny|[5,Inf[Za %count% dní"
