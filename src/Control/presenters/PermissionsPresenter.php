@@ -231,7 +231,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @param int $id
      * @param array $value
      */
-    public function updateRoleTitle($id, $value) {
+    public function setRoleTitle($id, $value) {
         if ($this->isAjax()) {
             $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
             $role->title = $value;
@@ -248,7 +248,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @param int $id
      * @param array $value
      */
-    public function updateRoleName($id, $value) {
+    public function setRoleName($id, $value) {
         $grid = $this['rolesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             try {
@@ -379,11 +379,11 @@ class PermissionsPresenter extends CrmPresenter {
 
         $grid->addColumnText('title', 'main.permissions.role')
                 ->setEditableInputType('text')
-                ->setEditableCallback([$this, 'updateRoleTitle']);
+                ->setEditableCallback([$this, 'setRoleTitle']);
 
         $grid->addColumnText('name', 'main.permissions.name')
                 ->setEditableInputType('text')
-                ->setEditableCallback([$this, 'updateRoleName']);
+                ->setEditableCallback([$this, 'setRoleName']);
 
         $grid->addColumnText('parent', 'main.permissions.parent')
                 ->setRenderer(function (AclRole $role) {
