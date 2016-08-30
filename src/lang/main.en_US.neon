@@ -133,6 +133,8 @@ permissions:
     accessDenied: "You do not have rights for this event."
     roleUsed: "Role already exists in the database."
     dataSaved: "Data saved"
+    dupliciteName: "Name already exists in the database."
+    invalidName: "Name contains invalid characters"
 
 settings:
     basic: "Basic settings"

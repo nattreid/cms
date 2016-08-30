@@ -9,7 +9,9 @@ use NAttreid\Form\Form,
     Nextras\Dbal\UniqueConstraintViolationException,
     Nette\InvalidArgumentException,
     Ublaboo\DataGrid\DataGrid,
-    Nette\Utils\ArrayHash;
+    Nette\Utils\ArrayHash,
+    Nextras\Orm\Model\Model,
+    NAttreid\Security\Model\Orm;
 
 /**
  * Uzivatele
@@ -24,13 +26,13 @@ class UsersPresenter extends CrmPresenter {
     /** @var int */
     private $minPasswordLength;
 
-    /** @var \NAttreid\Security\Model\Orm */
+    /** @var Orm */
     private $orm;
 
     /** @var Mailer */
     private $mailer;
 
-    public function __construct($passwordChars, $minPasswordLength, \App\Model\Orm $orm, Mailer $mailer) {
+    public function __construct($passwordChars, $minPasswordLength, Model $orm, Mailer $mailer) {
         $this->passwordChars = $passwordChars;
         $this->minPasswordLength = $minPasswordLength;
         $this->orm = $orm;
@@ -80,9 +82,7 @@ class UsersPresenter extends CrmPresenter {
      * @secured
      */
     public function handleDelete($id) {
-        /* @var $grid Datagrid */
-        $grid = $this['userList'];
-
+        $grid = $this['userList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $user = $this->orm->users->getById($id);
             $this->orm->users->removeAndFlush($user);
@@ -98,15 +98,12 @@ class UsersPresenter extends CrmPresenter {
      * @param boolean $value
      */
     public function setState($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['userList'];
-
+        $grid = $this['userList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
-            /* @var $user User */
-            $user = $this->orm->users->getById($id);
+            $user = $this->orm->users->getById($id); /* @var $user User */
             $user->active = $value;
             $this->orm->persistAndFlush($user);
-            $grid->reload();
+            $grid->redrawItem($id);
         } else {
             $this->terminate();
         }
@@ -146,30 +143,33 @@ class UsersPresenter extends CrmPresenter {
      * @param ArrayHash $values
      */
     public function updateUser($id, $values) {
-        /* @var $user User */
-        $user = $this->orm->users->getById($id);
-        try {
-            $user->setUsername($values->username);
-        } catch (UniqueConstraintViolationException $ex) {
-            $this->flashNotifier->error('main.user.dupliciteUsername');
-            return;
-        } catch (InvalidArgumentException $ex) {
-            $this->flashNotifier->error('main.user.invalidUsername');
-            return;
-        }
-        try {
-            $user->setEmail($values->email);
-        } catch (UniqueConstraintViolationException $ex) {
-            $this->flashNotifier->error('main.user.dupliciteEmail');
-            return;
-        }
-        $user->firstName = $values->firstName;
-        $user->surname = $values->surname;
+        if ($this->isAjax()) {
+            $user = $this->orm->users->getById($id); /* @var $user User */
+            try {
+                $user->setUsername($values->username);
+            } catch (UniqueConstraintViolationException $ex) {
+                $this->flashNotifier->error('main.user.dupliciteUsername');
+                return;
+            } catch (InvalidArgumentException $ex) {
+                $this->flashNotifier->error('main.user.invalidUsername');
+                return;
+            }
+            try {
+                $user->setEmail($values->email);
+            } catch (UniqueConstraintViolationException $ex) {
+                $this->flashNotifier->error('main.user.dupliciteEmail');
+                return;
+            }
+            $user->firstName = $values->firstName;
+            $user->surname = $values->surname;
 
-        $user->roles->set($values->roles);
-        $this->orm->persistAndFlush($user);
+            $user->roles->set($values->roles);
+            $this->orm->persistAndFlush($user);
 
-        $this->flashNotifier->success('main.user.dataSaved');
+            $this->flashNotifier->success('main.user.dataSaved');
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -177,9 +177,7 @@ class UsersPresenter extends CrmPresenter {
      * @param array $ids
      */
     public function deleteUsers(array $ids) {
-        /* @var $grid Datagrid */
-        $grid = $this['userList'];
-
+        $grid = $this['userList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $users = $this->orm->users->findById($ids);
             foreach ($users as $user) {
@@ -197,12 +195,9 @@ class UsersPresenter extends CrmPresenter {
      * @param array $ids
      */
     public function activateUsers(array $ids) {
-        /* @var $grid Datagrid */
-        $grid = $this['userList'];
-
+        $grid = $this['userList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
-            /* @var $user User */
-            $users = $this->orm->users->findById($ids);
+            $users = $this->orm->users->findById($ids); /* @var $user User */
             foreach ($users as $user) {
                 $user->active = TRUE;
                 $this->orm->users->persist($user);
@@ -219,12 +214,9 @@ class UsersPresenter extends CrmPresenter {
      * @param array $ids
      */
     public function deactivateUsers(array $ids) {
-        /* @var $grid Datagrid */
-        $grid = $this['userList'];
-
+        $grid = $this['userList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
-            /* @var $user User */
-            $users = $this->orm->users->findById($ids);
+            $users = $this->orm->users->findById($ids); /* @var $user User */
             foreach ($users as $user) {
                 $user->active = FALSE;
                 $this->orm->users->persist($user);
@@ -352,8 +344,7 @@ class UsersPresenter extends CrmPresenter {
      * @param ArrayHash $values
      */
     public function passwordFormSucceeded(Form $form, $values) {
-        /* @var $user User */
-        $user = $this->orm->users->getById($values->id);
+        $user = $this->orm->users->getById($values->id); /* @var $user User */
         $user->setPassword($values->password);
 
         $this->orm->persistAndFlush($user);

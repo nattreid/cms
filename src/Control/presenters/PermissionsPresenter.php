@@ -9,7 +9,9 @@ use NAttreid\Security\Model\Acl,
     Nette\Forms\Container,
     Nextras\Dbal\UniqueConstraintViolationException,
     Nette\InvalidArgumentException,
-    Nette\Utils\ArrayHash;
+    Nette\Utils\ArrayHash,
+    Nextras\Orm\Model\Model,
+    NAttreid\Security\Model\Orm;
 
 /**
  * Prava uzivatelu
@@ -27,13 +29,13 @@ class PermissionsPresenter extends CrmPresenter {
         0 => 'main.permissions.denied'
     ];
 
-    /** @var \NAttreid\Security\Model\Orm */
+    /** @var Orm */
     private $orm;
 
     /** @var AuthorizatorFactory */
     private $authorizatorFactory;
 
-    public function __construct(\App\Model\Orm $orm, AuthorizatorFactory $authorizatorFactory) {
+    public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory) {
         $this->orm = $orm;
         $this->authorizatorFactory = $authorizatorFactory;
     }
@@ -50,9 +52,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @secured
      */
     public function handleDeleteRole($id) {
-        /* @var $grid Datagrid */
-        $grid = $this['rolesList'];
-
+        $grid = $this['rolesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $role = $this->orm->aclRoles->getById($id);
             $this->orm->aclRoles->removeAndFlush($role);
@@ -67,9 +67,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @secured
      */
     public function handleDeleteRule($id) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
-
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $rule = $this->orm->acl->getById($id);
             $this->orm->acl->removeAndFlush($rule);
@@ -84,9 +82,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $ids
      */
     public function deleteRoles(array $ids) {
-        /* @var $grid Datagrid */
-        $grid = $this['rolesList'];
-
+        $grid = $this['rolesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $roles = $this->orm->aclRoles->findById($ids);
             foreach ($roles as $role) {
@@ -104,9 +100,7 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $ids
      */
     public function deleteRules(array $ids) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
-
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
             $rules = $this->orm->acl->findById($ids);
             foreach ($rules as $rule) {
@@ -165,25 +159,26 @@ class PermissionsPresenter extends CrmPresenter {
      * @param ArrayHash $values
      */
     public function addRole($values) {
-        /* @var $grid Datagrid */
-        $grid = $this['rolesList'];
+        $grid = $this['rolesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            try {
+                $role = new AclRole;
+                $this->orm->aclRoles->attach($role);
+                $role->name = $values->name;
+                $role->title = $values->title;
+                $role->parent = $values->parent;
 
-        try {
-            /* @var $role AclRole */
-            $role = new AclRole;
-            $this->orm->aclRoles->attach($role);
-            $role->name = $values->name;
-            $role->title = $values->title;
-            $role->parent = $values->parent;
+                $this->orm->persistAndFlush($role);
 
-            $this->orm->persistAndFlush($role);
-
-            $this->flashNotifier->success('main.permissions.dataSaved');
-            $grid->reload();
-        } catch (UniqueConstraintViolationException $ex) {
-            $this->flashNotifier->error('main.permissions.dupliciteName');
-        } catch (InvalidArgumentException $ex) {
-            $this->flashNotifier->error('main.permissions.invalidName');
+                $this->flashNotifier->success('main.permissions.dataSaved');
+                $grid->reload();
+            } catch (UniqueConstraintViolationException $ex) {
+                $this->flashNotifier->error('main.permissions.dupliciteName');
+            } catch (InvalidArgumentException $ex) {
+                $this->flashNotifier->error('main.permissions.invalidName');
+            }
+        } else {
+            $this->terminate();
         }
     }
 
@@ -207,27 +202,28 @@ class PermissionsPresenter extends CrmPresenter {
      * @param ArrayHash $values
      */
     public function addRule($values) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            foreach ($values->resource as $resource) {
+                try {
+                    $rule = new Acl;
+                    $this->orm->acl->attach($rule);
+                    $rule->role = $values->role;
+                    $rule->privilege = $values->privilege;
+                    $rule->resource = $resource;
+                    $rule->allowed = $values->allowed;
 
-        foreach ($values->resource as $resource) {
-            try {
-                /* @var $rule Acl */
-                $rule = new Acl;
-                $this->orm->acl->attach($rule);
-                $rule->role = $values->role;
-                $rule->privilege = $values->privilege;
-                $rule->resource = $resource;
-                $rule->allowed = $values->allowed;
-
-                $this->orm->persistAndFlush($rule);
-            } catch (UniqueConstraintViolationException $ex) {
-                
+                    $this->orm->persistAndFlush($rule);
+                } catch (UniqueConstraintViolationException $ex) {
+                    
+                }
             }
-        }
 
-        $this->flashNotifier->success('main.permissions.dataSaved');
-        $grid->reload();
+            $this->flashNotifier->success('main.permissions.dataSaved');
+            $grid->reload();
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -236,12 +232,15 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $value
      */
     public function updateRoleTitle($id, $value) {
-        /* @var $role AclRole */
-        $role = $this->orm->aclRoles->getById($id);
-        $role->title = $value;
-        $this->orm->persistAndFlush($role);
+        if ($this->isAjax()) {
+            $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
+            $role->title = $value;
+            $this->orm->persistAndFlush($role);
 
-        $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('main.permissions.dataSaved');
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -250,21 +249,22 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $value
      */
     public function updateRoleName($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rolesList'];
-
-        try {
-            /* @var $role AclRole */
-            $role = $this->orm->aclRoles->getById($id);
-            $role->setName($value);
-            $this->orm->persistAndFlush($role);
-            $this->flashNotifier->success('main.permissions.dataSaved');
-        } catch (UniqueConstraintViolationException $ex) {
-            $this->flashNotifier->error('main.permissions.dupliciteName');
-            $grid->reload();
-        } catch (InvalidArgumentException $ex) {
-            $this->flashNotifier->error('main.permissions.invalidName');
-            $grid->reload();
+        $grid = $this['rolesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            try {
+                $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
+                $role->setName($value);
+                $this->orm->persistAndFlush($role);
+                $this->flashNotifier->success('main.permissions.dataSaved');
+            } catch (UniqueConstraintViolationException $ex) {
+                $this->flashNotifier->error('main.permissions.dupliciteName');
+                $grid->redrawItem($id);
+            } catch (InvalidArgumentException $ex) {
+                $this->flashNotifier->error('main.permissions.invalidName');
+                $grid->redrawItem($id);
+            }
+        } else {
+            $this->terminate();
         }
     }
 
@@ -274,15 +274,18 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $value
      */
     public function setRoleParent($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rolesList'];
+        $grid = $this['rolesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
+            $role->parent = $value;
+            $this->orm->persistAndFlush($role);
 
-        /* @var $role AclRole */
-        $role = $this->orm->aclRoles->getById($id);
-        $role->parent = $value;
-        $this->orm->persistAndFlush($role);
-        $this->flashNotifier->success('main.permissions.dataSaved');
-        $grid->reload();
+            $this->flashNotifier->success('main.permissions.dataSaved');
+
+            $grid->redrawItem($id);
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -291,15 +294,18 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $value
      */
     public function setRuleRole($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            $acl = $this->orm->acl->getById($id); /* @var $acl Acl */
+            $acl->role = $value;
+            $this->orm->persistAndFlush($acl);
 
-        /* @var $acl Acl */
-        $acl = $this->orm->acl->getById($id);
-        $acl->role = $value;
-        $this->orm->persistAndFlush($acl);
-        $this->flashNotifier->success('main.permissions.dataSaved');
-        $grid->reload();
+            $this->flashNotifier->success('main.permissions.dataSaved');
+
+            $grid->redrawItem($id);
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -308,15 +314,18 @@ class PermissionsPresenter extends CrmPresenter {
      * @param array $value
      */
     public function setRuleResource($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
+        if ($this->isAjax()) {
+            $acl = $this->orm->acl->getById($id); /* @var $acl Acl */
+            $acl->resource = $value;
+            $this->orm->persistAndFlush($acl);
 
-        /* @var $acl Acl */
-        $acl = $this->orm->acl->getById($id);
-        $acl->resource = $value;
-        $this->orm->persistAndFlush($acl);
-        $this->flashNotifier->success('main.permissions.dataSaved');
-        $grid->reload();
+            $this->flashNotifier->success('main.permissions.dataSaved');
+
+            $grid->redrawItem($id);
+        } else {
+            $this->terminate();
+        }
     }
 
     /**
@@ -325,18 +334,15 @@ class PermissionsPresenter extends CrmPresenter {
      * @param boolean $value
      */
     public function setRulePrivilege($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
-
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
-            /* @var $rule Acl */
-            $rule = $this->orm->acl->getById($id);
+            $rule = $this->orm->acl->getById($id); /* @var $rule Acl */
             $rule->privilege = $value;
             $this->orm->persistAndFlush($rule);
 
             $this->flashNotifier->success('main.permissions.dataSaved');
 
-            $grid->reload();
+            $grid->redrawItem($id);
         } else {
             $this->terminate();
         }
@@ -348,18 +354,15 @@ class PermissionsPresenter extends CrmPresenter {
      * @param boolean $value
      */
     public function setRuleState($id, $value) {
-        /* @var $grid Datagrid */
-        $grid = $this['rulesList'];
-
+        $grid = $this['rulesList']; /* @var $grid DataGrid */
         if ($this->isAjax()) {
-            /* @var $rule Acl */
-            $rule = $this->orm->acl->getById($id);
+            $rule = $this->orm->acl->getById($id); /* @var $rule Acl */
             $rule->allowed = $value;
             $this->orm->persistAndFlush($rule);
 
             $this->flashNotifier->success('main.permissions.dataSaved');
 
-            $grid->reload();
+            $grid->redrawItem($id);
         } else {
             $this->terminate();
         }
@@ -367,7 +370,7 @@ class PermissionsPresenter extends CrmPresenter {
 
     /**
      * Seznam roli
-     * @return Datagrid
+     * @return DataGrid
      */
     protected function createComponentRolesList($name) {
         $grid = $this->dataGridFactory->create($this, $name);

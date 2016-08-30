@@ -3,7 +3,10 @@
 namespace NAttreid\Crm\Control;
 
 use NAttreid\Form\Form,
-    Nette\Utils\ArrayHash;
+    Nette\Utils\ArrayHash,
+    NAttreid\Security\Model\User,
+    NAttreid\Security\Model\Orm,
+    Nextras\Orm\Model\Model;
 
 /**
  * Profil
@@ -15,13 +18,13 @@ class ProfilePresenter extends CrmPresenter {
     /** @var int */
     private $minPasswordLength;
 
-    /** @var \NAttreid\Security\Model\Orm */
+    /** @var Orm */
     private $orm;
 
-    /** @var \NAttreid\Security\Model\User */
+    /** @var User */
     private $profile;
 
-    public function __construct($minPasswordLength, \App\Model\Orm $orm) {
+    public function __construct($minPasswordLength, Model $orm) {
         $this->minPasswordLength = $minPasswordLength;
         $this->orm = $orm;
     }
@@ -42,7 +45,7 @@ class ProfilePresenter extends CrmPresenter {
 
     /**
      * Formular uzivatele
-     * @return \Nette\Application\UI\Form
+     * @return Form
      */
     protected function createComponentUserForm() {
         $form = $this->formFactory->create();

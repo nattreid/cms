@@ -133,6 +133,8 @@ permissions:
     accessDenied: "Nemáte práva pro tuto akci."
     roleUsed: "Role již v databázi existuje."
     dataSaved: "Data uložena"
+    dupliciteName: "Jméno je již použito"
+    invalidName: "Jméno obsahuje nepovolené znaky"
 
 settings:
     basic: "Základní nastavní"
