@@ -301,6 +301,7 @@ class UsersPresenter extends CrmPresenter {
             return;
         }
         $user->firstName = $values->firstName;
+        $user->surname = $values->surname;
         $user->roles->set($values->roles);
         $user->setPassword($password);
 
