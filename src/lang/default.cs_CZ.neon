@@ -1,0 +1,8 @@
+dataSaved: "Data uložena"
+
+active: "Aktivní"
+deactive: "Neaktivní"
+activate: "Aktivovat"
+deactivate: "Deaktivovat"
+delete: "Smazat"
+confirmDelete: "Opravdu chcete smazat '%name%'?"

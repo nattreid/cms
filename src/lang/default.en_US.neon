@@ -1,0 +1,8 @@
+dataSaved: "Data saved"
+
+active: "Active"
+deactive: "Deactive"
+activate: "Activate"
+deactivate: "Deactivate"
+delete: "Delete"
+confirmDelete: "Do you really want to delete '%name%'?"

@@ -393,15 +393,15 @@ class UsersPresenter extends CrmPresenter {
 
         $active = [
             '' => 'form.none',
-            1 => 'main.user.active',
-            0 => 'main.user.deactive'
+            1 => 'default.active',
+            0 => 'default.deactive'
         ];
         $state = $grid->addColumnStatus('active', 'main.user.state');
         $state->setFilterSelect($active)
                 ->setTranslateOptions();
-        $state->addOption(1, 'main.user.active')
+        $state->addOption(1, 'default.active')
                 ->setClass('btn-success');
-        $state->addOption(0, 'main.user.deactive')
+        $state->addOption(0, 'default.deactive')
                 ->setClass('btn-danger');
         $state->onChange[] = [$this, 'setState'];
 
@@ -423,15 +423,15 @@ class UsersPresenter extends CrmPresenter {
 
         $grid->addAction('delete', NULL, 'delete!')
                 ->setIcon('trash')
-                ->setTitle('main.user.delete')
+                ->setTitle('default.delete')
                 ->setClass('btn btn-xs btn-danger ajax')
                 ->setConfirm(function(User $user) {
-                    return $this->translate('main.user.confirmDelete', NULL, ['name' => $user->fullName]);
+                    return $this->translate('default.confirmDelete', NULL, ['name' => $user->fullName]);
                 });
 
-        $grid->addGroupAction('main.user.activate')->onSelect[] = [$this, 'activateUsers'];
-        $grid->addGroupAction('main.user.deactivate')->onSelect[] = [$this, 'deactivateUsers'];
-        $grid->addGroupAction('main.user.delete')->onSelect[] = [$this, 'deleteUsers'];
+        $grid->addGroupAction('default.activate')->onSelect[] = [$this, 'activateUsers'];
+        $grid->addGroupAction('default.deactivate')->onSelect[] = [$this, 'deactivateUsers'];
+        $grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteUsers'];
 
         return $grid;
     }

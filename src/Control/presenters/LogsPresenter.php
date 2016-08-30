@@ -55,8 +55,7 @@ class LogsPresenter extends CrmPresenter {
         if ($this->isAjax()) {
             $this->logs->delete($id);
 
-            /* @var $grid Datagrid */
-            $grid = $this['logsList'];
+            $grid = $this['logsList']; /* @var $grid DataGrid */
             $grid->setDataSource($this->logs->getLogs());
             $grid->reload();
         } else {
@@ -112,7 +111,7 @@ class LogsPresenter extends CrmPresenter {
 
         $grid->addAction('delete', NULL, 'delete!')
                 ->setIcon('trash')
-                ->setTitle('main.logs.delete')
+                ->setTitle('default.delete')
                 ->setClass('btn btn-xs btn-danger ajax')
                 ->setConfirm(function($item) {
                     return $this->translate('main.logs.confirmDelete', 1, ['name' => $item['name']]);

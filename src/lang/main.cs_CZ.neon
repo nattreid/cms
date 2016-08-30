@@ -16,13 +16,6 @@ user:
     forgottenPassword: "Zapomněli jste heslo?"
     usernameOrEmail: "Uživatelské jméno nebo E-mail"
 
-    active: "Aktivní"
-    deactive: "Neaktivní"
-    activate: "Aktivovat"
-    deactivate: "Deaktivovat"
-    delete: "Smazat"
-    confirmDelete: "Opravdu chcete smazat '%name%'?"
-
     add: "Přidat nového uživatele"
     tryUser: "Vyzkoušet uživatele"
     changePassword: "Změnit heslo"
@@ -132,7 +125,6 @@ permissions:
     AclCacheCLeared: "Cache ACL smazána."
     accessDenied: "Nemáte práva pro tuto akci."
     roleUsed: "Role již v databázi existuje."
-    dataSaved: "Data uložena"
     dupliciteName: "Jméno je již použito"
     invalidName: "Jméno obsahuje nepovolené znaky"
 
@@ -163,7 +155,6 @@ logs:
     lastChange: "Poslední změna"
     download: "Stažení souboru"
     show: "Zobrazit"
-    delete: "Smazat"
     confirmDelete: "Opravdu chcete smazat log '%name%'?"
     clearLogs: "Smazat logy"
 

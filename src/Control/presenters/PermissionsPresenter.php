@@ -170,7 +170,7 @@ class PermissionsPresenter extends CrmPresenter {
 
                 $this->orm->persistAndFlush($role);
 
-                $this->flashNotifier->success('main.permissions.dataSaved');
+                $this->flashNotifier->success('default.dataSaved');
                 $grid->reload();
             } catch (UniqueConstraintViolationException $ex) {
                 $this->flashNotifier->error('main.permissions.dupliciteName');
@@ -219,7 +219,7 @@ class PermissionsPresenter extends CrmPresenter {
                 }
             }
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
             $grid->reload();
         } else {
             $this->terminate();
@@ -237,7 +237,7 @@ class PermissionsPresenter extends CrmPresenter {
             $role->title = $value;
             $this->orm->persistAndFlush($role);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
         } else {
             $this->terminate();
         }
@@ -255,7 +255,7 @@ class PermissionsPresenter extends CrmPresenter {
                 $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
                 $role->setName($value);
                 $this->orm->persistAndFlush($role);
-                $this->flashNotifier->success('main.permissions.dataSaved');
+                $this->flashNotifier->success('default.dataSaved');
             } catch (UniqueConstraintViolationException $ex) {
                 $this->flashNotifier->error('main.permissions.dupliciteName');
                 $grid->redrawItem($id);
@@ -280,7 +280,7 @@ class PermissionsPresenter extends CrmPresenter {
             $role->parent = $value;
             $this->orm->persistAndFlush($role);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
 
             $grid->redrawItem($id);
         } else {
@@ -300,7 +300,7 @@ class PermissionsPresenter extends CrmPresenter {
             $acl->role = $value;
             $this->orm->persistAndFlush($acl);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
 
             $grid->redrawItem($id);
         } else {
@@ -320,7 +320,7 @@ class PermissionsPresenter extends CrmPresenter {
             $acl->resource = $value;
             $this->orm->persistAndFlush($acl);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
 
             $grid->redrawItem($id);
         } else {
@@ -340,7 +340,7 @@ class PermissionsPresenter extends CrmPresenter {
             $rule->privilege = $value;
             $this->orm->persistAndFlush($rule);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
 
             $grid->redrawItem($id);
         } else {
@@ -360,7 +360,7 @@ class PermissionsPresenter extends CrmPresenter {
             $rule->allowed = $value;
             $this->orm->persistAndFlush($rule);
 
-            $this->flashNotifier->success('main.permissions.dataSaved');
+            $this->flashNotifier->success('default.dataSaved');
 
             $grid->redrawItem($id);
         } else {

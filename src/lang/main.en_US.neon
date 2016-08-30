@@ -16,13 +16,6 @@ user:
     forgottenPassword: "Forgot your password?"
     usernameOrEmail: "Username or E-mail"
 
-    active: "Active"
-    deactive: "Deactive"
-    activate: "Activate"
-    deactivate: "Deactivate"
-    delete: "Delete"
-    confirmDelete: "Do you really want to delete '%name%'?"
-
     add: "Add new user"
     tryUser: "Try user"
     changePassword: "Change password"
@@ -132,7 +125,6 @@ permissions:
     AclCacheCLeared: "Cache ACL deleted."
     accessDenied: "You do not have rights for this event."
     roleUsed: "Role already exists in the database."
-    dataSaved: "Data saved"
     dupliciteName: "Name already exists in the database."
     invalidName: "Name contains invalid characters"
 
@@ -163,7 +155,6 @@ logs:
     lastChange: "Last change"
     download: "Download"
     show: "Show"
-    delete: "Delete"
     confirmDelete: "Do you really want to delete log '%name%'?"
     clearLogs: "Clear logs"
 
