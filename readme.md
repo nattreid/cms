@@ -23,7 +23,7 @@ crm:
     loginExpiration: '20 minutes'
     sessionExpiration: '14 days'
 
-    layout: '%appDir%/modules/CrmExt/templates/layout.latte' # hlavní šablona
+    layout: '%appDir%/modules/CrmExt/templates/crm.latte' # hlavní šablona
 ```
 
 a přidejte model do ORM. V příkladu je extension orm pod nazvem **orm**
@@ -64,10 +64,12 @@ class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
 }
 ```
 
-**Layout.latte**
+**crm.latte**
 ```latte
 {extends $layout}
 ```
+Šablona **@layout.latte** pro modul musí dědit z *crm.latte*
+
 
 ## Rozšiřitelnost pomocí extension
 Třída extension musí dědit z **\NAttreid\Crm\DI\ModuleExtension**
