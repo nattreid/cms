@@ -13,7 +13,8 @@ use NAttreid\Routing\RouterFactory,
     NAttreid\TracyPlugin\Tracy,
     Kdyby\Translation\Translator,
     Nette\DI\Statement,
-    IPub\FlashMessages\FlashNotifier;
+    IPub\FlashMessages\FlashNotifier,
+    Nette\Utils\Finder;
 
 /**
  * Rozsireni
@@ -69,12 +70,21 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
     private function setLoader($config) {
         $builder = $this->getContainerBuilder();
 
-        $builder->addDefinition($this->prefix('loaderFactory'))
+        $jsFilters = $this->createFilterServices($config['jsFilters'], 'jsFilter');
+        $cssFilters = $this->createFilterServices($config['cssFilters'], 'cssFilter');
+
+        $loader = $builder->addDefinition($this->prefix('loaderFactory'))
                 ->setClass(\NAttreid\Crm\LoaderFactory::class)
-                ->setArguments([$config['wwwDir']])
+                ->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
                 ->addSetup('addFile', ['css/crm.boundled.min.css'])
                 ->addSetup('addFile', ['js/crm.boundled.min.js'])
                 ->addSetup('addFile', ['js/i18n/crm.cs.min.js', 'cs']);
+
+        if (!empty($config['assets'])) {
+            foreach ($this->findFiles($config['assets']) as $file) {
+                $loader->addSetup('addFile', [$file]);
+            }
+        }
     }
 
     private function setPresenters($config) {
@@ -249,6 +259,70 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
         return array_filter($this->getContainerBuilder()->getDefinitions(), function ($def) use ($type) {
             return is_a($def->getClass(), $type, TRUE) || is_a($def->getImplement(), $type, TRUE);
         });
+    }
+
+    private function createFilterServices($filters, $filter) {
+        $builder = $this->getContainerBuilder();
+        $result = [];
+        $counter = 1;
+        foreach ($filters as $class) {
+            $name = $this->prefix($filter . $counter++);
+            $builder->addDefinition($name)
+                    ->setClass($class);
+            $result[] = '@' . $name;
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $filesConfig
+     * @return array
+     */
+    private function findFiles(array $filesConfig) {
+        $normalizedFiles = array();
+
+        foreach ($filesConfig as $file) {
+            // finder support
+            if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
+                $finder = Finder::findFiles($file['files']);
+
+                if (isset($file['exclude'])) {
+                    $finder->exclude($file['exclude']);
+                }
+
+                if (isset($file['in'])) {
+                    $finder->in($file['in']);
+                } else {
+                    $finder->from($file['from']);
+                }
+
+                $foundFilesList = [];
+                foreach ($finder as $foundFile) {
+                    $foundFilesList[] = $foundFile->getPathname(); /* @var $foundFile \SplFileInfo */
+                }
+
+                natsort($foundFilesList);
+
+                foreach ($foundFilesList as $foundFilePathname) {
+                    $normalizedFiles[] = $foundFilePathname;
+                }
+            } else {
+                $this->checkFileExists($file);
+                $normalizedFiles[] = $file;
+            }
+        }
+
+        return $normalizedFiles;
+    }
+
+    /**
+     * @param string $file
+     * @throws \WebLoader\FileNotFoundException
+     */
+    protected function checkFileExists($file) {
+        if (!file_exists($file)) {
+            throw new \WebLoader\FileNotFoundException(sprintf("Neither '%s' was found", $file));
+        }
     }
 
 }

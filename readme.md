@@ -33,6 +33,15 @@ orm:
         - NAttreid\Crm\Model\Orm
 ```
 
+Pro přidání *assets* použijte
+```neon
+crm:
+    assets:
+        - %wwwDir%/js/example.js
+        - %wwwDir%/css/example.css
+        - {files: ["*.js", "*.css", "*.less"], from: %appDir%/modules/CrmExt}
+```
+
 Přídání dalších modulů
 ```neon
 crm:

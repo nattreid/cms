@@ -30,10 +30,12 @@ class LoaderFactory {
     private $files = [];
 
     /** @var array */
-    private $filesLocale = [];
+    private $filesLocale, $jsFilters, $cssFilters = [];
 
-    function __construct($wwwDir, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = NULL) {
+    function __construct($wwwDir, $jsFilters, $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = NULL) {
         $this->wwwDir = $wwwDir;
+        $this->jsFilters = $jsFilters;
+        $this->cssFilters = $cssFilters;
         $this->httpRequest = $httpRequest;
         if ($loader !== NULL) {
             foreach ($loader->getTempPaths() as $path) {
@@ -83,6 +85,9 @@ class LoaderFactory {
     public function createCssLoader() {
         $fileCollection = $this->createFileCollection(array_filter($this->files, [$this, 'isCss']));
         $compiler = Compiler::createCssCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
+        foreach ($this->cssFilters as $filter) {
+            $compiler->addFileFilter($filter);
+        }
         return new CssLoader($compiler, $this->httpRequest->url->basePath . $this->outputDir);
     }
 
@@ -95,6 +100,9 @@ class LoaderFactory {
         $fileCollection = $this->createFileCollection(array_filter($this->files, [$this, 'isJs']));
         $compiler = Compiler::createJsCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
         $compiler->setAsync(TRUE);
+        foreach ($this->jsFilters as $filter) {
+            $compiler->addFileFilter($filter);
+        }
         $compilers = [$compiler];
         if ($locale !== NULL) {
             if (isset($this->filesLocale[$locale])) {
@@ -138,7 +146,7 @@ class LoaderFactory {
      * @return boolean
      */
     private function isCss($file) {
-        return preg_match('~\.css$~', $file);
+        return preg_match('~\.(css|less)$~', $file);
     }
 
     /**

@@ -17,6 +17,12 @@ layout: NULL
 
 wwwDir: %wwwDir%
 
+jsFilters:
+    - Joseki\Webloader\JsMinFilter
+cssFilters:
+    - WebLoader\Filter\LessFilter
+    - Joseki\Webloader\CssMinFilter
+assets:
 menu: 
 
 permissions:
