@@ -128,13 +128,7 @@ class UsersPresenter extends CrmPresenter {
     }
 
     public function setUserForm(Container $container, User $user) {
-        $container->setDefaults([
-            'username' => $user->username,
-            'firstName' => $user->firstName,
-            'surname' => $user->surname,
-            'email' => $user->email,
-            'roles' => $user->roles->getRawValue(),
-        ]);
+        $container->setDefaults($user->toArray(User::TO_ARRAY_RELATIONSHIP_AS_ID));
     }
 
     /**
