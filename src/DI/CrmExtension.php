@@ -74,7 +74,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension {
                 ->setArguments([$config['wwwDir']])
                 ->addSetup('addFile', ['css/crm.boundled.min.css'])
                 ->addSetup('addFile', ['js/crm.boundled.min.js'])
-                ->addSetup('addFile', ['crm.cs.min', 'cs']);
+                ->addSetup('addFile', ['js/i18n/crm.cs.min.js', 'cs']);
     }
 
     private function setPresenters($config) {
