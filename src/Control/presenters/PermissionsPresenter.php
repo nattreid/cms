@@ -423,7 +423,7 @@ class PermissionsPresenter extends CrmPresenter {
 
         $grid->setDataSource($this->orm->acl->findAll());
 
-        $deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'default.deleteUnusedResources');
+        $deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'main.permissions.deleteUnusedResources');
         $deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
         $clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'main.permissions.clearCacheAcl');
         $clearCacheACL->setClass($clearCacheACL->getClass() . ' ajax');
