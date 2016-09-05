@@ -28,7 +28,7 @@
         "nattreid/utils": "~1.0",
         "nattreid/routing": "~1.0",
         "nattreid/mailing": "~1.0",
-        "nattreid/datagrid": "~4.4",
+        "attreid/datagrid": "dev-master",
         "nattreid/tracyplugin": "~1.0",
         "nattreid/filemanager": "dev-master",
         "nattreid/webloader": "~2.5",
