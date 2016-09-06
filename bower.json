@@ -32,10 +32,10 @@
         "ublaboo-datagrid": "~4.4",
         "ckeditor": "#full/4.5.9",
         "kcfinder": "git@git.newtravel.cz:nattreid/kcfinder.git#~3.12",
-        "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#~1.0",
+        "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#latest",
         "menu": "git@git.newtravel.cz:nattreid/menu.git#~2.0",
         "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0",
-        "form": "git@git.newtravel.cz:nattreid/form.git#~1.0"
+        "form": "git@git.newtravel.cz:nattreid/form.git#latest"
     },
     "resolutions": {
         "nette.ajax.js": "~2.1",

@@ -43,7 +43,9 @@
         </tr>
         <tr class="even" n:snippet="processes">
             <td>{_'main.info.basic.processes'}</td>
-            <th>{$server->system->processes->total} ({$server->system->processes->running} {_'main.info.basic.running'}, {$server->system->processes->sleeping} {_'main.info.basic.sleeping'})</th>
+            <th>{$server->system->processes->total} ({$server->system->processes->running} {_'main.info.basic.running'}
+                , {$server->system->processes->sleeping} {_'main.info.basic.sleeping'})
+            </th>
         </tr>
     </table>
 </div>

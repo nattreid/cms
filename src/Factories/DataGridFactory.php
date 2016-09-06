@@ -2,35 +2,38 @@
 
 namespace NAttreid\Crm\Factories;
 
-use Ublaboo\DataGrid\DataGrid,
-    Kdyby\Translation\Translator,
-    Nette\ComponentModel\IContainer;
+use Kdyby\Translation\Translator;
+use Nette\ComponentModel\IContainer;
+use Ublaboo\DataGrid\DataGrid;
 
 /**
  * Tovaran datagridu
  *
  * @author Attreid <attreid@gmail.com>
  */
-class DataGridFactory {
+class DataGridFactory
+{
 
-    use \Nette\SmartObject;
+	use \Nette\SmartObject;
 
-    /** @var Translator */
-    private $translator;
+	/** @var Translator */
+	private $translator;
 
-    public function __construct(Translator $translator) {
-        $this->translator = $translator;
-    }
+	public function __construct(Translator $translator)
+	{
+		$this->translator = $translator;
+	}
 
-    /** @return DataGrid */
-    public function create(IContainer $parent = NULL, $name = NULL) {
-        $grid = new DataGrid($parent, $name);
+	/** @return DataGrid */
+	public function create(IContainer $parent = NULL, $name = NULL)
+	{
+		$grid = new DataGrid($parent, $name);
 
-        $grid->setTranslator($this->translator);
-        $grid->setDefaultPerPage(50);
-        $grid->setRememberState(FALSE);
+		$grid->setTranslator($this->translator);
+		$grid->setDefaultPerPage(50);
+		$grid->setRememberState(FALSE);
 
-        return $grid;
-    }
+		return $grid;
+	}
 
 }

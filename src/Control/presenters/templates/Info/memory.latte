@@ -14,13 +14,17 @@
                 <tr class="even">
                     <td>
                         <div class="status-bar">
-                            <div class="apps" style="width: {$server->memory->application|percent:$server->memory->total:0|noescape};"></div>
-                            <div class="cache" style="width: {$server->memory->cache|percent:$server->memory->total:0|noescape};"></div>
-                            <div class="buffers" style="width: {$server->memory->buffer|percent:$server->memory->total:0|noescape};"></div>
+                            <div class="apps"
+                                 style="width: {$server->memory->application|percent:$server->memory->total:0|noescape};"></div>
+                            <div class="cache"
+                                 style="width: {$server->memory->cache|percent:$server->memory->total:0|noescape};"></div>
+                            <div class="buffers"
+                                 style="width: {$server->memory->buffer|percent:$server->memory->total:0|noescape};"></div>
                         </div>
                         <div>
                             {_'main.info.memory.total'}: {$server->memory->used|percent:$server->memory->total:0}
-                            ({_'main.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0} -
+                            ({_'main.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0}
+                            -
                             {_'main.info.memory.cache'}: {$server->memory->cache|percent:$server->memory->total:0} -
                             {_'main.info.memory.buffers'}: {$server->memory->buffer|percent:$server->memory->total:0})
                         </div>

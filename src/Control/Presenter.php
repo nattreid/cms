@@ -2,167 +2,183 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\Menu\IMenuFactory,
-    NAttreid\Menu\Item,
-    NAttreid\Crm\Control\IDockbarFactory;
+use NAttreid\Menu\Breadcrumb;
+use NAttreid\Menu\IMenuFactory;
+use NAttreid\Menu\Item;
+use NAttreid\Menu\Link;
 
 /**
  * Presenter pro moduly CRM
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class Presenter extends BasePresenter {
+abstract class Presenter extends BasePresenter
+{
 
-    use \WebChemistry\Images\TPresenter,
-        \Nextras\Application\UI\SecuredLinksPresenterTrait;
+	use \WebChemistry\Images\TPresenter,
+		\Nextras\Application\UI\SecuredLinksPresenterTrait;
 
-    protected function startup() {
-        parent::startup();
+	protected function startup()
+	{
+		parent::startup();
 
-        if (!$this->user->isLoggedIn()) {
-            if ($this->user->logoutReason === \Nette\Security\IUserStorage::INACTIVITY) {
-                $this->flashNotifier->info('main.user.inactivityLogout');
-            }
-            $this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
-        }
+		if (!$this->user->isLoggedIn()) {
+			if ($this->user->logoutReason === \Nette\Security\IUserStorage::INACTIVITY) {
+				$this->flashNotifier->info('main.user.inactivityLogout');
+			}
+			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
+		}
 
-        // opravneni
-        $link = $this->getAction(TRUE);
-        if ($this->isLinkCurrent(":{$this->module}:Homepage:") || $this->isLinkCurrent(":{$this->module}:Profile:")) {
-            
-        } elseif ($this->crmModule !== NULL && ($this['menu']->isLinkAllowed($link))) {
-            
-        } elseif ($this['dockbar']->isLinkAllowed($link)) {
-            
-        } else {
-            $this->flashNotifier->error('main.permissions.accessDenied');
-            $this->redirect(":{$this->module}:Homepage:");
-        }
-    }
+		// opravneni
+		$link = $this->getAction(TRUE);
+		if ($this->isLinkCurrent(":{$this->module}:Homepage:") || $this->isLinkCurrent(":{$this->module}:Profile:")) {
 
-    protected function beforeRender() {
-        parent::beforeRender();
-        $logo = $this->configurator->logo;
-        if ($logo == NULL) {
-            $logo = 'empty.png';
-        }
-        $this->template->headerLogo = $logo;
+		} elseif ($this->crmModule !== NULL && ($this['menu']->isLinkAllowed($link))) {
 
-        if (!isset($this->template->shifted)) {
-            $this->template->shifted = FALSE;
-        }
-    }
+		} elseif ($this['dockbar']->isLinkAllowed($link)) {
 
-    /* ###################################################################### */
-    /*                                 DockBar                                */
+		} else {
+			$this->flashNotifier->error('main.permissions.accessDenied');
+			$this->redirect(":{$this->module}:Homepage:");
+		}
+	}
 
-    /** @var IDockbarFactory */
-    private $dockbarFactory;
+	protected function beforeRender()
+	{
+		parent::beforeRender();
+		$logo = $this->configurator->logo;
+		if ($logo == NULL) {
+			$logo = 'empty.png';
+		}
+		$this->template->headerLogo = $logo;
 
-    public function injectDockbarFactory(IDockbarFactory $dockbarFactory) {
-        $this->dockbarFactory = $dockbarFactory;
-    }
+		if (!isset($this->template->shifted)) {
+			$this->template->shifted = FALSE;
+		}
+	}
 
-    /**
-     * Vytvori komponentu Dockbar
-     * @return Dockbar\Dockbar
-     */
-    protected function createComponentDockbar() {
-        $dockbar = $this->dockbarFactory->create();
-        return $dockbar;
-    }
+	/* ###################################################################### */
+	/*                                 DockBar                                */
 
-    /* ###################################################################### */
-    /*                                 Menu                                   */
+	/** @var IDockbarFactory */
+	private $dockbarFactory;
 
-    /** @var IMenuFactory */
-    private $menuFactory;
+	public function injectDockbarFactory(IDockbarFactory $dockbarFactory)
+	{
+		$this->dockbarFactory = $dockbarFactory;
+	}
 
-    public function injectMenu(IMenuFactory $menuFactory) {
-        $this->menuFactory = $menuFactory;
-    }
+	/**
+	 * Vytvori komponentu Dockbar
+	 * @return Dockbar
+	 */
+	protected function createComponentDockbar()
+	{
+		$dockbar = $this->dockbarFactory->create();
+		return $dockbar;
+	}
 
-    /**
-     * Hlavni menu
-     * @return \NAttreid\Menu\Menu
-     */
-    protected function createComponentMenu() {
-        $moduleMenu = $this->menuFactory->create();
-        $moduleMenu->setTranslator($this->translator);
-        $moduleMenu->setBaseUrl('main.title', ":{$this->module}:Homepage:");
-        return $moduleMenu;
-    }
+	/* ###################################################################### */
+	/*                                 Menu                                   */
 
-    /**
-     * Nastavi pocet (cislo za text linku)
-     * @param string $link
-     * @param int $count
-     * @param string $type
-     */
-    protected function setMenuCount($link, $count, $type = Item::INFO) {
-        $menu = $this['menu'];
-        $menu->setCount($link, $count, $type);
-    }
+	/** @var IMenuFactory */
+	private $menuFactory;
 
-    /**
-     * Drobeckova navigace
-     * @return \NAttreid\Menu\Breadcrumb\Breadcrumb
-     */
-    protected function createComponentBreadcrumb() {
-        $breadcrumb = $this['menu']->getBreadcrumb();
-        return $breadcrumb;
-    }
+	public function injectMenu(IMenuFactory $menuFactory)
+	{
+		$this->menuFactory = $menuFactory;
+	}
 
-    /**
-     * Prida link do drobeckove navigace
-     * @param string $name
-     * @param string $link
-     */
-    public function addBreadcrumbLink($name, $link = NULL) {
-        $this['breadcrumb']->addLink($name, $link);
-    }
+	/**
+	 * Hlavni menu
+	 * @return \NAttreid\Menu\Menu
+	 */
+	protected function createComponentMenu()
+	{
+		$moduleMenu = $this->menuFactory->create();
+		$moduleMenu->setTranslator($this->translator);
+		$moduleMenu->setBaseUrl('main.title', ":{$this->module}:Homepage:");
+		return $moduleMenu;
+	}
 
-    /**
-     * Nastavi zobrazeni menu v mobilni verzi
-     * @param boolean $view
-     */
-    public function viewMobileMenu($view = TRUE) {
-        $this->template->shifted = $view;
-        $this['dockbar']->setShifted($view);
-    }
+	/**
+	 * Nastavi pocet (cislo za text linku)
+	 * @param string $link
+	 * @param int $count
+	 * @param string $type
+	 */
+	protected function setMenuCount($link, $count, $type = Link::INFO)
+	{
+		$menu = $this['menu'];
+		$menu->setCount($link, $count, $type);
+	}
 
-    /* ###################################################################### */
-    /*                               Backlink                                 */
+	/**
+	 * Drobeckova navigace
+	 * @return Breadcrumb
+	 */
+	protected function createComponentBreadcrumb()
+	{
+		$breadcrumb = $this['menu']->getBreadcrumb();
+		return $breadcrumb;
+	}
 
-    /** @persistent */
-    public $cbl;
+	/**
+	 * Prida link do drobeckove navigace
+	 * @param string $name
+	 * @param string $link
+	 */
+	public function addBreadcrumbLink($name, $link = NULL)
+	{
+		$this['breadcrumb']->addLink($name, $link);
+	}
 
-    /**
-     * Navrat na predchozi stranku
-     */
-    public function handleBack($backlink) {
-        $this->restoreRequest($backlink);
-    }
+	/**
+	 * Nastavi zobrazeni menu v mobilni verzi
+	 * @param boolean $view
+	 */
+	public function viewMobileMenu($view = TRUE)
+	{
+		$this->template->shifted = $view;
+		$this['dockbar']->setShifted($view);
+	}
 
-    /**
-     * Ulozi aktualni request
-     */
-    public function storeBacklink() {
-        $this->cbl = $this->storeRequest('+30 minutes');
-    }
+	/* ###################################################################### */
+	/*                               Backlink                                 */
 
-    /**
-     * Obnovi predchozi request
-     */
-    public function restoreBacklink() {
-        $this->restoreRequest($this->getParameter('cbl'));
-    }
+	/** @persistent */
+	public $cbl;
 
-    /**
-     * Vrati zpatecni adresu
-     */
-    public function getBacklink() {
-        return $this->link('back!', [$this->getParameter('cbl')]);
-    }
+	/**
+	 * Navrat na predchozi stranku
+	 */
+	public function handleBack($backlink)
+	{
+		$this->restoreRequest($backlink);
+	}
+
+	/**
+	 * Ulozi aktualni request
+	 */
+	public function storeBacklink()
+	{
+		$this->cbl = $this->storeRequest('+30 minutes');
+	}
+
+	/**
+	 * Obnovi predchozi request
+	 */
+	public function restoreBacklink()
+	{
+		$this->restoreRequest($this->getParameter('cbl'));
+	}
+
+	/**
+	 * Vrati zpatecni adresu
+	 */
+	public function getBacklink()
+	{
+		return $this->link('back!', [$this->getParameter('cbl')]);
+	}
 
 }

@@ -7,10 +7,12 @@ namespace NAttreid\Crm\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class Mapper extends \NAttreid\Orm\Mapper {
+abstract class Mapper extends \NAttreid\Orm\Mapper
+{
 
-    public function getTablePrefix() {
-        return '_';
-    }
+	public function getTablePrefix()
+	{
+		return '_';
+	}
 
 }

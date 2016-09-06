@@ -2,296 +2,317 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\AppManager\AppManager,
-    NAttreid\Security\User,
-    NAttreid\Crm\Configurator,
-    Nette\Utils\Strings,
-    IPub\FlashMessages\FlashNotifier;
+use IPub\FlashMessages\FlashNotifier;
+use NAttreid\AppManager\AppManager;
+use NAttreid\Crm\Configurator;
+use NAttreid\Security\User;
+use Nette\Utils\Strings;
 
 /**
  * DockBar
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Dockbar extends \Nette\Application\UI\Control {
+class Dockbar extends \Nette\Application\UI\Control
+{
 
-    /** @var string */
-    private $module;
+	/** @var string */
+	private $module;
 
-    /** @var string */
-    private $front;
+	/** @var string */
+	private $front;
 
-    /** @var AppManager */
-    private $app;
+	/** @var AppManager */
+	private $app;
 
-    /** @var User */
-    private $user;
+	/** @var User */
+	private $user;
 
-    /** @var Configurator */
-    private $configurator;
+	/** @var Configurator */
+	private $configurator;
 
-    /** @var FlashNotifier */
-    private $flashNotifier;
+	/** @var FlashNotifier */
+	private $flashNotifier;
 
-    /** @var array */
-    private $links;
+	/** @var array */
+	private $links;
 
-    /** @var array */
-    private $allowedLinks = [];
+	/** @var array */
+	private $allowedLinks = [];
 
-    /** @var array */
-    private $allowedHandler = [];
+	/** @var array */
+	private $allowedHandler = [];
 
-    public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier) {
-        $this->app = $app;
-        $this->user = $user;
-        $this->configurator = $configurator;
-        $this->flashNotifier = $flashNotifier;
+	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
+	{
+		parent::__construct();
+		$this->app = $app;
+		$this->user = $user;
+		$this->configurator = $configurator;
+		$this->flashNotifier = $flashNotifier;
 
-        $this->module = $module;
-        $this->front = $front;
-        $this->links = $this->createLinks('main.dockbar', $permissions);
-    }
+		$this->module = $module;
+		$this->front = $front;
+		$this->links = $this->createLinks('main.dockbar', $permissions);
+	}
 
-    /**
-     * Nastavi aktivni tlacitko pro menu (posun)
-     * @param boolean $shifted
-     */
-    public function setShifted($shifted = TRUE) {
-        $this->template->shifted = $shifted;
-    }
+	/**
+	 * Nastavi aktivni tlacitko pro menu (posun)
+	 * @param boolean $shifted
+	 */
+	public function setShifted($shifted = TRUE)
+	{
+		$this->template->shifted = $shifted;
+	}
 
-    /**
-     * Odhlaseni
-     */
-    public function handleLogOut() {
-        $this->user->logout();
-        $this->flashNotifier->info('main.user.youAreLoggedOut');
-        $this->presenter->redirect(":{$this->module}:Sign:in");
-    }
+	/**
+	 * Odhlaseni
+	 */
+	public function handleLogOut()
+	{
+		$this->user->logout();
+		$this->flashNotifier->info('main.user.youAreLoggedOut');
+		$this->presenter->redirect(":{$this->module}:Sign:in");
+	}
 
-    /**
-     * Znovunacte CSS
-     */
-    public function handleRestoreCss() {
-        $this->checkHandlerPermission();
+	/**
+	 * Znovunacte CSS
+	 */
+	public function handleRestoreCss()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->clearCss();
-        $this->flashNotifier->success('main.dockbar.management.application.cssRestored');
-    }
+		$this->app->clearCss();
+		$this->flashNotifier->success('main.dockbar.management.application.cssRestored');
+	}
 
-    /**
-     * Znovunacte Javascript
-     */
-    public function handleRestoreJs() {
-        $this->checkHandlerPermission();
+	/**
+	 * Znovunacte Javascript
+	 */
+	public function handleRestoreJs()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->clearJs();
-        $this->flashNotifier->success('main.dockbar.management.application.jsRestored');
-    }
+		$this->app->clearJs();
+		$this->flashNotifier->success('main.dockbar.management.application.jsRestored');
+	}
 
-    /**
-     * Smazani cache
-     */
-    public function handleClearSessions() {
-        $this->checkHandlerPermission();
+	/**
+	 * Smazani cache
+	 */
+	public function handleClearSessions()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->clearSession('0 minute');
-        $this->flashNotifier->success('main.dockbar.management.application.sessionsCleared');
-    }
+		$this->app->clearSession('0 minute');
+		$this->flashNotifier->success('main.dockbar.management.application.sessionsCleared');
+	}
 
-    /**
-     * Smazani cache
-     */
-    public function handleClearCache() {
-        $this->checkHandlerPermission();
+	/**
+	 * Smazani cache
+	 */
+	public function handleClearCache()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->clearCache();
-        $this->flashNotifier->success('main.dockbar.management.application.cacheCleared');
-    }
+		$this->app->clearCache();
+		$this->flashNotifier->success('main.dockbar.management.application.cacheCleared');
+	}
 
-    /**
-     * Smazani cache
-     */
-    public function handleInvalidateCache() {
-        $this->checkHandlerPermission();
+	/**
+	 * Smazani cache
+	 */
+	public function handleInvalidateCache()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->invalidateCache();
-        $this->flashNotifier->success('main.dockbar.management.application.cacheInvalidated');
-    }
+		$this->app->invalidateCache();
+		$this->flashNotifier->success('main.dockbar.management.application.cacheInvalidated');
+	}
 
-    /**
-     * Smazani temp
-     */
-    public function handleClearTemp() {
-        $this->checkHandlerPermission(FALSE);
+	/**
+	 * Smazani temp
+	 */
+	public function handleClearTemp()
+	{
+		$this->checkHandlerPermission(FALSE);
 
-        $this->app->clearTemp();
-        $this->flashNotifier->success('main.dockbar.management.application.tempCleared');
-        $this->redirect('this');
-    }
+		$this->app->clearTemp();
+		$this->flashNotifier->success('main.dockbar.management.application.tempCleared');
+		$this->redirect('this');
+	}
 
-    /**
-     * Deploy
-     */
-    public function handleDeploy() {
-        $this->checkHandlerPermission();
+	/**
+	 * Deploy
+	 */
+	public function handleDeploy()
+	{
+		$this->checkHandlerPermission();
 
-        try {
-            $this->app->gitPull(TRUE);
-            $this->app->clearCache();
-            $this->flashNotifier->success('main.dockbar.management.source.deployed');
-        } catch (\InvalidArgumentException $ex) {
-            $this->flashNotifier->error('main.dockbar.management.source.deployNotSet');
-        }
-        $this->redirect('this');
-    }
+		try {
+			$this->app->gitPull(TRUE);
+			$this->app->clearCache();
+			$this->flashNotifier->success('main.dockbar.management.source.deployed');
+		} catch (\InvalidArgumentException $ex) {
+			$this->flashNotifier->error('main.dockbar.management.source.deployNotSet');
+		}
+		$this->redirect('this');
+	}
 
-    /**
-     * Aktualizace composeru
-     */
-    public function handleComposerUpdate() {
-        $this->checkHandlerPermission();
+	/**
+	 * Aktualizace composeru
+	 */
+	public function handleComposerUpdate()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->composerUpdate(TRUE);
-        $this->flashNotifier->success('main.dockbar.management.source.composerUpdated');
-        $this->redirect('this');
-    }
+		$this->app->composerUpdate(TRUE);
+		$this->flashNotifier->success('main.dockbar.management.source.composerUpdated');
+		$this->redirect('this');
+	}
 
-    /**
-     * Zaloha databaze
-     */
-    public function handleBackupDatabase() {
-        $this->checkHandlerPermission(FALSE);
+	/**
+	 * Zaloha databaze
+	 */
+	public function handleBackupDatabase()
+	{
+		$this->checkHandlerPermission(FALSE);
 
-        $file = $this->app->backupDatabase();
-        $this->presenter->sendResponse(new \Nette\Application\Responses\FileResponse($file, 'backup.zip'));
-    }
+		$file = $this->app->backupDatabase();
+		$this->presenter->sendResponse(new \Nette\Application\Responses\FileResponse($file, 'backup.zip'));
+	}
 
-    /**
-     * Smazání databaze
-     */
-    public function handleDropDatabase() {
-        $this->checkHandlerPermission();
+	/**
+	 * Smazání databaze
+	 */
+	public function handleDropDatabase()
+	{
+		$this->checkHandlerPermission();
 
-        $this->app->dropDatabase();
-        $this->app->clearCache();
-        $this->flashNotifier->success('main.dockbar.management.database.databaseDroped');
-        $this->redirect('this');
-    }
+		$this->app->dropDatabase();
+		$this->app->clearCache();
+		$this->flashNotifier->success('main.dockbar.management.database.databaseDroped');
+		$this->redirect('this');
+	}
 
-    /**
-     * Ma opravneni zobrazit stranku?
-     * @param string $link
-     * @return boolean
-     */
-    public function isLinkAllowed($link) {
-        if (isset($this->allowedLinks[$link])) {
-            return TRUE;
-        } else {
-            $pos = strrpos($link, ':');
-            $link = substr($link, 0, ($pos + 1));
-            return isset($this->allowedLinks[$link]);
-        }
-    }
+	/**
+	 * Ma opravneni zobrazit stranku?
+	 * @param string $link
+	 * @return boolean
+	 */
+	public function isLinkAllowed($link)
+	{
+		if (isset($this->allowedLinks[$link])) {
+			return TRUE;
+		} else {
+			$pos = strrpos($link, ':');
+			$link = substr($link, 0, ($pos + 1));
+			return isset($this->allowedLinks[$link]);
+		}
+	}
 
-    public function render() {
-        $template = $this->template;
+	public function render()
+	{
+		$template = $this->template;
 
-        // linky pro dockbar
-        $template->front = $this->front;
-        $template->links = $this->links;
-        $template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
+		// linky pro dockbar
+		$template->front = $this->front;
+		$template->links = $this->links;
+		$template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 
-        //uzivatelske jmeno
-        $identity = $this->user->getIdentity();
-        $username = $identity->firstName;
-        if (!empty($username) || !empty($identity->surname)) {
-            $username .= ' ';
-        }
-        $username .= $identity->surname;
-        $template->userName = $username;
+		//uzivatelske jmeno
+		$identity = $this->user->getIdentity();
+		$username = $identity->firstName;
+		if (!empty($username) || !empty($identity->surname)) {
+			$username .= ' ';
+		}
+		$username .= $identity->surname;
+		$template->userName = $username;
 
-        if (!isset($template->shifted)) {
-            $template->shifted = false;
-        }
+		if (!isset($template->shifted)) {
+			$template->shifted = false;
+		}
 
-        $template->setFile(__DIR__ . '/default.latte');
+		$template->setFile(__DIR__ . '/default.latte');
 
-        $template->render();
-    }
+		$template->render();
+	}
 
-    /**
-     * Prava pro dockbar
-     * @param string $parent
-     * @param array $items
-     * @return array
-     */
-    private function createLinks($parent, $items) {
-        $arr = [];
-        foreach ($items as $name => $item) {
-            $uniqid = $parent . '.' . $name;
-            if ($this->isLink($item)) {
-                if ($this->user->isAllowed($uniqid, 'view')) {
+	/**
+	 * Prava pro dockbar
+	 * @param string $parent
+	 * @param array $items
+	 * @return array
+	 */
+	private function createLinks($parent, $items)
+	{
+		$arr = [];
+		foreach ($items as $name => $item) {
+			$uniqid = $parent . '.' . $name;
+			if ($this->isLink($item)) {
+				if ($this->user->isAllowed($uniqid, 'view')) {
 
-                    if (!empty($item['advanced']) && !$this->configurator->dockbarAdvanced) {
-                        continue;
-                    }
+					if (!empty($item['advanced']) && !$this->configurator->dockbarAdvanced) {
+						continue;
+					}
 
-                    if (isset($item['link'])) {
-                        $link = $item['link'] = ":{$this->module}:" . $item['link'];
-                        if (Strings::endsWith($link, ':default')) {
-                            $link = substr($link, 0, -7);
-                        }
-                        $this->allowedLinks[$link] = TRUE;
-                    } else {
-                        $this->allowedHandler[$name] = TRUE;
-                        $item['handler'] = $name;
-                    }
-                    $arr[$name] = $item;
-                }
-            } else {
-                $result = $this->createLinks($uniqid, $item);
-                if (!empty($result)) {
-                    $arr[$name] = $result;
-                }
-            }
-        }
-        return $arr;
-    }
+					if (isset($item['link'])) {
+						$link = $item['link'] = ":{$this->module}:" . $item['link'];
+						if (Strings::endsWith($link, ':default')) {
+							$link = substr($link, 0, -7);
+						}
+						$this->allowedLinks[$link] = TRUE;
+					} else {
+						$this->allowedHandler[$name] = TRUE;
+						$item['handler'] = $name;
+					}
+					$arr[$name] = $item;
+				}
+			} else {
+				$result = $this->createLinks($uniqid, $item);
+				if (!empty($result)) {
+					$arr[$name] = $result;
+				}
+			}
+		}
+		return $arr;
+	}
 
-    /**
-     * Je link
-     * @param mixed $item
-     * @return boolean
-     */
-    private function isLink($item) {
-        if ($item === NULL) {
-            return TRUE;
-        } elseif (is_array($item)) {
-            return !is_array(current($item));
-        } else {
-            throw new \InvalidArgumentException('Error in dockbar.neon');
-        }
-    }
+	/**
+	 * Je link
+	 * @param mixed $item
+	 * @return boolean
+	 */
+	private function isLink($item)
+	{
+		if ($item === NULL) {
+			return TRUE;
+		} elseif (is_array($item)) {
+			return !is_array(current($item));
+		} else {
+			throw new \InvalidArgumentException('Error in dockbar.neon');
+		}
+	}
 
-    /**
-     * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
-     * @param boolean $ajax
-     */
-    private function checkHandlerPermission($ajax = TRUE) {
-        if (!isset($this->allowedHandler[$this->presenter->getSignal()[1]])) {
-            $this->presenter->terminate();
-        }
-        if ($ajax && !$this->presenter->isAjax()) {
-            $this->presenter->terminate();
-        }
-    }
+	/**
+	 * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
+	 * @param boolean $ajax
+	 */
+	private function checkHandlerPermission($ajax = TRUE)
+	{
+		if (!isset($this->allowedHandler[$this->presenter->getSignal()[1]])) {
+			$this->presenter->terminate();
+		}
+		if ($ajax && !$this->presenter->isAjax()) {
+			$this->presenter->terminate();
+		}
+	}
 
 }
 
-interface IDockbarFactory {
+interface IDockbarFactory
+{
 
-    /** @return Dockbar */
-    public function create();
+	/** @return Dockbar */
+	public function create();
 }

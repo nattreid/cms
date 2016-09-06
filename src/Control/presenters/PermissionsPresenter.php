@@ -2,483 +2,525 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\Security\Model\Acl,
-    NAttreid\Security\AuthorizatorFactory,
-    Ublaboo\DataGrid\DataGrid,
-    NAttreid\Security\Model\AclRole,
-    Nette\Forms\Container,
-    Nextras\Dbal\UniqueConstraintViolationException,
-    Nette\InvalidArgumentException,
-    Nette\Utils\ArrayHash,
-    Nextras\Orm\Model\Model,
-    NAttreid\Security\Model\Orm;
+use NAttreid\Security\AuthorizatorFactory;
+use NAttreid\Security\Model\Acl;
+use NAttreid\Security\Model\AclRole;
+use NAttreid\Security\Model\Orm;
+use Nette\Forms\Container;
+use Nette\InvalidArgumentException;
+use Nette\Utils\ArrayHash;
+use Nextras\Dbal\UniqueConstraintViolationException;
+use Nextras\Orm\Model\Model;
+use Ublaboo\DataGrid\DataGrid;
 
 /**
  * Prava uzivatelu
- * 
- * @author Attreid <attreid@gmail.com> 
+ *
+ * @author Attreid <attreid@gmail.com>
  */
-class PermissionsPresenter extends CrmPresenter {
+class PermissionsPresenter extends CrmPresenter
+{
 
-    private $privileges = [
-        Acl::PRIVILEGE_VIEW => 'default.view',
-        Acl::PRIVILEGE_EDIT => 'default.edit'
-    ];
-    private $access = [
-        1 => 'main.permissions.allowed',
-        0 => 'main.permissions.denied'
-    ];
+	private $privileges = [
+		Acl::PRIVILEGE_VIEW => 'default.view',
+		Acl::PRIVILEGE_EDIT => 'default.edit'
+	];
+	private $access = [
+		1 => 'main.permissions.allowed',
+		0 => 'main.permissions.denied'
+	];
 
-    /** @var Orm */
-    private $orm;
+	/** @var Orm */
+	private $orm;
 
-    /** @var AuthorizatorFactory */
-    private $authorizatorFactory;
+	/** @var AuthorizatorFactory */
+	private $authorizatorFactory;
 
-    public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory) {
-        $this->orm = $orm;
-        $this->authorizatorFactory = $authorizatorFactory;
-    }
+	public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory)
+	{
+		parent::__construct();
+		$this->orm = $orm;
+		$this->authorizatorFactory = $authorizatorFactory;
+	}
 
-    /**
-     * Zobrazeni seznamu
-     */
-    public function renderDefault() {
-        $this->addBreadcrumbLink('main.dockbar.settings.permissions');
-    }
+	/**
+	 * Zobrazeni seznamu
+	 */
+	public function renderDefault()
+	{
+		$this->addBreadcrumbLink('main.dockbar.settings.permissions');
+	}
 
-    /**
-     * Smazani role
-     * @secured
-     */
-    public function handleDeleteRole($id) {
-        $grid = $this['rolesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $role = $this->orm->aclRoles->getById($id);
-            $this->orm->aclRoles->removeAndFlush($role);
-            $grid->reload();
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smazani role
+	 * @secured
+	 */
+	public function handleDeleteRole($id)
+	{
+		$grid = $this['rolesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$role = $this->orm->aclRoles->getById($id);
+			$this->orm->aclRoles->removeAndFlush($role);
+			$grid->reload();
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Smazani pravidlo
-     * @secured
-     */
-    public function handleDeleteRule($id) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $rule = $this->orm->acl->getById($id);
-            $this->orm->acl->removeAndFlush($rule);
-            $grid->reload();
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smazani pravidlo
+	 * @secured
+	 */
+	public function handleDeleteRule($id)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$rule = $this->orm->acl->getById($id);
+			$this->orm->acl->removeAndFlush($rule);
+			$grid->reload();
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Smaze role
-     * @param array $ids
-     */
-    public function deleteRoles(array $ids) {
-        $grid = $this['rolesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $roles = $this->orm->aclRoles->findById($ids);
-            foreach ($roles as $role) {
-                $this->orm->aclRoles->remove($role);
-            }
-            $this->orm->flush();
-            $grid->reload();
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smaze role
+	 * @param array $ids
+	 */
+	public function deleteRoles(array $ids)
+	{
+		$grid = $this['rolesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$roles = $this->orm->aclRoles->findById($ids);
+			foreach ($roles as $role) {
+				$this->orm->aclRoles->remove($role);
+			}
+			$this->orm->flush();
+			$grid->reload();
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Smaze pravidla
-     * @param array $ids
-     */
-    public function deleteRules(array $ids) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $rules = $this->orm->acl->findById($ids);
-            foreach ($rules as $rule) {
-                $this->orm->acl->remove($rule);
-            }
-            $this->orm->flush();
-            $grid->reload();
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smaze pravidla
+	 * @param array $ids
+	 */
+	public function deleteRules(array $ids)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$rules = $this->orm->acl->findById($ids);
+			foreach ($rules as $rule) {
+				$this->orm->acl->remove($rule);
+			}
+			$this->orm->flush();
+			$grid->reload();
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Smazani nepouzitych zdroju (pro prehlednost)
-     * @secured
-     */
-    public function handleDeleteUnusedResources() {
-        if ($this->isAjax()) {
-            $this->orm->aclResources->deleteUnused();
-            $this->flashNotifier->success('main.permissions.unusedResourcesDeleted');
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smazani nepouzitych zdroju (pro prehlednost)
+	 * @secured
+	 */
+	public function handleDeleteUnusedResources()
+	{
+		if ($this->isAjax()) {
+			$this->orm->aclResources->deleteUnused();
+			$this->flashNotifier->success('main.permissions.unusedResourcesDeleted');
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Smazani cache ACL
-     * @secured
-     */
-    public function handleClearCacheACL() {
-        if ($this->isAjax()) {
-            $this->authorizatorFactory->cleanCache();
-            $this->flashNotifier->success('main.permissions.aclCacheCLeared');
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Smazani cache ACL
+	 * @secured
+	 */
+	public function handleClearCacheACL()
+	{
+		if ($this->isAjax()) {
+			$this->authorizatorFactory->cleanCache();
+			$this->flashNotifier->success('main.permissions.aclCacheCLeared');
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Editace role
-     * @param Container $container
-     */
-    public function roleForm(Container $container) {
-        $roles = ['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs();
-        $container->addText('title', 'main.permissions.role')
-                ->setRequired();
-        $container->addText('name', 'main.permissions.name')
-                ->setRequired();
-        $container->addSelect('parent', $this->translate('main.permissions.parent'))
-                ->setTranslator()
-                ->setItems($roles);
-    }
+	/**
+	 * Editace role
+	 * @param Container $container
+	 */
+	public function roleForm(Container $container)
+	{
+		$roles = ['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs();
+		$container->addText('title', 'main.permissions.role')
+			->setRequired();
+		$container->addText('name', 'main.permissions.name')
+			->setRequired();
+		$container->addSelect('parent', $this->translate('main.permissions.parent'))
+			->setTranslator()
+			->setItems($roles);
+	}
 
-    /**
-     * Pridani role
-     * @param ArrayHash $values
-     */
-    public function addRole($values) {
-        $grid = $this['rolesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            try {
-                $role = new AclRole;
-                $this->orm->aclRoles->attach($role);
-                $role->name = $values->name;
-                $role->title = $values->title;
-                $role->parent = $values->parent;
+	/**
+	 * Pridani role
+	 * @param ArrayHash $values
+	 */
+	public function addRole($values)
+	{
+		$grid = $this['rolesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			try {
+				$role = new AclRole;
+				$this->orm->aclRoles->attach($role);
+				$role->name = $values->name;
+				$role->title = $values->title;
+				$role->parent = $values->parent;
 
-                $this->orm->persistAndFlush($role);
+				$this->orm->persistAndFlush($role);
 
-                $this->flashNotifier->success('default.dataSaved');
-                $grid->reload();
-            } catch (UniqueConstraintViolationException $ex) {
-                $this->flashNotifier->error('main.permissions.dupliciteName');
-            } catch (InvalidArgumentException $ex) {
-                $this->flashNotifier->error('main.permissions.invalidName');
-            }
-        } else {
-            $this->terminate();
-        }
-    }
+				$this->flashNotifier->success('default.dataSaved');
+				$grid->reload();
+			} catch (UniqueConstraintViolationException $ex) {
+				$this->flashNotifier->error('main.permissions.dupliciteName');
+			} catch (InvalidArgumentException $ex) {
+				$this->flashNotifier->error('main.permissions.invalidName');
+			}
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Editace pravidla
-     * @param Container $container
-     */
-    public function ruleForm(Container $container) {
-        $container->addSelect('role', $this->translate('main.permissions.role'))
-                ->setTranslator()
-                ->setItems($this->orm->aclRoles->fetchPairs());
-        $container->addMultiSelect('resource', $this->translate('main.permissions.resource'))
-                ->setTranslator()
-                ->setItems($this->orm->aclResources->fetchPairsByName());
-        $container->addSelect('privilege', 'main.permissions.privilege', $this->privileges);
-        $container->addSelect('allowed', 'default.state', $this->access);
-    }
+	/**
+	 * Editace pravidla
+	 * @param Container $container
+	 */
+	public function ruleForm(Container $container)
+	{
+		$container->addSelect('role', $this->translate('main.permissions.role'))
+			->setTranslator()
+			->setItems($this->orm->aclRoles->fetchPairs());
+		$container->addMultiSelect('resource', $this->translate('main.permissions.resource'))
+			->setTranslator()
+			->setItems($this->orm->aclResources->fetchPairsByName());
+		$container->addSelect('privilege', 'main.permissions.privilege', $this->privileges);
+		$container->addSelect('allowed', 'default.state', $this->access);
+	}
 
-    /**
-     * Pridani pravidla
-     * @param ArrayHash $values
-     */
-    public function addRule($values) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            foreach ($values->resource as $resource) {
-                try {
-                    $rule = new Acl;
-                    $this->orm->acl->attach($rule);
-                    $rule->role = $values->role;
-                    $rule->privilege = $values->privilege;
-                    $rule->resource = $resource;
-                    $rule->allowed = $values->allowed;
+	/**
+	 * Pridani pravidla
+	 * @param ArrayHash $values
+	 */
+	public function addRule($values)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			foreach ($values->resource as $resource) {
+				try {
+					$rule = new Acl;
+					$this->orm->acl->attach($rule);
+					$rule->role = $values->role;
+					$rule->privilege = $values->privilege;
+					$rule->resource = $resource;
+					$rule->allowed = $values->allowed;
 
-                    $this->orm->persistAndFlush($rule);
-                } catch (UniqueConstraintViolationException $ex) {
-                    
-                }
-            }
+					$this->orm->persistAndFlush($rule);
+				} catch (UniqueConstraintViolationException $ex) {
 
-            $this->flashNotifier->success('default.dataSaved');
-            $grid->reload();
-        } else {
-            $this->terminate();
-        }
-    }
+				}
+			}
 
-    /**
-     * Ulozi nazev role
-     * @param int $id
-     * @param array $value
-     */
-    public function setRoleTitle($id, $value) {
-        if ($this->isAjax()) {
-            $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
-            $role->title = $value;
-            $this->orm->persistAndFlush($role);
+			$this->flashNotifier->success('default.dataSaved');
+			$grid->reload();
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
-        } else {
-            $this->terminate();
-        }
-    }
+	/**
+	 * Ulozi nazev role
+	 * @param int $id
+	 * @param array $value
+	 */
+	public function setRoleTitle($id, $value)
+	{
+		if ($this->isAjax()) {
+			$role = $this->orm->aclRoles->getById($id);
+			/* @var $role AclRole */
+			$role->title = $value;
+			$this->orm->persistAndFlush($role);
 
-    /**
-     * Ulozi jmeno role
-     * @param int $id
-     * @param array $value
-     */
-    public function setRoleName($id, $value) {
-        $grid = $this['rolesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            try {
-                $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
-                $role->setName($value);
-                $this->orm->persistAndFlush($role);
-                $this->flashNotifier->success('default.dataSaved');
-            } catch (UniqueConstraintViolationException $ex) {
-                $this->flashNotifier->error('main.permissions.dupliciteName');
-                $grid->redrawItem($id);
-            } catch (InvalidArgumentException $ex) {
-                $this->flashNotifier->error('main.permissions.invalidName');
-                $grid->redrawItem($id);
-            }
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
+		} else {
+			$this->terminate();
+		}
+	}
 
-    /**
-     * Ulozi rodice role
-     * @param int $id
-     * @param array $value
-     */
-    public function setRoleParent($id, $value) {
-        $grid = $this['rolesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $role = $this->orm->aclRoles->getById($id); /* @var $role AclRole */
-            $role->parent = $value;
-            $this->orm->persistAndFlush($role);
+	/**
+	 * Ulozi jmeno role
+	 * @param int $id
+	 * @param array $value
+	 */
+	public function setRoleName($id, $value)
+	{
+		$grid = $this['rolesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			try {
+				$role = $this->orm->aclRoles->getById($id);
+				/* @var $role AclRole */
+				$role->setName($value);
+				$this->orm->persistAndFlush($role);
+				$this->flashNotifier->success('default.dataSaved');
+			} catch (UniqueConstraintViolationException $ex) {
+				$this->flashNotifier->error('main.permissions.dupliciteName');
+				$grid->redrawItem($id);
+			} catch (InvalidArgumentException $ex) {
+				$this->flashNotifier->error('main.permissions.invalidName');
+				$grid->redrawItem($id);
+			}
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
+	/**
+	 * Ulozi rodice role
+	 * @param int $id
+	 * @param array $value
+	 */
+	public function setRoleParent($id, $value)
+	{
+		$grid = $this['rolesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$role = $this->orm->aclRoles->getById($id);
+			/* @var $role AclRole */
+			$role->parent = $value;
+			$this->orm->persistAndFlush($role);
 
-            $grid->redrawItem($id);
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
 
-    /**
-     * Nastavi roli pravidlu
-     * @param int $id
-     * @param array $value
-     */
-    public function setRuleRole($id, $value) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $acl = $this->orm->acl->getById($id); /* @var $acl Acl */
-            $acl->role = $value;
-            $this->orm->persistAndFlush($acl);
+			$grid->redrawItem($id);
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
+	/**
+	 * Nastavi roli pravidlu
+	 * @param int $id
+	 * @param array $value
+	 */
+	public function setRuleRole($id, $value)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$acl = $this->orm->acl->getById($id);
+			/* @var $acl Acl */
+			$acl->role = $value;
+			$this->orm->persistAndFlush($acl);
 
-            $grid->redrawItem($id);
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
 
-    /**
-     * Nastavi zdroj pravidlu
-     * @param int $id
-     * @param array $value
-     */
-    public function setRuleResource($id, $value) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $acl = $this->orm->acl->getById($id); /* @var $acl Acl */
-            $acl->resource = $value;
-            $this->orm->persistAndFlush($acl);
+			$grid->redrawItem($id);
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
+	/**
+	 * Nastavi zdroj pravidlu
+	 * @param int $id
+	 * @param array $value
+	 */
+	public function setRuleResource($id, $value)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$acl = $this->orm->acl->getById($id);
+			/* @var $acl Acl */
+			$acl->resource = $value;
+			$this->orm->persistAndFlush($acl);
 
-            $grid->redrawItem($id);
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
 
-    /**
-     * Ulozi operaci pravidla
-     * @param int $id
-     * @param boolean $value
-     */
-    public function setRulePrivilege($id, $value) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $rule = $this->orm->acl->getById($id); /* @var $rule Acl */
-            $rule->privilege = $value;
-            $this->orm->persistAndFlush($rule);
+			$grid->redrawItem($id);
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
+	/**
+	 * Ulozi operaci pravidla
+	 * @param int $id
+	 * @param boolean $value
+	 */
+	public function setRulePrivilege($id, $value)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$rule = $this->orm->acl->getById($id);
+			/* @var $rule Acl */
+			$rule->privilege = $value;
+			$this->orm->persistAndFlush($rule);
 
-            $grid->redrawItem($id);
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
 
-    /**
-     * Ulozi stav pravidla
-     * @param int $id
-     * @param boolean $value
-     */
-    public function setRuleState($id, $value) {
-        $grid = $this['rulesList']; /* @var $grid DataGrid */
-        if ($this->isAjax()) {
-            $rule = $this->orm->acl->getById($id); /* @var $rule Acl */
-            $rule->allowed = $value;
-            $this->orm->persistAndFlush($rule);
+			$grid->redrawItem($id);
+		} else {
+			$this->terminate();
+		}
+	}
 
-            $this->flashNotifier->success('default.dataSaved');
+	/**
+	 * Ulozi stav pravidla
+	 * @param int $id
+	 * @param boolean $value
+	 */
+	public function setRuleState($id, $value)
+	{
+		$grid = $this['rulesList'];
+		/* @var $grid DataGrid */
+		if ($this->isAjax()) {
+			$rule = $this->orm->acl->getById($id);
+			/* @var $rule Acl */
+			$rule->allowed = $value;
+			$this->orm->persistAndFlush($rule);
 
-            $grid->redrawItem($id);
-        } else {
-            $this->terminate();
-        }
-    }
+			$this->flashNotifier->success('default.dataSaved');
 
-    /**
-     * Seznam roli
-     * @return DataGrid
-     */
-    protected function createComponentRolesList($name) {
-        $grid = $this->dataGridFactory->create($this, $name);
+			$grid->redrawItem($id);
+		} else {
+			$this->terminate();
+		}
+	}
 
-        $grid->setDataSource($this->orm->aclRoles->findAll());
+	/**
+	 * Seznam roli
+	 * @return DataGrid
+	 */
+	protected function createComponentRolesList($name)
+	{
+		$grid = $this->dataGridFactory->create($this, $name);
 
-        $grid->addColumnText('title', 'main.permissions.role')
-                ->setEditableInputType('text')
-                ->setEditableCallback([$this, 'setRoleTitle']);
+		$grid->setDataSource($this->orm->aclRoles->findAll());
 
-        $grid->addColumnText('name', 'main.permissions.name')
-                ->setEditableInputType('text')
-                ->setEditableCallback([$this, 'setRoleName']);
+		$grid->addColumnText('title', 'main.permissions.role')
+			->setEditableInputType('text')
+			->setEditableCallback([$this, 'setRoleTitle']);
 
-        $grid->addColumnText('parent', 'main.permissions.parent')
-                ->setRenderer(function (AclRole $role) {
-                    if (!empty($role->parent)) {
-                        return $role->parent->title;
-                    }
-                    return NULL;
-                })
-                ->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs())
-                ->setEditableCallback([$this, 'setRoleParent']);
+		$grid->addColumnText('name', 'main.permissions.name')
+			->setEditableInputType('text')
+			->setEditableCallback([$this, 'setRoleName']);
 
-        $grid->addAction('delete', NULL, 'deleteRole!')
-                ->setIcon('trash')
-                ->setTitle('default.delete')
-                ->setClass('btn btn-xs btn-danger ajax')
-                ->setConfirm(function(AclRole $role) {
-                    return $this->translate('main.permissions.confirmDeleteRole', 1, ['name' => $role->title]);
-                });
+		$grid->addColumnText('parent', 'main.permissions.parent')
+			->setRenderer(function (AclRole $role) {
+				if (!empty($role->parent)) {
+					return $role->parent->title;
+				}
+				return NULL;
+			})
+			->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs())
+			->setEditableCallback([$this, 'setRoleParent']);
 
-        $add = $grid->addInlineAdd()
-                ->setPositionTop()
-                ->setTitle('main.permissions.addRole');
-        $add->onControlAdd[] = [$this, 'roleForm'];
-        $add->onSubmit[] = [$this, 'addRole'];
+		$grid->addAction('delete', NULL, 'deleteRole!')
+			->setIcon('trash')
+			->setTitle('default.delete')
+			->setClass('btn btn-xs btn-danger ajax')
+			->setConfirm(function (AclRole $role) {
+				return $this->translate('main.permissions.confirmDeleteRole', 1, ['name' => $role->title]);
+			});
 
-        $grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRoles'];
+		$add = $grid->addInlineAdd()
+			->setPositionTop()
+			->setTitle('main.permissions.addRole');
+		$add->onControlAdd[] = [$this, 'roleForm'];
+		$add->onSubmit[] = [$this, 'addRole'];
 
-        return $grid;
-    }
+		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRoles'];
 
-    /**
-     * Seznam pravidel
-     * @return DataGrid
-     */
-    protected function createComponentRulesList($name) {
-        $grid = $this->dataGridFactory->create($this, $name);
+		return $grid;
+	}
 
-        $grid->setDataSource($this->orm->acl->findAll());
+	/**
+	 * Seznam pravidel
+	 * @return DataGrid
+	 */
+	protected function createComponentRulesList($name)
+	{
+		$grid = $this->dataGridFactory->create($this, $name);
 
-        $deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'main.permissions.deleteUnusedResources');
-        $deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
-        $clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'main.permissions.clearCacheAcl');
-        $clearCacheACL->setClass($clearCacheACL->getClass() . ' ajax');
+		$grid->setDataSource($this->orm->acl->findAll());
 
-        $grid->addColumnText('role', 'main.permissions.role')
-                ->setRenderer(function (Acl $acl) {
-                    return $acl->role->title;
-                })
-                ->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs(), 'role.id')
-                ->setEditableCallback([$this, 'setRuleRole'])
-                ->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
+		$deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'main.permissions.deleteUnusedResources');
+		$deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
+		$clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'main.permissions.clearCacheAcl');
+		$clearCacheACL->setClass($clearCacheACL->getClass() . ' ajax');
 
-        $grid->addColumnText('resource', 'main.permissions.resource')
-                ->setRenderer(function (Acl $acl) {
-                    return $acl->resource->name;
-                })
-                ->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByName(), 'resource.id')
-                ->setEditableCallback([$this, 'setRuleResource'])
-                ->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByName());
+		$grid->addColumnText('role', 'main.permissions.role')
+			->setRenderer(function (Acl $acl) {
+				return $acl->role->title;
+			})
+			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs(), 'role.id')
+			->setEditableCallback([$this, 'setRuleRole'])
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
 
-        $privilege = $grid->addColumnStatus('privilege', 'main.permissions.privilege');
-        $privilege->setFilterSelect(['' => 'form.none'] + $this->privileges)
-                ->setTranslateOptions();
-        foreach ($this->privileges as $key => $name) {
-            $privilege->addOption($key, $name)
-                    ->setClass('btn-default');
-        }
-        $privilege->onChange[] = [$this, 'setRulePrivilege'];
+		$grid->addColumnText('resource', 'main.permissions.resource')
+			->setRenderer(function (Acl $acl) {
+				return $acl->resource->name;
+			})
+			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByName(), 'resource.id')
+			->setEditableCallback([$this, 'setRuleResource'])
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByName());
 
-        $state = $grid->addColumnStatus('allowed', 'default.state');
-        $state->setFilterSelect(['' => 'form.none'] + $this->access)
-                ->setTranslateOptions();
-        $state->addOption(1, 'main.permissions.allowed')
-                ->setClass('btn-success');
-        $state->addOption(0, 'main.permissions.denied')
-                ->setClass('btn-danger');
-        $state->onChange[] = [$this, 'setRuleState'];
+		$privilege = $grid->addColumnStatus('privilege', 'main.permissions.privilege');
+		$privilege->setFilterSelect(['' => 'form.none'] + $this->privileges)
+			->setTranslateOptions();
+		foreach ($this->privileges as $key => $name) {
+			$privilege->addOption($key, $name)
+				->setClass('btn-default');
+		}
+		$privilege->onChange[] = [$this, 'setRulePrivilege'];
 
-        $grid->addAction('delete', NULL, 'deleteRule!')
-                ->setIcon('trash')
-                ->setTitle('default.delete')
-                ->setClass('btn btn-xs btn-danger ajax')
-                ->setConfirm(function(Acl $rule) {
-                    return $this->translate('main.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
-                });
+		$state = $grid->addColumnStatus('allowed', 'default.state');
+		$state->setFilterSelect(['' => 'form.none'] + $this->access)
+			->setTranslateOptions();
+		$state->addOption(1, 'main.permissions.allowed')
+			->setClass('btn-success');
+		$state->addOption(0, 'main.permissions.denied')
+			->setClass('btn-danger');
+		$state->onChange[] = [$this, 'setRuleState'];
 
-        $add = $grid->addInlineAdd()
-                ->setPositionTop()
-                ->setTitle('main.permissions.addRule');
-        $add->onControlAdd[] = [$this, 'ruleForm'];
-        $add->onSubmit[] = [$this, 'addRule'];
+		$grid->addAction('delete', NULL, 'deleteRule!')
+			->setIcon('trash')
+			->setTitle('default.delete')
+			->setClass('btn btn-xs btn-danger ajax')
+			->setConfirm(function (Acl $rule) {
+				return $this->translate('main.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
+			});
 
-        $grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRules'];
+		$add = $grid->addInlineAdd()
+			->setPositionTop()
+			->setTitle('main.permissions.addRule');
+		$add->onControlAdd[] = [$this, 'ruleForm'];
+		$add->onSubmit[] = [$this, 'addRule'];
 
-        return $grid;
-    }
+		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRules'];
+
+		return $grid;
+	}
 
 }

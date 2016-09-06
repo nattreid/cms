@@ -2,7 +2,9 @@
     <div id="dockbar">
         <div class="dockbar-content">
             <ul class="button">
-                <li n:class="$shifted ? active"><div></div></li>
+                <li n:class="$shifted ? active">
+                    <div></div>
+                </li>
             </ul>
             <ul class="dockbar-menu">
                 <li class="frontPage">
@@ -29,13 +31,13 @@
 
     <li n:class="$name" n:foreach="$rows as $name => $row">
         {if isset($row[link]) || isset($row[handler])}
-            <a 
-                n:class="$name, isset($row[ajax]) ? ajax"
-                {ifset $row[ajax]}data-ajax-off="history"{/ifset}
-                {ifset $row[link]}href="{plink $row[link]}"{/ifset}
-                {ifset $row[handler]}href="{link $row[handler]}"{/ifset}
-                {ifset $row[confirm]}data-confirm="{_$row[confirm]}"{/ifset}
-                >{_$parent.$name}</a>
+            <a
+                    n:class="$name, isset($row[ajax]) ? ajax"
+                    {ifset $row[ajax]}data-ajax-off="history"{/ifset}
+                    {ifset $row[link]}href="{plink $row[link]}"{/ifset}
+                    {ifset $row[handler]}href="{link $row[handler]}"{/ifset}
+                    {ifset $row[confirm]}data-confirm="{_$row[confirm]}"{/ifset}
+            >{_$parent.$name}</a>
         {else}
             <div><span>{_$parent.$name.'.title'}</span></div>
             <ul>
