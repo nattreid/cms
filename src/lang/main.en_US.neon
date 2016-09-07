@@ -132,8 +132,8 @@ settings:
     settingsSaved: "Settings saved."
     logo: "Logo"
     deleteLogo: "Delete logo"
-    defaultLang: "Default language"
-    allowedLang: "Allowed language"
+    defaultLocale: "Default language"
+    allowedLocales: "Allowed language"
 
     development: "Development (only Tracy)"
     mailPanel: "Only view mails, don't send"
