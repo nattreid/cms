@@ -16,8 +16,8 @@ use Nextras\Orm\Model\Model;
  * @property boolean $sendChangePassword zaslat uzivateli zmenene heslo mailem
  * @property boolean $dockbarAdvanced povolit rozsirene moznosti v dockbaru (mazani databaze, atd )
  * @property string $logo logo
- * @property string $defaultLang nastaveni defaultniho jazyka
- * @property array $allowedLang povolene jazyky
+ * @property string $defaultLocale nastaveni defaultniho jazyka
+ * @property array $allowedLocales povolene jazyky
  * @property boolean $mailPanel Mail panel misto zasilani mailu
  *
  * @property boolean $cookiePolicy potvrzeni pouzivani cookie
@@ -30,20 +30,16 @@ use Nextras\Orm\Model\Model;
  */
 class Configurator
 {
-
-	public $lang = [
-		'cs' => 'cs',
-		'en' => 'en'
-	];
 	private $default = [
 		'sendNewUserPassword' => TRUE,
 		'sendChangePassword' => TRUE,
 		'dockbarAdvanced' => FALSE,
-		'mailPanel' => FALSE,
-		'defaultLang' => 'cs',
-		'allowedLang' => ['cs', 'en']
+		'mailPanel' => FALSE
 	];
+
 	private $tag = 'cache/configuration';
+
+	private $locales;
 
 	/** @var Orm */
 	private $orm;
@@ -51,8 +47,9 @@ class Configurator
 	/** @var Cache */
 	private $cache;
 
-	public function __construct(Model $orm, IStorage $storage, AppManager $app)
+	public function __construct(array $locales, Model $orm, IStorage $storage, AppManager $app)
 	{
+		$this->prepareLocales($locales);
 		$this->orm = $orm;
 		$this->cache = new Cache($storage, 'nattreid-crm-configurator');
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];
@@ -112,6 +109,21 @@ class Configurator
 	public function fetchConfigurations()
 	{
 		return $this->orm->configuration->findAll()->fetchPairs('name', 'value');
+	}
+
+	/** @return array */
+	public function fetchLocales()
+	{
+		return $this->locales;
+	}
+
+	private function prepareLocales(array $locales)
+	{
+		$this->default['defaultLocale'] = $locales[0];
+		$this->default['allowedLocales'] = $locales;
+		foreach ($locales as $locale) {
+			$this->locales[$locale] = $locale;
+		}
 	}
 
 }

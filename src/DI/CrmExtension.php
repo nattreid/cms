@@ -52,7 +52,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 			->setArguments([$config['namespace'], $config['url'], $config['secured']]);
 
 		$builder->addDefinition($this->prefix('configurator'))
-			->setClass(\NAttreid\Crm\Configurator::class);
+			->setClass(\NAttreid\Crm\Configurator::class)
+			->setArguments([$config['languages']]);;
 
 		$builder->addDefinition($this->prefix('formFactory'))
 			->setClass(\NAttreid\Crm\Factories\FormFactory::class);
@@ -173,7 +174,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 		try {
 			$builder->getDefinition($router)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
-				->addSetup('setLang', ['@' . $this->prefix('configurator') . '::defaultLang', '@' . $this->prefix('configurator') . '::allowedLang']);
+				->addSetup('setLocale', ['@' . $this->prefix('configurator') . '::defaultLocale', '@' . $this->prefix('configurator') . '::allowedLocales']);
 		} catch (\Nette\DI\MissingServiceException $ex) {
 			throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/routing'");
 		}

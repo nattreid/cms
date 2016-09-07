@@ -132,8 +132,8 @@ settings:
     settingsSaved: "Nastavení uložena."
     logo: "Logo"
     deleteLogo: "Smazat logo"
-    defaultLang: "Defaultní jazyk"
-    allowedLang: "Povolene jazyky"
+    defaultLocale: "Defaultní jazyk"
+    allowedLocales: "Povolene jazyky"
 
     development: "Vývoj (pouze pokud je zapnuta Tracy)"
     mailPanel: "Logovat a neodesílat maily"

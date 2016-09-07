@@ -15,6 +15,10 @@ sessionExpiration: '14 days'
 
 layout: NULL
 
+locales:
+    - en
+    - cs
+
 wwwDir: %wwwDir%
 
 jsFilters:
