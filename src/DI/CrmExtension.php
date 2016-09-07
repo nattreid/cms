@@ -53,7 +53,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('configurator'))
 			->setClass(\NAttreid\Crm\Configurator::class)
-			->setArguments([$config['languages']]);;
+			->setArguments([$config['locales']]);;
 
 		$builder->addDefinition($this->prefix('formFactory'))
 			->setClass(\NAttreid\Crm\Factories\FormFactory::class);
