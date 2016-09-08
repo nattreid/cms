@@ -40279,7 +40279,7 @@ $.nette.ext('datargid.item_detail', {
       id = settings.nette.el.attr('data-toggle-detail');
       row_detail = $('.item-detail-' + id);
       if (row_detail.hasClass('loaded')) {
-        if (!row_detail.find('.item-detail-content').length) {
+        if (!row_detail.find('.item-detail-content').size()) {
           row_detail.removeClass('toggled');
           return true;
         }
@@ -40496,6 +40496,13 @@ $.nette.ext('datagrid.redraw-item', {
       return row.attr('class', payload._datagrid_redraw_item_class);
     }
   }
+});
+
+$(function() {
+  return $.nette.ajax({
+    type: 'GET',
+    url: $('.datagrid').first().data('refresh-state')
+  });
 });
 
 $.nette.ext('ublaboo-spinners', {
