@@ -14449,6 +14449,9 @@ body.preload * {
 #crm-container #crm-menu-container > ul.menu-container > li > a:hover {
   background-color: #222;
 }
+#crm-container #crm-menu-container div.menu-current > a {
+  padding-left: 20px;
+}
 #crm-container #crm-menu-container div.menu-current > dl {
   margin: 0 0 10px 0;
 }
