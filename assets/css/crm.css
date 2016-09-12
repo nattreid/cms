@@ -923,6 +923,9 @@ body.preload * {
   justify-content: center;
   align-items: center;
 }
+#crm-container #crm-content.sign .ipub-flash-messages {
+  top: 0;
+}
 #crm-container #crm-content .ipub-flash-messages {
   position: fixed;
   width: 30%;
