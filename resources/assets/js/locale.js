@@ -10,7 +10,11 @@
 
     var locale = $('html').attr('lang');
     if (locale !== undefined) {
+        // moment
         window.moment.locale(locale);
+
+        // bootstrap-datepicker
+        $.fn.datepicker.defaults.language = locale;
     }
 
 })(jQuery, window);

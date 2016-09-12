@@ -127,7 +127,7 @@ class LogsPresenter extends CrmPresenter
 			});
 
 		$grid->addGroupAction('main.logs.download')->onSelect[] = [$this, 'actionDownloadFile'];
-		$grid->addGroupAction('main.logs.delete')->onSelect[] = [$this, 'handleDelete'];
+		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'handleDelete'];
 
 		return $grid;
 	}
