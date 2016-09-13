@@ -42,6 +42,9 @@ class UsersPresenter extends CrmPresenter
 		$this->mailer = $mailer;
 	}
 
+	/**
+	 * {@inheritdoc }
+	 */
 	public function restoreBacklink()
 	{
 		parent::restoreBacklink();
