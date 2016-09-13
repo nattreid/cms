@@ -21,7 +21,7 @@ class InfoPresenter extends CrmPresenter
 	public function __construct($refresh, Info $info)
 	{
 		parent::__construct();
-		$this->refresh = 5 * 1000;
+		$this->refresh = $refresh * 1000;
 		$this->info = $info;
 	}
 
