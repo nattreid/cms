@@ -317,8 +317,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 
 				$foundFilesList = [];
 				foreach ($finder as $foundFile) {
-					$foundFilesList[] = $foundFile->getPathname();
 					/* @var $foundFile \SplFileInfo */
+					$foundFilesList[] = $foundFile->getPathname();
 				}
 
 				natsort($foundFilesList);

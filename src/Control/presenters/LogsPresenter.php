@@ -61,8 +61,8 @@ class LogsPresenter extends CrmPresenter
 		if ($this->isAjax()) {
 			$this->logs->delete($id);
 
-			$grid = $this['logsList'];
 			/* @var $grid DataGrid */
+			$grid = $this['logsList'];
 			$grid->setDataSource($this->logs->getLogs());
 			$grid->reload();
 		} else {

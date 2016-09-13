@@ -90,8 +90,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function handleDelete($id)
 	{
-		$grid = $this['userList'];
 		/* @var $grid DataGrid */
+		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
 			$this->orm->users->removeAndFlush($user);
@@ -108,11 +108,11 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function setState($id, $value)
 	{
-		$grid = $this['userList'];
 		/* @var $grid DataGrid */
+		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			$user = $this->orm->users->getById($id);
 			/* @var $user User */
+			$user = $this->orm->users->getById($id);
 			$user->active = $value;
 			$this->orm->persistAndFlush($user);
 			$grid->redrawItem($id);
@@ -153,8 +153,8 @@ class UsersPresenter extends CrmPresenter
 	public function updateUser($id, $values)
 	{
 		if ($this->isAjax()) {
-			$user = $this->orm->users->getById($id);
 			/* @var $user User */
+			$user = $this->orm->users->getById($id);
 			try {
 				$user->setUsername($values->username);
 			} catch (UniqueConstraintViolationException $ex) {
@@ -188,8 +188,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deleteUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		/* @var $grid DataGrid */
+		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
@@ -208,11 +208,11 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function activateUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		/* @var $grid DataGrid */
+		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			$users = $this->orm->users->findById($ids);
 			/* @var $user User */
+			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
 				$user->active = TRUE;
 				$this->orm->users->persist($user);
@@ -230,11 +230,11 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deactivateUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		/* @var $grid DataGrid */
+		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			$users = $this->orm->users->findById($ids);
 			/* @var $user User */
+			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
 				$user->active = FALSE;
 				$this->orm->users->persist($user);
@@ -367,8 +367,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function passwordFormSucceeded(Form $form, $values)
 	{
-		$user = $this->orm->users->getById($values->id);
 		/* @var $user User */
+		$user = $this->orm->users->getById($values->id);
 		$user->setPassword($values->password);
 
 		$this->orm->persistAndFlush($user);

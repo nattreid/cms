@@ -57,8 +57,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRole($id)
 	{
-		$grid = $this['rolesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
 			$this->orm->aclRoles->removeAndFlush($role);
@@ -74,8 +74,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRule($id)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rule = $this->orm->acl->getById($id);
 			$this->orm->acl->removeAndFlush($rule);
@@ -91,8 +91,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRoles(array $ids)
 	{
-		$grid = $this['rolesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$roles = $this->orm->aclRoles->findById($ids);
 			foreach ($roles as $role) {
@@ -111,8 +111,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRules(array $ids)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rules = $this->orm->acl->findById($ids);
 			foreach ($rules as $rule) {
@@ -175,8 +175,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRole($values)
 	{
-		$grid = $this['rolesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			try {
 				$role = new AclRole;
@@ -221,8 +221,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRule($values)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			foreach ($values->resource as $resource) {
 				try {
@@ -254,8 +254,8 @@ class PermissionsPresenter extends CrmPresenter
 	public function setRoleTitle($id, $value)
 	{
 		if ($this->isAjax()) {
-			$role = $this->orm->aclRoles->getById($id);
 			/* @var $role AclRole */
+			$role = $this->orm->aclRoles->getById($id);
 			$role->title = $value;
 			$this->orm->persistAndFlush($role);
 
@@ -272,12 +272,12 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleName($id, $value)
 	{
-		$grid = $this['rolesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			try {
-				$role = $this->orm->aclRoles->getById($id);
 				/* @var $role AclRole */
+				$role = $this->orm->aclRoles->getById($id);
 				$role->setName($value);
 				$this->orm->persistAndFlush($role);
 				$this->flashNotifier->success('default.dataSaved');
@@ -300,11 +300,11 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleParent($id, $value)
 	{
-		$grid = $this['rolesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
-			$role = $this->orm->aclRoles->getById($id);
 			/* @var $role AclRole */
+			$role = $this->orm->aclRoles->getById($id);
 			$role->parent = $value;
 			$this->orm->persistAndFlush($role);
 
@@ -323,11 +323,11 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleRole($id, $value)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			$acl = $this->orm->acl->getById($id);
 			/* @var $acl Acl */
+			$acl = $this->orm->acl->getById($id);
 			$acl->role = $value;
 			$this->orm->persistAndFlush($acl);
 
@@ -346,11 +346,11 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleResource($id, $value)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			$acl = $this->orm->acl->getById($id);
 			/* @var $acl Acl */
+			$acl = $this->orm->acl->getById($id);
 			$acl->resource = $value;
 			$this->orm->persistAndFlush($acl);
 
@@ -369,11 +369,11 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRulePrivilege($id, $value)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			$rule = $this->orm->acl->getById($id);
 			/* @var $rule Acl */
+			$rule = $this->orm->acl->getById($id);
 			$rule->privilege = $value;
 			$this->orm->persistAndFlush($rule);
 
@@ -392,11 +392,11 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleState($id, $value)
 	{
-		$grid = $this['rulesList'];
 		/* @var $grid DataGrid */
+		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			$rule = $this->orm->acl->getById($id);
 			/* @var $rule Acl */
+			$rule = $this->orm->acl->getById($id);
 			$rule->allowed = $value;
 			$this->orm->persistAndFlush($rule);
 
