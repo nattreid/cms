@@ -1,5 +1,9 @@
 /* ****************************** crm.js ************************************ */
 
+if ($.fn.button.noConflict) {
+    $.fn.btn = $.fn.button.noConflict();
+}
+
 $(document).ready(function () {
     $("body").removeClass("preload");
 
