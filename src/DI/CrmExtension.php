@@ -8,6 +8,7 @@ use NAttreid\Crm\Control\BasePresenter;
 use NAttreid\Crm\Control\CrmPresenter;
 use NAttreid\Crm\Control\ExtensionPresenter;
 use NAttreid\Crm\Control\ModulePresenter;
+use NAttreid\Crm\LoaderFactory;
 use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Routing\RouterFactory;
 use NAttreid\Security\Authenticator;
@@ -79,15 +80,15 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 		$cssFilters = $this->createFilterServices($config['cssFilters'], 'cssFilter');
 
 		$loader = $builder->addDefinition($this->prefix('loaderFactory'))
-			->setClass(\NAttreid\Crm\LoaderFactory::class)
+			->setClass(LoaderFactory::class)
 			->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
 			->addSetup('addFile', ['css/crm.boundled.min.css'])
 			->addSetup('addFile', ['js/crm.boundled.min.js'])
 			->addSetup('addFile', ['js/i18n/crm.cs.min.js', 'cs']);
 
 		if (!empty($config['assets'])) {
-			foreach ($this->findFiles($config['assets']) as $file) {
-				$loader->addSetup('addFile', [$file]);
+			foreach ($this->findFiles($config['assets']) as $file => $locale) {
+				$loader->addSetup('addFile', [$file, $locale]);
 			}
 		}
 	}
@@ -324,11 +325,14 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 				natsort($foundFilesList);
 
 				foreach ($foundFilesList as $foundFilePathname) {
-					$normalizedFiles[] = $foundFilePathname;
+					$normalizedFiles[$foundFilePathname] = NULL;
 				}
+			} elseif (is_array($file)) {
+				$this->checkFileExists($file[0]);
+				$normalizedFiles[$file[0]] = $file[1];
 			} else {
 				$this->checkFileExists($file);
-				$normalizedFiles[] = $file;
+				$normalizedFiles[$file] = NULL;
 			}
 		}
 

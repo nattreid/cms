@@ -39,6 +39,7 @@ crm:
     assets:
         - %wwwDir%/js/example.js
         - %wwwDir%/css/example.css
+        - {%wwwDir%/js/cs.js, cs} # localizace pro cs
         - {files: ["*.js", "*.css", "*.less"], from: %appDir%/modules/CrmExt}
 ```
 

@@ -169,6 +169,8 @@ gulp.task('cssBoundledMin', function () {
         .pipe(gulp.dest(paths.production.css));
 });
 
+// *****************************************************************************
+
 gulp.task('watch', function () {
     gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
     gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
