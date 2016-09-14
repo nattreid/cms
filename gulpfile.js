@@ -109,10 +109,10 @@ gulp.task('jsCsMin', function () {
 // ***********************************  CSS  ***********************************
 
 var boundledCSS = [
-    paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
-    paths.dev.vendor + 'font-awesome/css/font-awesome.css',
     paths.dev.vendor + 'bootstrap/dist/css/bootstrap.css',
     paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
+    paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
+    paths.dev.vendor + 'font-awesome/css/font-awesome.css',
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.css',
     paths.dev.vendor + 'nprogress/nprogress.css',
     // datagrid
