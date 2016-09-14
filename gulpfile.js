@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     minify = require('gulp-clean-css'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename');
+    streamqueue = require('streamqueue');
 
 var paths = {
     'dev': {
@@ -121,45 +121,50 @@ var boundledCSS = [
     paths.dev.vendor + 'happy/dist/happy.css',
     paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
     paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
-    // crm
-    paths.dev.css + '*.css',
-    paths.dev.less + '*.less',
     // plugins
-    paths.dev.vendor + 'filemanager/assets/fileManager.css'
+    paths.dev.vendor + 'filemanager/assets/fileManager.css',
+    // crm
+    paths.dev.css + '*.css'
 ];
 
 gulp.task('css', function () {
-    return gulp.src([
-        paths.dev.css + '*.css',
-        paths.dev.less + '*.less'
-    ])
-        .pipe(less())
+    return streamqueue({objectMode: true},
+        gulp.src(paths.dev.css + '*.css'),
+        gulp.src(paths.dev.less + '*.less')
+            .pipe(less())
+    )
         .pipe(concat('crm.css'))
         .pipe(gulp.dest(paths.production.css));
 });
 
 gulp.task('cssBoundled', function () {
-    return gulp.src(boundledCSS)
-        .pipe(less())
+    return streamqueue({objectMode: true},
+        gulp.src(boundledCSS),
+        gulp.src(paths.dev.less + '*.less')
+            .pipe(less())
+    )
         .pipe(concat('crm.boundled.css'))
         .pipe(gulp.dest(paths.production.css));
 });
 
 gulp.task('cssMin', function () {
-    return gulp.src([
-        paths.dev.css + '*.css',
-        paths.dev.less + '*.less'
-    ])
+    return streamqueue({objectMode: true},
+        gulp.src(paths.dev.css + '*.css'),
+        gulp.src(paths.dev.less + '*.less')
+            .pipe(less())
+    )
         .pipe(concat('crm.min.css'))
-        .pipe(less())
         .pipe(minify({keepSpecialComments: 0}))
         .pipe(gulp.dest(paths.production.css));
 });
 
 gulp.task('cssBoundledMin', function () {
-    return gulp.src(boundledCSS)
+    return streamqueue({objectMode: true},
+        gulp.src(boundledCSS),
+        gulp.src(paths.dev.less + '*.less')
+            .pipe(less())
+    )
         .pipe(concat('crm.boundled.min.css'))
-        .pipe(less())
         .pipe(minify({keepSpecialComments: 0}))
         .pipe(gulp.dest(paths.production.css));
 });
