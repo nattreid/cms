@@ -48430,10 +48430,6 @@ $.widget("ui.sortable", $.ui.mouse, {
 }));
 /* ****************************** crm.js ************************************ */
 
-if ($.fn.button.noConflict) {
-    $.fn.btn = $.fn.button.noConflict();
-}
-
 $(document).ready(function () {
     $("body").removeClass("preload");
 
@@ -48457,8 +48453,6 @@ $(document).ready(function () {
 
     function redraw() {
         $('.datagrid a').attr('data-ajax-off', 'history');
-
-        $('.tabs').tabs();
 
         flashMessage();
     }

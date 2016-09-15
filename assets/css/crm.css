@@ -667,6 +667,9 @@ body.preload * {
   font-family: inherit;
   font-size: inherit;
 }
+#crm-container #crm-content .tab-content {
+  background-color: #FFF;
+}
 #crm-container #crm-content .datagrid .datagrid-inline-edit {
   position: relative;
 }
