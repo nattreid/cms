@@ -11,6 +11,7 @@ edit: "Editovat"
 delete: "Smazat"
 confirmDelete: "Opravdu chcete smazat '%name%'?"
 
+id: "ID"
 name: "Název"
 state: "Stav"
 url: "URL"

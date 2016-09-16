@@ -11,6 +11,7 @@ edit: "Edit"
 delete: "Delete"
 confirmDelete: "Do you really want to delete '%name%'?"
 
+id: "ID"
 name: "Name"
 state: "State"
 url: "URL"
