@@ -30,7 +30,7 @@ class LogsPresenter extends CrmPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function actionDefault()
+	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('main.dockbar.info.logs');
 	}

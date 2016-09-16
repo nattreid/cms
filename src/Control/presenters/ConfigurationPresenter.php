@@ -26,7 +26,7 @@ class ConfigurationPresenter extends CrmPresenter
 	/**
 	 * Zobrazeni nastaveni
 	 */
-	public function renderDefault()
+	public function actionDefault()
 	{
 		$form = $this['configurationForm'];
 		/** @var $form Form */

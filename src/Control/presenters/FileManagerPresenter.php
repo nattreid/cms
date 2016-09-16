@@ -29,7 +29,7 @@ class FileManagerPresenter extends CrmPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function actionDefault()
+	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('main.dockbar.application.fileManager');
 	}
