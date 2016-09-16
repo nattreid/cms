@@ -14388,6 +14388,9 @@ body.preload * {
 }
 #crm-container #crm-content .tab-content {
   background-color: #FFF;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-top: transparent;
 }
 #crm-container #crm-content .datagrid .datagrid-inline-edit {
   position: relative;
