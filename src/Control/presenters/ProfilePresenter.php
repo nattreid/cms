@@ -34,18 +34,12 @@ class ProfilePresenter extends CrmPresenter
 
 	public function actionDefault()
 	{
+		$this->addBreadcrumbLink('main.dockbar.myProfile');
+
 		$this->profile = $this->orm->users->getById($this->user->getId());
 		if (!$this->profile) {
 			$this->error();
 		}
-	}
-
-	/**
-	 * Zobrazeni profil uzivatele
-	 */
-	public function renderDefault()
-	{
-		$this->addBreadcrumbLink('main.dockbar.myProfile');
 	}
 
 	/**
