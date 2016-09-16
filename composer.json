@@ -26,14 +26,14 @@
     "nattreid/menu": "~2.0",
     "nattreid/latte": "~1.0",
     "nattreid/appmanager": "~1.0",
-    "nattreid/form": "dev-master",
+    "nattreid/form": "~1.0",
     "nattreid/utils": "~1.0",
     "nattreid/routing": "~1.0",
     "nattreid/mailing": "~1.0",
     "nattreid/tracking": "~1.0",
     "ublaboo/datagrid": "~4.4",
     "nattreid/tracyplugin": "~1.0",
-    "nattreid/filemanager": "dev-master",
+    "nattreid/filemanager": "~1.0",
     "nattreid/webloader": "~2.5",
     "joseki/webloader-filters": "~1.1",
     "oyejorge/less.php": "~1.7",
@@ -42,9 +42,7 @@
     "kdyby/translation": "dev-master"
   },
   "require-dev": {
-    "nette/tester": "~1.7",
-    "kdyby/forms-replicator": "dev-master",
-    "nextras/forms": "dev-master"
+    "nette/tester": "~1.7"
   },
   "autoload": {
     "classmap": [
