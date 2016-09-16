@@ -54,7 +54,7 @@ class UsersPresenter extends CrmPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function renderDefault()
+	public function actionDefault()
 	{
 		$this->addBreadcrumbLink('main.dockbar.settings.users');
 		$this->storeBacklink();
