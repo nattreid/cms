@@ -67,7 +67,7 @@ class UsersPresenter extends CrmPresenter
 	public function renderChangePassword($id)
 	{
 		$this->addBreadcrumbLink('main.dockbar.settings.users', ':Crm:Users:');
-		$this->addBreadcrumbLink('main.user.profile');
+		$this->addBreadcrumbLink('main.user.changePassword');
 
 		$this['passwordForm']->setDefaults(['id' => $id]);
 	}
