@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm;
+namespace NAttreid\Crm\Configurator;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Crm\Model\Configuration;
@@ -12,23 +12,9 @@ use Nextras\Orm\Model\Model;
 /**
  * Nastaveni aplikace
  *
- * @property boolean $sendNewUserPassword zaslat novemu uzivateli heslo mailem
- * @property boolean $sendChangePassword zaslat uzivateli zmenene heslo mailem
- * @property boolean $dockbarAdvanced povolit rozsirene moznosti v dockbaru (mazani databaze, atd )
- * @property string $logo logo
- * @property string $defaultLocale nastaveni defaultniho jazyka
- * @property array $allowedLocales povolene jazyky
- * @property boolean $mailPanel Mail panel misto zasilani mailu
- *
- * @property boolean $cookiePolicy potvrzeni pouzivani cookie
- * @property string $cookiePolicyLink link pro informace o pouzivani cookie
- * @property string $keywords klicova slova
- * @property string $description popis
- * @property string $title nazev stranek (napr Netta.cz)
- *
  * @author Attreid <attreid@gmail.com>
  */
-class Configurator
+class Configurator implements IConfigurator
 {
 	private $default = [
 		'sendNewUserPassword' => TRUE,
@@ -58,6 +44,16 @@ class Configurator
 				$this->cleanCache();
 			}
 		};
+	}
+
+	/**
+	 * Prida vychozi hodnotu
+	 * @param $property
+	 * @param $value
+	 */
+	public function addDefault($property, $value)
+	{
+		$this->default[$property] = $value;
 	}
 
 	/**

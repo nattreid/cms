@@ -3,7 +3,7 @@
 namespace NAttreid\Crm\Control;
 
 use Kdyby\Translation\Translator;
-use NAttreid\Crm\Configurator;
+use NAttreid\Crm\Configurator\IConfigurator;
 use NAttreid\Crm\Factories\DataGridFactory;
 use NAttreid\Crm\Factories\FormFactory;
 use NAttreid\Crm\LoaderFactory;
@@ -148,10 +148,10 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 	/* ###################################################################### */
 	/*                               Configurator                             */
 
-	/** @var Configurator */
+	/** @var IConfigurator */
 	protected $configurator;
 
-	public function injectConfigurator(Configurator $configurator)
+	public function injectConfigurator(IConfigurator $configurator)
 	{
 		$this->configurator = $configurator;
 	}
