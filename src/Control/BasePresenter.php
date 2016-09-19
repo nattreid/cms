@@ -2,19 +2,23 @@
 
 namespace NAttreid\Crm\Control;
 
+use IPub\FlashMessages\TFlashMessages;
 use Kdyby\Translation\Translator;
 use NAttreid\Crm\Configurator\IConfigurator;
 use NAttreid\Crm\Factories\DataGridFactory;
 use NAttreid\Crm\Factories\FormFactory;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Form\Form;
+use NAttreid\Latte\TemplateTrait;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
+use NAttreid\Security\User;
 use NAttreid\Utils\Date;
 use NAttreid\Utils\Number;
 use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
+use Nette\Forms\Validator;
 
 /**
  * Zakladni presenter pro CRM
@@ -22,14 +26,15 @@ use Nette\Forms\Controls\UploadControl;
  * @property-read string $namespace
  * @property-read string $module
  * @property-read string $crmModule
+ * @property-read User $user
  *
  * @author Attreid <attreid@gmail.com>
  */
 abstract class BasePresenter extends \Nette\Application\UI\Presenter
 {
 
-	use \IPub\FlashMessages\TFlashMessages,
-		\NAttreid\Latte\TemplateTrait;
+	use TFlashMessages,
+		TemplateTrait;
 
 	/**
 	 * Namespace pro crm
@@ -94,7 +99,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 		$this->template->layout = __DIR__ . '/presenters/templates/@layout.latte';
 
 		// Prelozeni defaultnich zprav pro pravidla formulare
-		\Nette\Forms\Validator::$messages = [
+		Validator::$messages = [
 			CsrfProtection::PROTECTION => 'form.protection',
 			Form::EQUAL => 'form.equal',
 			Form::NOT_EQUAL => 'form.notEqual',

@@ -5,6 +5,9 @@ namespace NAttreid\Crm\Control;
 use NAttreid\Menu\Breadcrumb;
 use NAttreid\Menu\IMenuFactory;
 use NAttreid\Menu\Link;
+use Nette\Security\IUserStorage;
+use Nextras\Application\UI\SecuredLinksPresenterTrait;
+use WebChemistry\Images\TPresenter;
 
 /**
  * Presenter pro moduly CRM
@@ -14,15 +17,15 @@ use NAttreid\Menu\Link;
 abstract class Presenter extends BasePresenter
 {
 
-	use \WebChemistry\Images\TPresenter,
-		\Nextras\Application\UI\SecuredLinksPresenterTrait;
+	use TPresenter,
+		SecuredLinksPresenterTrait;
 
 	protected function startup()
 	{
 		parent::startup();
 
 		if (!$this->user->isLoggedIn()) {
-			if ($this->user->logoutReason === \Nette\Security\IUserStorage::INACTIVITY) {
+			if ($this->user->logoutReason === IUserStorage::INACTIVITY) {
 				$this->flashNotifier->info('main.user.inactivityLogout');
 			}
 			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
