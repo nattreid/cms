@@ -95,7 +95,8 @@ class Configurator implements IConfigurator
 
 	public function fetchConfigurations()
 	{
-		return $this->orm->configuration->findAll()->fetchPairs('name', 'value');
+		$conf = $this->orm->configuration->findAll()->fetchPairs('name', 'value');
+		return array_merge($this->default, $conf);
 	}
 
 	public function fetchLocales()
