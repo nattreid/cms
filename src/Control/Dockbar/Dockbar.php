@@ -4,7 +4,7 @@ namespace NAttreid\Crm\Control;
 
 use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
-use NAttreid\Crm\Configurator;
+use NAttreid\Crm\Configurator\Configurator;
 use NAttreid\Security\User;
 use Nette\Utils\Strings;
 

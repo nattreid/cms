@@ -59,7 +59,7 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->setAjaxRequest();
 
 		$form->addGroup('main.settings.basic');
-		$form->addImageUpload('logo', 'main.settings.logo', 'main.settings.deleteLogo')
+		$form->addImageUpload('crmLogo', 'main.settings.logo', 'main.settings.deleteLogo')
 			->setNamespace('crm')
 			->setPreview('300x100');
 		$form->addCheckbox('sendNewUserPassword', 'main.settings.sendNewUserPassword');

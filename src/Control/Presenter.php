@@ -4,7 +4,6 @@ namespace NAttreid\Crm\Control;
 
 use NAttreid\Menu\Breadcrumb;
 use NAttreid\Menu\IMenuFactory;
-use NAttreid\Menu\Item;
 use NAttreid\Menu\Link;
 
 /**
@@ -46,11 +45,7 @@ abstract class Presenter extends BasePresenter
 	protected function beforeRender()
 	{
 		parent::beforeRender();
-		$logo = $this->configurator->logo;
-		if ($logo == NULL) {
-			$logo = 'empty.png';
-		}
-		$this->template->headerLogo = $logo;
+		$this->template->crmLogo = $this->configurator->crmLogo;
 
 		if (!isset($this->template->shifted)) {
 			$this->template->shifted = FALSE;
