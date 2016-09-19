@@ -46,19 +46,11 @@ class Configurator implements IConfigurator
 		};
 	}
 
-	/**
-	 * Prida vychozi hodnotu
-	 * @param $property
-	 * @param $value
-	 */
 	public function addDefault($property, $value)
 	{
 		$this->default[$property] = $value;
 	}
 
-	/**
-	 * Smaze cache
-	 */
 	public function cleanCache()
 	{
 		$this->cache->clean([
@@ -101,13 +93,11 @@ class Configurator implements IConfigurator
 		$this->orm->persistAndFlush($configuration);
 	}
 
-	/** @return array */
 	public function fetchConfigurations()
 	{
 		return $this->orm->configuration->findAll()->fetchPairs('name', 'value');
 	}
 
-	/** @return array */
 	public function fetchLocales()
 	{
 		return $this->locales;

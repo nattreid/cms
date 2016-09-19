@@ -18,4 +18,27 @@ namespace NAttreid\Crm\Configurator;
 interface IConfigurator
 {
 
+	/**
+	 * Prida vychozi hodnotu
+	 * @param $property
+	 * @param $value
+	 */
+	public function addDefault($property, $value);
+
+	/**
+	 * Smaze cache
+	 */
+	public function cleanCache();
+
+	/**
+	 * Vrati nastaveni
+	 * @return array
+	 */
+	public function fetchConfigurations();
+
+	/**
+	 * Vrati jazyky
+	 * @return array
+	 */
+	public function fetchLocales();
 }
