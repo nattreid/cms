@@ -61,7 +61,7 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addGroup('main.settings.basic');
 		$form->addImageUpload('logo', 'main.settings.logo', 'main.settings.deleteLogo')
 			->setNamespace('crm')
-			->setPreview();
+			->setPreview('300x100');
 		$form->addCheckbox('sendNewUserPassword', 'main.settings.sendNewUserPassword');
 		$form->addCheckbox('sendChangePassword', 'main.settings.sendChangePassword');
 		$form->addCheckbox('dockbarAdvanced', 'main.settings.dockbarAdvanced');
