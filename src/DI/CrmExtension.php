@@ -4,26 +4,48 @@ namespace NAttreid\Crm\DI;
 
 use IPub\FlashMessages\FlashNotifier;
 use Kdyby\Translation\Translator;
+use NAttreid\Crm\Configurator\Configurator;
 use NAttreid\Crm\Control\BasePresenter;
 use NAttreid\Crm\Control\CrmPresenter;
+use NAttreid\Crm\Control\Dockbar;
 use NAttreid\Crm\Control\ExtensionPresenter;
+use NAttreid\Crm\Control\FileManagerPresenter;
+use NAttreid\Crm\Control\IDockbarFactory;
+use NAttreid\Crm\Control\InfoPresenter;
 use NAttreid\Crm\Control\ModulePresenter;
+use NAttreid\Crm\Control\ProfilePresenter;
+use NAttreid\Crm\Control\SignPresenter;
+use NAttreid\Crm\Control\UsersPresenter;
+use NAttreid\Crm\Factories\DataGridFactory;
+use NAttreid\Crm\Factories\FormFactory;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Crm\Mailing\Mailer;
+use NAttreid\Crm\Routing\Router;
+use NAttreid\Filemanager\FileManager;
+use NAttreid\Filemanager\IFileManagerFactory;
+use NAttreid\Menu\IMenuFactory;
+use NAttreid\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
 use NAttreid\Security\Authenticator;
+use NAttreid\Security\Authenticator\MainAuthenticator;
 use NAttreid\TracyPlugin\Tracy;
+use Nette\DI\CompilerExtension;
+use Nette\DI\Helpers;
+use Nette\DI\MissingServiceException;
 use Nette\DI\ServiceDefinition;
 use Nette\DI\Statement;
+use Nette\InvalidStateException;
+use Nette\Reflection\ClassType;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
+use WebLoader\FileNotFoundException;
 
 /**
  * Rozsireni
  *
  * @author Attreid <attreid@gmail.com>
  */
-class CrmExtension extends \Nette\DI\CompilerExtension
+class CrmExtension extends CompilerExtension
 {
 
 	public function loadConfiguration()
@@ -32,38 +54,38 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 		$config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
 
 		if ($config['front'] === NULL) {
-			throw new \Nette\InvalidStateException("Crm: 'front' does not set in config.neon");
+			throw new InvalidStateException("Crm: 'front' does not set in config.neon");
 		}
 
-		$config['wwwDir'] = \Nette\DI\Helpers::expand($config['wwwDir'], $builder->parameters);
-		$config['fileManagerDir'] = \Nette\DI\Helpers::expand($config['fileManagerDir'], $builder->parameters);
-		$config['layout'] = \Nette\DI\Helpers::expand($config['layout'], $builder->parameters);
+		$config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);
+		$config['fileManagerDir'] = Helpers::expand($config['fileManagerDir'], $builder->parameters);
+		$config['layout'] = Helpers::expand($config['layout'], $builder->parameters);
 
 		$builder->addDefinition($this->prefix('dockbar'))
-			->setImplement(\NAttreid\Crm\Control\IDockbarFactory::class)
-			->setFactory(\NAttreid\Crm\Control\Dockbar::class)
+			->setImplement(IDockbarFactory::class)
+			->setFactory(Dockbar::class)
 			->setArguments([$config['permissions'], $config['namespace'], $config['front']]);
 
 		$builder->addDefinition($this->prefix('fileManagerFactory'))
-			->setImplement(\NAttreid\Filemanager\IFileManagerFactory::class)
-			->setFactory(\NAttreid\Filemanager\FileManager::class);
+			->setImplement(IFileManagerFactory::class)
+			->setFactory(FileManager::class);
 
 		$builder->addDefinition($this->prefix('router'))
-			->setClass(\NAttreid\Crm\Routing\Router::class)
+			->setClass(Router::class)
 			->setArguments([$config['namespace'], $config['url'], $config['secured']]);
 
 		$builder->addDefinition($this->prefix('configurator'))
-			->setClass(\NAttreid\Crm\Configurator::class)
+			->setClass(Configurator::class)
 			->setArguments([$config['locales']]);;
 
 		$builder->addDefinition($this->prefix('formFactory'))
-			->setClass(\NAttreid\Crm\Factories\FormFactory::class);
+			->setClass(FormFactory::class);
 
 		$builder->addDefinition($this->prefix('dataGridFactory'))
-			->setClass(\NAttreid\Crm\Factories\DataGridFactory::class);
+			->setClass(DataGridFactory::class);
 
 		$builder->addDefinition($this->prefix('authenticator'))
-			->setClass(\NAttreid\Security\Authenticator\MainAuthenticator::class)
+			->setClass(MainAuthenticator::class)
 			->setAutowired(FALSE);
 
 		$this->setLoader($config);
@@ -98,23 +120,23 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('profile'))
-			->setClass(\NAttreid\Crm\Control\ProfilePresenter::class)
+			->setClass(ProfilePresenter::class)
 			->setArguments([$config['minPasswordLength']]);
 
 		$builder->addDefinition($this->prefix('fileManager'))
-			->setClass(\NAttreid\Crm\Control\FileManagerPresenter::class)
+			->setClass(FileManagerPresenter::class)
 			->setArguments([$config['fileManagerDir']]);
 
 		$builder->addDefinition($this->prefix('info'))
-			->setClass(\NAttreid\Crm\Control\InfoPresenter::class)
+			->setClass(InfoPresenter::class)
 			->setArguments([$config['infoRefresh']]);
 
 		$builder->addDefinition($this->prefix('users'))
-			->setClass(\NAttreid\Crm\Control\UsersPresenter::class)
+			->setClass(UsersPresenter::class)
 			->setArguments([$config['passwordChars'], $config['minPasswordLength']]);
 
 		$builder->addDefinition($this->prefix('sign'))
-			->setClass(\NAttreid\Crm\Control\SignPresenter::class)
+			->setClass(SignPresenter::class)
 			->setArguments([$config['loginExpiration'], $config['sessionExpiration'], $config['minPasswordLength']]);
 	}
 
@@ -124,8 +146,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 
 		$extension = Strings::firstLower($config['namespace']);
 		$builder->addDefinition($this->prefix('menu'))
-			->setImplement(\NAttreid\Menu\IMenuFactory::class)
-			->setFactory(\NAttreid\Menu\Menu::class)
+			->setImplement(IMenuFactory::class)
+			->setFactory(Menu::class)
 			->addTag('crm.menu')
 			->addSetup('setMenu', [
 				[$extension . 'Ext' => $config['menu']]
@@ -136,7 +158,7 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$rc = new \Nette\Reflection\ClassType(Mailer::class);
+		$rc = new ClassType(Mailer::class);
 		$dir = dirname($rc->getFileName());
 		$builder->addDefinition($this->prefix('mailer'))
 			->setClass(Mailer::class)
@@ -176,8 +198,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 			$builder->getDefinition($router)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
 				->addSetup('setLocale', ['@' . $this->prefix('configurator') . '::defaultLocale', '@' . $this->prefix('configurator') . '::allowedLocales']);
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/routing'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'nattreid/routing'");
 		}
 	}
 
@@ -238,8 +260,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.en_US.neon', 'en_US', 'default'])
 			];
 			$def->setSetup(array_merge($def->getSetup(), $setup));
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'kdyby/translation'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'kdyby/translation'");
 		}
 	}
 
@@ -250,8 +272,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 			$tracy = $builder->getByType(Tracy::class);
 			$builder->getDefinition($tracy)
 				->addSetup('enableMail', ['@' . $this->prefix('configurator') . '::mailPanel']);
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/tracyplugin'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'nattreid/tracyplugin'");
 		}
 	}
 
@@ -261,8 +283,8 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 		try {
 			$flash = $builder->getByType(FlashNotifier::class);
 			$builder->getDefinition($flash);
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/flash-messages'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'nattreid/flash-messages'");
 		}
 	}
 
@@ -341,12 +363,12 @@ class CrmExtension extends \Nette\DI\CompilerExtension
 
 	/**
 	 * @param string $file
-	 * @throws \WebLoader\FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	protected function checkFileExists($file)
 	{
 		if (!file_exists($file)) {
-			throw new \WebLoader\FileNotFoundException(sprintf("Neither '%s' was found", $file));
+			throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
 		}
 	}
 
