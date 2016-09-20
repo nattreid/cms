@@ -2,12 +2,16 @@
 
 namespace NAttreid\Crm\Model;
 
+use NAttreid\Orm\Repository;
+
 /**
  * Configuration Repository
  *
+ * @method Configuration getById($primaryValue)
+ *
  * @author Attreid <attreid@gmail.com>
  */
-class ConfigurationRepository extends \NAttreid\Orm\Repository
+class ConfigurationRepository extends Repository
 {
 
 	public static function getEntityClassNames()

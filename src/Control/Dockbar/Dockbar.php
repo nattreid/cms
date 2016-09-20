@@ -6,6 +6,8 @@ use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Crm\Configurator\Configurator;
 use NAttreid\Security\User;
+use Nette\Application\Responses\FileResponse;
+use Nette\Application\UI\Control;
 use Nette\Utils\Strings;
 
 /**
@@ -13,7 +15,7 @@ use Nette\Utils\Strings;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Dockbar extends \Nette\Application\UI\Control
+class Dockbar extends Control
 {
 
 	/** @var string */
@@ -179,7 +181,7 @@ class Dockbar extends \Nette\Application\UI\Control
 		$this->checkHandlerPermission(FALSE);
 
 		$file = $this->app->backupDatabase();
-		$this->presenter->sendResponse(new \Nette\Application\Responses\FileResponse($file, 'backup.zip'));
+		$this->presenter->sendResponse(new FileResponse($file, 'backup.zip'));
 	}
 
 	/**

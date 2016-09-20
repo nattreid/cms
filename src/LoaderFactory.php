@@ -3,6 +3,7 @@
 namespace NAttreid\Crm;
 
 use Nette\Http\IRequest;
+use Nette\SmartObject;
 use WebLoader\Compiler;
 use WebLoader\FileCollection;
 use WebLoader\Nette\CssLoader;
@@ -12,8 +13,7 @@ use WebLoader\Nette\JavaScriptLoader;
  */
 class LoaderFactory
 {
-
-	use \Nette\SmartObject;
+	use SmartObject;
 
 	/** @var string * */
 	private $wwwDir;
@@ -109,6 +109,7 @@ class LoaderFactory
 		foreach ($this->jsFilters as $filter) {
 			$compiler->addFileFilter($filter);
 		}
+		/* @var $compilers Compiler */
 		$compilers = [$compiler];
 		if ($locale !== NULL) {
 			if (isset($this->filesLocale[$locale])) {

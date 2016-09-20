@@ -23,6 +23,7 @@ class LogsPresenter extends CrmPresenter
 
 	public function __construct(AppManager $app, Logs $logs)
 	{
+		parent::__construct();
 		$this->app = $app;
 		$this->logs = $logs;
 	}
@@ -61,7 +62,6 @@ class LogsPresenter extends CrmPresenter
 		if ($this->isAjax()) {
 			$this->logs->delete($id);
 
-			/* @var $grid DataGrid */
 			$grid = $this['logsList'];
 			$grid->setDataSource($this->logs->getLogs());
 			$grid->reload();

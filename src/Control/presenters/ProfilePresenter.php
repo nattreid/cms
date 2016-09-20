@@ -5,7 +5,9 @@ namespace NAttreid\Crm\Control;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\User;
+use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
+use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 
 /**
@@ -94,7 +96,7 @@ class ProfilePresenter extends CrmPresenter
 			$this->orm->persistAndFlush($this->profile);
 
 			$this->flashNotifier->success('main.user.dataSaved');
-		} catch (\Nextras\Dbal\UniqueConstraintViolationException $ex) {
+		} catch (UniqueConstraintViolationException $ex) {
 			$form->addError('main.user.dupliciteEmail');
 		}
 
@@ -143,7 +145,7 @@ class ProfilePresenter extends CrmPresenter
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);
 			$this->flashNotifier->success('main.user.passwordChanged');
-		} catch (\Nette\Security\AuthenticationException $e) {
+		} catch (AuthenticationException $e) {
 			$form->addError('main.user.incorrectPassword');
 		}
 		if ($this->isAjax()) {

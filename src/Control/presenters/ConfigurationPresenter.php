@@ -28,7 +28,6 @@ class ConfigurationPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		/** @var $form Form */
 		$form = $this['configurationForm'];
 		$this->addBreadcrumbLink('main.dockbar.settings.configuration');
 		$form->setDefaults($this->configurator->fetchConfigurations());

@@ -65,7 +65,6 @@ class Configurator implements IConfigurator
 		$result = $this->cache->load($key);
 		if ($result === NULL) {
 			$result = $this->cache->save($key, function () use ($name) {
-				/* @var $configuration Configuration */
 				$configuration = $this->orm->configuration->get($name);
 				if ($configuration) {
 					return $configuration->value;

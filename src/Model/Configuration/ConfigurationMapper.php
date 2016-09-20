@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Crm\Model;
+use NAttreid\Orm\Structure\Table;
 
 /**
  * Configuration Mapper
@@ -10,7 +11,7 @@ namespace NAttreid\Crm\Model;
 class ConfigurationMapper extends Mapper
 {
 
-	protected function createTable(\NAttreid\Orm\Structure\Table $table)
+	protected function createTable(Table $table)
 	{
 		$table->addPrimaryKey('name')
 			->varChar(100);

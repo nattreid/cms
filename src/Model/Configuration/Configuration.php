@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Crm\Model;
+use Nextras\Orm\Entity\Entity;
 
 /**
  * Configuration
@@ -12,7 +13,7 @@ namespace NAttreid\Crm\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Configuration extends \Nextras\Orm\Entity\Entity
+class Configuration extends Entity
 {
 
 	protected function getterValue()

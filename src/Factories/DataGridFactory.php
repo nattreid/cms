@@ -4,6 +4,7 @@ namespace NAttreid\Crm\Factories;
 
 use Kdyby\Translation\Translator;
 use Nette\ComponentModel\IContainer;
+use Nette\SmartObject;
 use Ublaboo\DataGrid\DataGrid;
 
 /**
@@ -13,8 +14,7 @@ use Ublaboo\DataGrid\DataGrid;
  */
 class DataGridFactory
 {
-
-	use \Nette\SmartObject;
+	use SmartObject;
 
 	/** @var Translator */
 	private $translator;
@@ -24,7 +24,11 @@ class DataGridFactory
 		$this->translator = $translator;
 	}
 
-	/** @return DataGrid */
+	/**
+	 * @param IContainer $parent
+	 * @param string $name
+	 * @return DataGrid
+	 */
 	public function create(IContainer $parent = NULL, $name = NULL)
 	{
 		$grid = new DataGrid($parent, $name);

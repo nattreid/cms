@@ -6,7 +6,10 @@ use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
+use NAttreid\Security\Model\User;
 use NAttreid\Utils\Hasher;
+use Nette\Security\AuthenticationException;
+use Nette\Security\IAuthenticator;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Random;
 use Nextras\Orm\Model\Model;
@@ -151,8 +154,8 @@ class SignPresenter extends BasePresenter
 			}
 			$this->restoreRequest($this->backlink);
 			$this->redirect(":{$this->module}:Homepage:");
-		} catch (\Nette\Security\AuthenticationException $e) {
-			if ($e->getCode() == \Nette\Security\IAuthenticator::NOT_APPROVED) {
+		} catch (AuthenticationException $e) {
+			if ($e->getCode() == IAuthenticator::NOT_APPROVED) {
 				$form->addError('main.user.accountDeactived');
 			} else {
 				$form->addError('main.user.incorrectUsernameOrPassword');
@@ -306,7 +309,7 @@ class SignPresenter extends BasePresenter
 
 		$role = $this->orm->aclRoles->getByName(AclRolesMapper::SUPERADMIN);
 
-		$user = new \NAttreid\Security\Model\User;
+		$user = new User;
 		$user->firstName = $values->firstName;
 		$user->surname = $values->surname;
 		$user->email = $values->email;

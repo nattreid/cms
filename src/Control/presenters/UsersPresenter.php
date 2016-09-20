@@ -9,6 +9,7 @@ use NAttreid\Security\Model\User;
 use Nette\Forms\Container;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Random;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 use Ublaboo\DataGrid\DataGrid;
@@ -90,7 +91,6 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function handleDelete($id)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
@@ -108,10 +108,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function setState($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			/* @var $user User */
 			$user = $this->orm->users->getById($id);
 			$user->active = $value;
 			$this->orm->persistAndFlush($user);
@@ -153,7 +151,6 @@ class UsersPresenter extends CrmPresenter
 	public function updateUser($id, $values)
 	{
 		if ($this->isAjax()) {
-			/* @var $user User */
 			$user = $this->orm->users->getById($id);
 			try {
 				$user->setUsername($values->username);
@@ -188,7 +185,6 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deleteUsers(array $ids)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
@@ -208,10 +204,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function activateUsers(array $ids)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			/* @var $user User */
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
 				$user->active = TRUE;
@@ -230,10 +224,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deactivateUsers(array $ids)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['userList'];
 		if ($this->isAjax()) {
-			/* @var $user User */
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
 				$user->active = FALSE;
@@ -298,7 +290,7 @@ class UsersPresenter extends CrmPresenter
 	public function addUserFormSucceeded(Form $form, $values)
 	{
 		if ($values->generatePassword) {
-			$password = \Nette\Utils\Random::generate($this->minPasswordLength, $this->passwordChars);
+			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
 		} else {
 			$password = $values->password;
 		}
@@ -367,7 +359,6 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function passwordFormSucceeded(Form $form, $values)
 	{
-		/* @var $user User */
 		$user = $this->orm->users->getById($values->id);
 		$user->setPassword($values->password);
 

@@ -57,7 +57,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRole($id)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
@@ -74,7 +73,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRule($id)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rule = $this->orm->acl->getById($id);
@@ -91,7 +89,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRoles(array $ids)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$roles = $this->orm->aclRoles->findById($ids);
@@ -111,7 +108,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRules(array $ids)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rules = $this->orm->acl->findById($ids);
@@ -175,7 +171,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRole($values)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			try {
@@ -221,7 +216,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRule($values)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			foreach ($values->resource as $resource) {
@@ -254,7 +248,6 @@ class PermissionsPresenter extends CrmPresenter
 	public function setRoleTitle($id, $value)
 	{
 		if ($this->isAjax()) {
-			/* @var $role AclRole */
 			$role = $this->orm->aclRoles->getById($id);
 			$role->title = $value;
 			$this->orm->persistAndFlush($role);
@@ -272,11 +265,9 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleName($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			try {
-				/* @var $role AclRole */
 				$role = $this->orm->aclRoles->getById($id);
 				$role->setName($value);
 				$this->orm->persistAndFlush($role);
@@ -300,10 +291,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleParent($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
-			/* @var $role AclRole */
 			$role = $this->orm->aclRoles->getById($id);
 			$role->parent = $value;
 			$this->orm->persistAndFlush($role);
@@ -323,10 +312,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleRole($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			/* @var $acl Acl */
 			$acl = $this->orm->acl->getById($id);
 			$acl->role = $value;
 			$this->orm->persistAndFlush($acl);
@@ -346,10 +333,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleResource($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			/* @var $acl Acl */
 			$acl = $this->orm->acl->getById($id);
 			$acl->resource = $value;
 			$this->orm->persistAndFlush($acl);
@@ -369,10 +354,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRulePrivilege($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			/* @var $rule Acl */
 			$rule = $this->orm->acl->getById($id);
 			$rule->privilege = $value;
 			$this->orm->persistAndFlush($rule);
@@ -392,10 +375,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleState($id, $value)
 	{
-		/* @var $grid DataGrid */
 		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
-			/* @var $rule Acl */
 			$rule = $this->orm->acl->getById($id);
 			$rule->allowed = $value;
 			$this->orm->persistAndFlush($rule);
@@ -474,7 +455,7 @@ class PermissionsPresenter extends CrmPresenter
 			->setRenderer(function (Acl $acl) {
 				return $acl->role->title;
 			})
-			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs(), 'role.id')
+			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs())
 			->setEditableCallback([$this, 'setRuleRole'])
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
 
@@ -482,7 +463,7 @@ class PermissionsPresenter extends CrmPresenter
 			->setRenderer(function (Acl $acl) {
 				return $acl->resource->name;
 			})
-			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByName(), 'resource.id')
+			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByName())
 			->setEditableCallback([$this, 'setRuleResource'])
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByName());
 

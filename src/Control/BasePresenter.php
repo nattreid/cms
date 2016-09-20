@@ -15,6 +15,7 @@ use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
 use NAttreid\Utils\Date;
 use NAttreid\Utils\Number;
+use Nette\Application\UI\Presenter;
 use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
@@ -30,7 +31,7 @@ use Nette\Forms\Validator;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class BasePresenter extends \Nette\Application\UI\Presenter
+abstract class BasePresenter extends Presenter
 {
 
 	use TFlashMessages,

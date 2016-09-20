@@ -1,13 +1,14 @@
 <?php
 
 namespace NAttreid\Crm\Mailing;
+use NAttreid\Mailing\BaseMailer;
 
 /**
  * Mailer
  *
  * Attreid <attreid@gmail.com>
  */
-class Mailer extends \NAttreid\Mailing\BaseMailer
+class Mailer extends BaseMailer
 {
 
 	/**

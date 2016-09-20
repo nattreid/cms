@@ -5,6 +5,8 @@ namespace NAttreid\Crm\DI;
 use Kdyby\Translation\Translator;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Crm\Routing\Router;
+use Nette\DI\CompilerExtension;
+use Nette\DI\MissingServiceException;
 use Nette\DI\Statement;
 use Nette\Utils\Strings;
 
@@ -13,7 +15,7 @@ use Nette\Utils\Strings;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class ModuleExtension extends \Nette\DI\CompilerExtension
+abstract class ModuleExtension extends CompilerExtension
 {
 
 	/**
@@ -61,8 +63,8 @@ abstract class ModuleExtension extends \Nette\DI\CompilerExtension
 		try {
 			$builder->getDefinition($router)
 				->addSetup('addModule', [$this->namespace]);
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'nattreid/crm'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'nattreid/crm'");
 		}
 	}
 
@@ -77,8 +79,8 @@ abstract class ModuleExtension extends \Nette\DI\CompilerExtension
 				new Statement('addResource', ['neon', $this->dir . '/../lang/' . $this->namespace . '.en_US.neon', 'en_US', $this->namespace])
 			];
 			$def->setSetup(array_merge($def->getSetup(), $setup));
-		} catch (\Nette\DI\MissingServiceException $ex) {
-			throw new \Nette\DI\MissingServiceException("Missing extension 'kdyby/translation'");
+		} catch (MissingServiceException $ex) {
+			throw new MissingServiceException("Missing extension 'kdyby/translation'");
 		}
 	}
 
