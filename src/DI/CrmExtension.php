@@ -18,12 +18,12 @@ use NAttreid\Crm\Control\SignPresenter;
 use NAttreid\Crm\Control\UsersPresenter;
 use NAttreid\Crm\Factories\DataGridFactory;
 use NAttreid\Crm\Factories\FormFactory;
+use NAttreid\Crm\ICrmMenuFactory;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Crm\Routing\Router;
 use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
-use NAttreid\Menu\IMenuFactory;
 use NAttreid\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
 use NAttreid\Security\Authenticator;
@@ -146,9 +146,8 @@ class CrmExtension extends CompilerExtension
 
 		$extension = Strings::firstLower($config['namespace']);
 		$builder->addDefinition($this->prefix('menu'))
-			->setImplement(IMenuFactory::class)
+			->setImplement(ICrmMenuFactory::class)
 			->setFactory(Menu::class)
-			->addTag('crm.menu')
 			->addSetup('setMenu', [
 				[$extension . 'Ext' => $config['menu']]
 			]);

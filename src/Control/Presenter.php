@@ -2,9 +2,10 @@
 
 namespace NAttreid\Crm\Control;
 
+use NAttreid\Crm\MenuFactory;
 use NAttreid\Menu\Breadcrumb;
-use NAttreid\Menu\IMenuFactory;
 use NAttreid\Menu\Link;
+use NAttreid\Menu\Menu;
 use Nette\Security\IUserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use WebChemistry\Images\TPresenter;
@@ -79,17 +80,17 @@ abstract class Presenter extends BasePresenter
 	/* ###################################################################### */
 	/*                                 Menu                                   */
 
-	/** @var IMenuFactory */
+	/** @var MenuFactory */
 	private $menuFactory;
 
-	public function injectMenu(IMenuFactory $menuFactory)
+	public function injectMenu(MenuFactory $menuFactory)
 	{
 		$this->menuFactory = $menuFactory;
 	}
 
 	/**
 	 * Hlavni menu
-	 * @return \NAttreid\Menu\Menu
+	 * @return Menu
 	 */
 	protected function createComponentMenu()
 	{

@@ -3,6 +3,7 @@
 namespace NAttreid\Crm\DI;
 
 use Kdyby\Translation\Translator;
+use NAttreid\Crm\ICrmMenuFactory;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Crm\Routing\Router;
 use Nette\DI\CompilerExtension;
@@ -89,16 +90,16 @@ abstract class ModuleExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->loadFromFile($this->dir . '/default.neon'), $this->config);
 
-		$menu = [
+		$items = [
 			$this->namespace => [
 					'link' => $config['link']
 				] + $config['menu']
 		];
 
-		foreach ($builder->findByTag('crm.menu') as $service => $attr) {
-			$builder->getDefinition($service)
-				->addSetup('addMenu', [$menu, NULL, $config['position']]);
-		}
+		$menu = $builder->getByType(ICrmMenuFactory::class);
+		$builder->getDefinition($menu)
+			->addSetup('addMenu', [$items, NULL, $config['position']]);
+
 	}
 
 	/**

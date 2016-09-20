@@ -10,6 +10,9 @@ use WebLoader\Nette\CssLoader;
 use WebLoader\Nette\JavaScriptLoader;
 
 /**
+ * CSS, JS Loader Factory
+ *
+ * @author Attreid <attreid@gmail.com>
  */
 class LoaderFactory
 {
