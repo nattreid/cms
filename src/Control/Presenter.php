@@ -2,7 +2,7 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\Crm\MenuFactory;
+use NAttreid\Crm\ICrmMenuFactory;
 use NAttreid\Menu\Breadcrumb;
 use NAttreid\Menu\Link;
 use NAttreid\Menu\Menu;
@@ -80,10 +80,10 @@ abstract class Presenter extends BasePresenter
 	/* ###################################################################### */
 	/*                                 Menu                                   */
 
-	/** @var MenuFactory */
+	/** @var ICrmMenuFactory */
 	private $menuFactory;
 
-	public function injectMenu(MenuFactory $menuFactory)
+	public function injectMenu(ICrmMenuFactory $menuFactory)
 	{
 		$this->menuFactory = $menuFactory;
 	}
