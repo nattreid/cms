@@ -44,15 +44,6 @@ class UsersPresenter extends CrmPresenter
 	}
 
 	/**
-	 * {@inheritdoc }
-	 */
-	public function restoreBacklink()
-	{
-		parent::restoreBacklink();
-		$this->redirect('default');
-	}
-
-	/**
 	 * Zobrazeni seznamu
 	 */
 	public function renderDefault()
@@ -91,11 +82,10 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function handleDelete($id)
 	{
-		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
 			$this->orm->users->removeAndFlush($user);
-			$grid->reload();
+			$this['userList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -108,12 +98,11 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function setState($id, $value)
 	{
-		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
 			$user->active = $value;
 			$this->orm->persistAndFlush($user);
-			$grid->redrawItem($id);
+			$this['userList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -185,14 +174,13 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deleteUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
 				$this->orm->users->remove($user);
 			}
 			$this->orm->flush();
-			$grid->reload();
+			$this['userList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -204,7 +192,6 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function activateUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
@@ -212,7 +199,7 @@ class UsersPresenter extends CrmPresenter
 				$this->orm->users->persist($user);
 			}
 			$this->orm->flush();
-			$grid->reload();
+			$this['userList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -224,7 +211,6 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function deactivateUsers(array $ids)
 	{
-		$grid = $this['userList'];
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
@@ -232,7 +218,7 @@ class UsersPresenter extends CrmPresenter
 				$this->orm->users->persist($user);
 			}
 			$this->orm->flush();
-			$grid->reload();
+			$this['userList']->reload();
 		} else {
 			$this->terminate();
 		}

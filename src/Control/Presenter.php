@@ -108,8 +108,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	protected function setMenuCount($link, $count, $type = Link::INFO)
 	{
-		$menu = $this['menu'];
-		$menu->setCount($link, $count, $type);
+		$this['menu']->setCount($link, $count, $type);
 	}
 
 	/**
@@ -118,8 +117,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	protected function createComponentBreadcrumb()
 	{
-		$breadcrumb = $this['menu']->getBreadcrumb();
-		return $breadcrumb;
+		return $this['menu']->getBreadcrumb();
 	}
 
 	/**
@@ -154,6 +152,7 @@ abstract class Presenter extends BasePresenter
 	public function handleBack($backlink)
 	{
 		$this->restoreRequest($backlink);
+		$this->redirect('default');
 	}
 
 	/**
@@ -170,6 +169,7 @@ abstract class Presenter extends BasePresenter
 	public function restoreBacklink()
 	{
 		$this->restoreRequest($this->getParameter('cbl'));
+		$this->redirect('default');
 	}
 
 	/**

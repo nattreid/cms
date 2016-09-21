@@ -57,11 +57,10 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRole($id)
 	{
-		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
 			$this->orm->aclRoles->removeAndFlush($role);
-			$grid->reload();
+			$this['rolesList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -73,11 +72,10 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function handleDeleteRule($id)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rule = $this->orm->acl->getById($id);
 			$this->orm->acl->removeAndFlush($rule);
-			$grid->reload();
+			$this['rulesList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -89,14 +87,13 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRoles(array $ids)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$roles = $this->orm->aclRoles->findById($ids);
 			foreach ($roles as $role) {
 				$this->orm->aclRoles->remove($role);
 			}
 			$this->orm->flush();
-			$grid->reload();
+			$this['rulesList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -108,14 +105,13 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function deleteRules(array $ids)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rules = $this->orm->acl->findById($ids);
 			foreach ($rules as $rule) {
 				$this->orm->acl->remove($rule);
 			}
 			$this->orm->flush();
-			$grid->reload();
+			$this['rulesList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -171,7 +167,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRole($values)
 	{
-		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			try {
 				$role = new AclRole;
@@ -183,7 +178,7 @@ class PermissionsPresenter extends CrmPresenter
 				$this->orm->persistAndFlush($role);
 
 				$this->flashNotifier->success('default.dataSaved');
-				$grid->reload();
+				$this['rolesList']->reload();
 			} catch (UniqueConstraintViolationException $ex) {
 				$this->flashNotifier->error('main.permissions.dupliciteName');
 			} catch (InvalidArgumentException $ex) {
@@ -216,7 +211,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function addRule($values)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			foreach ($values->resource as $resource) {
 				try {
@@ -234,7 +228,7 @@ class PermissionsPresenter extends CrmPresenter
 			}
 
 			$this->flashNotifier->success('default.dataSaved');
-			$grid->reload();
+			$this['rulesList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -265,8 +259,8 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleName($id, $value)
 	{
-		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
+			$grid = $this['rolesList'];
 			try {
 				$role = $this->orm->aclRoles->getById($id);
 				$role->setName($value);
@@ -291,15 +285,13 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRoleParent($id, $value)
 	{
-		$grid = $this['rolesList'];
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
 			$role->parent = $value;
 			$this->orm->persistAndFlush($role);
 
 			$this->flashNotifier->success('default.dataSaved');
-
-			$grid->redrawItem($id);
+			$this['rolesList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -312,7 +304,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleRole($id, $value)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
 			$acl->role = $value;
@@ -320,7 +311,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$grid->redrawItem($id);
+			$this['rulesList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -333,7 +324,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleResource($id, $value)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
 			$acl->resource = $value;
@@ -341,7 +331,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$grid->redrawItem($id);
+			$this['rulesList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -354,7 +344,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRulePrivilege($id, $value)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rule = $this->orm->acl->getById($id);
 			$rule->privilege = $value;
@@ -362,7 +351,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$grid->redrawItem($id);
+			$this['rulesList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -375,7 +364,6 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function setRuleState($id, $value)
 	{
-		$grid = $this['rulesList'];
 		if ($this->isAjax()) {
 			$rule = $this->orm->acl->getById($id);
 			$rule->allowed = $value;
@@ -383,7 +371,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$grid->redrawItem($id);
+			$this['rulesList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
