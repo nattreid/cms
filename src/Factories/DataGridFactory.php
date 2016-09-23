@@ -36,6 +36,7 @@ class DataGridFactory
 		$grid->setTranslator($this->translator);
 		$grid->setDefaultPerPage(50);
 		$grid->setRememberState(FALSE);
+		$grid->setRefreshUrl(FALSE); // docasne kvuli bugu ublaboo/datagrid
 
 		return $grid;
 	}
