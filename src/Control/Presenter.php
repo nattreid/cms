@@ -124,10 +124,22 @@ abstract class Presenter extends BasePresenter
 	 * Prida link do drobeckove navigace
 	 * @param string $name
 	 * @param string $link
+	 * @param array $arguments
 	 */
-	public function addBreadcrumbLink($name, $link = NULL)
+	public function addBreadcrumbLink($name, $link = NULL, $arguments = [])
 	{
-		$this['breadcrumb']->addLink($name, $link);
+		$this['breadcrumb']->addLink($name, $link, $arguments);
+	}
+
+	/**
+	 * Prida link do drobeckove navigace (bez prekladu)
+	 * @param string $name
+	 * @param string $link
+	 * @param array $arguments
+	 */
+	public function addBreadcrumbLinkUntranslated($name, $link = NULL, $arguments = [])
+	{
+		$this['breadcrumb']->addLinkUntranslated($name, $link, $arguments);
 	}
 
 	/**
