@@ -30,6 +30,15 @@ class LocalesRepository extends Repository
 	}
 
 	/**
+	 * @param $locale
+	 * @return Locale
+	 */
+	public function getByLocale($locale)
+	{
+		return $this->getBy(['name' => $locale]);
+	}
+
+	/**
 	 * Vrati povolene jazyky
 	 * @return ICollection|Locale[]
 	 */
