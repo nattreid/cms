@@ -136,4 +136,13 @@ class LocaleService
 	{
 		return $this->orm->locales->fetchPairsById();
 	}
+
+	/**
+	 * @param $locale
+	 * @return Locale
+	 */
+	public function get($locale)
+	{
+		return $this->orm->locales->getByLocale($locale);
+	}
 }
