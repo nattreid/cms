@@ -70,7 +70,7 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addSelectUntranslated('defaultLocale', 'main.settings.defaultLocale', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->getDefaultLocaleId());
 		$form->addMultiSelectUntranslated('allowedLocales', 'main.settings.allowedLocales', $this->localeService->fetch())
-			->setDefaultValue($this->localeService->allowed)
+			->setDefaultValue($this->localeService->getAllowedLocalesId())
 			->setRequired();
 
 		$form->addGroup('main.settings.development');

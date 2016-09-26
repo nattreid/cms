@@ -77,6 +77,14 @@ class LocaleService
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getAllowedLocalesId()
+	{
+		return $this->orm->locales->findAllowed()->fetchPairs('id', 'id');
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getAllowed()
