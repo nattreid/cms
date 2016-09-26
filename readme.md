@@ -10,7 +10,6 @@ extensions:
 crm:
     namespace: 'Crm'
     url: '/crm/'
-    secured: false
     sender: 'Odesilatel <nejaky@mail.cz>'
     front: ':Front:Homepage:'
 

@@ -72,7 +72,7 @@ class CrmExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('router'))
 			->setClass(Router::class)
-			->setArguments([$config['namespace'], $config['url'], $config['secured']]);
+			->setArguments([$config['namespace'], $config['url']]);
 
 		$builder->addDefinition($this->prefix('configurator'))
 			->setClass(Configurator::class)

@@ -1,6 +1,5 @@
 namespace: 'Crm'
 url: '/crm/'
-secured: false
 sender: NULL
 front: NULL
 
