@@ -3,6 +3,7 @@
 namespace NAttreid\Crm;
 
 use NAttreid\AppManager\AppManager;
+use NAttreid\Crm\Model\Locale;
 use NAttreid\Crm\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
@@ -82,6 +83,34 @@ class LocaleService
 			]);
 		}
 		return $result;
+	}
+
+	/**
+	 * Nastavi vychozi jazyk
+	 * @param $localeId
+	 */
+	public function setDefault($localeId)
+	{
+		$this->orm->locales->getById($localeId)->setDefault();
+	}
+
+	/**
+	 * Nastavi povolene jazyky
+	 * @param array $allowed
+	 */
+	public function setAllowed(array $allowed)
+	{
+		$locales = $this->orm->locales->findAll();
+		foreach ($locales as $locale) {
+			/* @var $locale Locale */
+			if (in_array($locale->id, $allowed)) {
+				$locale->allowed = TRUE;
+			} else {
+				$locale->allowed = FALSE;
+			}
+			$this->orm->persist($locale);
+		}
+		$this->orm->flush();
 	}
 
 	/**

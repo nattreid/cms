@@ -104,6 +104,10 @@ class ConfigurationPresenter extends CrmPresenter
 	 */
 	public function configurationFormSucseeded(Form $form, $values)
 	{
+		$this->localeService->default = $values->defaultLocale;
+		$this->localeService->allowed = $values->allowedLocales;
+		unset($values->defaultLocale, $values->allowedLocales);
+
 		foreach ($values as $name => $value) {
 			$this->configurator->$name = $value;
 		}
