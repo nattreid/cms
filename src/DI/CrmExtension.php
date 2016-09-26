@@ -199,7 +199,7 @@ class CrmExtension extends CompilerExtension
 		try {
 			$builder->getDefinition($router)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
-				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::default', '@' . $this->prefix('configurator') . '::allowed']);
+				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::default', '@' . $this->prefix('localeService') . '::allowed']);
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/routing'");
 		}

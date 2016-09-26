@@ -9,8 +9,8 @@ use Nextras\Orm\Entity\Entity;
  *
  * @property int $id {primary-proxy}
  * @property string $name {primary}
- * @property boolean $default {default=FALSE}
- * @property boolean $allowed {default=TRUE}
+ * @property boolean $default {default FALSE}
+ * @property boolean $allowed {default TRUE}
  *
  * @author Attreid <attreid@gmail.com>
  */

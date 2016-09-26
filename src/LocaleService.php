@@ -59,7 +59,7 @@ class LocaleService
 		$result = $this->cache->load($key);
 		if ($result === NULL) {
 			$result = $this->cache->save($key, function () {
-				return $this->orm->locales->getDefault();
+				return $this->orm->locales->getDefault()->name;
 			}, [
 				Cache::TAGS => [$this->tag]
 			]);
