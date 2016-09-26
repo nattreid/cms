@@ -18,7 +18,8 @@ class LocalesMapper extends Mapper
 			->int()
 			->setAutoIncrement();
 		$table->addColumn('name')
-			->varChar();
+			->varChar()
+			->setUnique();
 		$table->addColumn('default')
 			->boolean()
 			->setDefault(0)

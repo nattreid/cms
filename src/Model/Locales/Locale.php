@@ -7,8 +7,8 @@ use Nextras\Orm\Entity\Entity;
 /**
  * Locale
  *
- * @property int $id {primary-proxy}
- * @property string $name {primary}
+ * @property int $id {primary}
+ * @property string $name
  * @property boolean $default {default FALSE}
  * @property boolean $allowed {default TRUE}
  *
