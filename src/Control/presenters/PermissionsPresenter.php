@@ -53,6 +53,7 @@ class PermissionsPresenter extends CrmPresenter
 
 	/**
 	 * Smazani role
+	 * @param int $id
 	 * @secured
 	 */
 	public function handleDeleteRole($id)
@@ -68,6 +69,7 @@ class PermissionsPresenter extends CrmPresenter
 
 	/**
 	 * Smazani pravidlo
+	 * @param int $id
 	 * @secured
 	 */
 	public function handleDeleteRule($id)
@@ -379,6 +381,7 @@ class PermissionsPresenter extends CrmPresenter
 
 	/**
 	 * Seznam roli
+	 * @param string $name
 	 * @return DataGrid
 	 */
 	protected function createComponentRolesList($name)
@@ -426,6 +429,7 @@ class PermissionsPresenter extends CrmPresenter
 
 	/**
 	 * Seznam pravidel
+	 * @param string $name
 	 * @return DataGrid
 	 */
 	protected function createComponentRulesList($name)

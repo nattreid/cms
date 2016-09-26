@@ -1,6 +1,7 @@
 <?php
 
 namespace NAttreid\Crm\Model;
+
 use NAttreid\Orm\Structure\Table;
 
 /**
@@ -16,7 +17,7 @@ class ConfigurationMapper extends Mapper
 		$table->addPrimaryKey('name')
 			->varChar(100);
 		$table->addColumn('serializedValue')
-			->varChar(255);
+			->varChar();
 	}
 
 }

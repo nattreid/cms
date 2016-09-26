@@ -25,17 +25,14 @@ class Configurator implements IConfigurator
 
 	private $tag = 'cache/configuration';
 
-	private $locales;
-
 	/** @var Orm */
 	private $orm;
 
 	/** @var Cache */
 	private $cache;
 
-	public function __construct(array $locales, Model $orm, IStorage $storage, AppManager $app)
+	public function __construct(Model $orm, IStorage $storage, AppManager $app)
 	{
-		$this->prepareLocales($locales);
 		$this->orm = $orm;
 		$this->cache = new Cache($storage, 'nattreid-crm-configurator');
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];
@@ -46,11 +43,19 @@ class Configurator implements IConfigurator
 		};
 	}
 
+	/**
+	 * Prida vychozi hodnotu
+	 * @param $property
+	 * @param $value
+	 */
 	public function addDefault($property, $value)
 	{
 		$this->default[$property] = $value;
 	}
 
+	/**
+	 * smaze cache
+	 */
 	public function cleanCache()
 	{
 		$this->cache->clean([
@@ -60,11 +65,9 @@ class Configurator implements IConfigurator
 
 	public function __get($name)
 	{
-		$key = 'cache_configuration_' . $name;
-
-		$result = $this->cache->load($key);
+		$result = $this->cache->load($name);
 		if ($result === NULL) {
-			$result = $this->cache->save($key, function () use ($name) {
+			$result = $this->cache->save($name, function () use ($name) {
 				$configuration = $this->orm->configuration->get($name);
 				if ($configuration) {
 					return $configuration->value;
@@ -97,19 +100,4 @@ class Configurator implements IConfigurator
 		$conf = $this->orm->configuration->findAll()->fetchPairs('name', 'value');
 		return array_merge($this->default, $conf);
 	}
-
-	public function fetchLocales()
-	{
-		return $this->locales;
-	}
-
-	private function prepareLocales(array $locales)
-	{
-		$this->default['defaultLocale'] = $locales[0];
-		$this->default['allowedLocales'] = $locales;
-		foreach ($locales as $locale) {
-			$this->locales[$locale] = $locale;
-		}
-	}
-
 }

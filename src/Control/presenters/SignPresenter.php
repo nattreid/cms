@@ -100,6 +100,7 @@ class SignPresenter extends BasePresenter
 
 	/**
 	 * Obnoveni hesla
+	 * @param string $hash
 	 */
 	public function renderRestorePassword($hash)
 	{

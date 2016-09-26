@@ -61,7 +61,7 @@ class ProfilePresenter extends CrmPresenter
 
 		$form->addText('username', 'main.user.username')
 			->setDisabled()
-			->setValue($this->profile->username);
+			->setDefaultValue($this->profile->username);
 		$form->addText('firstName', 'main.user.firstName')
 			->setDefaultValue($this->profile->firstName);
 		$form->addText('surname', 'main.user.surname')

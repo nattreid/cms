@@ -2,6 +2,7 @@
 
 namespace NAttreid\Crm\Control;
 
+use NAttreid\Crm\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\Utils\ArrayHash;
@@ -17,10 +18,14 @@ class ConfigurationPresenter extends CrmPresenter
 	/** @var Tracy */
 	private $tracy;
 
-	public function __construct(Tracy $tracy)
+	/** @var LocaleService */
+	private $localeService;
+
+	public function __construct(Tracy $tracy, LocaleService $localeService)
 	{
 		parent::__construct();
 		$this->tracy = $tracy;
+		$this->localeService = $localeService;
 	}
 
 	/**
@@ -62,8 +67,10 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addCheckbox('sendNewUserPassword', 'main.settings.sendNewUserPassword');
 		$form->addCheckbox('sendChangePassword', 'main.settings.sendChangePassword');
 		$form->addCheckbox('dockbarAdvanced', 'main.settings.dockbarAdvanced');
-		$form->addSelectUntranslated('defaultLocale', 'main.settings.defaultLocale', $this->configurator->fetchLocales());
-		$form->addMultiSelectUntranslated('allowedLocales', 'main.settings.allowedLocales', $this->configurator->fetchLocales())
+		$form->addSelectUntranslated('defaultLocale', 'main.settings.defaultLocale', $this->localeService->fetch())
+			->setDefaultValue($this->localeService->default);
+		$form->addMultiSelectUntranslated('allowedLocales', 'main.settings.allowedLocales', $this->localeService->fetch())
+			->setDefaultValue($this->localeService->allowed)
 			->setRequired();
 
 		$form->addGroup('main.settings.development');
@@ -97,7 +104,6 @@ class ConfigurationPresenter extends CrmPresenter
 	 */
 	public function configurationFormSucseeded(Form $form, $values)
 	{
-		$form->setValues($values);
 		foreach ($values as $name => $value) {
 			$this->configurator->$name = $value;
 		}

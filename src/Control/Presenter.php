@@ -160,6 +160,7 @@ abstract class Presenter extends BasePresenter
 
 	/**
 	 * Navrat na predchozi stranku
+	 * @param string $backlink
 	 */
 	public function handleBack($backlink)
 	{

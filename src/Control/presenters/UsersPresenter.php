@@ -360,6 +360,7 @@ class UsersPresenter extends CrmPresenter
 
 	/**
 	 * Seznam uzivatelu
+	 * @param string $name
 	 * @return DataGrid
 	 */
 	protected function createComponentUserList($name)

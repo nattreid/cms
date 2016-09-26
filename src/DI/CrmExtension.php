@@ -20,6 +20,7 @@ use NAttreid\Crm\Factories\DataGridFactory;
 use NAttreid\Crm\Factories\FormFactory;
 use NAttreid\Crm\ICrmMenuFactory;
 use NAttreid\Crm\LoaderFactory;
+use NAttreid\Crm\LocaleService;
 use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Crm\Routing\Router;
 use NAttreid\Filemanager\FileManager;
@@ -75,8 +76,7 @@ class CrmExtension extends CompilerExtension
 			->setArguments([$config['namespace'], $config['url']]);
 
 		$builder->addDefinition($this->prefix('configurator'))
-			->setClass(Configurator::class)
-			->setArguments([$config['locales']]);;
+			->setClass(Configurator::class);
 
 		$builder->addDefinition($this->prefix('formFactory'))
 			->setClass(FormFactory::class);
@@ -87,6 +87,9 @@ class CrmExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('authenticator'))
 			->setClass(MainAuthenticator::class)
 			->setAutowired(FALSE);
+
+		$builder->addDefinition($this->prefix('localeService'))
+			->setClass(LocaleService::class);
 
 		$this->setLoader($config);
 		$this->setPresenters($config);
@@ -196,7 +199,7 @@ class CrmExtension extends CompilerExtension
 		try {
 			$builder->getDefinition($router)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
-				->addSetup('setLocale', ['@' . $this->prefix('configurator') . '::defaultLocale', '@' . $this->prefix('configurator') . '::allowedLocales']);
+				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::default', '@' . $this->prefix('configurator') . '::allowed']);
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/routing'");
 		}

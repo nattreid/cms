@@ -47,6 +47,7 @@ class LogsPresenter extends CrmPresenter
 
 	/**
 	 * Stazeni souboru
+	 * @param int $id
 	 */
 	public function actionDownloadFile($id)
 	{
@@ -55,6 +56,7 @@ class LogsPresenter extends CrmPresenter
 
 	/**
 	 * Smazani logu
+	 * @param int $id
 	 * @secured
 	 */
 	public function handleDelete($id)
@@ -85,6 +87,7 @@ class LogsPresenter extends CrmPresenter
 
 	/**
 	 * Seznamu logu
+	 * @param string $name
 	 * @return DataGrid
 	 */
 	protected function createComponentLogsList($name)

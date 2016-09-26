@@ -32,6 +32,7 @@ class Mailer extends BaseMailer
 
 	/**
 	 * Posle email novemu uzivateli s loginem a heslem
+	 * @param string $email
 	 * @param string $username
 	 * @param string $password
 	 */
