@@ -68,7 +68,7 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addCheckbox('sendChangePassword', 'main.settings.sendChangePassword');
 		$form->addCheckbox('dockbarAdvanced', 'main.settings.dockbarAdvanced');
 		$form->addSelectUntranslated('defaultLocale', 'main.settings.defaultLocale', $this->localeService->fetch())
-			->setDefaultValue($this->localeService->default);
+			->setDefaultValue($this->localeService->getDefaultLocaleId());
 		$form->addMultiSelectUntranslated('allowedLocales', 'main.settings.allowedLocales', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->allowed)
 			->setRequired();

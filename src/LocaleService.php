@@ -69,6 +69,14 @@ class LocaleService
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getDefaultLocaleId()
+	{
+		return $this->orm->locales->getDefault()->id;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getAllowed()
