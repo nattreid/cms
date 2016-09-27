@@ -61,7 +61,11 @@ class UsersPresenter extends CrmPresenter
 		$this->addBreadcrumbLink('main.dockbar.settings.users', ':Crm:Users:');
 		$this->addBreadcrumbLink('main.user.changePassword');
 
-		$this['passwordForm']->setDefaults(['id' => $id]);
+		$user = $this->orm->users->getById($id);
+		$this['passwordForm']->setDefaults([
+			'id' => $user->id,
+			'username' => $user->username
+		]);
 	}
 
 	/**
@@ -323,6 +327,9 @@ class UsersPresenter extends CrmPresenter
 		$form->addProtection();
 
 		$form->addHidden('id', NULL);
+
+		$form->addText('username', 'main.user.username')
+			->setDisabled();
 
 		$form->addPassword('password', 'main.user.newPassword')
 			->setRequired()
