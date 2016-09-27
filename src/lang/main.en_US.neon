@@ -88,6 +88,7 @@ dockbar:
         php: "PHP"
         server: "Server"
     myProfile: "My profile"
+    closeTryUser: "Return to own Identity"
     logout: "Logout"
 
 homepage:

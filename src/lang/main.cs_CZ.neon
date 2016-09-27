@@ -88,6 +88,7 @@ dockbar:
         php: "PHP"
         server: "Server"
     myProfile: "Můj profil"
+    closeTryUser: "Vrátit k vlastní identitě"
     logout: "Odhlásit"
 
 homepage:

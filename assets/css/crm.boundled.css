@@ -14646,6 +14646,9 @@ body.preload * {
 #dockbar .dockbar-content > ul.identity > li li.myProfile > a:before {
   content: "\f044";
 }
+#dockbar .dockbar-content > ul.identity > li li.closeTryUser > a:before {
+  content: "\f235";
+}
 #dockbar .dockbar-content > ul.identity > li li.logout > a:before {
   content: "\f08b";
 }

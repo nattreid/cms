@@ -5,6 +5,7 @@ namespace NAttreid\Crm\Control;
 use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Crm\Configurator\Configurator;
+use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
@@ -59,6 +60,16 @@ class Dockbar extends Control
 	}
 
 	/**
+	 * @return TryUser
+	 */
+	private function getTryUser()
+	{
+		/* @var $presenter BasePresenter */
+		$presenter = $this->presenter;
+		return $presenter->getTryUser();
+	}
+
+	/**
 	 * Nastavi aktivni tlacitko pro menu (posun)
 	 * @param boolean $shifted
 	 */
@@ -77,11 +88,12 @@ class Dockbar extends Control
 		$this->presenter->redirect(":{$this->module}:Sign:in");
 	}
 
-	public function closeTryUser()
+	/**
+	 * Vypnuti TryUser
+	 */
+	public function handleCloseTryUser()
 	{
-		/* @var $presenter BasePresenter */
-		$presenter=$this->presenter;
-		$presenter['tryUser']->handleLogoutTryRole();
+		$this->getTryUser()->handleLogoutTryRole();
 	}
 
 	/**
@@ -237,6 +249,8 @@ class Dockbar extends Control
 		}
 		$username .= $identity->surname;
 		$template->userName = $username;
+
+		$template->tryUserEnable = $this->getTryUser()->isEnable();
 
 		if (!isset($template->shifted)) {
 			$template->shifted = false;
