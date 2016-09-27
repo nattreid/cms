@@ -29,6 +29,8 @@ use Nette\Forms\Validator;
  * @property-read string $crmModule
  * @property-read User $user
  *
+ * @persistent(tryUser)
+ *
  * @author Attreid <attreid@gmail.com>
  */
 abstract class BasePresenter extends Presenter

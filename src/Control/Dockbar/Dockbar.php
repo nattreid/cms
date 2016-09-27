@@ -77,6 +77,13 @@ class Dockbar extends Control
 		$this->presenter->redirect(":{$this->module}:Sign:in");
 	}
 
+	public function closeTryUser()
+	{
+		/* @var $presenter BasePresenter */
+		$presenter=$this->presenter;
+		$presenter['tryUser']->handleLogoutTryRole();
+	}
+
 	/**
 	 * Znovunacte CSS
 	 */
