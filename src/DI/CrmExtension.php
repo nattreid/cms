@@ -25,7 +25,7 @@ use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Crm\Routing\Router;
 use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
-use NAttreid\Menu\Menu;
+use NAttreid\Menu\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
 use NAttreid\Security\Authenticator;
 use NAttreid\Security\Authenticator\MainAuthenticator;

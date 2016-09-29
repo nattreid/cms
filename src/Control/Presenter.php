@@ -3,9 +3,10 @@
 namespace NAttreid\Crm\Control;
 
 use NAttreid\Crm\ICrmMenuFactory;
-use NAttreid\Menu\Breadcrumb;
-use NAttreid\Menu\Link;
-use NAttreid\Menu\Menu;
+use NAttreid\Menu\Breadcrumb\Breadcrumb;
+use NAttreid\Menu\Breadcrumb\Link as BLink;
+use NAttreid\Menu\Menu\Link;
+use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use WebChemistry\Images\TPresenter;
@@ -125,10 +126,11 @@ abstract class Presenter extends BasePresenter
 	 * @param string $name
 	 * @param string $link
 	 * @param array $arguments
+	 * @return BLink
 	 */
 	public function addBreadcrumbLink($name, $link = NULL, $arguments = [])
 	{
-		$this['breadcrumb']->addLink($name, $link, $arguments);
+		return $this['breadcrumb']->addLink($name, $link, $arguments);
 	}
 
 	/**
@@ -136,10 +138,11 @@ abstract class Presenter extends BasePresenter
 	 * @param string $name
 	 * @param string $link
 	 * @param array $arguments
+	 * @return BLink
 	 */
 	public function addBreadcrumbLinkUntranslated($name, $link = NULL, $arguments = [])
 	{
-		$this['breadcrumb']->addLinkUntranslated($name, $link, $arguments);
+		return $this['breadcrumb']->addLinkUntranslated($name, $link, $arguments);
 	}
 
 	/**

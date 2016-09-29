@@ -2,7 +2,7 @@
 
 namespace NAttreid\Crm;
 
-use NAttreid\Menu\Menu;
+use NAttreid\Menu\Menu\Menu;
 
 
 interface ICrmMenuFactory
