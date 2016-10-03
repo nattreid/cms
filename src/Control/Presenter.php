@@ -32,19 +32,6 @@ abstract class Presenter extends BasePresenter
 			}
 			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
 		}
-
-		// opravneni
-		$link = $this->getAction(true);
-		if ($this->isLinkCurrent(":{$this->module}:Homepage:") || $this->isLinkCurrent(":{$this->module}:Profile:")) {
-
-		} elseif ($this->crmModule !== null && ($this['menu']->isLinkAllowed($link))) {
-
-		} elseif ($this['dockbar']->isLinkAllowed($link)) {
-
-		} else {
-			$this->flashNotifier->error('main.permissions.accessDenied');
-			$this->redirect(":{$this->module}:Homepage:");
-		}
 	}
 
 	protected function beforeRender()

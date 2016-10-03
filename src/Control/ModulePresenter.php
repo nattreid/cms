@@ -9,5 +9,13 @@ namespace NAttreid\Crm\Control;
  */
 abstract class ModulePresenter extends Presenter
 {
-
+	protected function startup()
+	{
+		parent::startup();
+		$link = $this->getAction(true);
+		if (!($this['menu']->isLinkAllowed($link))) {
+			$this->flashNotifier->error('main.permissions.accessDenied');
+			$this->redirect(":{$this->module}:Homepage:");
+		}
+	}
 }

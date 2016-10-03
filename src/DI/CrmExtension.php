@@ -12,7 +12,6 @@ use NAttreid\Crm\Control\ExtensionPresenter;
 use NAttreid\Crm\Control\FileManagerPresenter;
 use NAttreid\Crm\Control\IDockbarFactory;
 use NAttreid\Crm\Control\InfoPresenter;
-use NAttreid\Crm\Control\ModulePresenter;
 use NAttreid\Crm\Control\ProfilePresenter;
 use NAttreid\Crm\Control\SignPresenter;
 use NAttreid\Crm\Control\UsersPresenter;
@@ -180,7 +179,6 @@ class CrmExtension extends CompilerExtension
 		$this->setFlash();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
-		$this->setCrmModule();
 
 		$builder->getDefinition('application.presenterFactory')
 			->addSetup('setMapping', [
@@ -225,21 +223,6 @@ class CrmExtension extends CompilerExtension
 			foreach ($this->findByType(ExtensionPresenter::class) as $def) {
 				$def->addSetup('setLayout', [__DIR__ . '/../Control/presenters/templates/@layout.latte']);
 			}
-		}
-	}
-
-	private function setCrmModule()
-	{
-		foreach ($this->findByType(ModulePresenter::class) as $def) {
-			$class = $def->getClass();
-
-			$m = Strings::matchAll($class, '#\\\\(\w+)\\\\Presenters#');
-
-			$module = end($m)[1];
-			if (Strings::endsWith($module, 'Module')) {
-				$module = substr($module, 0, -6);
-			}
-			$def->addSetup('setCrmModule', [Strings::firstLower($module)]);
 		}
 	}
 
