@@ -29,14 +29,14 @@ class DataGridFactory
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	public function create(IContainer $parent = NULL, $name = NULL)
+	public function create(IContainer $parent = null, $name = null)
 	{
 		$grid = new DataGrid($parent, $name);
 
 		$grid->setTranslator($this->translator);
 		$grid->setDefaultPerPage(50);
-		$grid->setRememberState(FALSE);
-		$grid->setRefreshUrl(FALSE); // docasne kvuli bugu ublaboo/datagrid
+		$grid->setRememberState(false);
+		$grid->setRefreshUrl(false); // docasne kvuli bugu ublaboo/datagrid
 
 		return $grid;
 	}

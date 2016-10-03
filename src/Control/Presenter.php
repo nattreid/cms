@@ -34,10 +34,10 @@ abstract class Presenter extends BasePresenter
 		}
 
 		// opravneni
-		$link = $this->getAction(TRUE);
+		$link = $this->getAction(true);
 		if ($this->isLinkCurrent(":{$this->module}:Homepage:") || $this->isLinkCurrent(":{$this->module}:Profile:")) {
 
-		} elseif ($this->crmModule !== NULL && ($this['menu']->isLinkAllowed($link))) {
+		} elseif ($this->crmModule !== null && ($this['menu']->isLinkAllowed($link))) {
 
 		} elseif ($this['dockbar']->isLinkAllowed($link)) {
 
@@ -53,7 +53,7 @@ abstract class Presenter extends BasePresenter
 		$this->template->crmLogo = $this->configurator->crmLogo;
 
 		if (!isset($this->template->shifted)) {
-			$this->template->shifted = FALSE;
+			$this->template->shifted = false;
 		}
 	}
 
@@ -128,7 +128,7 @@ abstract class Presenter extends BasePresenter
 	 * @param array $arguments
 	 * @return BLink
 	 */
-	public function addBreadcrumbLink($name, $link = NULL, $arguments = [])
+	public function addBreadcrumbLink($name, $link = null, $arguments = [])
 	{
 		return $this['breadcrumb']->addLink($name, $link, $arguments);
 	}
@@ -140,7 +140,7 @@ abstract class Presenter extends BasePresenter
 	 * @param array $arguments
 	 * @return BLink
 	 */
-	public function addBreadcrumbLinkUntranslated($name, $link = NULL, $arguments = [])
+	public function addBreadcrumbLinkUntranslated($name, $link = null, $arguments = [])
 	{
 		return $this['breadcrumb']->addLinkUntranslated($name, $link, $arguments);
 	}
@@ -149,7 +149,7 @@ abstract class Presenter extends BasePresenter
 	 * Nastavi zobrazeni menu v mobilni verzi
 	 * @param boolean $view
 	 */
-	public function viewMobileMenu($view = TRUE)
+	public function viewMobileMenu($view = true)
 	{
 		$this->template->shifted = $view;
 		$this['dockbar']->setShifted($view);

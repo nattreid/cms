@@ -218,7 +218,7 @@ abstract class BasePresenter extends Presenter
 	 *
 	 * @return string
 	 */
-	protected function translate($message, $count = NULL, array $parameters = [], $domain = NULL, $locale = NULL)
+	protected function translate($message, $count = null, array $parameters = [], $domain = null, $locale = null)
 	{
 		return $this->translator->translate($message, $count, $parameters, $domain, $locale);
 	}

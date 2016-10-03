@@ -28,7 +28,7 @@
 
 {define item}
 
-    {default $final = FALSE}
+    {default $final = false}
 
     <li n:class="$name" n:foreach="$rows as $name => $row">
         {if isset($row[link]) || isset($row[handler])}

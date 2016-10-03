@@ -76,13 +76,13 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addGroup('main.settings.development');
 		if (!$this->tracy->isEnabled()) {
 			$form->addLink('debugOn', 'main.settings.debugOn')
-				->link($this->link('debug!', TRUE))
+				->link($this->link('debug!', true))
 				->setAjaxRequest()
 				->addClass('btn-success')
 				->setAttribute('data-ajax-off', 'history');
 		} else {
 			$form->addLink('debugOff', 'main.settings.debugOff')
-				->link($this->link('debug!', FALSE))
+				->link($this->link('debug!', false))
 				->setAjaxRequest()
 				->addClass('btn-danger')
 				->setAttribute('data-ajax-off', 'history');

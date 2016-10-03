@@ -98,7 +98,7 @@ abstract class ModuleExtension extends CompilerExtension
 
 		$menu = $builder->getByType(ICrmMenuFactory::class);
 		$builder->getDefinition($menu)
-			->addSetup('addMenu', [$items, NULL, $config['position']]);
+			->addSetup('addMenu', [$items, null, $config['position']]);
 
 	}
 
@@ -107,9 +107,9 @@ abstract class ModuleExtension extends CompilerExtension
 	 * @param string $file
 	 * @param string $locale
 	 */
-	protected function addLoaderFile($file, $locale = NULL)
+	protected function addLoaderFile($file, $locale = null)
 	{
-		if ($this->loader === NULL) {
+		if ($this->loader === null) {
 			$builder = $this->getContainerBuilder();
 
 			$loader = $builder->getByType(LoaderFactory::class);

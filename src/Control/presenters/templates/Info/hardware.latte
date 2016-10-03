@@ -29,7 +29,7 @@
                                         ({$cpu->speedMin|frequency} / {$cpu->speedMax|frequency})
                                     {/if}</strong>,
                                 {_'main.info.hardware.cache'}:
-                                <strong>{$cpu->cache|size:0:TRUE}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature.'°C'}
+                                <strong>{$cpu->cache|size:0:true}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature.'°C'}
                             </div>
                             <div class="status-bar">
                                 <div style="width: {$cpu->usage|number:2,'.':''|noescape}%;"></div>

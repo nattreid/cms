@@ -54,7 +54,7 @@ class CrmExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
 
-		if ($config['front'] === NULL) {
+		if ($config['front'] === null) {
 			throw new InvalidStateException("Crm: 'front' does not set in config.neon");
 		}
 
@@ -86,7 +86,7 @@ class CrmExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('authenticator'))
 			->setClass(MainAuthenticator::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 
 		$builder->addDefinition($this->prefix('localeService'))
 			->setClass(LocaleService::class);
@@ -214,7 +214,7 @@ class CrmExtension extends CompilerExtension
 
 	private function setLayout($config)
 	{
-		if ($config['layout'] !== NULL) {
+		if ($config['layout'] !== null) {
 			foreach ($this->findByType(CrmPresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
@@ -299,7 +299,7 @@ class CrmExtension extends CompilerExtension
 	{
 		$type = ltrim($type, '\\');
 		return array_filter($this->getContainerBuilder()->getDefinitions(), function (ServiceDefinition $def) use ($type) {
-			return is_a($def->getClass(), $type, TRUE) || is_a($def->getImplement(), $type, TRUE);
+			return is_a($def->getClass(), $type, true) || is_a($def->getImplement(), $type, true);
 		});
 	}
 
@@ -349,14 +349,14 @@ class CrmExtension extends CompilerExtension
 				natsort($foundFilesList);
 
 				foreach ($foundFilesList as $foundFilePathname) {
-					$normalizedFiles[$foundFilePathname] = NULL;
+					$normalizedFiles[$foundFilePathname] = null;
 				}
 			} elseif (is_array($file)) {
 				$this->checkFileExists($file[0]);
 				$normalizedFiles[$file[0]] = $file[1];
 			} else {
 				$this->checkFileExists($file);
-				$normalizedFiles[$file] = NULL;
+				$normalizedFiles[$file] = null;
 			}
 		}
 

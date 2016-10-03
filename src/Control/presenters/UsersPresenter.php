@@ -199,7 +199,7 @@ class UsersPresenter extends CrmPresenter
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
-				$user->active = TRUE;
+				$user->active = true;
 				$this->orm->users->persist($user);
 			}
 			$this->orm->flush();
@@ -218,7 +218,7 @@ class UsersPresenter extends CrmPresenter
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
 			foreach ($users as $user) {
-				$user->active = FALSE;
+				$user->active = false;
 				$this->orm->users->persist($user);
 			}
 			$this->orm->flush();
@@ -251,18 +251,18 @@ class UsersPresenter extends CrmPresenter
 		if ($this->configurator->sendNewUserPassword) {
 			$form->addCheckbox('generatePassword', 'main.user.generatePassword');
 		} else {
-			$form->addHidden('generatePassword', FALSE);
+			$form->addHidden('generatePassword', false);
 		}
 
 		$form->addPassword('password', 'main.user.newPassword')
-			->addConditionOn($form['generatePassword'], Form::EQUAL, FALSE)
+			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, NULL, $this->minPasswordLength)
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
 		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
-			->addConditionOn($form['generatePassword'], Form::EQUAL, FALSE)
+			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
-			->addRule(Form::EQUAL, NULL, $form['password'])
+			->addRule(Form::EQUAL, null, $form['password'])
 			->endCondition();
 
 		$form->addSubmit('save', 'form.save');
@@ -326,17 +326,17 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addHidden('id', NULL);
+		$form->addHidden('id', null);
 
 		$form->addText('username', 'main.user.username')
 			->setDisabled();
 
 		$form->addPassword('password', 'main.user.newPassword')
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, NULL, $this->minPasswordLength);
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
 		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
 			->setRequired()
-			->addRule(Form::EQUAL, NULL, $form['password']);
+			->addRule(Form::EQUAL, null, $form['password']);
 
 		$form->addSubmit('save', 'form.save');
 		$form->addLink('back', 'form.back', $this->getBacklink());
@@ -420,22 +420,22 @@ class UsersPresenter extends CrmPresenter
 		$edit->onSubmit[] = [$this, 'updateUser'];
 
 		if ($this->getTryUser()->isAllowed()) {
-			$grid->addAction('tryUser', NULL, 'tryUser!')
+			$grid->addAction('tryUser', null, 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')
 				->setTitle('main.user.tryUser');
 		}
 
-		$grid->addAction('changePassword', NULL)
+		$grid->addAction('changePassword', null)
 			->setIcon('wrench')
 			->setTitle('main.user.changePassword');
 
-		$grid->addAction('delete', NULL, 'delete!')
+		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
 			->setConfirm(function (User $user) {
-				return $this->translate('default.confirmDelete', NULL, ['name' => $user->fullName]);
+				return $this->translate('default.confirmDelete', null, ['name' => $user->fullName]);
 			});
 
 		$grid->addGroupAction('default.activate')->onSelect[] = [$this, 'activateUsers'];

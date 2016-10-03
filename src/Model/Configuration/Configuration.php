@@ -9,7 +9,7 @@ use Nextras\Orm\Entity\Entity;
  * @property int $id {primary-proxy}
  * @property string $name {primary}
  * @property string $serializedValue
- * @property mixed|NULL $value {virtual}
+ * @property mixed|null $value {virtual}
  *
  * @author Attreid <attreid@gmail.com>
  */

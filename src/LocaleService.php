@@ -58,7 +58,7 @@ class LocaleService
 	{
 		$key = 'default';
 		$result = $this->cache->load($key);
-		if ($result === NULL) {
+		if ($result === null) {
 			$result = $this->cache->save($key, function () {
 				return $this->orm->locales->getDefault()->name;
 			}, [
@@ -91,7 +91,7 @@ class LocaleService
 	{
 		$key = 'allowed';
 		$result = $this->cache->load($key);
-		if ($result === NULL) {
+		if ($result === null) {
 			$result = $this->cache->save($key, function () {
 				return $this->orm->locales->fetchAllowed();
 			}, [
@@ -120,9 +120,9 @@ class LocaleService
 		foreach ($locales as $locale) {
 			/* @var $locale Locale */
 			if (in_array($locale->id, $allowed)) {
-				$locale->allowed = TRUE;
+				$locale->allowed = true;
 			} else {
-				$locale->allowed = FALSE;
+				$locale->allowed = false;
 			}
 			$this->orm->persist($locale);
 		}

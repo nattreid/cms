@@ -403,12 +403,12 @@ class PermissionsPresenter extends CrmPresenter
 				if (!empty($role->parent)) {
 					return $role->parent->title;
 				}
-				return NULL;
+				return null;
 			})
 			->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs())
 			->setEditableCallback([$this, 'setRoleParent']);
 
-		$grid->addAction('delete', NULL, 'deleteRole!')
+		$grid->addAction('delete', null, 'deleteRole!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
@@ -477,7 +477,7 @@ class PermissionsPresenter extends CrmPresenter
 			->setClass('btn-danger');
 		$state->onChange[] = [$this, 'setRuleState'];
 
-		$grid->addAction('delete', NULL, 'deleteRule!')
+		$grid->addAction('delete', null, 'deleteRule!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')

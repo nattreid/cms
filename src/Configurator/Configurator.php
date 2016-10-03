@@ -17,10 +17,10 @@ use Nextras\Orm\Model\Model;
 class Configurator implements IConfigurator
 {
 	private $default = [
-		'sendNewUserPassword' => TRUE,
-		'sendChangePassword' => TRUE,
-		'dockbarAdvanced' => FALSE,
-		'mailPanel' => FALSE
+		'sendNewUserPassword' => true,
+		'sendChangePassword' => true,
+		'dockbarAdvanced' => false,
+		'mailPanel' => false
 	];
 
 	private $tag = 'cache/configuration';
@@ -66,7 +66,7 @@ class Configurator implements IConfigurator
 	public function __get($name)
 	{
 		$result = $this->cache->load($name);
-		if ($result === NULL) {
+		if ($result === null) {
 			$result = $this->cache->save($name, function () use ($name) {
 				$configuration = $this->orm->configuration->get($name);
 				if ($configuration) {
@@ -76,7 +76,7 @@ class Configurator implements IConfigurator
 						return $this->$name = $this->default[$name];
 					}
 				}
-				return FALSE;
+				return false;
 			}, [
 				Cache::TAGS => [$this->tag]
 			]);
@@ -87,7 +87,7 @@ class Configurator implements IConfigurator
 	public function __set($name, $value)
 	{
 		$configuration = $this->orm->configuration->getById($name);
-		if ($configuration === NULL) {
+		if ($configuration === null) {
 			$configuration = new Configuration;
 		}
 		$configuration->name = $name;

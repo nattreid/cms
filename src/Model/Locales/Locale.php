@@ -9,8 +9,8 @@ use Nextras\Orm\Entity\Entity;
  *
  * @property int $id {primary}
  * @property string $name
- * @property boolean $default {default FALSE}
- * @property boolean $allowed {default TRUE}
+ * @property boolean $default {default false}
+ * @property boolean $allowed {default true}
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -25,10 +25,10 @@ class Locale extends Entity
 		$locales = $repo->findAll();
 		foreach ($locales as $locale) {
 			/* @var $locale self */
-			$locale->default = FALSE;
+			$locale->default = false;
 			$repo->persist($locale);
 		}
-		$this->default = TRUE;
+		$this->default = true;
 		$repo->persist($this);
 		$repo->flush();
 	}

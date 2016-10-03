@@ -1,7 +1,7 @@
 namespace: 'Crm'
 url: '/crm/'
-sender: NULL
-front: NULL
+sender: null
+front: null
 
 fileManagerDir: %appDir%/../
 infoRefresh: 15 # vteriny
@@ -12,7 +12,7 @@ passwordChars: '0-9a-zA-Z'
 loginExpiration: '20 minutes'
 sessionExpiration: '14 days'
 
-layout: NULL
+layout: null
 
 wwwDir: %wwwDir%
 
@@ -38,35 +38,35 @@ permissions:
     management:
         application:
             restoreCss:
-                ajax: TRUE
+                ajax: true
             restoreJs:
-                ajax: TRUE
+                ajax: true
             clearCache:
-                ajax: TRUE
+                ajax: true
             invalidateCache:
-                ajax: TRUE
+                ajax: true
             clearSessions:
                 confirm: 'main.dockbar.management.application.confirmDeleteSessions'
-                ajax: TRUE
+                ajax: true
             clearTemp:
                 confirm: 'main.dockbar.management.application.confirmDeleteTemp'
         source:
             deploy:
                 confirm: 'main.dockbar.management.source.confirmDeploy'
-                ajax: TRUE
+                ajax: true
             composerUpdate:
                 confirm: 'main.dockbar.management.source.confirmComposerUpdate'
-                ajax: TRUE
+                ajax: true
         database:
             backupDatabase:
                 confirm: 'main.dockbar.management.database.confirmBackupDatabase'
             uploadDatabase:
-                advanced: TRUE
+                advanced: true
                 link: 'Database:upload'
             dropDatabase:
                 confirm: 'main.dockbar.management.database.confirmDropDatabase'
-                advanced: TRUE
-                ajax: TRUE
+                advanced: true
+                ajax: true
 
     info:
         logs:

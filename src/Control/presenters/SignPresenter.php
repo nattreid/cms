@@ -124,7 +124,7 @@ class SignPresenter extends BasePresenter
 		$form->addProtection();
 
 		$form->addText('username', 'main.user.username')
-			->setAttribute('autofocus', TRUE)
+			->setAttribute('autofocus', true)
 			->setRequired();
 
 		$form->addPassword('password', 'main.user.password')
@@ -149,9 +149,9 @@ class SignPresenter extends BasePresenter
 		try {
 			$this->user->login($values->username, $values->password);
 			if ($values->remember) {
-				$this->user->setExpiration('+ ' . $this->sessionExpiracy, FALSE);
+				$this->user->setExpiration('+ ' . $this->sessionExpiracy, false);
 			} else {
-				$this->user->setExpiration('+ ' . $this->loginExpiracy, TRUE);
+				$this->user->setExpiration('+ ' . $this->loginExpiracy, true);
 			}
 			$this->restoreRequest($this->backlink);
 			$this->redirect(":{$this->module}:Homepage:");
@@ -234,10 +234,10 @@ class SignPresenter extends BasePresenter
 
 		$form->addPassword('password', 'main.user.newPassword')
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, NULL, $this->minPasswordLength);
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
 		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
 			->setRequired()
-			->addRule(Form::EQUAL, NULL, $form['password']);
+			->addRule(Form::EQUAL, null, $form['password']);
 
 		$form->addSubmit('restore', 'form.save');
 
@@ -287,10 +287,10 @@ class SignPresenter extends BasePresenter
 
 		$form->addPassword('password', 'main.user.newPassword')
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, NULL, $this->minPasswordLength);
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
 		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
 			->setRequired()
-			->addRule(Form::EQUAL, NULL, $form['password']);
+			->addRule(Form::EQUAL, null, $form['password']);
 
 		$form->addSubmit('create', 'form.save');
 
@@ -320,7 +320,7 @@ class SignPresenter extends BasePresenter
 
 		$this->orm->persistAndFlush($user);
 
-		$this->user->setExpiration('+ ' . $this->loginExpiracy, TRUE);
+		$this->user->setExpiration('+ ' . $this->loginExpiracy, true);
 		$this->user->login($values->username, $password);
 
 		$this->flashNotifier->success('main.user.dataSaved');

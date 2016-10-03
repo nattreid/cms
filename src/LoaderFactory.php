@@ -36,13 +36,13 @@ class LoaderFactory
 	/** @var array */
 	private $filesLocale, $jsFilters, $cssFilters = [];
 
-	function __construct($wwwDir, $jsFilters, $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = NULL)
+	function __construct($wwwDir, $jsFilters, $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = null)
 	{
 		$this->wwwDir = $wwwDir;
 		$this->jsFilters = $jsFilters;
 		$this->cssFilters = $cssFilters;
 		$this->httpRequest = $httpRequest;
-		if ($loader !== NULL) {
+		if ($loader !== null) {
 			foreach ($loader->getTempPaths() as $path) {
 				$this->outputDir = $path;
 				break;
@@ -56,9 +56,9 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return self
 	 */
-	public function addFile($file, $locale = NULL)
+	public function addFile($file, $locale = null)
 	{
-		if ($locale !== NULL) {
+		if ($locale !== null) {
 			if (!isset($this->filesLocale[$locale])) {
 				$this->filesLocale[$locale] = [];
 			}
@@ -75,9 +75,9 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return self
 	 */
-	public function removeFile($file, $locale = NULL)
+	public function removeFile($file, $locale = null)
 	{
-		if ($locale !== NULL) {
+		if ($locale !== null) {
 			unset($this->filesLocale[$locale][$file]);
 		} else {
 			unset($this->files[$file]);
@@ -104,17 +104,17 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return JavaScriptLoader
 	 */
-	public function createJavaScriptLoader($locale = NULL)
+	public function createJavaScriptLoader($locale = null)
 	{
 		$fileCollection = $this->createFileCollection(array_filter($this->files, [$this, 'isJs']));
 		$compiler = Compiler::createJsCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
-		$compiler->setAsync(TRUE);
+		$compiler->setAsync(true);
 		foreach ($this->jsFilters as $filter) {
 			$compiler->addFileFilter($filter);
 		}
 		/* @var $compilers Compiler */
 		$compilers = [$compiler];
-		if ($locale !== NULL) {
+		if ($locale !== null) {
 			if (isset($this->filesLocale[$locale])) {
 				$fileCollection = $this->createFileCollection(array_filter($this->filesLocale[$locale], [$this, 'isJs']));
 				$compilers[] = Compiler::createJsCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);

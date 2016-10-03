@@ -19,7 +19,7 @@ class HomepagePresenter extends CrmPresenter
 	/** @var Tracking */
 	private $tracking;
 
-	public function __construct(Info $info, Tracking $tracking = NULL)
+	public function __construct(Info $info, Tracking $tracking = null)
 	{
 		parent::__construct();
 		$this->info = $info;
@@ -31,7 +31,7 @@ class HomepagePresenter extends CrmPresenter
 		$template = $this->template;
 
 		if ($this->user->isAllowed('main.homepage.info', 'view')) {
-			$template->viewInfo = TRUE;
+			$template->viewInfo = true;
 
 			$template->ip = $this->info->getIp();
 
@@ -39,11 +39,11 @@ class HomepagePresenter extends CrmPresenter
 				$template->load = $load;
 			}
 
-			if ($this->tracking !== NULL) {
+			if ($this->tracking !== null) {
 				$template->onlineUsers = $this->tracking->onlineUsers();
 			}
 		} else {
-			$template->viewInfo = FALSE;
+			$template->viewInfo = false;
 		}
 	}
 

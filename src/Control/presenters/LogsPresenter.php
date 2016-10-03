@@ -112,16 +112,16 @@ class LogsPresenter extends CrmPresenter
 				return Date::getDateTime($row['changed']);
 			});
 
-		$grid->addAction('showFile', NULL)
+		$grid->addAction('showFile', null)
 			->addAttributes(['target' => '_blank'])
 			->setIcon('edit')
 			->setTitle('main.logs.show');
 
-		$grid->addAction('downloadFile', NULL)
+		$grid->addAction('downloadFile', null)
 			->setIcon('download')
 			->setTitle('main.logs.download');
 
-		$grid->addAction('delete', NULL, 'delete!')
+		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')

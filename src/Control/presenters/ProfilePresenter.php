@@ -124,10 +124,10 @@ class ProfilePresenter extends CrmPresenter
 
 		$form->addPassword('password', 'main.user.newPassword')
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, NULL, $this->minPasswordLength);
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
 		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
 			->setRequired()
-			->addRule(Form::EQUAL, NULL, $form['password']);
+			->addRule(Form::EQUAL, null, $form['password']);
 
 		$form->addProtection();
 

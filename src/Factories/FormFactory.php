@@ -30,7 +30,7 @@ class FormFactory
 	 * @param string $name
 	 * @return Form
 	 */
-	public function create(IContainer $parent = NULL, $name = NULL)
+	public function create(IContainer $parent = null, $name = null)
 	{
 		$form = new Form($parent, $name);
 

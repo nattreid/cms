@@ -73,7 +73,7 @@ class Dockbar extends Control
 	 * Nastavi aktivni tlacitko pro menu (posun)
 	 * @param boolean $shifted
 	 */
-	public function setShifted($shifted = TRUE)
+	public function setShifted($shifted = true)
 	{
 		$this->template->shifted = $shifted;
 	}
@@ -156,7 +156,7 @@ class Dockbar extends Control
 	 */
 	public function handleClearTemp()
 	{
-		$this->checkHandlerPermission(FALSE);
+		$this->checkHandlerPermission(false);
 
 		$this->app->clearTemp();
 		$this->flashNotifier->success('main.dockbar.management.application.tempCleared');
@@ -171,7 +171,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		try {
-			$this->app->gitPull(TRUE);
+			$this->app->gitPull(true);
 			$this->app->clearCache();
 			$this->flashNotifier->success('main.dockbar.management.source.deployed');
 		} catch (\InvalidArgumentException $ex) {
@@ -187,7 +187,7 @@ class Dockbar extends Control
 	{
 		$this->checkHandlerPermission();
 
-		$this->app->composerUpdate(TRUE);
+		$this->app->composerUpdate(true);
 		$this->flashNotifier->success('main.dockbar.management.source.composerUpdated');
 		$this->redirect('this');
 	}
@@ -197,7 +197,7 @@ class Dockbar extends Control
 	 */
 	public function handleBackupDatabase()
 	{
-		$this->checkHandlerPermission(FALSE);
+		$this->checkHandlerPermission(false);
 
 		$file = $this->app->backupDatabase();
 		$this->presenter->sendResponse(new FileResponse($file, 'backup.zip'));
@@ -224,7 +224,7 @@ class Dockbar extends Control
 	public function isLinkAllowed($link)
 	{
 		if (isset($this->allowedLinks[$link])) {
-			return TRUE;
+			return true;
 		} else {
 			$pos = strrpos($link, ':');
 			$link = substr($link, 0, ($pos + 1));
@@ -284,9 +284,9 @@ class Dockbar extends Control
 						if (Strings::endsWith($link, ':default')) {
 							$link = substr($link, 0, -7);
 						}
-						$this->allowedLinks[$link] = TRUE;
+						$this->allowedLinks[$link] = true;
 					} else {
-						$this->allowedHandler[$name] = TRUE;
+						$this->allowedHandler[$name] = true;
 						$item['handler'] = $name;
 					}
 					$arr[$name] = $item;
@@ -308,8 +308,8 @@ class Dockbar extends Control
 	 */
 	private function isLink($item)
 	{
-		if ($item === NULL) {
-			return TRUE;
+		if ($item === null) {
+			return true;
 		} elseif (is_array($item)) {
 			return !is_array(current($item));
 		} else {
@@ -321,7 +321,7 @@ class Dockbar extends Control
 	 * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
 	 * @param boolean $ajax
 	 */
-	private function checkHandlerPermission($ajax = TRUE)
+	private function checkHandlerPermission($ajax = true)
 	{
 		if (!isset($this->allowedHandler[$this->presenter->getSignal()[1]])) {
 			$this->presenter->terminate();
