@@ -202,15 +202,17 @@ class CrmExtension extends CompilerExtension
 			]);
 
 		$router = $builder->getByType(Router::class);
-		foreach ($config['menu'] as $module => $arr) {
-			$name = Strings::firstUpper($module);
+		if (!empty($config['menu'])) {
+			foreach ($config['menu'] as $module => $arr) {
+				$name = Strings::firstUpper($module);
 
-			$builder->getDefinition($router)
-				->addSetup('addModule', [$module]);
+				$builder->getDefinition($router)
+					->addSetup('addModule', [$module]);
 
-			$presenterFactory->addSetup('setMapping', [
-				[$name => preg_replace('/\*/', $name, $config['moduleMapping'], 1)]
-			]);
+				$presenterFactory->addSetup('setMapping', [
+					[$name => preg_replace('/\*/', $name, $config['moduleMapping'], 1)]
+				]);
+			}
 		}
 	}
 
