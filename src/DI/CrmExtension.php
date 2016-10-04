@@ -239,8 +239,8 @@ class CrmExtension extends CompilerExtension
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.en_US.neon', 'en_US', 'form']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/mailing.cs_CZ.neon', 'cs_CZ', 'mailing']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/mailing.en_US.neon', 'en_US', 'mailing']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/main.cs_CZ.neon', 'cs_CZ', 'main']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/main.en_US.neon', 'en_US', 'main']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.cs_CZ.neon', 'cs_CZ', 'main']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.en_US.neon', 'en_US', 'main']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.cs_CZ.neon', 'cs_CZ', 'default']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.en_US.neon', 'en_US', 'default'])
 			];

@@ -26,8 +26,8 @@ class PermissionsPresenter extends CrmPresenter
 		Acl::PRIVILEGE_EDIT => 'default.edit'
 	];
 	private $access = [
-		1 => 'main.permissions.allowed',
-		0 => 'main.permissions.denied'
+		1 => 'crm.permissions.allowed',
+		0 => 'crm.permissions.denied'
 	];
 
 	/** @var Orm */
@@ -48,7 +48,7 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.settings.permissions');
+		$this->addBreadcrumbLink('crm.dockbar.settings.permissions');
 	}
 
 	/**
@@ -127,7 +127,7 @@ class PermissionsPresenter extends CrmPresenter
 	{
 		if ($this->isAjax()) {
 			$this->orm->aclResources->deleteUnused();
-			$this->flashNotifier->success('main.permissions.unusedResourcesDeleted');
+			$this->flashNotifier->success('crm.permissions.unusedResourcesDeleted');
 		} else {
 			$this->terminate();
 		}
@@ -141,7 +141,7 @@ class PermissionsPresenter extends CrmPresenter
 	{
 		if ($this->isAjax()) {
 			$this->authorizatorFactory->cleanCache();
-			$this->flashNotifier->success('main.permissions.aclCacheCLeared');
+			$this->flashNotifier->success('crm.permissions.aclCacheCLeared');
 		} else {
 			$this->terminate();
 		}
@@ -154,11 +154,11 @@ class PermissionsPresenter extends CrmPresenter
 	public function roleForm(Container $container)
 	{
 		$roles = ['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs();
-		$container->addText('title', 'main.permissions.role')
+		$container->addText('title', 'crm.permissions.role')
 			->setRequired();
-		$container->addText('name', 'main.permissions.name')
+		$container->addText('name', 'crm.permissions.name')
 			->setRequired();
-		$container->addSelect('parent', $this->translate('main.permissions.parent'))
+		$container->addSelect('parent', $this->translate('crm.permissions.parent'))
 			->setTranslator()
 			->setItems($roles);
 	}
@@ -182,9 +182,9 @@ class PermissionsPresenter extends CrmPresenter
 				$this->flashNotifier->success('default.dataSaved');
 				$this['rolesList']->reload();
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('main.permissions.dupliciteName');
+				$this->flashNotifier->error('crm.permissions.dupliciteName');
 			} catch (InvalidArgumentException $ex) {
-				$this->flashNotifier->error('main.permissions.invalidName');
+				$this->flashNotifier->error('crm.permissions.invalidName');
 			}
 		} else {
 			$this->terminate();
@@ -197,13 +197,13 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function ruleForm(Container $container)
 	{
-		$container->addSelect('role', $this->translate('main.permissions.role'))
+		$container->addSelect('role', $this->translate('crm.permissions.role'))
 			->setTranslator()
 			->setItems($this->orm->aclRoles->fetchPairs());
-		$container->addMultiSelect('resource', $this->translate('main.permissions.resource'))
+		$container->addMultiSelect('resource', $this->translate('crm.permissions.resource'))
 			->setTranslator()
 			->setItems($this->orm->aclResources->fetchPairsByName());
-		$container->addSelect('privilege', 'main.permissions.privilege', $this->privileges);
+		$container->addSelect('privilege', 'crm.permissions.privilege', $this->privileges);
 		$container->addSelect('allowed', 'default.state', $this->access);
 	}
 
@@ -269,10 +269,10 @@ class PermissionsPresenter extends CrmPresenter
 				$this->orm->persistAndFlush($role);
 				$this->flashNotifier->success('default.dataSaved');
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('main.permissions.dupliciteName');
+				$this->flashNotifier->error('crm.permissions.dupliciteName');
 				$grid->redrawItem($id);
 			} catch (InvalidArgumentException $ex) {
-				$this->flashNotifier->error('main.permissions.invalidName');
+				$this->flashNotifier->error('crm.permissions.invalidName');
 				$grid->redrawItem($id);
 			}
 		} else {
@@ -390,15 +390,15 @@ class PermissionsPresenter extends CrmPresenter
 
 		$grid->setDataSource($this->orm->aclRoles->findAll());
 
-		$grid->addColumnText('title', 'main.permissions.role')
+		$grid->addColumnText('title', 'crm.permissions.role')
 			->setEditableInputType('text')
 			->setEditableCallback([$this, 'setRoleTitle']);
 
-		$grid->addColumnText('name', 'main.permissions.name')
+		$grid->addColumnText('name', 'crm.permissions.name')
 			->setEditableInputType('text')
 			->setEditableCallback([$this, 'setRoleName']);
 
-		$grid->addColumnText('parent', 'main.permissions.parent')
+		$grid->addColumnText('parent', 'crm.permissions.parent')
 			->setRenderer(function (AclRole $role) {
 				if (!empty($role->parent)) {
 					return $role->parent->title;
@@ -413,12 +413,12 @@ class PermissionsPresenter extends CrmPresenter
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
 			->setConfirm(function (AclRole $role) {
-				return $this->translate('main.permissions.confirmDeleteRole', 1, ['name' => $role->title]);
+				return $this->translate('crm.permissions.confirmDeleteRole', 1, ['name' => $role->title]);
 			});
 
 		$add = $grid->addInlineAdd()
 			->setPositionTop()
-			->setTitle('main.permissions.addRole');
+			->setTitle('crm.permissions.addRole');
 		$add->onControlAdd[] = [$this, 'roleForm'];
 		$add->onSubmit[] = [$this, 'addRole'];
 
@@ -438,12 +438,12 @@ class PermissionsPresenter extends CrmPresenter
 
 		$grid->setDataSource($this->orm->acl->findAll());
 
-		$deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'main.permissions.deleteUnusedResources');
+		$deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'crm.permissions.deleteUnusedResources');
 		$deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
-		$clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'main.permissions.clearCacheAcl');
+		$clearCacheACL = $grid->addToolbarButton('clearCacheAcl!', 'crm.permissions.clearCacheAcl');
 		$clearCacheACL->setClass($clearCacheACL->getClass() . ' ajax');
 
-		$grid->addColumnText('role', 'main.permissions.role')
+		$grid->addColumnText('role', 'crm.permissions.role')
 			->setRenderer(function (Acl $acl) {
 				return $acl->role->title;
 			})
@@ -451,7 +451,7 @@ class PermissionsPresenter extends CrmPresenter
 			->setEditableCallback([$this, 'setRuleRole'])
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
 
-		$grid->addColumnText('resource', 'main.permissions.resource')
+		$grid->addColumnText('resource', 'crm.permissions.resource')
 			->setRenderer(function (Acl $acl) {
 				return $acl->resource->name;
 			})
@@ -459,7 +459,7 @@ class PermissionsPresenter extends CrmPresenter
 			->setEditableCallback([$this, 'setRuleResource'])
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByName());
 
-		$privilege = $grid->addColumnStatus('privilege', 'main.permissions.privilege');
+		$privilege = $grid->addColumnStatus('privilege', 'crm.permissions.privilege');
 		$privilege->setFilterSelect(['' => 'form.none'] + $this->privileges)
 			->setTranslateOptions();
 		foreach ($this->privileges as $key => $name) {
@@ -471,9 +471,9 @@ class PermissionsPresenter extends CrmPresenter
 		$state = $grid->addColumnStatus('allowed', 'default.state');
 		$state->setFilterSelect(['' => 'form.none'] + $this->access)
 			->setTranslateOptions();
-		$state->addOption(1, 'main.permissions.allowed')
+		$state->addOption(1, 'crm.permissions.allowed')
 			->setClass('btn-success');
-		$state->addOption(0, 'main.permissions.denied')
+		$state->addOption(0, 'crm.permissions.denied')
 			->setClass('btn-danger');
 		$state->onChange[] = [$this, 'setRuleState'];
 
@@ -482,12 +482,12 @@ class PermissionsPresenter extends CrmPresenter
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
 			->setConfirm(function (Acl $rule) {
-				return $this->translate('main.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
+				return $this->translate('crm.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
 			});
 
 		$add = $grid->addInlineAdd()
 			->setPositionTop()
-			->setTitle('main.permissions.addRule');
+			->setTitle('crm.permissions.addRule');
 		$add->onControlAdd[] = [$this, 'ruleForm'];
 		$add->onSubmit[] = [$this, 'addRule'];
 

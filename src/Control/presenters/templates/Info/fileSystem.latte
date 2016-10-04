@@ -1,16 +1,16 @@
 <div class="cell fileSystemInfo">
     <div class="header">
-        {_'main.info.fileSystem.info'}
+        {_'crm.info.fileSystem.info'}
     </div>
     <table n:snippet="fileSystem">
         <tr class="odd">
-            <th>{_'main.info.fileSystem.mountPoint'}</th>
-            <th>{_'main.info.fileSystem.type'}</th>
-            <th>{_'main.info.fileSystem.partition'}</th>
-            <th>{_'main.info.fileSystem.usage'}</th>
-            <th>{_'main.info.fileSystem.free'}</th>
-            <th>{_'main.info.fileSystem.used'}</th>
-            <th>{_'main.info.fileSystem.size'}</th>
+            <th>{_'crm.info.fileSystem.mountPoint'}</th>
+            <th>{_'crm.info.fileSystem.type'}</th>
+            <th>{_'crm.info.fileSystem.partition'}</th>
+            <th>{_'crm.info.fileSystem.usage'}</th>
+            <th>{_'crm.info.fileSystem.free'}</th>
+            <th>{_'crm.info.fileSystem.used'}</th>
+            <th>{_'crm.info.fileSystem.size'}</th>
         </tr>
         {foreach $server->fileSystem as $fileSystem}
             <tr n:class="$iterator->counter % 2 == 1 ? even">

@@ -33,7 +33,7 @@ class LogsPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.info.logs');
+		$this->addBreadcrumbLink('crm.dockbar.info.logs');
 	}
 
 	/**
@@ -98,15 +98,15 @@ class LogsPresenter extends CrmPresenter
 
 		$grid->setDefaultSort(['changed' => 'DESC']);
 
-		$clearLogs = $grid->addToolbarButton('clearLogs!', 'main.logs.clearLogs');
+		$clearLogs = $grid->addToolbarButton('clearLogs!', 'crm.logs.clearLogs');
 		$clearLogs->setClass($clearLogs->getClass() . ' ajax');
 
-		$grid->addColumnText('name', 'main.logs.log')
+		$grid->addColumnText('name', 'crm.logs.log')
 			->setFilterText();
 
-		$grid->addColumnText('size', 'main.logs.size');
+		$grid->addColumnText('size', 'crm.logs.size');
 
-		$grid->addColumnDateTime('changed', 'main.logs.lastChange')
+		$grid->addColumnDateTime('changed', 'crm.logs.lastChange')
 			->setSortable()
 			->setRenderer(function ($row) {
 				return Date::getDateTime($row['changed']);
@@ -115,21 +115,21 @@ class LogsPresenter extends CrmPresenter
 		$grid->addAction('showFile', null)
 			->addAttributes(['target' => '_blank'])
 			->setIcon('edit')
-			->setTitle('main.logs.show');
+			->setTitle('crm.logs.show');
 
 		$grid->addAction('downloadFile', null)
 			->setIcon('download')
-			->setTitle('main.logs.download');
+			->setTitle('crm.logs.download');
 
 		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
 			->setConfirm(function ($item) {
-				return $this->translate('main.logs.confirmDelete', 1, ['name' => $item['name']]);
+				return $this->translate('crm.logs.confirmDelete', 1, ['name' => $item['name']]);
 			});
 
-		$grid->addGroupAction('main.logs.download')->onSelect[] = [$this, 'actionDownloadFile'];
+		$grid->addGroupAction('crm.logs.download')->onSelect[] = [$this, 'actionDownloadFile'];
 		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'handleDelete'];
 
 		return $grid;

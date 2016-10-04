@@ -44,7 +44,7 @@ class ProfilePresenter extends CrmPresenter
 
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.myProfile');
+		$this->addBreadcrumbLink('crm.dockbar.myProfile');
 	}
 
 	/**
@@ -59,14 +59,14 @@ class ProfilePresenter extends CrmPresenter
 		$form->addProtection();
 		$form->addHidden('id', $this->profile->id);
 
-		$form->addText('username', 'main.user.username')
+		$form->addText('username', 'crm.user.username')
 			->setDisabled()
 			->setDefaultValue($this->profile->username);
-		$form->addText('firstName', 'main.user.firstName')
+		$form->addText('firstName', 'crm.user.firstName')
 			->setDefaultValue($this->profile->firstName);
-		$form->addText('surname', 'main.user.surname')
+		$form->addText('surname', 'crm.user.surname')
 			->setDefaultValue($this->profile->surname);
-		$form->addText('email', 'main.user.email')
+		$form->addText('email', 'crm.user.email')
 			->setDefaultValue($this->profile->email)
 			->setRequired()
 			->addRule(Form::EMAIL);
@@ -98,9 +98,9 @@ class ProfilePresenter extends CrmPresenter
 
 			$this->orm->persistAndFlush($this->profile);
 
-			$this->flashNotifier->success('main.user.dataSaved');
+			$this->flashNotifier->success('crm.user.dataSaved');
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('main.user.dupliciteEmail');
+			$form->addError('crm.user.dupliciteEmail');
 		}
 
 		if ($this->isAjax()) {
@@ -119,13 +119,13 @@ class ProfilePresenter extends CrmPresenter
 
 		$form->addHidden('id', $this->profile->id);
 
-		$form->addPassword('oldPassword', 'main.user.oldPassword')
+		$form->addPassword('oldPassword', 'crm.user.oldPassword')
 			->setRequired();
 
-		$form->addPassword('password', 'main.user.newPassword')
+		$form->addPassword('password', 'crm.user.newPassword')
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
-		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password']);
 
@@ -147,9 +147,9 @@ class ProfilePresenter extends CrmPresenter
 	{
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);
-			$this->flashNotifier->success('main.user.passwordChanged');
+			$this->flashNotifier->success('crm.user.passwordChanged');
 		} catch (AuthenticationException $e) {
-			$form->addError('main.user.incorrectPassword');
+			$form->addError('crm.user.incorrectPassword');
 		}
 		if ($this->isAjax()) {
 			$this->redrawControl('passwordForm');

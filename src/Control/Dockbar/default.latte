@@ -8,17 +8,17 @@
             </ul>
             <ul class="dockbar-menu">
                 <li class="frontPage">
-                    <a href="{plink $front}"><span>{_'main.dockbar.frontPage'}</span></a>
+                    <a href="{plink $front}"><span>{_'crm.dockbar.frontPage'}</span></a>
                 </li>
-                {include item, parent => 'main.dockbar.', rows => $links}
+                {include item, rows => $links}
             </ul>
             <ul class="identity">
                 <li>
                     <div><span>{$userName}</span></div>
                     <ul class="menu">
-                        <li class="myProfile"><a href="{$profileLink}">{_'main.dockbar.myProfile'}</a></li>
-                        <li n:if="$tryUserEnable" class="closeTryUser"><a n:href="closeTryUser">{_'main.dockbar.closeTryUser'}</a></li>
-                        <li class="logout"><a n:href="logout">{_'main.dockbar.logout'}</a></li>
+                        <li class="myProfile"><a href="{$profileLink}">{_'crm.dockbar.myProfile'}</a></li>
+                        <li n:if="$tryUserEnable" class="closeTryUser"><a n:href="closeTryUser">{_'crm.dockbar.closeTryUser'}</a></li>
+                        <li class="logout"><a n:href="logout">{_'crm.dockbar.logout'}</a></li>
                     </ul>
                 </li>
             </ul>
@@ -30,7 +30,7 @@
 
     {default $final = false}
 
-    <li n:class="$name" n:foreach="$rows as $name => $row">
+    <li n:class="$name" n:if="is_array($row)" n:foreach="$rows as $name => $row">
         {if isset($row[link]) || isset($row[handler])}
             <a
                     n:class="$name, isset($row[ajax]) ? ajax"
@@ -38,11 +38,11 @@
                     {ifset $row[link]}href="{plink $row[link]}"{/ifset}
                     {ifset $row[handler]}href="{link $row[handler]}"{/ifset}
                     {ifset $row[confirm]}data-confirm="{_$row[confirm]}"{/ifset}
-            >{_$parent.$name}</a>
+            >{_$row[name]}</a>
         {else}
-            <div><span>{_$parent.$name.'.title'}</span></div>
+            <div><span>{_$row[name]}</span></div>
             <ul>
-                {include item, parent => $parent.$name.'.', rows => $row}
+                {include item, rows => $row}
             </ul>
         {/if}
     </li>

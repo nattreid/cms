@@ -30,7 +30,7 @@ class HomepagePresenter extends CrmPresenter
 	{
 		$template = $this->template;
 
-		if ($this->user->isAllowed('main.homepage.info', 'view')) {
+		if ($this->user->isAllowed('crm.homepage.info', 'view')) {
 			$template->viewInfo = true;
 
 			$template->ip = $this->info->getIp();

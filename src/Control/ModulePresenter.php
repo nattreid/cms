@@ -14,7 +14,7 @@ abstract class ModulePresenter extends Presenter
 		parent::startup();
 		$link = $this->getAction(true);
 		if (!($this['menu']->isLinkAllowed($link))) {
-			$this->flashNotifier->error('main.permissions.accessDenied');
+			$this->flashNotifier->error('crm.permissions.accessDenied');
 			$this->redirect(":{$this->module}:Homepage:");
 		}
 	}

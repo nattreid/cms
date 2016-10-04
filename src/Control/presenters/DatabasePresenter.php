@@ -31,10 +31,10 @@ class DatabasePresenter extends CrmPresenter
 	{
 		$form = $this->formFactory->create();
 
-		$form->addUpload('sql', 'main.database.file')
+		$form->addUpload('sql', 'crm.database.file')
 			->setRequired();
 
-		$form->addSubmit('upload', 'main.database.upload');
+		$form->addSubmit('upload', 'crm.database.upload');
 
 		$form->onSuccess[] = [$this, 'uploadFormSucceeded'];
 
@@ -51,9 +51,9 @@ class DatabasePresenter extends CrmPresenter
 		$uploaded = $this->app->loadDatabase($values->sql);
 		if ($uploaded) {
 			$this->app->invalidateCache();
-			$this->flashNotifier->success('main.database.uploaded');
+			$this->flashNotifier->success('crm.database.uploaded');
 		} else {
-			$this->flashNotifier->error('main.database.error');
+			$this->flashNotifier->error('crm.database.error');
 		}
 	}
 

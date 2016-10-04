@@ -9,6 +9,7 @@ use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
+use Nette\Http\Request;
 use Nette\Utils\Strings;
 
 /**
@@ -45,8 +46,10 @@ class Dockbar extends Control
 
 	/** @var array */
 	private $allowedHandler = [];
+	/** @var Request */
+	private $request;
 
-	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
+	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier, Request $request)
 	{
 		parent::__construct();
 		$this->app = $app;
@@ -56,7 +59,8 @@ class Dockbar extends Control
 
 		$this->module = $module;
 		$this->front = $front;
-		$this->links = $this->createLinks('main.dockbar', $permissions);
+		$this->links = $this->createLinks('crm.dockbar', $permissions);
+		$this->request = $request;
 	}
 
 	/**
@@ -84,7 +88,7 @@ class Dockbar extends Control
 	public function handleLogOut()
 	{
 		$this->user->logout();
-		$this->flashNotifier->info('main.user.youAreLoggedOut');
+		$this->flashNotifier->info('crm.user.youAreLoggedOut');
 		$this->presenter->redirect(":{$this->module}:Sign:in");
 	}
 
@@ -104,7 +108,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->clearCss();
-		$this->flashNotifier->success('main.dockbar.management.application.cssRestored');
+		$this->flashNotifier->success('crm.dockbar.management.application.cssRestored');
 	}
 
 	/**
@@ -115,7 +119,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->clearJs();
-		$this->flashNotifier->success('main.dockbar.management.application.jsRestored');
+		$this->flashNotifier->success('crm.dockbar.management.application.jsRestored');
 	}
 
 	/**
@@ -126,7 +130,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->clearSession('0 minute');
-		$this->flashNotifier->success('main.dockbar.management.application.sessionsCleared');
+		$this->flashNotifier->success('crm.dockbar.management.application.sessionsCleared');
 	}
 
 	/**
@@ -137,7 +141,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->clearCache();
-		$this->flashNotifier->success('main.dockbar.management.application.cacheCleared');
+		$this->flashNotifier->success('crm.dockbar.management.application.cacheCleared');
 	}
 
 	/**
@@ -148,7 +152,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->invalidateCache();
-		$this->flashNotifier->success('main.dockbar.management.application.cacheInvalidated');
+		$this->flashNotifier->success('crm.dockbar.management.application.cacheInvalidated');
 	}
 
 	/**
@@ -159,7 +163,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission(false);
 
 		$this->app->clearTemp();
-		$this->flashNotifier->success('main.dockbar.management.application.tempCleared');
+		$this->flashNotifier->success('crm.dockbar.management.application.tempCleared');
 		$this->redirect('this');
 	}
 
@@ -173,9 +177,9 @@ class Dockbar extends Control
 		try {
 			$this->app->gitPull(true);
 			$this->app->clearCache();
-			$this->flashNotifier->success('main.dockbar.management.source.deployed');
+			$this->flashNotifier->success('crm.dockbar.management.source.deployed');
 		} catch (\InvalidArgumentException $ex) {
-			$this->flashNotifier->error('main.dockbar.management.source.deployNotSet');
+			$this->flashNotifier->error('crm.dockbar.management.source.deployNotSet');
 		}
 		$this->redirect('this');
 	}
@@ -188,7 +192,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission();
 
 		$this->app->composerUpdate(true);
-		$this->flashNotifier->success('main.dockbar.management.source.composerUpdated');
+		$this->flashNotifier->success('crm.dockbar.management.source.composerUpdated');
 		$this->redirect('this');
 	}
 
@@ -212,7 +216,7 @@ class Dockbar extends Control
 
 		$this->app->dropDatabase();
 		$this->app->clearCache();
-		$this->flashNotifier->success('main.dockbar.management.database.databaseDroped');
+		$this->flashNotifier->success('crm.dockbar.management.database.databaseDroped');
 		$this->redirect('this');
 	}
 
@@ -271,9 +275,9 @@ class Dockbar extends Control
 	{
 		$arr = [];
 		foreach ($items as $name => $item) {
-			$uniqid = $parent . '.' . $name;
+			$resource = $parent . '.' . $name;
 			if ($this->isLink($item)) {
-				if ($this->user->isAllowed($uniqid, 'view')) {
+				if ($this->user->isAllowed($resource, 'view')) {
 
 					if (!empty($item['advanced']) && !$this->configurator->dockbarAdvanced) {
 						continue;
@@ -289,11 +293,13 @@ class Dockbar extends Control
 						$this->allowedHandler[$name] = true;
 						$item['handler'] = $name;
 					}
+					$item['name'] = $resource;
 					$arr[$name] = $item;
 				}
 			} else {
-				$result = $this->createLinks($uniqid, $item);
+				$result = $this->createLinks($resource, $item);
 				if (!empty($result)) {
+					$result['name'] = $resource . '.title';
 					$arr[$name] = $result;
 				}
 			}

@@ -28,7 +28,7 @@ abstract class Presenter extends BasePresenter
 
 		if (!$this->user->isLoggedIn()) {
 			if ($this->user->logoutReason === IUserStorage::INACTIVITY) {
-				$this->flashNotifier->info('main.user.inactivityLogout');
+				$this->flashNotifier->info('crm.user.inactivityLogout');
 			}
 			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
 		}
@@ -84,7 +84,7 @@ abstract class Presenter extends BasePresenter
 	{
 		$moduleMenu = $this->menuFactory->create();
 		$moduleMenu->setTranslator($this->translator);
-		$moduleMenu->setBaseUrl('main.title', ":{$this->module}:Homepage:");
+		$moduleMenu->setBaseUrl('crm.title', ":{$this->module}:Homepage:");
 		return $moduleMenu;
 	}
 

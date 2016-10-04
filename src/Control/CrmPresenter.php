@@ -17,7 +17,7 @@ abstract class CrmPresenter extends Presenter
 			&& !$this->isLinkCurrent(":{$this->module}:Profile:")
 			&& !$this['dockbar']->isLinkAllowed($this->getAction(true))
 		) {
-			$this->flashNotifier->error('main.permissions.accessDenied');
+			$this->flashNotifier->error('crm.permissions.accessDenied');
 			$this->redirect(":{$this->module}:Homepage:");
 		}
 	}

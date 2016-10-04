@@ -48,7 +48,7 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.settings.users');
+		$this->addBreadcrumbLink('crm.dockbar.settings.users');
 		$this->storeBacklink();
 	}
 
@@ -58,8 +58,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderChangePassword($id)
 	{
-		$this->addBreadcrumbLink('main.dockbar.settings.users', ':Crm:Users:');
-		$this->addBreadcrumbLink('main.user.changePassword');
+		$this->addBreadcrumbLink('crm.dockbar.settings.users', ':Crm:Users:');
+		$this->addBreadcrumbLink('crm.user.changePassword');
 
 		$user = $this->orm->users->getById($id);
 		$this['passwordForm']->setDefaults([
@@ -118,14 +118,14 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function userForm(Container $container)
 	{
-		$container->addText('username', 'main.user.username')
+		$container->addText('username', 'crm.user.username')
 			->setRequired();
-		$container->addText('firstName', 'main.user.firstName');
-		$container->addText('surname', 'main.user.surname');
-		$container->addEmail('email', 'main.user.email')
+		$container->addText('firstName', 'crm.user.firstName');
+		$container->addText('surname', 'crm.user.surname');
+		$container->addEmail('email', 'crm.user.email')
 			->setRequired()
 			->addRule(Form::EMAIL);
-		$container->addMultiSelect('roles', 'main.permissions.roles')
+		$container->addMultiSelect('roles', 'crm.permissions.roles')
 			->setTranslator()
 			->setItems($this->orm->aclRoles->fetchPairs())
 			->setRequired();
@@ -148,16 +148,16 @@ class UsersPresenter extends CrmPresenter
 			try {
 				$user->setUsername($values->username);
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('main.user.dupliciteUsername');
+				$this->flashNotifier->error('crm.user.dupliciteUsername');
 				return;
 			} catch (InvalidArgumentException $ex) {
-				$this->flashNotifier->error('main.user.invalidUsername');
+				$this->flashNotifier->error('crm.user.invalidUsername');
 				return;
 			}
 			try {
 				$user->setEmail($values->email);
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('main.user.dupliciteEmail');
+				$this->flashNotifier->error('crm.user.dupliciteEmail');
 				return;
 			}
 			$user->firstName = $values->firstName;
@@ -166,7 +166,7 @@ class UsersPresenter extends CrmPresenter
 			$user->roles->set($values->roles);
 			$this->orm->persistAndFlush($user);
 
-			$this->flashNotifier->success('main.user.dataSaved');
+			$this->flashNotifier->success('crm.user.dataSaved');
 		} else {
 			$this->terminate();
 		}
@@ -237,29 +237,29 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'main.user.username')
+		$form->addText('username', 'crm.user.username')
 			->setRequired();
-		$form->addText('firstName', 'main.user.firstName');
-		$form->addText('surname', 'main.user.surname');
-		$form->addText('email', 'main.user.email')
+		$form->addText('firstName', 'crm.user.firstName');
+		$form->addText('surname', 'crm.user.surname');
+		$form->addText('email', 'crm.user.email')
 			->setRequired()
 			->addRule(Form::EMAIL);
 
-		$form->addMultiSelectUntranslated('roles', 'main.permissions.roles', $this->orm->aclRoles->fetchPairs())
+		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
 			->setRequired();
 
 		if ($this->configurator->sendNewUserPassword) {
-			$form->addCheckbox('generatePassword', 'main.user.generatePassword');
+			$form->addCheckbox('generatePassword', 'crm.user.generatePassword');
 		} else {
 			$form->addHidden('generatePassword', false);
 		}
 
-		$form->addPassword('password', 'main.user.newPassword')
+		$form->addPassword('password', 'crm.user.newPassword')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
-		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password'])
@@ -290,16 +290,16 @@ class UsersPresenter extends CrmPresenter
 		try {
 			$user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('main.user.dupliciteUsername');
+			$form->addError('crm.user.dupliciteUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('main.user.invalideUsernameLetters');
+			$form->addError('crm.user.invalideUsernameLetters');
 			return;
 		}
 		try {
 			$user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('main.user.dupliciteEmail');
+			$form->addError('crm.user.dupliciteEmail');
 			return;
 		}
 		$user->firstName = $values->firstName;
@@ -313,7 +313,7 @@ class UsersPresenter extends CrmPresenter
 			$this->mailer->sendNewUser($user->email, $user->username, $password);
 		}
 
-		$this->flashNotifier->success('main.user.dataSaved');
+		$this->flashNotifier->success('crm.user.dataSaved');
 		$this->restoreBacklink();
 	}
 
@@ -328,13 +328,13 @@ class UsersPresenter extends CrmPresenter
 
 		$form->addHidden('id', null);
 
-		$form->addText('username', 'main.user.username')
+		$form->addText('username', 'crm.user.username')
 			->setDisabled();
 
-		$form->addPassword('password', 'main.user.newPassword')
+		$form->addPassword('password', 'crm.user.newPassword')
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
-		$form->addPassword('passwordVerify', 'main.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password']);
 
@@ -361,7 +361,7 @@ class UsersPresenter extends CrmPresenter
 			$this->mailer->sendNewPassword($user->email, $user->username, $values->password);
 		}
 
-		$this->flashNotifier->success('main.user.passwordChanged');
+		$this->flashNotifier->success('crm.user.passwordChanged');
 		$this->restoreBacklink();
 	}
 
@@ -376,25 +376,25 @@ class UsersPresenter extends CrmPresenter
 
 		$grid->setDataSource($this->orm->users->findAll());
 
-		$grid->addToolbarButton('add', 'main.user.add');
+		$grid->addToolbarButton('add', 'crm.user.add');
 
-		$grid->addColumnText('username', 'main.user.username')
+		$grid->addColumnText('username', 'crm.user.username')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('firstName', 'main.user.firstName')
+		$grid->addColumnText('firstName', 'crm.user.firstName')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('surname', 'main.user.surname')
+		$grid->addColumnText('surname', 'crm.user.surname')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('email', 'main.user.email')
+		$grid->addColumnText('email', 'crm.user.email')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('roles', 'main.permissions.roles', 'roles.id')
+		$grid->addColumnText('roles', 'crm.permissions.roles', 'roles.id')
 			->setRenderer(function (User $user) {
 				return implode(', ', $user->getRoleTitles());
 			})
@@ -405,7 +405,7 @@ class UsersPresenter extends CrmPresenter
 			1 => 'default.active',
 			0 => 'default.deactive'
 		];
-		$state = $grid->addColumnStatus('active', 'main.user.state');
+		$state = $grid->addColumnStatus('active', 'crm.user.state');
 		$state->setFilterSelect($active)
 			->setTranslateOptions();
 		$state->addOption(1, 'default.active')
@@ -423,12 +423,12 @@ class UsersPresenter extends CrmPresenter
 			$grid->addAction('tryUser', null, 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')
-				->setTitle('main.user.tryUser');
+				->setTitle('crm.user.tryUser');
 		}
 
 		$grid->addAction('changePassword', null)
 			->setIcon('wrench')
-			->setTitle('main.user.changePassword');
+			->setTitle('crm.user.changePassword');
 
 		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')

@@ -31,7 +31,7 @@ class FileManagerPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.application.fileManager');
+		$this->addBreadcrumbLink('crm.dockbar.application.fileManager');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class FileManagerPresenter extends CrmPresenter
 	{
 		$manager = $this->fileManagerFactory->create($this->basePath);
 
-		$manager->editable($this->user->isAllowed('main.dockbar.application.fileManager', 'edit'));
+		$manager->editable($this->user->isAllowed('crm.dockbar.application.fileManager', 'edit'));
 
 		$manager->getTranslator()->setLang($this->locale);
 

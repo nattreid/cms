@@ -14395,9 +14395,9 @@ body.preload * {
   position: relative;
 }
 #crm-container #crm-content .datagrid select[multiple]:hover {
-  height: 100px;
+  height: 140px;
   position: absolute;
-  width: 90%;
+  width: 97%;
   top: 8px;
 }
 @media (max-width: 700px) {

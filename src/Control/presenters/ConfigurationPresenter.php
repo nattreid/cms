@@ -33,7 +33,7 @@ class ConfigurationPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('main.dockbar.settings.configuration');
+		$this->addBreadcrumbLink('crm.dockbar.settings.configuration');
 		$this['configurationForm']->setDefaults($this->configurator->fetchConfigurations());
 	}
 
@@ -60,34 +60,34 @@ class ConfigurationPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
 
-		$form->addGroup('main.settings.basic');
-		$form->addImageUpload('crmLogo', 'main.settings.logo', 'main.settings.deleteLogo')
+		$form->addGroup('crm.settings.basic');
+		$form->addImageUpload('crmLogo', 'crm.settings.logo', 'crm.settings.deleteLogo')
 			->setNamespace('crm')
 			->setPreview('300x100');
-		$form->addCheckbox('sendNewUserPassword', 'main.settings.sendNewUserPassword');
-		$form->addCheckbox('sendChangePassword', 'main.settings.sendChangePassword');
-		$form->addCheckbox('dockbarAdvanced', 'main.settings.dockbarAdvanced');
-		$form->addSelectUntranslated('defaultLocale', 'main.settings.defaultLocale', $this->localeService->fetch())
+		$form->addCheckbox('sendNewUserPassword', 'crm.settings.sendNewUserPassword');
+		$form->addCheckbox('sendChangePassword', 'crm.settings.sendChangePassword');
+		$form->addCheckbox('dockbarAdvanced', 'crm.settings.dockbarAdvanced');
+		$form->addSelectUntranslated('defaultLocale', 'crm.settings.defaultLocale', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->getDefaultLocaleId());
-		$form->addMultiSelectUntranslated('allowedLocales', 'main.settings.allowedLocales', $this->localeService->fetch())
+		$form->addMultiSelectUntranslated('allowedLocales', 'crm.settings.allowedLocales', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->getAllowedLocalesId())
 			->setRequired();
 
-		$form->addGroup('main.settings.development');
+		$form->addGroup('crm.settings.development');
 		if (!$this->tracy->isEnabled()) {
-			$form->addLink('debugOn', 'main.settings.debugOn')
+			$form->addLink('debugOn', 'crm.settings.debugOn')
 				->link($this->link('debug!', true))
 				->setAjaxRequest()
 				->addClass('btn-success')
 				->setAttribute('data-ajax-off', 'history');
 		} else {
-			$form->addLink('debugOff', 'main.settings.debugOff')
+			$form->addLink('debugOff', 'crm.settings.debugOff')
 				->link($this->link('debug!', false))
 				->setAjaxRequest()
 				->addClass('btn-danger')
 				->setAttribute('data-ajax-off', 'history');
 		}
-		$form->addCheckbox('mailPanel', 'main.settings.mailPanel')
+		$form->addCheckbox('mailPanel', 'crm.settings.mailPanel')
 			->setDefaultValue($this->configurator->mailPanel);
 
 		$form->addSubmit('save', 'form.save');
@@ -111,7 +111,7 @@ class ConfigurationPresenter extends CrmPresenter
 		foreach ($values as $name => $value) {
 			$this->configurator->$name = $value;
 		}
-		$this->flashNotifier->success('main.settings.settingsSaved');
+		$this->flashNotifier->success('crm.settings.settingsSaved');
 
 		if ($this->isAjax()) {
 			$this->redrawControl('configuration');

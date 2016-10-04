@@ -2,14 +2,14 @@
     {ifset $server->memory}
         <div class="cell memoryInfo">
             <div class="header">
-                {_'main.info.memory.info'}
+                {_'crm.info.memory.info'}
             </div>
             <table>
                 <tr class="odd">
-                    <th>{_'main.info.memory.usage'}</th>
-                    <th>{_'main.info.memory.free'}</th>
-                    <th>{_'main.info.memory.used'}</th>
-                    <th>{_'main.info.memory.size'}</th>
+                    <th>{_'crm.info.memory.usage'}</th>
+                    <th>{_'crm.info.memory.free'}</th>
+                    <th>{_'crm.info.memory.used'}</th>
+                    <th>{_'crm.info.memory.size'}</th>
                 </tr>
                 <tr class="even">
                     <td>
@@ -22,11 +22,11 @@
                                  style="width: {$server->memory->buffer|percent:$server->memory->total:0|noescape};"></div>
                         </div>
                         <div>
-                            {_'main.info.memory.total'}: {$server->memory->used|percent:$server->memory->total:0}
-                            ({_'main.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0}
+                            {_'crm.info.memory.total'}: {$server->memory->used|percent:$server->memory->total:0}
+                            ({_'crm.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0}
                             -
-                            {_'main.info.memory.cache'}: {$server->memory->cache|percent:$server->memory->total:0} -
-                            {_'main.info.memory.buffers'}: {$server->memory->buffer|percent:$server->memory->total:0})
+                            {_'crm.info.memory.cache'}: {$server->memory->cache|percent:$server->memory->total:0} -
+                            {_'crm.info.memory.buffers'}: {$server->memory->buffer|percent:$server->memory->total:0})
                         </div>
                     </td>
                     <td>{$server->memory->free|size}</td>
