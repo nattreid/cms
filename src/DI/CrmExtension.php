@@ -146,12 +146,15 @@ class CrmExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$builder->addDefinition($this->prefix('menu'))
+		$menu = $builder->addDefinition($this->prefix('menu'))
 			->setImplement(ICrmMenuFactory::class)
-			->setFactory(Menu::class)
-			->addSetup('addMenu', [
+			->setFactory(Menu::class);
+
+		if (!empty($config['menu'])) {
+			$menu->addSetup('addMenu', [
 				$config['menu']
 			]);
+		}
 	}
 
 	private function setMailing($config)
