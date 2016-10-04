@@ -8,10 +8,10 @@ use NAttreid\Crm\Configurator\Configurator;
 use NAttreid\Crm\Control\BasePresenter;
 use NAttreid\Crm\Control\CrmPresenter;
 use NAttreid\Crm\Control\Dockbar;
-use NAttreid\Crm\Control\ExtensionPresenter;
 use NAttreid\Crm\Control\FileManagerPresenter;
 use NAttreid\Crm\Control\IDockbarFactory;
 use NAttreid\Crm\Control\InfoPresenter;
+use NAttreid\Crm\Control\ModulePresenter;
 use NAttreid\Crm\Control\ProfilePresenter;
 use NAttreid\Crm\Control\SignPresenter;
 use NAttreid\Crm\Control\UsersPresenter;
@@ -146,12 +146,11 @@ class CrmExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$extension = Strings::firstLower($config['namespace']);
 		$builder->addDefinition($this->prefix('menu'))
 			->setImplement(ICrmMenuFactory::class)
 			->setFactory(Menu::class)
-			->addSetup('setMenu', [
-				[$extension . 'Ext' => $config['menu']]
+			->addSetup('addMenu', [
+				$config['menu']
 			]);
 	}
 
@@ -173,33 +172,45 @@ class CrmExtension extends CompilerExtension
 
 		$namespace = Strings::firstLower($config['namespace']);
 
-		$this->setRouting();
+		$this->setRouting($config);
 		$this->setTranslation();
 		$this->setTracy();
 		$this->setFlash();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
 
-		$builder->getDefinition('application.presenterFactory')
-			->addSetup('setMapping', [
-				[$config['namespace'] => 'NAttreid\Crm\Control\*Presenter']
-			]);
-
 		$authenticator = $builder->getByType(Authenticator::class);
 		$builder->getDefinition($authenticator)
 			->addSetup('add', [$namespace, $builder->getDefinition($this->prefix('authenticator'))]);
 	}
 
-	private function setRouting()
+	private function setRouting($config)
 	{
 		$builder = $this->getContainerBuilder();
-		$router = $builder->getByType(RouterFactory::class);
+		$routerFactory = $builder->getByType(RouterFactory::class);
 		try {
-			$builder->getDefinition($router)
+			$builder->getDefinition($routerFactory)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
 				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::default', '@' . $this->prefix('localeService') . '::allowed']);
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/routing'");
+		}
+
+		$presenterFactory = $builder->getDefinition('application.presenterFactory')
+			->addSetup('setMapping', [
+				[$config['namespace'] => 'NAttreid\Crm\Control\*Presenter']
+			]);
+
+		$router = $builder->getByType(Router::class);
+		foreach ($config['menu'] as $module => $arr) {
+			$name = Strings::firstUpper($module);
+
+			$builder->getDefinition($router)
+				->addSetup('addModule', [$module]);
+
+			$presenterFactory->addSetup('setMapping', [
+				[$name => preg_replace('/\*/', $name, $config['moduleMapping'], 1)]
+			]);
 		}
 	}
 
@@ -216,11 +227,11 @@ class CrmExtension extends CompilerExtension
 			foreach ($this->findByType(CrmPresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
-			foreach ($this->findByType(ExtensionPresenter::class) as $def) {
+			foreach ($this->findByType(ModulePresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
 		} else {
-			foreach ($this->findByType(ExtensionPresenter::class) as $def) {
+			foreach ($this->findByType(ModulePresenter::class) as $def) {
 				$def->addSetup('setLayout', [__DIR__ . '/../Control/presenters/templates/@layout.latte']);
 			}
 		}
@@ -356,5 +367,4 @@ class CrmExtension extends CompilerExtension
 			throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
 		}
 	}
-
 }

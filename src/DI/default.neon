@@ -22,7 +22,8 @@ cssFilters:
     - WebLoader\Filter\LessFilter
     - Joseki\Webloader\CssMinFilter
 assets:
-menu: 
+menu:
+moduleMapping: App\Crm\*\Presenters\*Presenter
 
 permissions:
     settings:

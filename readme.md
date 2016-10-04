@@ -100,11 +100,11 @@ menu:
             link: ''
 ```
 
-Presenter musí dědit z třídy **\NAttreid\Crm\Control\ExtensionPresenter**
+Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**
 ```php
 namespace Package\Example\Presenters;
 
-class TestPresenter extends \NAttreid\Crm\Control\ExtensionPresenter {
+class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
     
 }
 ```

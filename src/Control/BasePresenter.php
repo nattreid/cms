@@ -26,7 +26,6 @@ use Nette\Forms\Validator;
  *
  * @property-read string $namespace
  * @property-read string $module
- * @property-read string $crmModule
  * @property-read User $user
  *
  * @persistent(tryUser)
@@ -52,12 +51,6 @@ abstract class BasePresenter extends Presenter
 	private $module;
 
 	/**
-	 * Modul v Crm
-	 * @var string
-	 */
-	private $crmModule;
-
-	/**
 	 * Vrati namespace pro crm
 	 * @return string
 	 */
@@ -73,15 +66,6 @@ abstract class BasePresenter extends Presenter
 	protected function getModule()
 	{
 		return $this->module;
-	}
-
-	/**
-	 * Vrati modul v Crm
-	 * @return string
-	 */
-	protected function getCrmModule()
-	{
-		return $this->crmModule;
 	}
 
 	protected function startup()
@@ -136,15 +120,6 @@ abstract class BasePresenter extends Presenter
 	{
 		$this->module = $module;
 		$this->namespace = $namespace;
-	}
-
-	/**
-	 * Nastavi modul v CRM
-	 * @param string $crmModule
-	 */
-	public function setCrmModule($crmModule)
-	{
-		$this->crmModule = $crmModule;
 	}
 
 	public function checkRequirements($element)

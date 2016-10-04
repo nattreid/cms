@@ -27,9 +27,6 @@ class Router extends \NAttreid\Routing\Router
 
 	public function createRoutes()
 	{
-		$routesExt = $this->getRouter($this->namespace . 'Ext');
-		$routesExt[] = new Route($this->getUrl() . 'ext/<presenter>[/<action>]', 'Homepage:default');
-
 		ksort($this->modules);
 		foreach ($this->modules as $module) {
 			$routesModule = $this->getRouter(Strings::firstUpper($module));
