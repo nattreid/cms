@@ -37,60 +37,6 @@ user:
     mailToRestorePasswordSent: "Message fro password restore has been sent to your e-mail."
     restorePasswordDisabledForHour: "Restore password is disabled for one hour."
 
-dockbar:
-    frontPage: "Web page"
-    settings: 
-        title: "Settings"
-        users: "Users"
-        permissions: "Permissions"
-        configuration: "Configuration"
-    application: 
-        title: "Application"
-        fileManager: "File Manager"
-    management: 
-        title: "Management"
-        application: 
-            title: "Application"
-            restoreCss: "Restore CSS"
-            cssRestored: "CSS restored"
-            restoreJs: "Restore JS"
-            jsRestored: "JS restored"
-            invalidateCache: "Invalidate cache"
-            clearSessions: "Clear sessions"
-            cacheCleared: "Cache cleared."
-            sessionsCleared: "Sessions cleared."
-            cacheInvalidated: "Cache invalidated."
-            tempCleared: "Temp cleared."
-            clearCache: "Clear cache"
-            clearTemp: "Clear temp"
-            confirmDeleteTemp: "Do you really want to delete temp?"
-            confirmDeleteSessions: "Do you really want to delete Sessions?"
-        source:
-            title: "Source"
-            deploy: "Deploy"
-            deployed: "Deploy success"
-            deployNotSet: "Gitlab is not set"
-            composerUpdate: "Update libraries"
-            composerUpdated: "Libraries updated"
-            confirmComposerUpdate: "Do you really want to update libraries with composer?"
-            confirmDeploy: "Do you really want to deploy?"
-        database:
-            title: "Database"
-            backupDatabase: "Backup"
-            confirmBackupDatabase: "Do you really want to backup database?"
-            uploadDatabase: "Upload database"    
-            dropDatabase: "Drop database"
-            confirmDropDatabase: "Do you really want to drop database?"
-            databaseDroped: "Database droped"
-    info:
-        title: "Information"
-        logs: "Logs"
-        php: "PHP"
-        server: "Server"
-    myProfile: "My profile"
-    closeTryUser: "Return to own Identity"
-    logout: "Logout"
-
 homepage:
     title: "Homepage"
     server:

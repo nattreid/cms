@@ -59,7 +59,7 @@ class Dockbar extends Control
 
 		$this->module = $module;
 		$this->front = $front;
-		$this->links = $this->createLinks('crm.dockbar', $permissions);
+		$this->links = $this->createLinks('dockbar', $permissions);
 		$this->request = $request;
 	}
 
