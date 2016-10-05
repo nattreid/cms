@@ -8,7 +8,7 @@
             </ul>
             <ul class="dockbar-menu">
                 <li class="frontPage">
-                    <a href="{plink $front}"><span>{_'crm.dockbar.frontPage'}</span></a>
+                    <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
                 </li>
                 {include item, rows => $links}
             </ul>
@@ -16,9 +16,9 @@
                 <li>
                     <div><span>{$userName}</span></div>
                     <ul class="menu">
-                        <li class="myProfile"><a href="{$profileLink}">{_'crm.dockbar.myProfile'}</a></li>
-                        <li n:if="$tryUserEnable" class="closeTryUser"><a n:href="closeTryUser">{_'crm.dockbar.closeTryUser'}</a></li>
-                        <li class="logout"><a n:href="logout">{_'crm.dockbar.logout'}</a></li>
+                        <li class="myProfile"><a href="{$profileLink}">{_'dockbar.myProfile'}</a></li>
+                        <li n:if="$tryUserEnable" class="closeTryUser"><a n:href="closeTryUser">{_'dockbar.closeTryUser'}</a></li>
+                        <li class="logout"><a n:href="logout">{_'dockbar.logout'}</a></li>
                     </ul>
                 </li>
             </ul>
