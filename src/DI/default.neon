@@ -47,25 +47,25 @@ permissions:
             invalidateCache:
                 ajax: true
             clearSessions:
-                confirm: 'crm.dockbar.management.application.confirmDeleteSessions'
+                confirm: 'dockbar.management.application.confirmDeleteSessions'
                 ajax: true
             clearTemp:
-                confirm: 'crm.dockbar.management.application.confirmDeleteTemp'
+                confirm: 'dockbar.management.application.confirmDeleteTemp'
         source:
             deploy:
-                confirm: 'crm.dockbar.management.source.confirmDeploy'
+                confirm: 'dockbar.management.source.confirmDeploy'
                 ajax: true
             composerUpdate:
-                confirm: 'crm.dockbar.management.source.confirmComposerUpdate'
+                confirm: 'dockbar.management.source.confirmComposerUpdate'
                 ajax: true
         database:
             backupDatabase:
-                confirm: 'crm.dockbar.management.database.confirmBackupDatabase'
+                confirm: 'dockbar.management.database.confirmBackupDatabase'
             uploadDatabase:
                 advanced: true
                 link: 'Database:upload'
             dropDatabase:
-                confirm: 'crm.dockbar.management.database.confirmDropDatabase'
+                confirm: 'dockbar.management.database.confirmDropDatabase'
                 advanced: true
                 ajax: true
 

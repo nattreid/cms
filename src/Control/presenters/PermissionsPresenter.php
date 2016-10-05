@@ -48,7 +48,7 @@ class PermissionsPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('crm.dockbar.settings.permissions');
+		$this->addBreadcrumbLink('dockbar.settings.permissions');
 	}
 
 	/**

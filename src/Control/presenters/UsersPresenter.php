@@ -48,7 +48,7 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('crm.dockbar.settings.users');
+		$this->addBreadcrumbLink('dockbar.settings.users');
 		$this->storeBacklink();
 	}
 
@@ -58,7 +58,7 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderChangePassword($id)
 	{
-		$this->addBreadcrumbLink('crm.dockbar.settings.users', ':Crm:Users:');
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
 		$this->addBreadcrumbLink('crm.user.changePassword');
 
 		$user = $this->orm->users->getById($id);

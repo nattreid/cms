@@ -246,13 +246,7 @@ class Dockbar extends Control
 		$template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 
 		//uzivatelske jmeno
-		$identity = $this->user->getIdentity();
-		$username = $identity->firstName;
-		if (!empty($username) || !empty($identity->surname)) {
-			$username .= ' ';
-		}
-		$username .= $identity->surname;
-		$template->userName = $username;
+		$template->userName = $this->user->getIdentity()->fullName;
 
 		$template->tryUserEnable = $this->getTryUser()->isEnable();
 
@@ -319,7 +313,7 @@ class Dockbar extends Control
 		} elseif (is_array($item)) {
 			return !is_array(current($item));
 		} else {
-			throw new \InvalidArgumentException('Error in dockbar.neon');
+			throw new \InvalidArgumentException('Crm menu items is wrong in config.neon');
 		}
 	}
 

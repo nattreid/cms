@@ -44,7 +44,7 @@ class ProfilePresenter extends CrmPresenter
 
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('crm.dockbar.myProfile');
+		$this->addBreadcrumbLink('dockbar.myProfile');
 	}
 
 	/**

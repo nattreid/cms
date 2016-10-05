@@ -33,7 +33,7 @@ class LogsPresenter extends CrmPresenter
 	 */
 	public function renderDefault()
 	{
-		$this->addBreadcrumbLink('crm.dockbar.info.logs');
+		$this->addBreadcrumbLink('dockbar.info.logs');
 	}
 
 	/**
