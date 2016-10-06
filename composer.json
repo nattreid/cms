@@ -26,7 +26,7 @@
     "nattreid/menu": "~2.0",
     "nattreid/latte": "~1.0",
     "nattreid/appmanager": "~1.0",
-    "nattreid/form": "~1.0@dev",
+    "nattreid/form": "~1.0",
     "nattreid/utils": "~1.0",
     "nattreid/routing": "~1.0",
     "nattreid/mailing": "~1.0",
