@@ -181,7 +181,6 @@ class Dockbar extends Control
 		} catch (\InvalidArgumentException $ex) {
 			$this->flashNotifier->error('dockbar.management.source.deployNotSet');
 		}
-		$this->redirect('this');
 	}
 
 	/**
@@ -193,7 +192,6 @@ class Dockbar extends Control
 
 		$this->app->composerUpdate(true);
 		$this->flashNotifier->success('dockbar.management.source.composerUpdated');
-		$this->redirect('this');
 	}
 
 	/**
@@ -217,7 +215,6 @@ class Dockbar extends Control
 		$this->app->dropDatabase();
 		$this->app->clearCache();
 		$this->flashNotifier->success('dockbar.management.database.databaseDroped');
-		$this->redirect('this');
 	}
 
 	/**
