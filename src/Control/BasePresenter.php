@@ -156,16 +156,9 @@ abstract class BasePresenter extends Presenter
 	 */
 	protected function createComponentTryUser()
 	{
-		return $this->tryUserFactory->create(":{$this->module}:Homepage:");
-	}
-
-	/**
-	 * Vrati komponentu Try User
-	 * @return TryUser
-	 */
-	public function getTryUser()
-	{
-		return $this['tryUser'];
+		$control = $this->tryUserFactory->create(":{$this->module}:Homepage:");
+		$control->permission = 'dockbar.settings.permissions.tryUser';
+		return $control;
 	}
 
 	/* ###################################################################### */

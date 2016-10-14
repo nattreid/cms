@@ -75,7 +75,7 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function handleTryUser($id)
 	{
-		$this->getTryUser()->set($id);
+		$this['tryUser']->set($id);
 		$this->restoreBacklink();
 	}
 
@@ -419,7 +419,7 @@ class UsersPresenter extends CrmPresenter
 		$edit->onSetDefaults[] = [$this, 'setUserForm'];
 		$edit->onSubmit[] = [$this, 'updateUser'];
 
-		if ($this->getTryUser()->isAllowed()) {
+		if ($this['tryUser']->isAllowed()) {
 			$grid->addAction('tryUser', null, 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')

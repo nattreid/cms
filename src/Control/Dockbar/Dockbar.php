@@ -70,7 +70,7 @@ class Dockbar extends Control
 	{
 		/* @var $presenter BasePresenter */
 		$presenter = $this->presenter;
-		return $presenter->getTryUser();
+		return $presenter['tryUser'];
 	}
 
 	/**
