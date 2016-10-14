@@ -65,7 +65,7 @@ permissions:
     deleteUnusedResources: "Smazat nepoužité zdroje"
     unusedResourcesDeleted: "Nepoužité zdroje smazány."
     clearCacheAcl: "Smazat cache ACL"
-    AclCacheCLeared: "Cache ACL smazána."
+    aclCacheCleared: "Cache ACL smazána."
     accessDenied: "Nemáte práva pro tuto akci."
     roleUsed: "Role již v databázi existuje."
     dupliciteName: "Jméno je již použito"

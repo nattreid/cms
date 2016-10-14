@@ -141,7 +141,7 @@ class PermissionsPresenter extends CrmPresenter
 	{
 		if ($this->isAjax()) {
 			$this->authorizatorFactory->cleanCache();
-			$this->flashNotifier->success('crm.permissions.aclCacheCLeared');
+			$this->flashNotifier->success('crm.permissions.aclCacheCleared');
 		} else {
 			$this->terminate();
 		}

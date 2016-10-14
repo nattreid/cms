@@ -65,7 +65,7 @@ permissions:
     deleteUnusedResources: "Delete unused resources"
     unusedResourcesDeleted: "Unused resources deleted."
     clearCacheAcl: "Delete cache ACL"
-    AclCacheCLeared: "Cache ACL deleted."
+    aclCacheCleared: "Cache ACL deleted."
     accessDenied: "You do not have rights for this event."
     roleUsed: "Role already exists in the database."
     dupliciteName: "Name already exists in the database."
