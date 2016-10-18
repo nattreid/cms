@@ -2,5 +2,7 @@
 {block content}
 {panel}
     {control rolesList}
-    {control rulesList}
+    {if $user->isAllowed('dockbar.settings.permissions.permissionsList', 'edit')}
+        {control permissionsList}
+    {/if}
 {/panel}

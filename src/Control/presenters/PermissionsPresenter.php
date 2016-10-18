@@ -6,6 +6,7 @@ use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Model\Acl;
 use NAttreid\Security\Model\AclRole;
 use NAttreid\Security\Model\Orm;
+use NAttreid\Security\Model\ResourceItem;
 use Nette\Forms\Container;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
@@ -33,6 +34,9 @@ class PermissionsPresenter extends CrmPresenter
 	/** @var Orm */
 	private $orm;
 
+	/** @var AclRole */
+	private $role;
+
 	/** @var AuthorizatorFactory */
 	private $authorizatorFactory;
 
@@ -49,6 +53,21 @@ class PermissionsPresenter extends CrmPresenter
 	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('dockbar.settings.permissions');
+	}
+
+	public function actionEditRolePermissions($id)
+	{
+		$this->role = $this->orm->aclRoles->getById($id);
+		if (!$this->role) {
+			$this->error();
+		}
+	}
+
+	public function renderEditRolePermissions()
+	{
+		$this->addBreadcrumbLink('dockbar.settings.permissions', 'default');
+		$this->addBreadcrumbLinkUntranslated($this->role->title);
+		$this->template->role = $this->role;
 	}
 
 	/**
@@ -72,12 +91,12 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDeleteRule($id)
+	public function handleDeletePermission($id)
 	{
 		if ($this->isAjax()) {
-			$rule = $this->orm->acl->getById($id);
-			$this->orm->acl->removeAndFlush($rule);
-			$this['rulesList']->reload();
+			$permission = $this->orm->acl->getById($id);
+			$this->orm->acl->removeAndFlush($permission);
+			$this['permissionsList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -95,7 +114,7 @@ class PermissionsPresenter extends CrmPresenter
 				$this->orm->aclRoles->remove($role);
 			}
 			$this->orm->flush();
-			$this['rulesList']->reload();
+			$this['permissionsList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -105,15 +124,15 @@ class PermissionsPresenter extends CrmPresenter
 	 * Smaze pravidla
 	 * @param array $ids
 	 */
-	public function deleteRules(array $ids)
+	public function deletePermissions(array $ids)
 	{
 		if ($this->isAjax()) {
-			$rules = $this->orm->acl->findById($ids);
-			foreach ($rules as $rule) {
-				$this->orm->acl->remove($rule);
+			$permissions = $this->orm->acl->findById($ids);
+			foreach ($permissions as $permission) {
+				$this->orm->acl->remove($permission);
 			}
 			$this->orm->flush();
-			$this['rulesList']->reload();
+			$this['permissionsList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -145,6 +164,27 @@ class PermissionsPresenter extends CrmPresenter
 		} else {
 			$this->terminate();
 		}
+	}
+
+	/**
+	 * @param $resource
+	 */
+	public function handlePermission($resource)
+	{
+		$permission = $this->orm->acl->getPermission($resource, $this->role->name);
+		if (!$permission) {
+			$permission = new Acl;
+			$this->orm->acl->attach($permission);
+			$permission->role = $this->role;
+			$permission->privilege = Acl::PRIVILEGE_VIEW;
+			$permission->resource = $this->orm->aclResources->getByResource($resource);
+			$permission->allowed = true;
+		} else {
+			$permission->allowed = !$permission->allowed;
+		}
+		$this->orm->persistAndFlush($permission);
+		$this['editRolePermissions']->redrawItem($resource);
+		$this->flashNotifier->success('default.dataSaved');
 	}
 
 	/**
@@ -195,7 +235,7 @@ class PermissionsPresenter extends CrmPresenter
 	 * Editace pravidla
 	 * @param Container $container
 	 */
-	public function ruleForm(Container $container)
+	public function permissionForm(Container $container)
 	{
 		$container->addSelect('role', $this->translate('crm.permissions.role'))
 			->setTranslator()
@@ -211,26 +251,26 @@ class PermissionsPresenter extends CrmPresenter
 	 * Pridani pravidla
 	 * @param ArrayHash $values
 	 */
-	public function addRule($values)
+	public function addPermission($values)
 	{
 		if ($this->isAjax()) {
 			foreach ($values->resource as $resource) {
 				try {
-					$rule = new Acl;
-					$this->orm->acl->attach($rule);
-					$rule->role = $values->role;
-					$rule->privilege = $values->privilege;
-					$rule->resource = $resource;
-					$rule->allowed = $values->allowed;
+					$permission = new Acl;
+					$this->orm->acl->attach($permission);
+					$permission->role = $values->role;
+					$permission->privilege = $values->privilege;
+					$permission->resource = $resource;
+					$permission->allowed = $values->allowed;
 
-					$this->orm->persistAndFlush($rule);
+					$this->orm->persistAndFlush($permission);
 				} catch (UniqueConstraintViolationException $ex) {
 
 				}
 			}
 
 			$this->flashNotifier->success('default.dataSaved');
-			$this['rulesList']->reload();
+			$this['permissionsList']->reload();
 		} else {
 			$this->terminate();
 		}
@@ -304,7 +344,7 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param int $id
 	 * @param array $value
 	 */
-	public function setRuleRole($id, $value)
+	public function setPermissionRole($id, $value)
 	{
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
@@ -313,7 +353,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$this['rulesList']->redrawItem($id);
+			$this['permissionsList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -324,7 +364,7 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param int $id
 	 * @param array $value
 	 */
-	public function setRuleResource($id, $value)
+	public function setPermissionResource($id, $value)
 	{
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
@@ -333,7 +373,7 @@ class PermissionsPresenter extends CrmPresenter
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$this['rulesList']->redrawItem($id);
+			$this['permissionsList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -344,16 +384,16 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param int $id
 	 * @param boolean $value
 	 */
-	public function setRulePrivilege($id, $value)
+	public function setPermissionPrivilege($id, $value)
 	{
 		if ($this->isAjax()) {
-			$rule = $this->orm->acl->getById($id);
-			$rule->privilege = $value;
-			$this->orm->persistAndFlush($rule);
+			$permission = $this->orm->acl->getById($id);
+			$permission->privilege = $value;
+			$this->orm->persistAndFlush($permission);
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$this['rulesList']->redrawItem($id);
+			$this['permissionsList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -364,16 +404,16 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param int $id
 	 * @param boolean $value
 	 */
-	public function setRuleState($id, $value)
+	public function setPermissionState($id, $value)
 	{
 		if ($this->isAjax()) {
-			$rule = $this->orm->acl->getById($id);
-			$rule->allowed = $value;
-			$this->orm->persistAndFlush($rule);
+			$permission = $this->orm->acl->getById($id);
+			$permission->allowed = $value;
+			$this->orm->persistAndFlush($permission);
 
 			$this->flashNotifier->success('default.dataSaved');
 
-			$this['rulesList']->redrawItem($id);
+			$this['permissionsList']->redrawItem($id);
 		} else {
 			$this->terminate();
 		}
@@ -408,6 +448,10 @@ class PermissionsPresenter extends CrmPresenter
 			->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs())
 			->setEditableCallback([$this, 'setRoleParent']);
 
+		$grid->addAction('edit', null, 'editRolePermissions')
+			->setIcon('pencil')
+			->setTitle('default.edit');
+
 		$grid->addAction('delete', null, 'deleteRole!')
 			->setIcon('trash')
 			->setTitle('default.delete')
@@ -432,7 +476,7 @@ class PermissionsPresenter extends CrmPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	protected function createComponentRulesList($name)
+	protected function createComponentPermissionsList($name)
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 
@@ -448,16 +492,16 @@ class PermissionsPresenter extends CrmPresenter
 				return $acl->role->title;
 			})
 			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs())
-			->setEditableCallback([$this, 'setRuleRole'])
+			->setEditableCallback([$this, 'setPermissionRole'])
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
 
 		$grid->addColumnText('resource', 'crm.permissions.resource')
 			->setRenderer(function (Acl $acl) {
 				return $acl->resource->name;
 			})
-			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByName())
-			->setEditableCallback([$this, 'setRuleResource'])
-			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByName());
+			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByResource())
+			->setEditableCallback([$this, 'setPermissionResource'])
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByResource());
 
 		$privilege = $grid->addColumnStatus('privilege', 'crm.permissions.privilege');
 		$privilege->setFilterSelect(['' => 'form.none'] + $this->privileges)
@@ -466,7 +510,7 @@ class PermissionsPresenter extends CrmPresenter
 			$privilege->addOption($key, $name)
 				->setClass('btn-default');
 		}
-		$privilege->onChange[] = [$this, 'setRulePrivilege'];
+		$privilege->onChange[] = [$this, 'setPermissionPrivilege'];
 
 		$state = $grid->addColumnStatus('allowed', 'default.state');
 		$state->setFilterSelect(['' => 'form.none'] + $this->access)
@@ -475,25 +519,56 @@ class PermissionsPresenter extends CrmPresenter
 			->setClass('btn-success');
 		$state->addOption(0, 'crm.permissions.denied')
 			->setClass('btn-danger');
-		$state->onChange[] = [$this, 'setRuleState'];
+		$state->onChange[] = [$this, 'setPermissionState'];
 
-		$grid->addAction('delete', null, 'deleteRule!')
+		$grid->addAction('delete', null, 'deletePermission!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
-			->setConfirm(function (Acl $rule) {
-				return $this->translate('crm.permissions.confirmDeleteRule', 1, ['name' => $rule->resource->name]);
+			->setConfirm(function (Acl $permission) {
+				return $this->translate('crm.permissions.confirmDeletePermission', 1, ['name' => $permission->resource->name]);
 			});
 
 		$add = $grid->addInlineAdd()
 			->setPositionTop()
-			->setTitle('crm.permissions.addRule');
-		$add->onControlAdd[] = [$this, 'ruleForm'];
-		$add->onSubmit[] = [$this, 'addRule'];
+			->setTitle('crm.permissions.addPermission');
+		$add->onControlAdd[] = [$this, 'permissionForm'];
+		$add->onSubmit[] = [$this, 'addPermission'];
 
-		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deleteRules'];
+		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'deletePermissions'];
 
 		return $grid;
 	}
 
+	protected function createComponentEditRolePermissions($name)
+	{
+		$grid = $this->dataGridFactory->create($this, $name);
+		$grid->setDataSource($this->orm->aclResources->getResources($this->role->name));
+
+		$grid->setTreeView([$this, 'getChildren'], 'hasChildren');
+
+		$grid->addColumnText('name', 'crm.permissions.resource')
+			->setRenderer(function (ResourceItem $item) {
+				return $this->translate($item->name);
+			});
+
+		$grid->addAction('permission', null, 'permission!', ['resource' => 'id'])
+			->setClass(function (ResourceItem $item) {
+				return $item->allowed ? 'btn btn-xs btn-success ajax' : 'btn btn-xs btn-default ajax';
+			})
+			->setIcon(function (ResourceItem $item) {
+				return $item->allowed ? 'check' : 'times-circle-o';
+			});
+
+		$grid->allowRowsAction('permission', function (ResourceItem $item) {
+			return $item->resource !== null;
+		});
+
+		return $grid;
+	}
+
+	public function getChildren($id)
+	{
+		return $this->orm->aclResources->getResources($this->role->name, $id);
+	}
 }

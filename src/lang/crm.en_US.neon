@@ -58,8 +58,8 @@ permissions:
     denied: "Denied"
 
     addRole: "Add role"
-    addRule: "Add rule"
-    confirmDeleteRule: "Do you really want to delete rule '%name%'?"
+    addPermission: "Add permission"
+    confirmDeletePermission: "Do you really want to delete permission '%name%'?"
     confirmDeleteRole: "Do you really want to delete role '%name%'?"
 
     deleteUnusedResources: "Delete unused resources"

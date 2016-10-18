@@ -58,8 +58,8 @@ permissions:
     denied: "Zakázano"
 
     addRole: "Přidat roli"
-    addRule: "Přidat pravidlo"
-    confirmDeleteRule: "Opravdu chcete smazat pravidlo '%name%'?"
+    addPermission: "Přidat oprávnění"
+    confirmDeletePermission: "Opravdu chcete smazat oprávnění '%name%'?"
     confirmDeleteRole: "Opravdu chcete smazat roli '%name%'?"
 
     deleteUnusedResources: "Smazat nepoužité zdroje"

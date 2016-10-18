@@ -11345,6 +11345,7 @@ fieldset[disabled] .btn-danger.active {
 .datagrid .datagrid-toolbar {
   margin-top: .35em;
   float: right;
+  display: inline-block;
 }
 
 .datagrid .datagrid-toolbar > span {
@@ -11361,6 +11362,10 @@ fieldset[disabled] .btn-danger.active {
 
 .datagrid .datagrid-exports .btn:first-child {
   margin-left: 0;
+}
+
+.datagrid .datagrid-settings {
+  display: inline-block;
 }
 
 .datagrid .datagrid-settings .dropdown-menu--grid {
@@ -11411,20 +11416,6 @@ fieldset[disabled] .btn-danger.active {
   font-size: 13px;
 }
 
-.datagrid table thead tr .column-settings-menu {
-  opacity: 0;
-  cursor: pointer;
-  margin-left: 2px;
-}
-
-.datagrid table thead tr .column-settings-menu .dropdown-menu {
-  font-size: 12px;
-}
-
-.datagrid table thead tr .column-settings-menu .dropdown-menu li .fa {
-  margin-right: 0.5em;
-}
-
 .datagrid table thead tr.row-group-actions th {
   border-bottom-width: 0 !important;
   background-color: #f9f9f9;
@@ -11437,6 +11428,30 @@ fieldset[disabled] .btn-danger.active {
 
 .datagrid table thead tr th hr {
   margin: 8px -8px;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions {
+  float: right;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions a[data-datagrid-reset-filter-by-column] {
+  margin-left: 0.3em;
+  color: #858585;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu {
+  opacity: 0;
+  cursor: pointer;
+  margin-left: 2px;
+  display: inline-block;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu .dropdown-menu {
+  font-size: 12px;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu .dropdown-menu li .fa {
+  margin-right: 0.5em;
 }
 
 .datagrid table thead tr th .datagrid-col-filter-date-range .input-group .datagrid-filter-date-range-last,
@@ -11466,7 +11481,7 @@ fieldset[disabled] .btn-danger.active {
   border-radius: 3px;
 }
 
-.datagrid table thead tr th:hover > .column-settings-menu {
+.datagrid table thead tr th:hover .column-settings-menu {
   opacity: 1;
 }
 
@@ -13444,18 +13459,18 @@ select.selectpicker {
 .fileManagerContainer .viewer {
   display: none;
   position: fixed;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 999999999;
 }
 .fileManagerContainer .viewer .background {
   position: fixed;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background-color: #000;
   opacity: 0.6;
   z-index: -200;
@@ -13508,18 +13523,12 @@ select.selectpicker {
   -webkit-border-radius: 4px;
   border-radius: 4px;
   white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
 }
 .fileManagerContainer .viewer .viewer-container.data pre.notAlign,
 .fileManagerContainer .viewer .viewer-container.data textarea.notAlign {
   white-space: pre;
-  white-space: -moz-pre;
-  white-space: -pre;
-  white-space: -o-pre;
   word-wrap: initial;
   word-break: initial;
 }
@@ -13531,7 +13540,7 @@ select.selectpicker {
   text-align: left;
 }
 .fileManagerContainer .viewer .viewer-container.data .properties input[type='checkbox'] {
-  margin: -2px 0px 0px 10px;
+  margin: -2px 0 0 10px;
 }
 .fileManagerContainer .viewer .viewer-container.data .buttons {
   text-align: right;
@@ -13574,7 +13583,7 @@ select.selectpicker {
   display: none;
   position: absolute;
   padding: 12px;
-  margin: 20px 0px 0px 20px;
+  margin: 20px 0 0 20px;
   background-color: #000;
   opacity: .8;
   color: #fff;
@@ -13588,7 +13597,7 @@ select.selectpicker {
 .fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu {
   display: none;
   padding: 30px;
-  margin: 0px;
+  margin: 0;
 }
 .fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul {
   min-width: 120px;
@@ -13671,7 +13680,7 @@ select.selectpicker {
 }
 .fileManagerContainer .fileManagerContent .itemContainer a.item .image {
   margin: 0 auto;
-  background-image: url('/images/fileManager/icons.png');
+  background-image: url('/images/icons.png');
   background-size: 500px;
   background-repeat: no-repeat;
   background-position: -150px -250px;
@@ -14367,12 +14376,15 @@ body.preload * {
   padding: 15px;
   overflow: auto;
 }
+#crm-container #crm-content .panel-container.half .content {
+  max-width: 600px;
+}
 #crm-container #crm-content .view-container {
   padding: 10px;
   border: 1px solid #E5E5E5;
   background-color: #FCFCFC;
 }
-#crm-container #crm-content .view-container.form {
+#crm-container #crm-content .view-container.half {
   max-width: 600px;
 }
 #crm-container #crm-content .odd {

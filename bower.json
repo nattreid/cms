@@ -29,7 +29,7 @@
     "nprogress": "~0.2",
     "moment": "~2.13",
     "bootstrap-select": "~1.10",
-    "ublaboo-datagrid": "~4.4",
+    "ublaboo-datagrid": "#master",
     "ckeditor": "#full/4.5.9",
     "kcfinder": "git@git.newtravel.cz:nattreid/kcfinder.git#~3.12",
     "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#~1.0",

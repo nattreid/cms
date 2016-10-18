@@ -649,12 +649,15 @@ body.preload * {
   padding: 15px;
   overflow: auto;
 }
+#crm-container #crm-content .panel-container.half .content {
+  max-width: 600px;
+}
 #crm-container #crm-content .view-container {
   padding: 10px;
   border: 1px solid #E5E5E5;
   background-color: #FCFCFC;
 }
-#crm-container #crm-content .view-container.form {
+#crm-container #crm-content .view-container.half {
   max-width: 600px;
 }
 #crm-container #crm-content .odd {

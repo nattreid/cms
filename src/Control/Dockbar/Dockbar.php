@@ -6,6 +6,7 @@ use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Crm\Configurator\Configurator;
 use NAttreid\Security\Control\TryUser;
+use NAttreid\Security\Model\Acl;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
@@ -268,7 +269,7 @@ class Dockbar extends Control
 		foreach ($items as $name => $item) {
 			$resource = $parent . '.' . $name;
 			if ($this->isLink($item)) {
-				if ($this->user->isAllowed($resource, 'view')) {
+				if ($this->user->isAllowed($resource, Acl::PRIVILEGE_VIEW)) {
 
 					if (!empty($item['advanced']) && !$this->configurator->dockbarAdvanced) {
 						continue;
