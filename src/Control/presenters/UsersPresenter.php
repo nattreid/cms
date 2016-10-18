@@ -401,7 +401,7 @@ class UsersPresenter extends CrmPresenter
 				$delimiter = '';
 				foreach ($user->roles as $role) {
 					$link = Html::el('a');
-					$link->href = $this->link('Permissions:editRolePermission', ['id' => $role->id]);
+					$link->href = $this->link('Permissions:editRolePermissions', ['id' => $role->id]);
 					$link->addText($role->title);
 					$obj->addHtml($delimiter . $link);
 					$delimiter = ', ';
