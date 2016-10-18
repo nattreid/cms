@@ -9,6 +9,7 @@ use NAttreid\Security\Model\User;
 use Nette\Forms\Container;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Html;
 use Nette\Utils\Random;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
@@ -396,7 +397,16 @@ class UsersPresenter extends CrmPresenter
 
 		$grid->addColumnText('roles', 'crm.permissions.roles', 'roles.id')
 			->setRenderer(function (User $user) {
-				return implode(', ', $user->getRoleTitles());
+				$obj = new Html;
+				$delimiter = '';
+				foreach ($user->roles as $role) {
+					$link = Html::el('a');
+					$link->href = $this->link('Permissions:editRolePermission', ['id' => $role->id]);
+					$link->addText($role->title);
+					$obj->addHtml($delimiter . $link);
+					$delimiter = ', ';
+				}
+				return $obj;
 			})
 			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
 
