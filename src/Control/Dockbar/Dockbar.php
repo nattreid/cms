@@ -211,11 +211,12 @@ class Dockbar extends Control
 	 */
 	public function handleDropDatabase()
 	{
-		$this->checkHandlerPermission();
+		$this->checkHandlerPermission(false);
 
 		$this->app->dropDatabase();
 		$this->app->clearCache();
 		$this->flashNotifier->success('dockbar.management.database.databaseDroped');
+		$this->presenter->redirect('this');
 	}
 
 	/**

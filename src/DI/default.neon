@@ -67,7 +67,6 @@ permissions:
             dropDatabase:
                 confirm: 'dockbar.management.database.confirmDropDatabase'
                 advanced: true
-                ajax: true
 
     info:
         logs:
