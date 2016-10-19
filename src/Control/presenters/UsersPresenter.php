@@ -332,12 +332,22 @@ class UsersPresenter extends CrmPresenter
 		$form->addText('username', 'crm.user.username')
 			->setDisabled();
 
+		if ($this->configurator->sendNewUserPassword) {
+			$form->addCheckbox('generatePassword', 'crm.user.generatePassword');
+		} else {
+			$form->addHidden('generatePassword', false);
+		}
+
 		$form->addPassword('password', 'crm.user.newPassword')
+			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
-			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
+			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
+			->endCondition();
 		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
-			->addRule(Form::EQUAL, null, $form['password']);
+			->addRule(Form::EQUAL, null, $form['password'])
+			->endCondition();
 
 		$form->addSubmit('save', 'form.save');
 		$form->addLink('back', 'form.back', $this->getBacklink());
@@ -353,13 +363,19 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function passwordFormSucceeded(Form $form, $values)
 	{
+		if ($values->generatePassword) {
+			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
+		} else {
+			$password = $values->password;
+		}
+
 		$user = $this->orm->users->getById($values->id);
-		$user->setPassword($values->password);
+		$user->setPassword($password);
 
 		$this->orm->persistAndFlush($user);
 
 		if ($this->configurator->sendChangePassword) {
-			$this->mailer->sendNewPassword($user->email, $user->username, $values->password);
+			$this->mailer->sendNewPassword($user->email, $user->username, $password);
 		}
 
 		$this->flashNotifier->success('crm.user.passwordChanged');
