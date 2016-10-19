@@ -255,9 +255,14 @@
             right: -1px;
             left: initial;
           }
-          > div:before {
-            left: 7px;
-            content: "\f007";
+          > div {
+            &::before {
+              left: 7px;
+              content: "\f007";
+            }
+            span {
+              display: inline-block;
+            }
           }
           li.myProfile > a:before {
             content: "\f044";

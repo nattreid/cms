@@ -14651,9 +14651,12 @@ body.preload * {
   right: -1px;
   left: initial;
 }
-#dockbar .dockbar-content > ul.identity > li > div:before {
+#dockbar .dockbar-content > ul.identity > li > div::before {
   left: 7px;
   content: "\f007";
+}
+#dockbar .dockbar-content > ul.identity > li > div span {
+  display: inline-block;
 }
 #dockbar .dockbar-content > ul.identity > li li.myProfile > a:before {
   content: "\f044";
