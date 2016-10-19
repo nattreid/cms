@@ -1,4 +1,12 @@
 title: "CRM"
+
+roles:
+    guest: "Guest"
+    user: "User"
+    editor: "Editor"
+    admin: "Administrator"
+    superadmin: "Administrator Portal"
+
 user:
     username: "Username"
     password: "Password"
