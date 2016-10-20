@@ -100,6 +100,7 @@ class LogsPresenter extends CrmPresenter
 
 		$clearLogs = $grid->addToolbarButton('clearLogs!', 'crm.logs.clearLogs');
 		$clearLogs->setClass($clearLogs->getClass() . ' ajax');
+		$clearLogs->addAttributes(['data-confirm' => $this->translate('crm.logs.confirmDelete', 2)]);
 
 		$grid->addColumnText('name', 'crm.logs.log')
 			->setFilterText();

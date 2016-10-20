@@ -106,7 +106,7 @@ logs:
     lastChange: "Last change"
     download: "Download"
     show: "Show"
-    confirmDelete: "Do you really want to delete log '%name%'?"
+    confirmDelete: "Do you really want to delete log '%name%'?|Do you really want to delete logs?"
     clearLogs: "Clear logs"
 
 info:

@@ -106,7 +106,7 @@ logs:
     lastChange: "Poslední změna"
     download: "Stažení souboru"
     show: "Zobrazit"
-    confirmDelete: "Opravdu chcete smazat log '%name%'?"
+    confirmDelete: "Opravdu chcete smazat log '%name%'?|Opravdu chcete smazat logy?"
     clearLogs: "Smazat logy"
 
 info:
