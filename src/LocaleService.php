@@ -34,6 +34,9 @@ class LocaleService
 	/** @var Translator */
 	private $translator;
 
+	/** @var int[] */
+	private $currentId;
+
 	public function __construct(Model $orm, IStorage $storage, AppManager $app, Translator $translator)
 	{
 		$this->orm = $orm;
@@ -158,10 +161,12 @@ class LocaleService
 	 */
 	public function getCurrentLocaleId()
 	{
-		$row = $this->get($this->translator->getLocale());
-		if ($row) {
-			return $row->id;
+		$locale = $this->translator->getLocale();
+		if (!isset($this->currentId[$locale])) {
+			$row = $this->get($locale);
+			$this->currentId[$locale] = $row ? $row->id : $this->getDefaultLocaleId();
 		}
-		return $this->getDefaultLocaleId();
+
+		return $this->currentId[$locale];
 	}
 }
