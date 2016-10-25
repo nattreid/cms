@@ -2,6 +2,7 @@
 
 namespace NAttreid\Crm;
 
+use Kdyby\Translation\Translator;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Crm\Model\Locale;
 use NAttreid\Crm\Model\Orm;
@@ -26,13 +27,19 @@ class LocaleService
 
 	/** @var Orm */
 	private $orm;
+
 	/** @var Cache */
 	private $cache;
 
-	public function __construct(Model $orm, IStorage $storage, AppManager $app)
+	/** @var Translator */
+	private $translator;
+
+	public function __construct(Model $orm, IStorage $storage, AppManager $app, Translator $translator)
 	{
 		$this->orm = $orm;
 		$this->cache = new Cache($storage, 'nattreid-crm-localeService');
+		$this->translator = $translator;
+
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];
 		$this->orm->locales->onFlush[] = function ($persisted, $removed) {
 			if (!empty($persisted) || !empty($removed)) {
@@ -144,5 +151,17 @@ class LocaleService
 	public function get($locale)
 	{
 		return $this->orm->locales->getByLocale($locale);
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCurrentLocaleId()
+	{
+		$row = $this->get($this->translator->getLocale());
+		if ($row) {
+			return $row->id;
+		}
+		return $this->getDefaultLocaleId();
 	}
 }
