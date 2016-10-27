@@ -1,5 +1,5 @@
 # CRM pro Nette Framework
-Administrace webu
+Administrace webové aplikace
 
 ## Nastaveni
 Zaregistrujte a nastavete extension v **config.neon**. Od namespace je odvozen název modulu pro další rozšíření administrace a to tak, že se k namespace přidá '*Ext*'
