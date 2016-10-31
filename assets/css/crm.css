@@ -1073,25 +1073,25 @@ body.preload * {
 #info .fileSystemInfo .status {
   text-align: center;
 }
-#phpinfo table {
+#phpInfo table {
   width: 100%;
   border: 1px solid #ccc;
   background: #fff;
   padding: 1px;
 }
-#phpinfo td,
-#phpinfo th {
+#phpInfo td,
+#phpInfo th {
   border: 1px solid #fff;
   font-family: Verdana, sans-serif;
   font-size: 12px;
   padding: 4px 8px;
 }
-#phpinfo h1 {
+#phpInfo h1 {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 24px;
   margin: 10px;
 }
-#phpinfo h2 {
+#phpInfo h2 {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 22px;
   color: #0b5fb4;
@@ -1099,25 +1099,25 @@ body.preload * {
   margin: 25px auto 5px auto;
   width: 724px;
 }
-#phpinfo hr {
+#phpInfo hr {
   background-color: #a9a9a9;
   color: #a9a9a9;
 }
-#phpinfo .e,
-#phpinfo .v,
-#phpinfo .vr {
+#phpInfo .e,
+#phpInfo .v,
+#phpInfo .vr {
   color: #333;
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
-#phpinfo .e {
+#phpInfo .e {
   background-color: #eee;
 }
-#phpinfo .h {
+#phpInfo .h {
   background-color: #0b5fb4;
   color: #fff;
 }
-#phpinfo .v {
+#phpInfo .v {
   background-color: #f1f1f1;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -1125,6 +1125,6 @@ body.preload * {
   -moz-hyphens: auto;
   hyphens: auto;
 }
-#phpinfo img {
+#phpInfo img {
   display: none;
 }
