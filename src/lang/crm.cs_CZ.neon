@@ -47,6 +47,7 @@ user:
 
 homepage:
     title: "Domovská stránka"
+    info: "Informace"
     server:
         title: "Server"
         ip: "IP"

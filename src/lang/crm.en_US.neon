@@ -47,6 +47,7 @@ user:
 
 homepage:
     title: "Homepage"
+    info: "Information"
     server:
         title: "Server"
         ip: "IP"
