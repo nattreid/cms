@@ -3,7 +3,9 @@ frontPage: "Webová stránka"
 settings:
     title: "Nastavení"
     users: "Uživatelé"
+    users.tryUser: "Změna identity"
     permissions: "Práva"
+    permissions.permissionsList: "Seznam práv"
     configuration: "Nastavení"
 application:
     title: "Aplikace"

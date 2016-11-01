@@ -157,7 +157,7 @@ abstract class BasePresenter extends Presenter
 	protected function createComponentTryUser()
 	{
 		$control = $this->tryUserFactory->create(":{$this->module}:Homepage:");
-		$control->permission = 'dockbar.settings.permissions.tryUser';
+		$control->permission = 'dockbar.settings.users.tryUser';
 		return $control;
 	}
 

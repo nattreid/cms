@@ -3,7 +3,9 @@ frontPage: "Web page"
 settings:
     title: "Settings"
     users: "Users"
+    users.tryUser: "Change Identity"
     permissions: "Permissions"
+    permissions.permissionsList: "Permissions List"
     configuration: "Configuration"
 application:
     title: "Application"
