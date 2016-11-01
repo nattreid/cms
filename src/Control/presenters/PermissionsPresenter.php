@@ -184,7 +184,7 @@ class PermissionsPresenter extends CrmPresenter
 		}
 		$this->orm->persistAndFlush($permission);
 		$grid = $this['editRolePermissions'];
-		$grid->setDataSource($this->orm->aclResources->findById($permission->resource->id));
+		$grid->setDataSource([$this->orm->aclResources->getResource($this->role->name,$resource)]);
 		$grid->redrawItem($resource);
 		$this->flashNotifier->success('default.dataSaved');
 	}
