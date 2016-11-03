@@ -499,7 +499,7 @@ class PermissionsPresenter extends CrmPresenter
 
 		$grid->addColumnText('resource', 'crm.permissions.resource')
 			->setRenderer(function (Acl $acl) {
-				return $acl->resource->name;
+				return $acl->resource->resource;
 			})
 			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByResource())
 			->setEditableCallback([$this, 'setPermissionResource'])
