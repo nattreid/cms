@@ -50,7 +50,7 @@ crm:
             link: 'Homepage:'
             web:
                 test:
-                    link: '' # pokud je prazdny, provede se default action
+                    link: 'action' # pokud je null, provede se default action
 ```
 Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**. Příklad presenteru test z ukázky menu
 ```php
@@ -97,7 +97,7 @@ position: 1
 menu:
     group:
         test:
-            link: ''
+            link:
 ```
 
 Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**
