@@ -9,6 +9,7 @@ use NAttreid\Crm\Factories\DataGridFactory;
 use NAttreid\Crm\Factories\FormFactory;
 use NAttreid\Crm\LoaderFactory;
 use NAttreid\Form\Form;
+use NAttreid\Form\Rules;
 use NAttreid\Latte\TemplateTrait;
 use NAttreid\Security\Control\ITryUserFactory;
 use NAttreid\Security\Control\TryUser;
@@ -108,6 +109,7 @@ abstract class BasePresenter extends Presenter
 			Form::IMAGE => 'form.image',
 			SelectBox::VALID => 'form.option',
 			UploadControl::VALID => 'form.fileUpload',
+			Rules::PHONE => 'form.phone',
 		];
 	}
 
