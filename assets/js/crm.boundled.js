@@ -40201,14 +40201,9 @@ window.datagridSerializeUrl = function(obj, prefix) {
 		if (obj.hasOwnProperty(p)) {
 			var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
 			if (v !== null && v !== "") {
-				if (typeof v == "object") {
-					var r = window.datagridSerializeUrl(v, k);
-						if (r) {
-							str.push(r);
-						}
-				} else {
-					str.push(encodeURIComponent(k) + "=" + encodeURIComponent(v));
-				}
+				str.push(typeof v == "object" ?
+					window.datagridSerializeUrl(v, k) :
+					encodeURIComponent(k) + "=" + encodeURIComponent(v));
 			}
 		}
 	}
@@ -40489,7 +40484,7 @@ $.nette.ext('datagrid.tree', {
     var children_block, content, id, name, ref, snippet, template;
     if (payload._datagrid_tree) {
       id = payload._datagrid_tree;
-      children_block = $('.datagrid-tree-item[data-id="' + id + '"]').find('.datagrid-tree-item-children').first();
+      children_block = $('.datagrid-tree-item[data-id=' + id + ']').find('.datagrid-tree-item-children').first();
       children_block.addClass('loaded');
       ref = payload.snippets;
       for (name in ref) {
@@ -40664,32 +40659,6 @@ $.nette.ext('datagrid.redraw-item', {
     if (payload._datagrid_redraw_item_class) {
       row = $('tr[data-id=' + payload._datagrid_redraw_item_id + ']');
       return row.attr('class', payload._datagrid_redraw_item_class);
-    }
-  }
-});
-
-$.nette.ext('datagrid.reset-filter-by-column', {
-  success: function(payload) {
-    var grid, href, i, key, len, ref;
-    if (!payload._datagrid_name) {
-      return;
-    }
-    grid = $('.datagrid-' + payload._datagrid_name);
-    grid.find('[data-datagrid-reset-filter-by-column]').addClass('hidden');
-    if (payload.non_empty_filters && payload.non_empty_filters.length) {
-      ref = payload.non_empty_filters;
-      for (i = 0, len = ref.length; i < len; i++) {
-        key = ref[i];
-        grid.find('[data-datagrid-reset-filter-by-column=' + key + ']').removeClass('hidden');
-      }
-      href = grid.find('.reset-filter').attr('href');
-      return grid.find('[data-datagrid-reset-filter-by-column]').each(function() {
-        var new_href;
-        key = $(this).attr('data-datagrid-reset-filter-by-column');
-        new_href = href.replace('do=examplesGrid-resetFilter', 'do=' + payload._datagrid_name + '-resetColumnFilter');
-        new_href += '&' + payload._datagrid_name + '-key=' + key;
-        return $(this).attr('href', new_href);
-      });
     }
   }
 });
@@ -48550,193 +48519,6 @@ $(document).ready(function () {
     }
 });
 
-(function ($, window, Nette) {
-    if (window.jQuery === undefined) {
-        console.error('Plugin "jQuery" required by "form.js" is missing!');
-        return;
-    } else if (window.moment === undefined) {
-        console.error('Plugin "moment.js" required by "form.js" is missing!');
-        return;
-    } else if ($.fn.daterangepicker === undefined) {
-        console.error('Plugin "bootstrap-daterangepicker.js" required by "form.js" is missing!');
-        return;
-    }
-
-    var ranges = {
-        today: [window.moment(), window.moment()],
-        yesterday: [window.moment().subtract(1, 'days'), window.moment().subtract(1, 'days')],
-        last7Days: [window.moment().subtract(6, 'days'), window.moment()],
-        last30Days: [window.moment().subtract(29, 'days'), window.moment()],
-        thisMonth: [window.moment().startOf('month'), window.moment().endOf('month')],
-        lastMonth: [window.moment().subtract(1, 'month').startOf('month'), window.moment().subtract(1, 'month').endOf('month')]
-    };
-
-    var localize = {
-        cs: {
-            locale: {
-                applyLabel: 'Odeslat',
-                cancelLabel: 'Zrušit',
-                fromLabel: 'Od',
-                toLabel: 'Do',
-                weekLabel: 'T',
-                monthNames: moment.months(),
-                customRangeLabel: 'Vybrané období'
-            },
-            ranges: {
-                'Dnes': ranges.today,
-                'Včera': ranges.yesterday,
-                'Posledních 7 dní': ranges.last7Days,
-                'Posledních 30 dní': ranges.last30Days,
-                'Tento měsíc': ranges.thisMonth,
-                'Minulý měsíc': ranges.lastMonth
-            },
-            format: {
-                date: 'DD.MM.YYYY',
-                time: 'HH:mm'
-            }
-        },
-        en: {
-            locale: {
-                applyLabel: 'Apply',
-                cancelLabel: 'Cancel',
-                fromLabel: 'From',
-                toLabel: 'To',
-                weekLabel: 'W',
-                customRangeLabel: 'Custom Range'
-            },
-            ranges: {
-                'Today': ranges.today,
-                'Yesterday': ranges.yesterday,
-                'Last 7 Days': ranges.last7Days,
-                'Last 30 Days': ranges.last30Days,
-                'This Month': ranges.thisMonth,
-                'Last Month': ranges.lastMonth
-            },
-            format: {
-                date: 'MM/DD/YYYY',
-                time: 'HH:mm'
-            }
-        }
-    };
-
-    var locale = localize[window.moment.locale()];
-
-    // datepicker
-    $(document).on('focus', '.form-date', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
-            var loc = locale.locale;
-            loc.format = locale.format.date;
-
-            $(this).daterangepicker(
-                {
-                    showDropdowns: true,
-                    autoApply: true,
-                    singleDatePicker: true,
-                    autoUpdateInput: false,
-                    locale: loc
-                }
-            )
-                .keyup(function (e) {
-                    if (e.keyCode === 46) {
-                        $(this).val('');
-                    }
-                });
-            $(this).on('apply.daterangepicker', function (ev, picker) {
-                $(this).val(picker.startDate.format(locale.format.date));
-                $(this).trigger('change');
-            });
-        }
-    });
-
-    // datetimepicker
-    $(document).on('focus', '.form-datetime', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
-            var loc = locale.locale;
-            loc.format = locale.format.date + ' ' + locale.format.time;
-
-            $(this).daterangepicker(
-                {
-                    showDropdowns: true,
-                    timePicker: true,
-                    timePicker24Hour: true,
-                    singleDatePicker: true,
-                    autoApply: true,
-                    autoUpdateInput: false,
-                    locale: loc
-                }
-            )
-                .keyup(function (e) {
-                    if (e.keyCode === 46) {
-                        $(this).val('');
-                    }
-                });
-            $(this).on('apply.daterangepicker', function (ev, picker) {
-                $(this).val(picker.startDate.format(locale.format.date + ' ' + locale.format.time));
-                $(this).trigger('change');
-            });
-        }
-    });
-
-    // daterangepicker
-    $(document).on('focus', '.form-daterange', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
-            var loc = locale.locale;
-            loc.format = locale.format.date;
-
-            $(this).daterangepicker(
-                {
-                    showDropdowns: true,
-                    ranges: locale.ranges,
-                    autoApply: true,
-                    autoUpdateInput: false,
-                    locale: loc
-                }
-            )
-                .keyup(function (e) {
-                    if (e.keyCode === 46) {
-                        $(this).val('');
-                    }
-                });
-
-            $(this).on('apply.daterangepicker', function (ev, picker) {
-                $(this).val(picker.startDate.format(locale.format.date) + ' - ' + picker.endDate.format(locale.format.date));
-                $(this).trigger('change');
-            });
-        }
-    });
-
-    // nextras form
-    Nette.getValuePrototype = Nette.getValue;
-    Nette.getValue = function (elem) {
-        if (!elem || !elem.nodeName || !(elem.nodeName.toLowerCase() == 'input' && elem.name.match(/\[\]$/))) {
-            return Nette.getValuePrototype(elem);
-        } else {
-            var value = [];
-            for (var i = 0; i < elem.form.elements.length; i++) {
-                var e = elem.form.elements[i];
-                if (e.nodeName.toLowerCase() == 'input' && e.name == elem.name && e.checked) {
-                    value.push(e.value);
-                }
-            }
-
-            return value.length == 0 ? null : value;
-        }
-    };
-
-    // typehead
-    $('.typeahead').each(function () {
-        $(this).typeahead({
-            remote: {
-                url: $(this).attr('data-typeahead-url'),
-                wildcard: '__QUERY_PLACEHOLDER__'
-            }
-        });
-    });
-
-})(jQuery, window, Nette);
-
-
-
 (function ($, window) {
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "Menu.js" is missing!');
@@ -48747,14 +48529,14 @@ $(document).ready(function () {
 
         var time = 300;
 
-        $('.Menu-container dt a').click(function () {
+        $('.menu-container dt a').click(function () {
             var parent = $(this).closest('dl');
 
             parent.children('dd').slideToggle(time, function () {
-                $(this).toggleClass('Menu-group-hidden');
+                $(this).toggleClass('menu-group-hidden');
             });
 
-            parent.children('dt').toggleClass('Menu-group-hidden');
+            parent.children('dt').toggleClass('menu-group-hidden');
         });
     });
 
