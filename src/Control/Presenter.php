@@ -155,7 +155,6 @@ abstract class Presenter extends BasePresenter
 	public function handleBack($backlink)
 	{
 		$this->restoreRequest($backlink);
-		$this->redirect('default');
 	}
 
 	/**
