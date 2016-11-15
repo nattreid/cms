@@ -52,6 +52,11 @@ class UsersPresenter extends CrmPresenter
 		$this->addBreadcrumbLink('dockbar.settings.users');
 	}
 
+	public function handleBack($backlink)
+	{
+		$this->redirect('default');
+	}
+
 	/**
 	 * Zmena hesla
 	 * @param int $id
@@ -76,7 +81,7 @@ class UsersPresenter extends CrmPresenter
 	public function handleTryUser($id)
 	{
 		$this['tryUser']->set($id);
-		$this->redirect('default');
+		$this->restoreBacklink();
 	}
 
 	/**
@@ -314,7 +319,7 @@ class UsersPresenter extends CrmPresenter
 		}
 
 		$this->flashNotifier->success('crm.user.dataSaved');
-		$this->redirect('default');
+		$this->restoreBacklink();
 	}
 
 	/**
@@ -378,7 +383,7 @@ class UsersPresenter extends CrmPresenter
 		}
 
 		$this->flashNotifier->success('crm.user.passwordChanged');
-		$this->redirect('default');
+		$this->restoreBacklink();
 	}
 
 	/**
