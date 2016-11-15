@@ -442,6 +442,13 @@ a.ui-button:active,
 	-webkit-box-shadow: -8px -8px 8px #aaaaaa;
 	box-shadow: -8px -8px 8px #aaaaaa;
 }
+.btn-info,
+.btn-primary,
+.btn-success,
+.btn-warning {
+  text-shadow: inherit;
+}
+
 /* ***************************** crm.less *********************************** */
 body {
   font-size: 13px;

@@ -90,7 +90,7 @@ class ConfigurationPresenter extends CrmPresenter
 		$form->addCheckbox('mailPanel', 'crm.settings.mailPanel')
 			->setDefaultValue($this->configurator->mailPanel);
 
-		$form->addSubmit('save', 'form.save');
+		$form->getRenderer()->primaryButton = $form->addSubmit('save', 'form.save');
 
 		$form->onSuccess[] = [$this, 'configurationFormSucseeded'];
 
