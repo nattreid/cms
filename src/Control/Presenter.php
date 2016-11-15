@@ -170,7 +170,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	public function restoreBacklink()
 	{
-		$this->restoreRequest($this->getParameter('cbl'));
+		$this->handleBack($this->getParameter('cbl'));
 	}
 
 	/**
