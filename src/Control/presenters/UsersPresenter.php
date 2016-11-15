@@ -50,7 +50,6 @@ class UsersPresenter extends CrmPresenter
 	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users');
-		$this->storeBacklink();
 	}
 
 	/**
@@ -77,7 +76,7 @@ class UsersPresenter extends CrmPresenter
 	public function handleTryUser($id)
 	{
 		$this['tryUser']->set($id);
-		$this->restoreBacklink();
+		$this->redirect('default');
 	}
 
 	/**
@@ -315,7 +314,7 @@ class UsersPresenter extends CrmPresenter
 		}
 
 		$this->flashNotifier->success('crm.user.dataSaved');
-		$this->restoreBacklink();
+		$this->redirect('default');
 	}
 
 	/**
@@ -379,7 +378,7 @@ class UsersPresenter extends CrmPresenter
 		}
 
 		$this->flashNotifier->success('crm.user.passwordChanged');
-		$this->restoreBacklink();
+		$this->redirect('default');
 	}
 
 	/**
