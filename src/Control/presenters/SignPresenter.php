@@ -130,9 +130,9 @@ class SignPresenter extends BasePresenter
 		$form->addPassword('password', 'crm.user.password')
 			->setRequired();
 
-		$form->addCheckbox('remember', 'crm.user.stayLogin');
+		$form->addCheckbox('remember', 'crm.user.staySignedIn');
 
-		$form->addSubmit('send', 'crm.user.login');
+		$form->addSubmit('send', 'crm.user.signin');
 
 		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 

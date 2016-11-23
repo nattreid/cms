@@ -18,9 +18,9 @@ user:
     email: "E-mail"
     state: "State"
 
-    login: "Login"
+    signin: "Login"
     signIn: "Sign in"
-    stayLogin: "remember me"
+    staySignedIn: "remember me"
     forgottenPassword: "Forgot your password?"
     usernameOrEmail: "Username or E-mail"
 

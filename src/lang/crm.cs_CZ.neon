@@ -18,9 +18,9 @@ user:
     email: "E-mail"
     state: "Stav"
 
-    login: "Přihlásit"
+    signin: "Přihlásit"
     signIn: "Přihlášení"
-    stayLogin: "zůstat přihlášen"
+    staySignedIn: "zůstat přihlášen"
     forgottenPassword: "Zapomněli jste heslo?"
     usernameOrEmail: "Uživatelské jméno nebo E-mail"
 
