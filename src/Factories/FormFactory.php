@@ -2,6 +2,7 @@
 
 namespace NAttreid\Crm\Factories;
 
+use NAttreid\Form\Factories\Factory;
 use Nette\ComponentModel\IContainer;
 use Nextras\Forms\Rendering\Bs3FormRenderer;
 
@@ -10,14 +11,12 @@ use Nextras\Forms\Rendering\Bs3FormRenderer;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class FormFactory extends \NAttreid\Form\FormFactory
+class FormFactory extends Factory
 {
 	public function create(IContainer $parent = null, $name = null)
 	{
 		$form = parent::create($parent, $name);
-
 		$form->setRenderer(new Bs3FormRenderer);
-
 		return $form;
 	}
 
