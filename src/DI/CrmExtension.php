@@ -26,7 +26,7 @@ use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
 use NAttreid\Menu\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
-use NAttreid\Security\Authenticator;
+use NAttreid\Security\Authenticator\Authenticator;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
