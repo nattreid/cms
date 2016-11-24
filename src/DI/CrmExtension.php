@@ -26,8 +26,6 @@ use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
 use NAttreid\Menu\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
-use NAttreid\Security\Authenticator;
-use NAttreid\Security\Authenticator\MainAuthenticator;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
@@ -82,10 +80,6 @@ class CrmExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('dataGridFactory'))
 			->setClass(DataGridFactory::class);
-
-		$builder->addDefinition($this->prefix('authenticator'))
-			->setClass(MainAuthenticator::class)
-			->setAutowired(false);
 
 		$builder->addDefinition($this->prefix('localeService'))
 			->setClass(LocaleService::class);
@@ -181,10 +175,6 @@ class CrmExtension extends CompilerExtension
 		$this->setFlash();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
-
-		$authenticator = $builder->getByType(Authenticator::class);
-		$builder->getDefinition($authenticator)
-			->addSetup('add', [$namespace, $builder->getDefinition($this->prefix('authenticator'))]);
 	}
 
 	private function setRouting($config)
