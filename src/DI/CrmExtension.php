@@ -26,6 +26,7 @@ use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
 use NAttreid\Menu\Menu\Menu;
 use NAttreid\Routing\RouterFactory;
+use NAttreid\Security\Authenticator;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
@@ -175,6 +176,10 @@ class CrmExtension extends CompilerExtension
 		$this->setFlash();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
+
+		$authenticator = $builder->getByType(Authenticator::class);
+		$builder->getDefinition($authenticator)
+			->addSetup('addMapping', [$namespace, '']);
 	}
 
 	private function setRouting($config)
