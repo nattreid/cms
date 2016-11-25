@@ -57,7 +57,6 @@ class ProfilePresenter extends CrmPresenter
 		$form->setAjaxRequest();
 
 		$form->addProtection();
-		$form->addHidden('id', $this->profile->id);
 
 		$form->addText('username', 'crm.user.username')
 			->setDisabled()
@@ -117,8 +116,6 @@ class ProfilePresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
 
-		$form->addHidden('id', $this->profile->id);
-
 		$form->addPassword('oldPassword', 'crm.user.oldPassword')
 			->setRequired();
 
@@ -147,6 +144,7 @@ class ProfilePresenter extends CrmPresenter
 	{
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);
+			$this->orm->persistAndFlush($this->profile);
 			$this->flashNotifier->success('crm.user.passwordChanged');
 		} catch (AuthenticationException $e) {
 			$form->addError('crm.user.incorrectPassword');
