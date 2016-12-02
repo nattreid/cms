@@ -24,7 +24,7 @@ class Mailer extends BaseMailer
 			'hash' => $hash
 		]);
 
-		$mail->setSubject($this->translate('mailing.restorePassword.subject'))
+		$mail->setSubject($this->translate('crm.mailing.restorePassword.subject'))
 			->addTo($email);
 
 		$mail->send();
@@ -44,7 +44,7 @@ class Mailer extends BaseMailer
 		$mail->username = $username;
 		$mail->password = $password;
 
-		$mail->setSubject($this->translate('mailing.newUser.subject'))
+		$mail->setSubject($this->translate('crm.mailing.newUser.subject'))
 			->addTo($email);
 
 		$mail->send();
@@ -64,7 +64,7 @@ class Mailer extends BaseMailer
 		$mail->username = $username;
 		$mail->password = $password;
 
-		$mail->setSubject($this->translate('mailing.newPassword.subject'))
+		$mail->setSubject($this->translate('crm.mailing.newPassword.subject'))
 			->addTo($email);
 
 		$mail->send();

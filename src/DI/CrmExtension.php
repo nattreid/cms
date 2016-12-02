@@ -248,8 +248,6 @@ class CrmExtension extends CompilerExtension
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/ublaboo_datagrid.en_US.neon', 'en_US', 'ublaboo_datagrid']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.cs_CZ.neon', 'cs_CZ', 'form']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.en_US.neon', 'en_US', 'form']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/mailing.cs_CZ.neon', 'cs_CZ', 'mailing']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/mailing.en_US.neon', 'en_US', 'mailing']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.cs_CZ.neon', 'cs_CZ', 'crm']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.en_US.neon', 'en_US', 'crm']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.cs_CZ.neon', 'cs_CZ', 'dockbar']),

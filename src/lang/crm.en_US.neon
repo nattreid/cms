@@ -160,3 +160,16 @@ info:
         free: "Free"
         used: "Used"
         size: "Size"
+
+mailing:
+    restorePassword:
+        subject: "Restore Password"
+        message: "Your password will be changed after clicking on the following link."
+
+    newUser:
+        subject: "New User"
+        message: "Your accout has been created. You can sign in <a href=\"%link%\">HERE</a>."
+
+    newPassword:
+        subject: "New Password"
+        message: "Your passworn has been changed. For sign in <a href=\"%link%\">HERE</a> use these data."
