@@ -31,7 +31,7 @@
     "nattreid/routing": "~1.0",
     "nattreid/mailing": "~1.0",
     "nattreid/tracking": "~1.0",
-    "ublaboo/datagrid": "~4.4",
+    "ublaboo/datagrid": "~5.0",
     "nattreid/tracyplugin": "~1.0",
     "nattreid/filemanager": "~1.0",
     "nattreid/webloader": "~2.5",

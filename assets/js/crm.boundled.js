@@ -40079,7 +40079,7 @@ $.nette.ext('history', {
 }));
 var datagridFitlerMultiSelect, datagridSortable, datagridSortableTree;
 
-$(document).on('click', '[data-datagrid-confirm]', function(e) {
+$(document).on('click', '[data-datagrid-confirm]:not(.ajax)', function(e) {
   if (!confirm($(e.target).closest('a').attr('data-datagrid-confirm'))) {
     e.stopPropagation();
     return e.preventDefault();
@@ -40201,9 +40201,14 @@ window.datagridSerializeUrl = function(obj, prefix) {
 		if (obj.hasOwnProperty(p)) {
 			var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
 			if (v !== null && v !== "") {
-				str.push(typeof v == "object" ?
-					window.datagridSerializeUrl(v, k) :
-					encodeURIComponent(k) + "=" + encodeURIComponent(v));
+				if (typeof v == "object") {
+					var r = window.datagridSerializeUrl(v, k);
+						if (r) {
+							str.push(r);
+						}
+				} else {
+					str.push(encodeURIComponent(k) + "=" + encodeURIComponent(v));
+				}
 			}
 		}
 	}
@@ -40237,7 +40242,6 @@ datagridSortable = function() {
       data[(component_prefix + '-item_id').replace(/^-/, '')] = item_id;
       data[(component_prefix + '-prev_id').replace(/^-/, '')] = prev_id;
       data[(component_prefix + '-next_id').replace(/^-/, '')] = next_id;
-      console.log(data);
       return $.nette.ajax({
         type: 'GET',
         url: url,
@@ -40484,7 +40488,7 @@ $.nette.ext('datagrid.tree', {
     var children_block, content, id, name, ref, snippet, template;
     if (payload._datagrid_tree) {
       id = payload._datagrid_tree;
-      children_block = $('.datagrid-tree-item[data-id=' + id + ']').find('.datagrid-tree-item-children').first();
+      children_block = $('.datagrid-tree-item[data-id="' + id + '"]').find('.datagrid-tree-item-children').first();
       children_block.addClass('loaded');
       ref = payload.snippets;
       for (name in ref) {
@@ -40549,13 +40553,20 @@ $(document).on('click', '[data-datagrid-editable-url]', function(event) {
           data: {
             value: value
           },
-          method: 'POST'
-        }).success(function() {
-          return cell.addClass('edited');
+          method: 'POST',
+          success: function() {
+            cell.html(value);
+            return cell.addClass('edited');
+          },
+          error: function() {
+            cell.html(cell.data('value'));
+            return cell.addClass('edited-error');
+          }
         });
       }
-      cell.removeClass('editing');
-      return cell.html(value);
+      return setTimeout(function() {
+        return cell.removeClass('editing');
+      }, 1200);
     };
     cell.find('input,textarea,select').focus().on('blur', function() {
       return submit(cell, $(this));
@@ -40659,6 +40670,32 @@ $.nette.ext('datagrid.redraw-item', {
     if (payload._datagrid_redraw_item_class) {
       row = $('tr[data-id=' + payload._datagrid_redraw_item_id + ']');
       return row.attr('class', payload._datagrid_redraw_item_class);
+    }
+  }
+});
+
+$.nette.ext('datagrid.reset-filter-by-column', {
+  success: function(payload) {
+    var grid, href, i, key, len, ref;
+    if (!payload._datagrid_name) {
+      return;
+    }
+    grid = $('.datagrid-' + payload._datagrid_name);
+    grid.find('[data-datagrid-reset-filter-by-column]').addClass('hidden');
+    if (payload.non_empty_filters && payload.non_empty_filters.length) {
+      ref = payload.non_empty_filters;
+      for (i = 0, len = ref.length; i < len; i++) {
+        key = ref[i];
+        grid.find('[data-datagrid-reset-filter-by-column=' + key + ']').removeClass('hidden');
+      }
+      href = grid.find('.reset-filter').attr('href');
+      return grid.find('[data-datagrid-reset-filter-by-column]').each(function() {
+        var new_href;
+        key = $(this).attr('data-datagrid-reset-filter-by-column');
+        new_href = href.replace('do=examplesGrid-resetFilter', 'do=' + payload._datagrid_name + '-resetColumnFilter');
+        new_href += '&' + payload._datagrid_name + '-key=' + key;
+        return $(this).attr('href', new_href);
+      });
     }
   }
 });
@@ -40805,7 +40842,7 @@ Happy = (function() {
     if (input.checked) {
       name = input.getAttribute('name');
       value = input.getAttribute('value');
-      selector = '.happy-radio[data-name="' + name + '"][data-value=' + value + ']';
+      selector = '.happy-radio[data-name="' + name + '"][data-value="' + value + '"]';
       happy_radio = document.querySelector(selector);
       if (happy_radio) {
         return happy_radio.classList.add('active');

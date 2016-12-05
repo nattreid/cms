@@ -35,7 +35,8 @@
     "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#latest",
     "menu": "git@git.newtravel.cz:nattreid/menu.git#latest",
     "utils": "git@git.newtravel.cz:nattreid/utils.git#latest",
-    "form": "git@git.newtravel.cz:nattreid/form.git#latest"
+    "form": "git@git.newtravel.cz:nattreid/form.git#latest",
+    "vpaginator": "git@git.newtravel.cz:nattreid/vpaginator.git#latest"
   },
   "resolutions": {
     "nette.ajax.js": ">= 2.1.0",

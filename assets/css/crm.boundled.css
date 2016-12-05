@@ -11317,10 +11317,28 @@ fieldset[disabled] .btn-danger.active {
   }
 }
 
+@keyframes edited-error {
+  0% {
+    background-color: #E8AAA4;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
 .datagrid {
   background-color: #fff;
   padding: 1em;
   box-sizing: border-box;
+}
+
+.datagrid .datagrid-collapse-filters-button-row {
+  margin-bottom: 0.5em;
+}
+
+.datagrid .col-action .dropdown {
+  display: inline-block;
 }
 
 .datagrid .datagrid-row-inline-add.datagrid-row-inline-add-hidden {
@@ -11345,6 +11363,7 @@ fieldset[disabled] .btn-danger.active {
 .datagrid .datagrid-toolbar {
   margin-top: .35em;
   float: right;
+  display: inline-block;
 }
 
 .datagrid .datagrid-toolbar > span {
@@ -11361,6 +11380,10 @@ fieldset[disabled] .btn-danger.active {
 
 .datagrid .datagrid-exports .btn:first-child {
   margin-left: 0;
+}
+
+.datagrid .datagrid-settings {
+  display: inline-block;
 }
 
 .datagrid .datagrid-settings .dropdown-menu--grid {
@@ -11411,20 +11434,6 @@ fieldset[disabled] .btn-danger.active {
   font-size: 13px;
 }
 
-.datagrid table thead tr .column-settings-menu {
-  opacity: 0;
-  cursor: pointer;
-  margin-left: 2px;
-}
-
-.datagrid table thead tr .column-settings-menu .dropdown-menu {
-  font-size: 12px;
-}
-
-.datagrid table thead tr .column-settings-menu .dropdown-menu li .fa {
-  margin-right: 0.5em;
-}
-
 .datagrid table thead tr.row-group-actions th {
   border-bottom-width: 0 !important;
   background-color: #f9f9f9;
@@ -11437,6 +11446,30 @@ fieldset[disabled] .btn-danger.active {
 
 .datagrid table thead tr th hr {
   margin: 8px -8px;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions {
+  float: right;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions a[data-datagrid-reset-filter-by-column] {
+  margin-left: 0.3em;
+  color: #858585;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu {
+  opacity: 0;
+  cursor: pointer;
+  margin-left: 2px;
+  display: inline-block;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu .dropdown-menu {
+  font-size: 12px;
+}
+
+.datagrid table thead tr th .datagrid-column-header-additions .column-settings-menu .dropdown-menu li .fa {
+  margin-right: 0.5em;
 }
 
 .datagrid table thead tr th .datagrid-col-filter-date-range .input-group .datagrid-filter-date-range-last,
@@ -11466,7 +11499,7 @@ fieldset[disabled] .btn-danger.active {
   border-radius: 3px;
 }
 
-.datagrid table thead tr th:hover > .column-settings-menu {
+.datagrid table thead tr th:hover .column-settings-menu {
   opacity: 1;
 }
 
@@ -11509,6 +11542,12 @@ fieldset[disabled] .btn-danger.active {
 .datagrid table tbody tr td.edited {
   animation-name: edited;
   animation-duration: 1.2s;
+  animation-delay: 0;
+}
+
+.datagrid table tbody tr td.edited-error {
+  animation-name: edited-error;
+  animation-duration: 1.6s;
   animation-delay: 0;
 }
 
@@ -13710,6 +13749,61 @@ select.selectpicker {
   background-position: 0px -300px;
 }
 
+@default: #000;
+@active: #337ab7;
+@button: #555;
+
+.visualPaginator {
+  text-align: center;
+
+  ul.pagination {
+    li {
+      display: inline-block;
+      min-width: 35px;
+      height: 29px;
+      line-height: 29px;
+      text-align: center;
+      border: 1px solid transparent;
+
+      a, span {
+        text-decoration: none;
+        padding: 0 5px;
+        display: block;
+        color: @default;
+      }
+
+      a:hover {
+        color: @active;
+      }
+
+    }
+
+    li.other {
+      border: 1px solid transparent;
+    }
+
+    li.active {
+      border: 1px solid @active;
+      font-weight: bold;
+
+      span {
+        color: @active;
+      }
+    }
+
+    li.disabled {
+      display: none;
+    }
+    li.next, li.prev {
+      border: 1px solid @button;
+      background: inherit;
+    }
+
+    li.next:hover, li.prev:hover {
+      border: 1px solid @active;
+    }
+  }
+}
 /*!
  * jQuery UI CSS Framework 1.12.0
  * http://jqueryui.com

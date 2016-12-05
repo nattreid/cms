@@ -124,6 +124,7 @@ var boundledCSS = [
     paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
     // plugins
     paths.dev.vendor + 'filemanager/assets/fileManager.css',
+    paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
     // crm
     paths.dev.css + '*.css'
 ];
