@@ -194,8 +194,9 @@ abstract class BasePresenter extends Presenter
 			$this->locale = $this->translator->getDefaultLocale();
 		}
 
-		if ($this->locale != $this->user->identity->language) {
-			$this->redirect('this', ['locale' => $this->user->identity->language]);
+		$locale = $this->user->identity->language;
+		if ($locale != null && $locale != $this->locale) {
+			$this->redirect('this', ['locale' => $locale]);
 		}
 
 		Number::setLocale($this->locale);
