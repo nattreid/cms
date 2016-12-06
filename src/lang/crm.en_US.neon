@@ -16,6 +16,8 @@ user:
     firstName: "First name"
     surname: "Surname"
     email: "E-mail"
+    phone: "Phone"
+    language: "Language"
     state: "State"
 
     signin: "Login"
@@ -25,6 +27,7 @@ user:
     usernameOrEmail: "Username or E-mail"
 
     add: "Add new user"
+    edit: "Edit"
     tryUser: "Try user"
     changePassword: "Change password"
     restorePassword: "Restore password"
@@ -37,6 +40,9 @@ user:
     incorrectPassword: "Wrong password."
     incorrectUsernameOrPassword: "Wrong username or password."
     incorrectUsernameOrEmail: "Wrong username or E-mail."
+    invalideUsername: "Username contains invalid characters"
+    invalideEmail: "Email is not valid"
+    invalidePhone: "Phone is not valid"
 
     dataSaved: "User data saved"
     passwordChanged: "Password changed"

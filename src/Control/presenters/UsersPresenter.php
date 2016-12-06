@@ -2,11 +2,12 @@
 
 namespace NAttreid\Crm\Control;
 
+use NAttreid\Crm\LocaleService;
 use NAttreid\Crm\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\User;
-use Nette\Forms\Container;
+use NAttreid\Utils\Strings;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
@@ -35,13 +36,38 @@ class UsersPresenter extends CrmPresenter
 	/** @var Mailer */
 	private $mailer;
 
-	public function __construct($passwordChars, $minPasswordLength, Model $orm, Mailer $mailer)
+	/** @var LocaleService */
+	private $localeService;
+
+	/** @var User */
+	private $user;
+
+	public function __construct($passwordChars, $minPasswordLength, Model $orm, Mailer $mailer, LocaleService $localeService)
 	{
 		parent::__construct();
 		$this->passwordChars = $passwordChars;
 		$this->minPasswordLength = $minPasswordLength;
 		$this->orm = $orm;
 		$this->mailer = $mailer;
+		$this->localeService = $localeService;
+	}
+
+	public function handleBack($backlink)
+	{
+		$this->redirect('default');
+	}
+
+	public function actionEdit($id)
+	{
+		$this->user = $this->orm->users->getById($id);
+		if (!$this->user) {
+			$this->error();
+		}
+	}
+
+	public function actioneChangePassword($id)
+	{
+		$this->actionEdit($id);
 	}
 
 	/**
@@ -52,25 +78,31 @@ class UsersPresenter extends CrmPresenter
 		$this->addBreadcrumbLink('dockbar.settings.users');
 	}
 
-	public function handleBack($backlink)
+	/**
+	 * Novy uzivatel
+	 */
+	public function renderAdd()
 	{
-		$this->redirect('default');
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
+		$this->addBreadcrumbLink('crm.user.add');
+	}
+
+	/**
+	 * Editace uzivatele
+	 */
+	public function renderEdit()
+	{
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
+		$this->addBreadcrumbLink('crm.user.edit');
 	}
 
 	/**
 	 * Zmena hesla
-	 * @param int $id
 	 */
-	public function renderChangePassword($id)
+	public function renderChangePassword()
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
 		$this->addBreadcrumbLink('crm.user.changePassword');
-
-		$user = $this->orm->users->getById($id);
-		$this['passwordForm']->setDefaults([
-			'id' => $user->id,
-			'username' => $user->username
-		]);
 	}
 
 	/**
@@ -112,66 +144,6 @@ class UsersPresenter extends CrmPresenter
 			$user->active = $value;
 			$this->orm->persistAndFlush($user);
 			$this['userList']->redrawItem($id);
-		} else {
-			$this->terminate();
-		}
-	}
-
-	/**
-	 * Editace uzivatele
-	 * @param Container $container
-	 */
-	public function userForm(Container $container)
-	{
-		$container->addText('username', 'crm.user.username')
-			->setRequired();
-		$container->addText('firstName', 'crm.user.firstName');
-		$container->addText('surname', 'crm.user.surname');
-		$container->addEmail('email', 'crm.user.email')
-			->setRequired()
-			->addRule(Form::EMAIL);
-		$container->addMultiSelect('roles', 'crm.permissions.roles')
-			->setTranslator()
-			->setItems($this->orm->aclRoles->fetchPairs())
-			->setRequired();
-	}
-
-	public function setUserForm(Container $container, User $user)
-	{
-		$container->setDefaults($user->toArray($user::TO_ARRAY_RELATIONSHIP_AS_ID));
-	}
-
-	/**
-	 * Ulozi uzivatele
-	 * @param int $id
-	 * @param ArrayHash $values
-	 */
-	public function updateUser($id, $values)
-	{
-		if ($this->isAjax()) {
-			$user = $this->orm->users->getById($id);
-			try {
-				$user->setUsername($values->username);
-			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('crm.user.dupliciteUsername');
-				return;
-			} catch (InvalidArgumentException $ex) {
-				$this->flashNotifier->error('crm.user.invalidUsername');
-				return;
-			}
-			try {
-				$user->setEmail($values->email);
-			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('crm.user.dupliciteEmail');
-				return;
-			}
-			$user->firstName = $values->firstName;
-			$user->surname = $values->surname;
-
-			$user->roles->set($values->roles);
-			$this->orm->persistAndFlush($user);
-
-			$this->flashNotifier->success('crm.user.dataSaved');
 		} else {
 			$this->terminate();
 		}
@@ -237,7 +209,7 @@ class UsersPresenter extends CrmPresenter
 	 * Formular pridani uzivatele
 	 * @return Form
 	 */
-	protected function createComponentAddUserForm()
+	protected function createComponentAddForm()
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -249,6 +221,8 @@ class UsersPresenter extends CrmPresenter
 		$form->addText('email', 'crm.user.email')
 			->setRequired()
 			->addRule(Form::EMAIL);
+		$form->addPhone('phone', 'crm.user.phone');
+		$form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
 
 		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
 			->setRequired();
@@ -273,7 +247,7 @@ class UsersPresenter extends CrmPresenter
 		$form->addSubmit('save', 'form.save');
 		$form->addLink('back', 'form.back', $this->getBacklink());
 
-		$form->onSuccess[] = [$this, 'addUserFormSucceeded'];
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -282,7 +256,7 @@ class UsersPresenter extends CrmPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function addUserFormSucceeded(Form $form, $values)
+	public function addFormSucceeded(Form $form, $values)
 	{
 		if ($values->generatePassword) {
 			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
@@ -298,17 +272,30 @@ class UsersPresenter extends CrmPresenter
 			$form->addError('crm.user.dupliciteUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideUsernameLetters');
+			$form->addError('crm.user.invalideUsername');
 			return;
 		}
+
 		try {
 			$user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
 			$form->addError('crm.user.dupliciteEmail');
 			return;
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalideUsername');
+			return;
 		}
+
+		try {
+			$user->setPhone(Strings::ifEmpty($values->phone));
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalidePhone');
+			return;
+		}
+
 		$user->firstName = $values->firstName;
 		$user->surname = $values->surname;
+		$user->language = $values->language;
 		$user->roles->set($values->roles);
 		$user->setPassword($password);
 
@@ -323,6 +310,94 @@ class UsersPresenter extends CrmPresenter
 	}
 
 	/**
+	 * Formular editace uzivatele
+	 * @return Form
+	 */
+	protected function createComponentEditForm()
+	{
+		$form = $this->formFactory->create();
+		$form->addProtection();
+
+		$form->addText('username', 'crm.user.username')
+			->setDefaultValue($this->user->username)
+			->setRequired();
+		$form->addText('firstName', 'crm.user.firstName')
+			->setDefaultValue($this->user->firstName);
+		$form->addText('surname', 'crm.user.surname')
+			->setDefaultValue($this->user->surname);
+		$form->addText('email', 'crm.user.email')
+			->setDefaultValue($this->user->email)
+			->setRequired()
+			->addRule(Form::EMAIL);
+		$form->addPhone('phone', 'crm.user.phone')
+			->setDefaultValue($this->user->phone);
+
+		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
+		$locale = $this->localeService->get($this->user->language);
+		if ($locale) {
+			$language->setDefaultValue($locale->id);
+		}
+
+		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
+			->setDefaultValue($this->user->roles->getRawValue())
+			->setRequired();
+
+		$form->addSubmit('save', 'form.save');
+		$form->addLink('back', 'form.back', $this->getBacklink());
+
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
+
+		return $form;
+	}
+
+	/**
+	 * Zpracovani editace uzivatele
+	 * @param Form $form
+	 * @param ArrayHash $values
+	 */
+	public function editFormSucceeded(Form $form, $values)
+	{
+		try {
+			$this->user->setUsername($values->username);
+		} catch (UniqueConstraintViolationException $ex) {
+			$form->addError('crm.user.dupliciteUsername');
+			return;
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalideUsername');
+			return;
+		}
+
+		try {
+			$this->user->setEmail($values->email);
+		} catch (UniqueConstraintViolationException $ex) {
+			$form->addError('crm.user.dupliciteEmail');
+			return;
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalideUsername');
+			return;
+		}
+
+		try {
+			$this->user->setPhone(Strings::ifEmpty($values->phone));
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalidePhone');
+			return;
+		}
+
+		$this->user->firstName = $values->firstName;
+		$this->user->surname = $values->surname;
+		$this->user->roles->set($values->roles);
+
+		$language = $this->localeService->getById($values->language);
+		$this->user->language = $language === null ? null : $language->name;
+
+		$this->orm->persistAndFlush($this->user);
+
+		$this->flashNotifier->success('crm.user.dataSaved');
+		$this->restoreBacklink();
+	}
+
+	/**
 	 * Zmena hesla
 	 * @return Form
 	 */
@@ -331,9 +406,8 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addHidden('id', null);
-
 		$form->addText('username', 'crm.user.username')
+			->setDefaultValue($this->user->username)
 			->setDisabled();
 
 		if ($this->configurator->sendNewUserPassword) {
@@ -373,13 +447,12 @@ class UsersPresenter extends CrmPresenter
 			$password = $values->password;
 		}
 
-		$user = $this->orm->users->getById($values->id);
-		$user->setPassword($password);
+		$this->user->setPassword($password);
 
-		$this->orm->persistAndFlush($user);
+		$this->orm->persistAndFlush($this->user);
 
 		if ($this->configurator->sendChangePassword) {
-			$this->mailer->sendNewPassword($user->email, $user->username, $password);
+			$this->mailer->sendNewPassword($this->user->email, $this->user->username, $password);
 		}
 
 		$this->flashNotifier->success('crm.user.passwordChanged');
@@ -444,17 +517,16 @@ class UsersPresenter extends CrmPresenter
 			->setClass('btn-danger');
 		$state->onChange[] = [$this, 'setState'];
 
-		$edit = $grid->addInlineEdit();
-		$edit->onControlAdd[] = [$this, 'userForm'];
-		$edit->onSetDefaults[] = [$this, 'setUserForm'];
-		$edit->onSubmit[] = [$this, 'updateUser'];
-
 		if ($this['tryUser']->isAllowed()) {
 			$grid->addAction('tryUser', null, 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')
 				->setTitle('crm.user.tryUser');
 		}
+
+		$grid->addAction('edit', null)
+			->setIcon('pencil')
+			->setTitle('crm.user.edit');
 
 		$grid->addAction('changePassword', null)
 			->setIcon('wrench')

@@ -122,7 +122,7 @@ class LocaleService
 
 	/**
 	 * Nastavi povolene jazyky
-	 * @param array $allowed
+	 * @param int[] $allowed
 	 */
 	public function setAllowed(array $allowed)
 	{
@@ -148,12 +148,21 @@ class LocaleService
 	}
 
 	/**
-	 * @param $locale
+	 * @param string $locale
 	 * @return Locale
 	 */
 	public function get($locale)
 	{
 		return $this->orm->locales->getByLocale($locale);
+	}
+
+	/**
+	 * @param int $id
+	 * @return Locale
+	 */
+	public function getById($id)
+	{
+		return $this->orm->locales->getById($id);
 	}
 
 	/**

@@ -2,9 +2,12 @@
 
 namespace NAttreid\Crm\Control;
 
+use InvalidArgumentException;
+use NAttreid\Crm\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\User;
+use NAttreid\Utils\Strings;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
 use Nextras\Dbal\UniqueConstraintViolationException;
@@ -27,11 +30,15 @@ class ProfilePresenter extends CrmPresenter
 	/** @var User */
 	private $profile;
 
-	public function __construct($minPasswordLength, Model $orm)
+	/** @var LocaleService */
+	private $localeService;
+
+	public function __construct($minPasswordLength, Model $orm, LocaleService $localeService)
 	{
 		parent::__construct();
 		$this->minPasswordLength = $minPasswordLength;
 		$this->orm = $orm;
+		$this->localeService = $localeService;
 	}
 
 	public function actionDefault()
@@ -45,6 +52,8 @@ class ProfilePresenter extends CrmPresenter
 	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('dockbar.myProfile');
+
+		$profile = $this->profile;
 	}
 
 	/**
@@ -69,6 +78,14 @@ class ProfilePresenter extends CrmPresenter
 			->setDefaultValue($this->profile->email)
 			->setRequired()
 			->addRule(Form::EMAIL);
+		$form->addPhone('phone', 'crm.user.phone')
+			->setDefaultValue($this->profile->phone);
+
+		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
+		$locale = $this->localeService->get($this->profile->language);
+		if ($locale) {
+			$language->setDefaultValue($locale->id);
+		}
 
 		$form->addSubmit('save', 'form.save');
 
@@ -91,16 +108,32 @@ class ProfilePresenter extends CrmPresenter
 	public function userFormSucceeded(Form $form, $values)
 	{
 		try {
-			$this->profile->firstName = $values->firstName;
-			$this->profile->surname = $values->surname;
 			$this->profile->setEmail($values->email);
-
-			$this->orm->persistAndFlush($this->profile);
-
-			$this->flashNotifier->success('crm.user.dataSaved');
 		} catch (UniqueConstraintViolationException $ex) {
 			$form->addError('crm.user.dupliciteEmail');
+			return;
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalideEmail');
+			return;
 		}
+
+		try {
+			$this->profile->setPhone(Strings::ifEmpty($values->phone));
+		} catch (InvalidArgumentException $ex) {
+			$form->addError('crm.user.invalidePhone');
+			return;
+		}
+
+		$this->profile->firstName = $values->firstName;
+		$this->profile->surname = $values->surname;
+
+		$language = $this->localeService->getById($values->language);
+		$this->profile->language = $language === null ? null : $language->name;
+
+		$this->orm->persistAndFlush($this->profile);
+
+		$this->flashNotifier->success('crm.user.dataSaved');
+
 
 		if ($this->isAjax()) {
 			$this->redrawControl('userForm');

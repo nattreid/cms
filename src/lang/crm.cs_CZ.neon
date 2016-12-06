@@ -16,6 +16,8 @@ user:
     firstName: "Jméno"
     surname: "Příjmení"
     email: "E-mail"
+    phone: "Telefon"
+    language: "Jazyk"
     state: "Stav"
 
     signin: "Přihlásit"
@@ -25,6 +27,7 @@ user:
     usernameOrEmail: "Uživatelské jméno nebo E-mail"
 
     add: "Přidat nového uživatele"
+    edit: "Editovat"
     tryUser: "Vyzkoušet uživatele"
     changePassword: "Změnit heslo"
     restorePassword: "Obnovení hesla"
@@ -37,6 +40,9 @@ user:
     incorrectPassword: "Nesprávné heslo."
     incorrectUsernameOrPassword: "Nesprávné uživatelské jméno nebo heslo."
     incorrectUsernameOrEmail: "Nesprávné uživatelské jméno nebo e-mail."
+    invalideUsername: "Uživatelské jméno obsahuje neplatné znaky"
+    invalideEmail: "Email neni v platném formátu"
+    invalidePhone: "Telefon neni v platném formátu"
 
     dataSaved: "Uživatelská data uložena"
     passwordChanged: "Heslo změněno"

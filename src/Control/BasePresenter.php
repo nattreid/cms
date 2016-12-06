@@ -76,12 +76,7 @@ abstract class BasePresenter extends Presenter
 		$this['tryUser']->init();
 
 		// lokalizace
-		if (empty($this->locale)) {
-			$this->locale = $this->translator->getDefaultLocale();
-		}
-		Number::setLocale($this->locale);
-		Date::setLocale($this->locale);
-		$this->template->locale = $this->locale;
+		$this->initLocale();
 
 		$this->template->baseTitle = $this->configurator->title;
 		$this->template->layout = __DIR__ . '/presenters/templates/@layout.latte';
@@ -191,6 +186,21 @@ abstract class BasePresenter extends Presenter
 	protected function translate($message, $count = null, array $parameters = [], $domain = null, $locale = null)
 	{
 		return $this->translator->translate($message, $count, $parameters, $domain, $locale);
+	}
+
+	private function initLocale()
+	{
+		if (empty($this->locale)) {
+			$this->locale = $this->translator->getDefaultLocale();
+		}
+
+		if ($this->locale != $this->user->identity->language) {
+			$this->redirect('this', ['locale' => $this->user->identity->language]);
+		}
+
+		Number::setLocale($this->locale);
+		Date::setLocale($this->locale);
+		$this->template->locale = $this->locale;
 	}
 
 	/* ###################################################################### */
