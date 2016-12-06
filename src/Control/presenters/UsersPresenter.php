@@ -65,7 +65,7 @@ class UsersPresenter extends CrmPresenter
 		}
 	}
 
-	public function actioneChangePassword($id)
+	public function actionChangePassword($id)
 	{
 		$this->actionEdit($id);
 	}
@@ -407,8 +407,8 @@ class UsersPresenter extends CrmPresenter
 		$form->addProtection();
 
 		$form->addText('username', 'crm.user.username')
-			->setDefaultValue($this->user->username)
-			->setDisabled();
+			->setDisabled()
+			->setDefaultValue($this->user->username);
 
 		if ($this->configurator->sendNewUserPassword) {
 			$form->addCheckbox('generatePassword', 'crm.user.generatePassword');
