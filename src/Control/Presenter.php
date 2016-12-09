@@ -26,7 +26,7 @@ abstract class Presenter extends BasePresenter
 	{
 		parent::startup();
 
-		if (!$this->user->isLoggedIn()) {
+		if (!$this->user->loggedIn) {
 			if ($this->user->logoutReason === IUserStorage::INACTIVITY) {
 				$this->flashNotifier->info('crm.user.inactivityLogout');
 			}

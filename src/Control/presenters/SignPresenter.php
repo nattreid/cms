@@ -60,7 +60,7 @@ class SignPresenter extends BasePresenter
 	protected function startup()
 	{
 		parent::startup();
-		if ($this->user->isLoggedIn()) {
+		if ($this->user->loggedIn) {
 			$this->redirect(":{$this->module}:Homepage:");
 		}
 		$this->template->layout = __DIR__ . '/templates/Sign/@layout.latte';
