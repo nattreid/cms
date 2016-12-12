@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     minify = require('gulp-clean-css'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    streamqueue = require('streamqueue');
+    streamqueue = require('streamqueue'),
+    modifyCssUrls = require('gulp-modify-css-urls');
 
 var paths = {
     'dev': {
@@ -109,25 +110,39 @@ gulp.task('jsCsMin', function () {
 // *****************************************************************************
 // ***********************************  CSS  ***********************************
 
-var boundledCSS = [
-    paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
-    paths.dev.vendor + 'font-awesome/css/font-awesome.css',
-    paths.dev.vendor + 'bootstrap/dist/css/bootstrap.css',
-    paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
-    paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.css',
-    paths.dev.vendor + 'nprogress/nprogress.css',
-    // datagrid
-    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.css',
-    paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.css',
-    paths.dev.vendor + 'happy/dist/happy.css',
-    paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-    paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
-    // plugins
-    paths.dev.vendor + 'filemanager/assets/fileManager.css',
-    paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
-    // crm
-    paths.dev.css + '*.css'
-];
+function getBoundledCSS() {
+    return streamqueue({objectMode: true},
+        gulp.src(paths.dev.vendor + 'font-awesome/css/font-awesome.css')
+            .pipe(modifyCssUrls({
+                modify: function (url, filePath) {
+                    return url.replace('../fonts/', '/fonts/fontAwesome/');
+                }
+            })),
+        gulp.src(paths.dev.vendor + 'bootstrap/dist/css/bootstrap.css')
+            .pipe(modifyCssUrls({
+                modify: function (url, filePath) {
+                    return url.replace('../fonts/', '/fonts/bootstrap/');
+                }
+            })),
+        gulp.src([
+            paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
+            paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
+            paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.css',
+            paths.dev.vendor + 'nprogress/nprogress.css',
+            // datagrid
+            paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.css',
+            paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.css',
+            paths.dev.vendor + 'happy/dist/happy.css',
+            paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+            paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
+            // plugins
+            paths.dev.vendor + 'filemanager/assets/fileManager.css',
+            paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
+            // crm
+            paths.dev.css + '*.css'
+        ])
+    );
+}
 
 gulp.task('css', function () {
     return streamqueue({objectMode: true},
@@ -141,7 +156,7 @@ gulp.task('css', function () {
 
 gulp.task('cssBoundled', function () {
     return streamqueue({objectMode: true},
-        gulp.src(boundledCSS),
+        getBoundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
@@ -162,7 +177,7 @@ gulp.task('cssMin', function () {
 
 gulp.task('cssBoundledMin', function () {
     return streamqueue({objectMode: true},
-        gulp.src(boundledCSS),
+        getBoundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
