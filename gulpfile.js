@@ -115,7 +115,7 @@ function getBoundledCSS() {
         gulp.src(paths.dev.vendor + 'font-awesome/css/font-awesome.css')
             .pipe(modifyCssUrls({
                 modify: function (url, filePath) {
-                    return url.replace('../fonts/', '/fonts/fontAwesome/');
+                    return url.replace('../fonts/', '/fonts/font-awesome/');
                 }
             })),
         gulp.src(paths.dev.vendor + 'bootstrap/dist/css/bootstrap.css')
