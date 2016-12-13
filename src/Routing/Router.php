@@ -30,11 +30,11 @@ class Router extends \NAttreid\Routing\Router
 		ksort($this->modules);
 		foreach ($this->modules as $module) {
 			$routesModule = $this->getRouter(Strings::firstUpper($module));
-			$routesModule[] = new Route($this->getUrl() . $module . '/<presenter>[/<action>]', 'Homepage:default');
+			$routesModule[] = new Route($this->url . $module . '/<presenter>[/<action>]', 'Homepage:default');
 		}
 
 		$routes = $this->getRouter($this->namespace);
-		$routes[] = new Route($this->getUrl() . '<presenter>[/<action>]', 'Homepage:default');
+		$routes[] = new Route($this->url . '<presenter>[/<action>]', 'Homepage:default');
 	}
 
 	/**
