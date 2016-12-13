@@ -26,7 +26,6 @@ var paths = {
 var boundledJS = [
     paths.dev.vendor + 'jquery/dist/jquery.js',
     paths.dev.vendor + 'jquery-ui/jquery-ui.js',
-    paths.dev.vendor + 'nette-forms/src/assets/netteForms.js',
     paths.dev.vendor + 'nette.ajax.js/nette.ajax.js',
     paths.dev.vendor + 'nette.ajax.js/extensions/confirm.ajax.js',
     paths.dev.vendor + 'jquery-ui-touch-punch/jquery.ui.touch-punch.js',
