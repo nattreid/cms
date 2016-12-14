@@ -57,7 +57,11 @@ class InfoPresenter extends CrmPresenter
 	{
 		$this->addBreadcrumbLink('dockbar.info.server');
 		$this->template->refresh = $this->refresh;
-		$this->template->server = $this->info->getServerInfo();
+		$this->template->system = $this->info->system;
+		$this->template->fileSystem = $this->info->fileSystem;
+		$this->template->hardware = $this->info->hardware;
+		$this->template->memory = $this->info->memory;
+		$this->template->network = $this->info->network;
 	}
 
 	/**
@@ -66,7 +70,7 @@ class InfoPresenter extends CrmPresenter
 	public function renderPhp()
 	{
 		$this->addBreadcrumbLink('dockbar.info.php');
-		$this->template->php = $this->info->getPhpInfo();
+		$this->template->php = $this->info->phpInfo;
 	}
 
 }

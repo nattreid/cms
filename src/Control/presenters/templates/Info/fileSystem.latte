@@ -12,20 +12,20 @@
             <th>{_'crm.info.fileSystem.used'}</th>
             <th>{_'crm.info.fileSystem.size'}</th>
         </tr>
-        {foreach $server->fileSystem as $fileSystem}
+        {foreach $fileSystem as $row}
             <tr n:class="$iterator->counter % 2 == 1 ? even">
-                <td><strong>{$fileSystem->mountPoint}</strong></td>
-                <td>{$fileSystem->type}</td>
-                <td>{$fileSystem->partition}</td>
+                <td><strong>{$row->mountPoint}</strong></td>
+                <td>{$row->type}</td>
+                <td>{$row->partition}</td>
                 <td class="status">
                     <div class="status-bar">
-                        <div style="width: {$fileSystem->usage|noescape};"></div>
+                        <div style="width: {$row->usage|noescape};"></div>
                     </div>
-                    {$fileSystem->usage}
+                    {$row->usage}
                 </td>
-                <td>{$fileSystem->free|size}</td>
-                <td>{$fileSystem->used|size}</td>
-                <td>{$fileSystem->size|size}</td>
+                <td>{$row->free|size}</td>
+                <td>{$row->used|size}</td>
+                <td>{$row->size|size}</td>
             </tr>
         {/foreach}
     </table>

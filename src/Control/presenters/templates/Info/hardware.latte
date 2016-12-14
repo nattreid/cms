@@ -3,22 +3,22 @@
         {_'crm.info.hardware.info'}
     </div>
     <table>
-        {ifset $server->hardware->server}
+        {ifset $hardware->server}
             <tr class="odd">
                 <th>{_'crm.info.hardware.server'}</th>
             </tr>
             <tr class="even">
-                <td>{$server->hardware->server}</td>
+                <td>{$hardware->server}</td>
             </tr>
         {/ifset}
-        {ifset $server->hardware->cpu}
+        {ifset $hardware->cpu}
             <tr class="odd">
-                <th>{_crm.info.hardware.cpu, count($server->hardware->cpu)}</th>
+                <th>{_crm.info.hardware.cpu, count($hardware->cpu)}</th>
             </tr>
             <tr class="even" n:snippet="cpu">
                 <td>
-                    {ifset $server->hardware->cpu}
-                        {foreach $server->hardware->cpu as $cpu}
+                    {ifset $hardware->cpu}
+                        {foreach $hardware->cpu as $cpu}
                             <div>
                                 <strong>{$cpu->model}</strong>
                             </div>
@@ -39,11 +39,11 @@
                 </td>
             </tr>
         {/ifset}
-        {ifset $server->hardware->scsi}
+        {ifset $hardware->scsi}
             <tr class="odd">
                 <th>{_'crm.info.hardware.scsi'}</th>
             </tr>
-            <tr class="even" n:foreach="$server->hardware->scsi as $scsi">
+            <tr class="even" n:foreach="$hardware->scsi as $scsi">
                 <td>
                     <strong>{$scsi->name}</strong> ({$scsi->type})
                 </td>

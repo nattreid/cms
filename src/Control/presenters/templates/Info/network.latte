@@ -1,5 +1,5 @@
 {snippet network}
-    {ifset $server->network}
+    {ifset $network}
         <div class="cell networkInfo">
             <div class="header">
                 {_'crm.info.network.info'}
@@ -14,15 +14,15 @@
                     <th>{_'crm.info.network.sent'}</th>
                     <th>{_'crm.info.network.error'}/{_'crm.info.network.drop'}</th>
                 </tr>
-                {foreach $server->network as $network}
+                {foreach $network as $row}
                     <tr n:class="$iterator->counter % 2 == 1 ? even">
-                        <td><strong>{$network->name}</strong></td>
-                        <td>{isset($network->ip) ? $network->ip}</td>
-                        <td>{$network->ip6}</td>
-                        <td>{isset($network->mac) ? $network->mac}</td>
-                        <td>{$network->recieve|size:2}</td>
-                        <td>{$network->sent|size:2}</td>
-                        <td>{$network->error}/{$network->drop}</td>
+                        <td><strong>{$row->name}</strong></td>
+                        <td>{isset($row->ip) ? $row->ip}</td>
+                        <td>{$row->ip6}</td>
+                        <td>{isset($row->mac) ? $row->mac}</td>
+                        <td>{$row->recieve|size:2}</td>
+                        <td>{$row->sent|size:2}</td>
+                        <td>{$row->error}/{$row->drop}</td>
                     </tr>
                 {/foreach}
             </table>

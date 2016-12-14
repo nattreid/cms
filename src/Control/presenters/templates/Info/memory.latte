@@ -1,5 +1,5 @@
 {snippet memory}
-    {ifset $server->memory}
+    {ifset $memory}
         <div class="cell memoryInfo">
             <div class="header">
                 {_'crm.info.memory.info'}
@@ -15,23 +15,23 @@
                     <td>
                         <div class="status-bar">
                             <div class="apps"
-                                 style="width: {$server->memory->application|percent:$server->memory->total:0|noescape};"></div>
+                                 style="width: {$memory->application|percent:$memory->total:0|noescape};"></div>
                             <div class="cache"
-                                 style="width: {$server->memory->cache|percent:$server->memory->total:0|noescape};"></div>
+                                 style="width: {$memory->cache|percent:$memory->total:0|noescape};"></div>
                             <div class="buffers"
-                                 style="width: {$server->memory->buffer|percent:$server->memory->total:0|noescape};"></div>
+                                 style="width: {$memory->buffer|percent:$memory->total:0|noescape};"></div>
                         </div>
                         <div>
-                            {_'crm.info.memory.total'}: {$server->memory->used|percent:$server->memory->total:0}
-                            ({_'crm.info.memory.apps'}: {$server->memory->application|percent:$server->memory->total:0}
+                            {_'crm.info.memory.total'}: {$memory->used|percent:$memory->total:0}
+                            ({_'crm.info.memory.apps'}: {$memory->application|percent:$memory->total:0}
                             -
-                            {_'crm.info.memory.cache'}: {$server->memory->cache|percent:$server->memory->total:0} -
-                            {_'crm.info.memory.buffers'}: {$server->memory->buffer|percent:$server->memory->total:0})
+                            {_'crm.info.memory.cache'}: {$memory->cache|percent:$memory->total:0} -
+                            {_'crm.info.memory.buffers'}: {$memory->buffer|percent:$memory->total:0})
                         </div>
                     </td>
-                    <td>{$server->memory->free|size}</td>
-                    <td>{$server->memory->used|size}</td>
-                    <td>{$server->memory->total|size}</td>
+                    <td>{$memory->free|size}</td>
+                    <td>{$memory->used|size}</td>
+                    <td>{$memory->total|size}</td>
                 </tr>
             </table>
         </div>

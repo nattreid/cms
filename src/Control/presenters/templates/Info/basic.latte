@@ -3,48 +3,48 @@
         {_'crm.info.basic.info'}
     </div>
     <table>
-        <tr class="odd" n:ifset="$server->system->hostname">
+        <tr class="odd" n:ifset="$system->hostname">
             <td>{_'crm.info.basic.hostname'}</td>
-            <th>{$server->system->hostname}</th>
+            <th>{$system->hostname}</th>
         </tr>
         <tr class="even">
             <td>{_'crm.info.basic.listenIp'}</td>
-            <th>{$server->system->ip}</th>
+            <th>{$system->ip}</th>
         </tr>
-        <tr class="odd" n:if="$server->system->distribution">
+        <tr class="odd" n:if="$system->distribution">
             <td>{_'crm.info.basic.distribution'}</td>
-            <th>{$server->system->distribution}</th>
+            <th>{$system->distribution}</th>
         </tr>
         <tr class="even">
             <td>{_'crm.info.basic.kernel'}</td>
-            <th>{$server->system->kernel}</th>
+            <th>{$system->kernel}</th>
         </tr>
         <tr class="odd" n:snippet="uptime">
-            {ifset $server->system->uptime}
+            {ifset $system->uptime}
                 <td>{_'crm.info.basic.uptime'}</td>
                 <th>
-                    {_'default.time.days', $server->system->uptime->days}
-                    {_'default.time.hours', $server->system->uptime->hours}
-                    {_'default.time.minutes', $server->system->uptime->minutes}
+                    {_'default.time.days', $system->uptime->days}
+                    {_'default.time.hours', $system->uptime->hours}
+                    {_'default.time.minutes', $system->uptime->minutes}
                 </th>
             {/ifset}
         </tr>
         <tr class="even" n:snippet="users">
-            {ifset $server->system->users}
+            {ifset $system->users}
                 <td>{_'crm.info.basic.users'}</td>
-                <th>{$server->system->users->count} ({$server->system->users->list|implode:', '})</th>
+                <th>{$system->users->count} ({$system->users->list|implode:', '})</th>
             {/ifset}
         </tr>
         <tr class="odd" n:snippet="load">
-            {if !empty($server->system->load)}
+            {if !empty($system->load)}
                 <td>{_'crm.info.basic.load'}</td>
-                <th>{$server->system->load}</th>
+                <th>{$system->load}</th>
             {/if}
         </tr>
         <tr class="even" n:snippet="processes">
             <td>{_'crm.info.basic.processes'}</td>
-            <th>{$server->system->processes->total} ({$server->system->processes->running} {_'crm.info.basic.running'}
-                , {$server->system->processes->sleeping} {_'crm.info.basic.sleeping'})
+            <th>{$system->processes->total} ({$system->processes->running} {_'crm.info.basic.running'}
+                , {$system->processes->sleeping} {_'crm.info.basic.sleeping'})
             </th>
         </tr>
     </table>
