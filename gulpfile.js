@@ -123,6 +123,12 @@ function getBoundledCSS() {
                     return url.replace('../fonts/', '/fonts/bootstrap/');
                 }
             })),
+        gulp.src(paths.dev.vendor + 'filemanager/assets/fileManager.css')
+            .pipe(modifyCssUrls({
+                modify: function (url, filePath) {
+                    return url.replace('/images/', '/images/fileManager/');
+                }
+            })),
         gulp.src([
             paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
             paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
@@ -135,7 +141,6 @@ function getBoundledCSS() {
             paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
             // plugins
-            paths.dev.vendor + 'filemanager/assets/fileManager.css',
             paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
             // crm
             paths.dev.css + '*.css'
