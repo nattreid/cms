@@ -81,7 +81,7 @@ class ProfilePresenter extends CrmPresenter
 		$form->addPhone('phone', 'crm.user.phone')
 			->setDefaultValue($this->profile->phone);
 
-		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
+		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
 		$locale = $this->localeService->get($this->profile->language);
 		if ($locale) {
 			$language->setDefaultValue($locale->id);

@@ -222,7 +222,7 @@ class UsersPresenter extends CrmPresenter
 			->setRequired()
 			->addRule(Form::EMAIL);
 		$form->addPhone('phone', 'crm.user.phone');
-		$form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
+		$form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
 
 		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
 			->setRequired();
@@ -332,7 +332,7 @@ class UsersPresenter extends CrmPresenter
 		$form->addPhone('phone', 'crm.user.phone')
 			->setDefaultValue($this->user->phone);
 
-		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->getAllowed(), 'form.none');
+		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
 		$locale = $this->localeService->get($this->user->language);
 		if ($locale) {
 			$language->setDefaultValue($locale->id);

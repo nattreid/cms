@@ -16,9 +16,9 @@ use Nextras\Orm\Model\Model;
  *
  * @property string $default nastaveni defaultniho jazyka
  * @property array $allowed povolene jazyky
- * @property-read int[] allowedLocaleIds
- * @property-read int defaultLocaleId
- * @property-read int currentLocaleId
+ * @property-read int[] $allowedLocaleIds
+ * @property-read int $defaultLocaleId
+ * @property-read int $currentLocaleId
  *
  * @author Attreid <attreid@gmail.com>
  */
