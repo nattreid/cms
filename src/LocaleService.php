@@ -16,6 +16,9 @@ use Nextras\Orm\Model\Model;
  *
  * @property string $default nastaveni defaultniho jazyka
  * @property array $allowed povolene jazyky
+ * @property-read int[] allowedLocaleIds
+ * @property-read int defaultLocaleId
+ * @property-read int currentLocaleId
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -64,7 +67,7 @@ class LocaleService
 	/**
 	 * @return string
 	 */
-	public function getDefault()
+	protected function getDefault()
 	{
 		$key = 'default';
 		$result = $this->cache->load($key);
@@ -81,15 +84,15 @@ class LocaleService
 	/**
 	 * @return int
 	 */
-	public function getDefaultLocaleId()
+	protected function getDefaultLocaleId()
 	{
 		return $this->orm->locales->getDefault()->id;
 	}
 
 	/**
-	 * @return int
+	 * @return int[]
 	 */
-	public function getAllowedLocalesId()
+	protected function getAllowedLocaleIds()
 	{
 		return $this->orm->locales->findAllowed()->fetchPairs('id', 'id');
 	}
@@ -97,7 +100,7 @@ class LocaleService
 	/**
 	 * @return array
 	 */
-	public function getAllowed()
+	protected function getAllowed()
 	{
 		$key = 'allowed';
 		$result = $this->cache->load($key);
@@ -113,9 +116,9 @@ class LocaleService
 
 	/**
 	 * Nastavi vychozi jazyk
-	 * @param $localeId
+	 * @param int $localeId
 	 */
-	public function setDefault($localeId)
+	protected function setDefault($localeId)
 	{
 		$this->orm->locales->getById($localeId)->setDefault();
 	}
@@ -124,7 +127,7 @@ class LocaleService
 	 * Nastavi povolene jazyky
 	 * @param int[] $allowed
 	 */
-	public function setAllowed(array $allowed)
+	protected function setAllowed(array $allowed)
 	{
 		$locales = $this->orm->locales->findAll();
 		foreach ($locales as $locale) {
@@ -168,7 +171,7 @@ class LocaleService
 	/**
 	 * @return int
 	 */
-	public function getCurrentLocaleId()
+	protected function getCurrentLocaleId()
 	{
 		$locale = $this->translator->getLocale();
 		if (!isset($this->currentId[$locale])) {
