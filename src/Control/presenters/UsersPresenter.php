@@ -300,7 +300,10 @@ class UsersPresenter extends CrmPresenter
 
 		$user->firstName = $values->firstName;
 		$user->surname = $values->surname;
-		$user->language = $values->language;
+
+		$language = $this->localeService->getById($values->language);
+		$this->user->language = $language === null ? null : $language->name;
+
 		$user->roles->set($values->roles);
 		$user->setPassword($password);
 
