@@ -228,17 +228,22 @@ class UsersPresenter extends CrmPresenter
 			->setRequired();
 
 		if ($this->configurator->sendNewUserPassword) {
-			$form->addCheckbox('generatePassword', 'crm.user.generatePassword');
+			$form->addCheckbox('generatePassword', 'crm.user.generatePassword')
+				->addCondition($form::EQUAL, false)
+				->toggle('password')
+				->toggle('passwordVerify');
 		} else {
 			$form->addHidden('generatePassword', false);
 		}
 
 		$form->addPassword('password', 'crm.user.newPassword')
+			->setOption('id', 'password')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
 		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+			->setOption('id', 'passwordVerify')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password'])
@@ -411,17 +416,22 @@ class UsersPresenter extends CrmPresenter
 			->setDefaultValue($this->user->username);
 
 		if ($this->configurator->sendNewUserPassword) {
-			$form->addCheckbox('generatePassword', 'crm.user.generatePassword');
+			$form->addCheckbox('generatePassword', 'crm.user.generatePassword')
+				->addCondition($form::EQUAL, false)
+				->toggle('password')
+				->toggle('passwordVerify');
 		} else {
 			$form->addHidden('generatePassword', false);
 		}
 
 		$form->addPassword('password', 'crm.user.newPassword')
+			->setOption('id', 'password')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
 		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+			->setOption('id', 'passwordVerify')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password'])
