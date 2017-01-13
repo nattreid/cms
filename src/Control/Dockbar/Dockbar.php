@@ -203,7 +203,7 @@ class Dockbar extends Control
 		$this->checkHandlerPermission(false);
 
 		$file = $this->app->backupDatabase();
-		$this->presenter->sendResponse(new FileResponse($file, 'backup.zip'));
+		$this->presenter->sendResponse(new FileResponse($file, 'database.zip'));
 	}
 
 	/**
@@ -217,6 +217,17 @@ class Dockbar extends Control
 		$this->app->clearCache();
 		$this->flashNotifier->success('dockbar.management.database.databaseDroped');
 		$this->presenter->redirect('this');
+	}
+
+	/**
+	 * Zaloha
+	 */
+	public function handleBackup()
+	{
+		$this->checkHandlerPermission(false);
+
+		$file = $this->app->backup();
+		$this->presenter->sendResponse(new FileResponse($file, 'backup.zip'));
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\AppManager\Info;
+use NAttreid\AppManager\AppManager;
 
 /**
  * Informace o serveru, php, atd
@@ -15,14 +15,14 @@ class InfoPresenter extends CrmPresenter
 	/** @var int */
 	private $refresh;
 
-	/** @var Info */
-	private $info;
+	/** @var AppManager */
+	private $app;
 
-	public function __construct($refresh, Info $info)
+	public function __construct($refresh, AppManager $app)
 	{
 		parent::__construct();
 		$this->refresh = $refresh * 1000;
-		$this->info = $info;
+		$this->app = $app;
 	}
 
 	/**
@@ -57,11 +57,11 @@ class InfoPresenter extends CrmPresenter
 	{
 		$this->addBreadcrumbLink('dockbar.info.server');
 		$this->template->refresh = $this->refresh;
-		$this->template->system = $this->info->system;
-		$this->template->fileSystem = $this->info->fileSystem;
-		$this->template->hardware = $this->info->hardware;
-		$this->template->memory = $this->info->memory;
-		$this->template->network = $this->info->network;
+		$this->template->system = $this->app->system;
+		$this->template->fileSystem = $this->app->fileSystem;
+		$this->template->hardware = $this->app->hardware;
+		$this->template->memory = $this->app->memory;
+		$this->template->network = $this->app->network;
 	}
 
 	/**
@@ -70,7 +70,7 @@ class InfoPresenter extends CrmPresenter
 	public function renderPhp()
 	{
 		$this->addBreadcrumbLink('dockbar.info.php');
-		$this->template->php = $this->info->phpInfo;
+		$this->template->php = $this->app->info->phpInfo;
 	}
 
 }

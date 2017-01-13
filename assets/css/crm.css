@@ -892,6 +892,10 @@ body.preload * {
   font-size: 18px;
   content: "\f00d";
 }
+#dockbar .dockbar-content > ul > li.management li.backup > a:before {
+  font-size: 15px;
+  content: "\f019";
+}
 #dockbar .dockbar-content > ul > li.info > div:before {
   left: 10px;
   top: 7px;

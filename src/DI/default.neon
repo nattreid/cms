@@ -67,6 +67,8 @@ permissions:
             dropDatabase:
                 confirm: 'dockbar.management.database.confirmDropDatabase'
                 advanced: true
+        backup:
+            confirm: 'dockbar.management.confirmBackup'
 
     info:
         logs:

@@ -45,6 +45,8 @@ management:
         dropDatabase: "Smazání databáze"
         confirmDropDatabase: "Opravdu chcete smazat databázi?"
         databaseDroped: "Databáze byla smazána"
+    backup: "Záloha"
+    confirmBackup: "Opravdu chcete provést zálohu?"
 info:
     title: "Informace"
     logs: "Logy"

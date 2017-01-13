@@ -2,7 +2,7 @@
 
 namespace NAttreid\Crm\Control;
 
-use NAttreid\AppManager\Info;
+use NAttreid\AppManager\AppManager;
 use NAttreid\Tracking\Tracking;
 
 /**
@@ -13,16 +13,16 @@ use NAttreid\Tracking\Tracking;
 class HomepagePresenter extends CrmPresenter
 {
 
-	/** @var Info */
-	private $info;
+	/** @var AppManager */
+	private $app;
 
 	/** @var Tracking */
 	private $tracking;
 
-	public function __construct(Info $info, Tracking $tracking = null)
+	public function __construct(AppManager $app, Tracking $tracking = null)
 	{
 		parent::__construct();
-		$this->info = $info;
+		$this->app = $app;
 		$this->tracking = $tracking;
 	}
 
@@ -33,9 +33,9 @@ class HomepagePresenter extends CrmPresenter
 		if ($this->user->isAllowed('crm.homepage.info', 'view')) {
 			$template->viewInfo = true;
 
-			$template->ip = $this->info->ip;
+			$template->ip = $this->app->info->ip;
 
-			if (($load = $this->info->load)) {
+			if (($load = $this->app->info->load)) {
 				$template->load = $load;
 			}
 

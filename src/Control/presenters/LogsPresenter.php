@@ -3,7 +3,6 @@
 namespace NAttreid\Crm\Control;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\AppManager\Logs;
 use NAttreid\Utils\Date;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -18,14 +17,10 @@ class LogsPresenter extends CrmPresenter
 	/** @var AppManager */
 	private $app;
 
-	/** @var Logs */
-	private $logs;
-
-	public function __construct(AppManager $app, Logs $logs)
+	public function __construct(AppManager $app)
 	{
 		parent::__construct();
 		$this->app = $app;
-		$this->logs = $logs;
 	}
 
 	/**
@@ -42,7 +37,7 @@ class LogsPresenter extends CrmPresenter
 	 */
 	public function actionShowFile($id)
 	{
-		$this->sendResponse($this->logs->getFile($id));
+		$this->sendResponse($this->app->logs->getFile($id));
 	}
 
 	/**
@@ -51,7 +46,7 @@ class LogsPresenter extends CrmPresenter
 	 */
 	public function actionDownloadFile($id)
 	{
-		$this->sendResponse($this->logs->downloadFile($id));
+		$this->sendResponse($this->app->logs->downloadFile($id));
 	}
 
 	/**
@@ -62,10 +57,10 @@ class LogsPresenter extends CrmPresenter
 	public function handleDelete($id)
 	{
 		if ($this->isAjax()) {
-			$this->logs->delete($id);
+			$this->app->logs->delete($id);
 
 			$grid = $this['logsList'];
-			$grid->setDataSource($this->logs->getLogs());
+			$grid->setDataSource($this->app->logs->getLogs());
 			$grid->reload();
 		} else {
 			$this->terminate();
@@ -94,7 +89,7 @@ class LogsPresenter extends CrmPresenter
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 
-		$grid->setDataSource($this->logs->getLogs());
+		$grid->setDataSource($this->app->logs->getLogs());
 
 		$grid->setDefaultSort(['changed' => 'DESC']);
 

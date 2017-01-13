@@ -45,6 +45,8 @@ management:
         dropDatabase: "Drop database"
         confirmDropDatabase: "Do you really want to drop database?"
         databaseDroped: "Database droped"
+    backup: "Backup"
+    confirmBackup: "Do you really want to backup?"
 info:
     title: "Information"
     logs: "Logs"
