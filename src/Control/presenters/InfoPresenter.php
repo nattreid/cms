@@ -57,11 +57,11 @@ class InfoPresenter extends CrmPresenter
 	{
 		$this->addBreadcrumbLink('dockbar.info.server');
 		$this->template->refresh = $this->refresh;
-		$this->template->system = $this->app->system;
-		$this->template->fileSystem = $this->app->fileSystem;
-		$this->template->hardware = $this->app->hardware;
-		$this->template->memory = $this->app->memory;
-		$this->template->network = $this->app->network;
+		$this->template->system = $this->app->info->system;
+		$this->template->fileSystem = $this->app->info->fileSystem;
+		$this->template->hardware = $this->app->info->hardware;
+		$this->template->memory = $this->app->info->memory;
+		$this->template->network = $this->app->info->network;
 	}
 
 	/**
