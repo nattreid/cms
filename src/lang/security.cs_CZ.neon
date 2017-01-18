@@ -1,0 +1,6 @@
+roles:
+    guest: "Host"
+    user: "Uživatel"
+    editor: "Editor"
+    admin: "Administrátor"
+    superadmin: "Administrátor portálu"

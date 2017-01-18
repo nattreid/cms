@@ -250,6 +250,8 @@ class CmsExtension extends CompilerExtension
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.en_US.neon', 'en_US', 'form']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.cs_CZ.neon', 'cs_CZ', 'cms']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.en_US.neon', 'en_US', 'cms']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/security.cs_CZ.neon', 'cs_CZ', 'security']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/security.en_US.neon', 'en_US', 'security']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.cs_CZ.neon', 'cs_CZ', 'dockbar']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.en_US.neon', 'en_US', 'dockbar']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.cs_CZ.neon', 'cs_CZ', 'default']),

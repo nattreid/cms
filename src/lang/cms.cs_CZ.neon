@@ -1,12 +1,5 @@
 title: "CMS"
 
-roles:
-    guest: "Host"
-    user: "Uživatel"
-    editor: "Editor"
-    admin: "Administrátor"
-    superadmin: "Administrátor portálu"
-
 user:
     username: "Uživatelské jméno"
     password: "Heslo"
