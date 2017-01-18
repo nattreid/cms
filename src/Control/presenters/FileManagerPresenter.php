@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
@@ -10,7 +10,7 @@ use NAttreid\Filemanager\IFileManagerFactory;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class FileManagerPresenter extends CrmPresenter
+class FileManagerPresenter extends CmsPresenter
 {
 
 	/** @var string */

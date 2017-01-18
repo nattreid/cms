@@ -2,17 +2,17 @@
     {ifset $network}
         <div class="cell networkInfo">
             <div class="header">
-                {_'crm.info.network.info'}
+                {_'cms.info.network.info'}
             </div>
             <table>
                 <tr class="odd">
-                    <th>{_'crm.info.network.device'}</th>
-                    <th>{_'crm.info.network.ip'}</th>
-                    <th>{_crm.info.network.ip6}</th>
-                    <th>{_'crm.info.network.mac'}</th>
-                    <th>{_'crm.info.network.recieve'}</th>
-                    <th>{_'crm.info.network.sent'}</th>
-                    <th>{_'crm.info.network.error'}/{_'crm.info.network.drop'}</th>
+                    <th>{_'cms.info.network.device'}</th>
+                    <th>{_'cms.info.network.ip'}</th>
+                    <th>{_'cms.info.network.ip6'}</th>
+                    <th>{_'cms.info.network.mac'}</th>
+                    <th>{_'cms.info.network.recieve'}</th>
+                    <th>{_'cms.info.network.sent'}</th>
+                    <th>{_'cms.info.network.error'}/{_'cms.info.network.drop'}</th>
                 </tr>
                 {foreach $network as $row}
                     <tr n:class="$iterator->counter % 2 == 1 ? even">

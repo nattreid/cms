@@ -48,8 +48,8 @@ var boundledJS = [
     paths.dev.vendor + 'bootstrap-select/dist/js/bootstrap-select.js',
     // form
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
-    // crm
-    paths.dev.js + 'crm.js',
+    // cms
+    paths.dev.js + 'cms.js',
     paths.dev.js + 'dockbar.js',
     paths.dev.js + 'info.js',
     // plugins
@@ -69,39 +69,39 @@ var locale = {
 
 gulp.task('js', function () {
     return gulp.src(paths.dev.js + '*.js')
-        .pipe(concat('crm.js'))
+        .pipe(concat('cms.js'))
         .pipe(gulp.dest(paths.production.js));
 });
 
 gulp.task('jsBoundled', function () {
     return gulp.src(boundledJS)
-        .pipe(concat('crm.boundled.js'))
+        .pipe(concat('cms.boundled.js'))
         .pipe(gulp.dest(paths.production.js));
 });
 
 gulp.task('jsMin', function () {
     return gulp.src(paths.dev.js + '*.js')
-        .pipe(concat('crm.min.js'))
+        .pipe(concat('cms.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(paths.production.js));
 });
 
 gulp.task('jsBoundledMin', function () {
     return gulp.src(boundledJS)
-        .pipe(concat('crm.boundled.min.js'))
+        .pipe(concat('cms.boundled.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(paths.production.js));
 });
 
 gulp.task('jsCs', function () {
     return gulp.src(locale.cs)
-        .pipe(concat('crm.cs.js'))
+        .pipe(concat('cms.cs.js'))
         .pipe(gulp.dest(paths.production.lang));
 });
 
 gulp.task('jsCsMin', function () {
     return gulp.src(locale.cs)
-        .pipe(concat('crm.cs.min.js'))
+        .pipe(concat('cms.cs.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(paths.production.lang));
 });
@@ -142,7 +142,7 @@ function getBoundledCSS() {
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
             // plugins
             paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
-            // crm
+            // cms
             paths.dev.css + '*.css'
         ])
     );
@@ -154,7 +154,7 @@ gulp.task('css', function () {
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('crm.css'))
+        .pipe(concat('cms.css'))
         .pipe(gulp.dest(paths.production.css));
 });
 
@@ -164,7 +164,7 @@ gulp.task('cssBoundled', function () {
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('crm.boundled.css'))
+        .pipe(concat('cms.boundled.css'))
         .pipe(gulp.dest(paths.production.css));
 });
 
@@ -174,7 +174,7 @@ gulp.task('cssMin', function () {
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('crm.min.css'))
+        .pipe(concat('cms.min.css'))
         .pipe(minify({keepSpecialComments: 0}))
         .pipe(gulp.dest(paths.production.css));
 });
@@ -185,7 +185,7 @@ gulp.task('cssBoundledMin', function () {
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('crm.boundled.min.css'))
+        .pipe(concat('cms.boundled.min.css'))
         .pipe(minify({keepSpecialComments: 0}))
         .pipe(gulp.dest(paths.production.css));
 });

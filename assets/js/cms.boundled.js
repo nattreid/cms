@@ -39349,7 +39349,7 @@ $.nette.ext('history', {
     return cs;
 
 }));
-var datagridFitlerMultiSelect, datagridSortable, datagridSortableTree;
+var datagridFitlerMultiSelect, datagridShiftGroupSelection, datagridSortable, datagridSortableTree;
 
 $(document).on('click', '[data-datagrid-confirm]:not(.ajax)', function(e) {
   if (!confirm($(e.target).closest('a').attr('data-datagrid-confirm'))) {
@@ -39373,7 +39373,7 @@ $.nette.ext('datagrid.confirm', {
 $(document).on('change', 'select[data-autosubmit-per-page]', function() {
   return $(this).parent().find('input[type=submit]').click();
 }).on('change', 'select[data-autosubmit]', function() {
-  return $(this).closest('form').submit();
+  return $(this).closest('form').first().submit();
 }).on('change', 'input[data-autosubmit][data-autosubmit-change]', function(e) {
   var $this, code;
   code = e.which || e.keyCode || 0;
@@ -39381,7 +39381,7 @@ $(document).on('change', 'select[data-autosubmit-per-page]', function() {
   $this = $(this);
   return window.datagrid_autosubmit_timer = setTimeout((function(_this) {
     return function() {
-      return $this.closest('form').submit();
+      return $this.closest('form').first().submit();
     };
   })(this), 200);
 }).on('keyup', 'input[data-autosubmit]', function(e) {
@@ -39394,7 +39394,7 @@ $(document).on('change', 'select[data-autosubmit-per-page]', function() {
   $this = $(this);
   return window.datagrid_autosubmit_timer = setTimeout((function(_this) {
     return function() {
-      return $this.closest('form').submit();
+      return $this.closest('form').first().submit();
     };
   })(this), 200);
 }).on('keydown', '.datagrid-inline-edit input', function(e) {
@@ -39413,9 +39413,65 @@ $(document).on('keydown', 'input[data-datagrid-manualsubmit]', function(e) {
   if (code === 13) {
     e.stopPropagation();
     e.preventDefault();
-    return $(this).closest('form').submit();
+    return $(this).closest('form').first().submit();
   }
 });
+
+datagridShiftGroupSelection = function() {
+  var last_checkbox;
+  last_checkbox = null;
+  return document.addEventListener('click', function(e) {
+    var checkboxes_rows, current_checkbox_row, el, event, i, ie, input, j, k, last_checkbox_row, last_checkbox_tbody, len, len1, len2, ref, ref1, results, row, rows;
+    ref = e.path;
+    for (i = 0, len = ref.length; i < len; i++) {
+      el = ref[i];
+      if ($(el).is('.col-checkbox') && last_checkbox && e.shiftKey) {
+        current_checkbox_row = $(el).closest('tr');
+        last_checkbox_row = last_checkbox.closest('tr');
+        last_checkbox_tbody = last_checkbox_row.closest('tbody');
+        checkboxes_rows = last_checkbox_tbody.find('tr').toArray();
+        if (current_checkbox_row.index() > last_checkbox_row.index()) {
+          rows = checkboxes_rows.slice(last_checkbox_row.index(), current_checkbox_row.index());
+        } else if (current_checkbox_row.index() < last_checkbox_row.index()) {
+          rows = checkboxes_rows.slice(current_checkbox_row.index() + 1, last_checkbox_row.index());
+        }
+        if (!rows) {
+          return;
+        }
+        for (j = 0, len1 = rows.length; j < len1; j++) {
+          row = rows[j];
+          input = $(row).find('.col-checkbox input[type=checkbox]')[0];
+          if (input) {
+            input.checked = true;
+            ie = window.navigator.userAgent.indexOf("MSIE ");
+            if (ie) {
+              event = document.createEvent('Event');
+              event.initEvent('change', true, true);
+            } else {
+              event = new Event('change', {
+                'bubbles': true
+              });
+            }
+            input.dispatchEvent(event);
+          }
+        }
+      }
+    }
+    ref1 = e.path;
+    results = [];
+    for (k = 0, len2 = ref1.length; k < len2; k++) {
+      el = ref1[k];
+      if ($(el).is('.col-checkbox')) {
+        results.push(last_checkbox = $(el));
+      } else {
+        results.push(void 0);
+      }
+    }
+    return results;
+  });
+};
+
+datagridShiftGroupSelection();
 
 document.addEventListener('change', function(e) {
   var at_least_one, event, grid, i, ie, input, inputs, len, results, select;
@@ -39543,7 +39599,7 @@ if (typeof datagridSortableTree === 'undefined') {
     }
     return $('.datagrid-tree-item-children').sortable({
       handle: '.handle-sort',
-      items: '.datagrid-tree-item:not(.datagrid-tree-item:first-child)',
+      items: '.datagrid-tree-item:not(.datagrid-tree-header)',
       toleranceElement: '> .datagrid-tree-item-content',
       connectWith: '.datagrid-tree-item-children',
       update: function(event, ui) {
@@ -39827,7 +39883,11 @@ $(document).on('click', '[data-datagrid-editable-url]', function(event) {
           },
           method: 'POST',
           success: function() {
-            cell.html(value);
+            if (cell.data('datagrid-editable-type') === 'select') {
+              cell.html(input.find('option[value=' + value + ']').html());
+            } else {
+              cell.html(value);
+            }
             return cell.addClass('edited');
           },
           error: function() {
@@ -39964,7 +40024,7 @@ $.nette.ext('datagrid.reset-filter-by-column', {
       return grid.find('[data-datagrid-reset-filter-by-column]').each(function() {
         var new_href;
         key = $(this).attr('data-datagrid-reset-filter-by-column');
-        new_href = href.replace('do=examplesGrid-resetFilter', 'do=' + payload._datagrid_name + '-resetColumnFilter');
+        new_href = href.replace('do=' + payload._datagrid_name + '-resetFilter', 'do=' + payload._datagrid_name + '-resetColumnFilter');
         new_href += '&' + payload._datagrid_name + '-key=' + key;
         return $(this).attr('href', new_href);
       });
@@ -39989,6 +40049,8 @@ $.nette.ext('ublaboo-spinners', {
       } else if (el.is('.datagrid .col-pagination a')) {
         return el.closest('.row-grid-bottom').find('.col-per-page').prepend(spinner_template);
       } else if (el.is('.datagrid .datagrid-per-page-submit')) {
+        return el.closest('.row-grid-bottom').find('.col-per-page').prepend(spinner_template);
+      } else if (el.is('.datagrid .reset-filter')) {
         return el.closest('.row-grid-bottom').find('.col-per-page').prepend(spinner_template);
       }
     }
@@ -47570,7 +47632,7 @@ $.widget("ui.sortable", $.ui.mouse, {
     };
 
 }));
-/* ****************************** crm.js ************************************ */
+/* ****************************** cms.js ************************************ */
 
 $(document).ready(function () {
     $("body").removeClass("preload");
@@ -47611,7 +47673,7 @@ $(document).ready(function () {
 $(document).ready(function () {
 
     $('#dockbar .dockbar-content ul.button li').click(function () {
-        $('#crm-container').toggleClass('shifted');
+        $('#cms-container').toggleClass('shifted');
         $(this).toggleClass('active');
     });
 });

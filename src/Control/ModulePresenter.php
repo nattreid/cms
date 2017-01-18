@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 /**
  * Presenter modulu
@@ -14,7 +14,7 @@ abstract class ModulePresenter extends Presenter
 		parent::startup();
 		$link = $this->getAction(true);
 		if (!($this['menu']->isLinkAllowed($link))) {
-			$this->flashNotifier->error('crm.permissions.accessDenied');
+			$this->flashNotifier->error('cms.permissions.accessDenied');
 			$this->redirect(":{$this->module}:Homepage:");
 		}
 	}

@@ -1,6 +1,6 @@
 {
-  "name": "crm",
-  "description": "Crm for Nette Framework",
+  "name": "cms",
+  "description": "CMS for Nette Framework",
   "license": [
     "Unlicense"
   ],
@@ -11,8 +11,8 @@
     }
   ],
   "main": [
-    "./assets/crm.js",
-    "./assets/crm.css"
+    "./assets/cms.js",
+    "./assets/cms.css"
   ],
   "ignore": [
     "/src",

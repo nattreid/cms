@@ -1,11 +1,11 @@
 <div class="cell hardwareInfo">
     <div class="header">
-        {_'crm.info.hardware.info'}
+        {_'cms.info.hardware.info'}
     </div>
     <table>
         {ifset $hardware->server}
             <tr class="odd">
-                <th>{_'crm.info.hardware.server'}</th>
+                <th>{_'cms.info.hardware.server'}</th>
             </tr>
             <tr class="even">
                 <td>{$hardware->server}</td>
@@ -13,7 +13,7 @@
         {/ifset}
         {ifset $hardware->cpu}
             <tr class="odd">
-                <th>{_crm.info.hardware.cpu, count($hardware->cpu)}</th>
+                <th>{_'cms.info.hardware.cpu', count($hardware->cpu)}</th>
             </tr>
             <tr class="even" n:snippet="cpu">
                 <td>
@@ -23,12 +23,12 @@
                                 <strong>{$cpu->model}</strong>
                             </div>
                             <div>
-                                {_'crm.info.hardware.cpuLoad'}: <strong>{$cpu->usage|number:2,',':' '}%</strong>,
-                                {_'crm.info.hardware.cpuSpeed'}: <strong>{$cpu->speed|frequency}
+                                {_'cms.info.hardware.cpuLoad'}: <strong>{$cpu->usage|number:2,',':' '}%</strong>,
+                                {_'cms.info.hardware.cpuSpeed'}: <strong>{$cpu->speed|frequency}
                                     {if isset($cpu->speedMin) && isset($cpu->speedMax)}
                                         ({$cpu->speedMin|frequency} / {$cpu->speedMax|frequency})
                                     {/if}</strong>,
-                                {_'crm.info.hardware.cache'}:
+                                {_'cms.info.hardware.cache'}:
                                 <strong>{$cpu->cache|size:0:true}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature.'°C'}
                             </div>
                             <div class="status-bar">
@@ -41,7 +41,7 @@
         {/ifset}
         {ifset $hardware->scsi}
             <tr class="odd">
-                <th>{_'crm.info.hardware.scsi'}</th>
+                <th>{_'cms.info.hardware.scsi'}</th>
             </tr>
             <tr class="even" n:foreach="$hardware->scsi as $scsi">
                 <td>

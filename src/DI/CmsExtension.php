@@ -1,27 +1,27 @@
 <?php
 
-namespace NAttreid\Crm\DI;
+namespace NAttreid\Cms\DI;
 
 use IPub\FlashMessages\FlashNotifier;
 use Kdyby\Translation\Translator;
-use NAttreid\Crm\Configurator\Configurator;
-use NAttreid\Crm\Control\BasePresenter;
-use NAttreid\Crm\Control\CrmPresenter;
-use NAttreid\Crm\Control\Dockbar;
-use NAttreid\Crm\Control\FileManagerPresenter;
-use NAttreid\Crm\Control\IDockbarFactory;
-use NAttreid\Crm\Control\InfoPresenter;
-use NAttreid\Crm\Control\ModulePresenter;
-use NAttreid\Crm\Control\ProfilePresenter;
-use NAttreid\Crm\Control\SignPresenter;
-use NAttreid\Crm\Control\UsersPresenter;
-use NAttreid\Crm\Factories\DataGridFactory;
-use NAttreid\Crm\Factories\FormFactory;
-use NAttreid\Crm\ICrmMenuFactory;
-use NAttreid\Crm\LoaderFactory;
-use NAttreid\Crm\LocaleService;
-use NAttreid\Crm\Mailing\Mailer;
-use NAttreid\Crm\Routing\Router;
+use NAttreid\Cms\Configurator\Configurator;
+use NAttreid\Cms\Control\BasePresenter;
+use NAttreid\Cms\Control\CmsPresenter;
+use NAttreid\Cms\Control\Dockbar;
+use NAttreid\Cms\Control\FileManagerPresenter;
+use NAttreid\Cms\Control\IDockbarFactory;
+use NAttreid\Cms\Control\InfoPresenter;
+use NAttreid\Cms\Control\ModulePresenter;
+use NAttreid\Cms\Control\ProfilePresenter;
+use NAttreid\Cms\Control\SignPresenter;
+use NAttreid\Cms\Control\UsersPresenter;
+use NAttreid\Cms\Factories\DataGridFactory;
+use NAttreid\Cms\Factories\FormFactory;
+use NAttreid\Cms\ICmsMenuFactory;
+use NAttreid\Cms\LoaderFactory;
+use NAttreid\Cms\LocaleService;
+use NAttreid\Cms\Mailing\Mailer;
+use NAttreid\Cms\Routing\Router;
 use NAttreid\Filemanager\FileManager;
 use NAttreid\Filemanager\IFileManagerFactory;
 use NAttreid\Menu\Menu\Menu;
@@ -44,7 +44,7 @@ use WebLoader\FileNotFoundException;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class CrmExtension extends CompilerExtension
+class CmsExtension extends CompilerExtension
 {
 
 	public function loadConfiguration()
@@ -53,7 +53,7 @@ class CrmExtension extends CompilerExtension
 		$config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
 
 		if ($config['front'] === null) {
-			throw new InvalidStateException("Crm: 'front' does not set in config.neon");
+			throw new InvalidStateException("Cms: 'front' does not set in config.neon");
 		}
 
 		$config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);
@@ -101,9 +101,9 @@ class CrmExtension extends CompilerExtension
 		$loader = $builder->addDefinition($this->prefix('loaderFactory'))
 			->setClass(LoaderFactory::class)
 			->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
-			->addSetup('addFile', ['css/crm.boundled.min.css'])
-			->addSetup('addFile', ['js/crm.boundled.min.js'])
-			->addSetup('addFile', ['js/i18n/crm.cs.min.js', 'cs']);
+			->addSetup('addFile', ['css/cms.boundled.min.css'])
+			->addSetup('addFile', ['js/cms.boundled.min.js'])
+			->addSetup('addFile', ['js/i18n/cms.cs.min.js', 'cs']);
 
 		if (!empty($config['assets'])) {
 			foreach ($this->findFiles($config['assets']) as $file => $locale) {
@@ -142,7 +142,7 @@ class CrmExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$menu = $builder->addDefinition($this->prefix('menu'))
-			->setImplement(ICrmMenuFactory::class)
+			->setImplement(ICmsMenuFactory::class)
 			->setFactory(Menu::class);
 
 		if (!empty($config['menu'])) {
@@ -196,7 +196,7 @@ class CrmExtension extends CompilerExtension
 
 		$presenterFactory = $builder->getDefinition('application.presenterFactory')
 			->addSetup('setMapping', [
-				[$config['namespace'] => 'NAttreid\Crm\Control\*Presenter']
+				[$config['namespace'] => 'NAttreid\Cms\Control\*Presenter']
 			]);
 
 		$router = $builder->getByType(Router::class);
@@ -224,7 +224,7 @@ class CrmExtension extends CompilerExtension
 	private function setLayout($config)
 	{
 		if ($config['layout'] !== null) {
-			foreach ($this->findByType(CrmPresenter::class) as $def) {
+			foreach ($this->findByType(CmsPresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
 			foreach ($this->findByType(ModulePresenter::class) as $def) {
@@ -248,8 +248,8 @@ class CrmExtension extends CompilerExtension
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/ublaboo_datagrid.en_US.neon', 'en_US', 'ublaboo_datagrid']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.cs_CZ.neon', 'cs_CZ', 'form']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.en_US.neon', 'en_US', 'form']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.cs_CZ.neon', 'cs_CZ', 'crm']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/crm.en_US.neon', 'en_US', 'crm']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.cs_CZ.neon', 'cs_CZ', 'cms']),
+				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.en_US.neon', 'en_US', 'cms']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.cs_CZ.neon', 'cs_CZ', 'dockbar']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.en_US.neon', 'en_US', 'dockbar']),
 				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.cs_CZ.neon', 'cs_CZ', 'default']),

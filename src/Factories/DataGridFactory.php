@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Factories;
+namespace NAttreid\Cms\Factories;
 
 use Kdyby\Translation\Translator;
 use Nette\ComponentModel\IContainer;

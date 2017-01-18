@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Routing;
+namespace NAttreid\Cms\Routing;
 
 use Nette\Application\Routers\Route;
 use Nette\Utils\Strings;
@@ -38,7 +38,7 @@ class Router extends \NAttreid\Routing\Router
 	}
 
 	/**
-	 * Prida modul do routy CRM
+	 * Prida modul do routy CMS
 	 * @param string $module
 	 */
 	public function addModule($module)

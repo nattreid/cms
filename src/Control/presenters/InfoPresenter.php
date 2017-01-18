@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 
@@ -9,7 +9,7 @@ use NAttreid\AppManager\AppManager;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class InfoPresenter extends CrmPresenter
+class InfoPresenter extends CmsPresenter
 {
 
 	/** @var int */

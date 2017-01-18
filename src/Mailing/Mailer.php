@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Mailing;
+namespace NAttreid\Cms\Mailing;
 use NAttreid\Mailing\BaseMailer;
 
 /**
@@ -20,11 +20,11 @@ class Mailer extends BaseMailer
 	{
 		$mail = $this->createMail('restorePassword');
 
-		$mail->link = $this->link('Crm:Sign:restorePassword', [
+		$mail->link = $this->link('Cms:Sign:restorePassword', [
 			'hash' => $hash
 		]);
 
-		$mail->setSubject($this->translate('crm.mailing.restorePassword.subject'))
+		$mail->setSubject($this->translate('cms.mailing.restorePassword.subject'))
 			->addTo($email);
 
 		$mail->send();
@@ -40,11 +40,11 @@ class Mailer extends BaseMailer
 	{
 		$mail = $this->createMail('newUser');
 
-		$mail->link = $this->link('Crm:Sign:in');
+		$mail->link = $this->link('Cms:Sign:in');
 		$mail->username = $username;
 		$mail->password = $password;
 
-		$mail->setSubject($this->translate('crm.mailing.newUser.subject'))
+		$mail->setSubject($this->translate('cms.mailing.newUser.subject'))
 			->addTo($email);
 
 		$mail->send();
@@ -60,11 +60,11 @@ class Mailer extends BaseMailer
 	{
 		$mail = $this->createMail('newPassword');
 
-		$mail->link = $this->link('Crm:Sign:in');
+		$mail->link = $this->link('Cms:Sign:in');
 		$mail->username = $username;
 		$mail->password = $password;
 
-		$mail->setSubject($this->translate('crm.mailing.newPassword.subject'))
+		$mail->setSubject($this->translate('cms.mailing.newPassword.subject'))
 			->addTo($email);
 
 		$mail->send();

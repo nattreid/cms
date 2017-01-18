@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Configurator;
+namespace NAttreid\Cms\Configurator;
 
 /**
  * Interface IConfigurator
@@ -8,7 +8,7 @@ namespace NAttreid\Crm\Configurator;
  * @property boolean $sendNewUserPassword zaslat novemu uzivateli heslo mailem
  * @property boolean $sendChangePassword zaslat uzivateli zmenene heslo mailem
  * @property boolean $dockbarAdvanced povolit rozsirene moznosti v dockbaru (mazani databaze, atd )
- * @property string $crmLogo logo CRM
+ * @property string $cmsLogo logo CMS
  * @property string $title nazev stranek (napr Netta.cz)
  * @property boolean $mailPanel Mail panel misto zasilani mailu
  *

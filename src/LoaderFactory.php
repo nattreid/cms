@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm;
+namespace NAttreid\Cms;
 
 use Nette\Http\IRequest;
 use Nette\SmartObject;

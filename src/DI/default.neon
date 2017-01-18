@@ -1,5 +1,5 @@
-namespace: 'Crm'
-url: '/crm/'
+namespace: 'Cms'
+url: '/cms/'
 sender: null
 front: null
 
@@ -23,7 +23,7 @@ cssFilters:
     - Joseki\Webloader\CssMinFilter
 assets:
 menu:
-moduleMapping: App\Crm\*\Presenters\*Presenter
+moduleMapping: App\Cms\*\Presenters\*Presenter
 
 permissions:
     settings:

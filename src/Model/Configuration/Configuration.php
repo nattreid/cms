@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Model;
+namespace NAttreid\Cms\Model;
 use Nextras\Orm\Entity\Entity;
 
 /**

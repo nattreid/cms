@@ -1,27 +1,27 @@
 <div class="cell basicInfo">
     <div class="header">
-        {_'crm.info.basic.info'}
+        {_'cms.info.basic.info'}
     </div>
     <table>
         <tr class="odd" n:ifset="$system->hostname">
-            <td>{_'crm.info.basic.hostname'}</td>
+            <td>{_'cms.info.basic.hostname'}</td>
             <th>{$system->hostname}</th>
         </tr>
         <tr class="even">
-            <td>{_'crm.info.basic.listenIp'}</td>
+            <td>{_'cms.info.basic.listenIp'}</td>
             <th>{$system->ip}</th>
         </tr>
         <tr class="odd" n:if="$system->distribution">
-            <td>{_'crm.info.basic.distribution'}</td>
+            <td>{_'cms.info.basic.distribution'}</td>
             <th>{$system->distribution}</th>
         </tr>
         <tr class="even">
-            <td>{_'crm.info.basic.kernel'}</td>
+            <td>{_'cms.info.basic.kernel'}</td>
             <th>{$system->kernel}</th>
         </tr>
         <tr class="odd" n:snippet="uptime">
             {ifset $system->uptime}
-                <td>{_'crm.info.basic.uptime'}</td>
+                <td>{_'cms.info.basic.uptime'}</td>
                 <th>
                     {_'default.time.days', $system->uptime->days}
                     {_'default.time.hours', $system->uptime->hours}
@@ -31,20 +31,20 @@
         </tr>
         <tr class="even" n:snippet="users">
             {ifset $system->users}
-                <td>{_'crm.info.basic.users'}</td>
+                <td>{_'cms.info.basic.users'}</td>
                 <th>{$system->users->count} ({$system->users->list|implode:', '})</th>
             {/ifset}
         </tr>
         <tr class="odd" n:snippet="load">
             {if !empty($system->load)}
-                <td>{_'crm.info.basic.load'}</td>
+                <td>{_'cms.info.basic.load'}</td>
                 <th>{$system->load}</th>
             {/if}
         </tr>
         <tr class="even" n:snippet="processes">
-            <td>{_'crm.info.basic.processes'}</td>
-            <th>{$system->processes->total} ({$system->processes->running} {_'crm.info.basic.running'}
-                , {$system->processes->sleeping} {_'crm.info.basic.sleeping'})
+            <td>{_'cms.info.basic.processes'}</td>
+            <th>{$system->processes->total} ({$system->processes->running} {_'cms.info.basic.running'}
+                , {$system->processes->sleeping} {_'cms.info.basic.sleeping'})
             </th>
         </tr>
     </table>

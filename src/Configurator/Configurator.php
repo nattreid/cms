@@ -1,10 +1,10 @@
 <?php
 
-namespace NAttreid\Crm\Configurator;
+namespace NAttreid\Cms\Configurator;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\Crm\Model\Configuration;
-use NAttreid\Crm\Model\Orm;
+use NAttreid\Cms\Model\Configuration;
+use NAttreid\Cms\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nextras\Orm\Model\Model;
@@ -34,7 +34,7 @@ class Configurator implements IConfigurator
 	public function __construct(Model $orm, IStorage $storage, AppManager $app)
 	{
 		$this->orm = $orm;
-		$this->cache = new Cache($storage, 'nattreid-crm-configurator');
+		$this->cache = new Cache($storage, 'nattreid-cms-configurator');
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];
 		$this->orm->configuration->onFlush[] = function ($persisted, $removed) {
 			if (!empty($persisted) || !empty($removed)) {

@@ -1,4 +1,4 @@
-/* ***************************** crm.less *********************************** */
+/* ***************************** cms.less *********************************** */
 body {
   font-size: 13px;
   background-color: #f1f1f1;
@@ -13,7 +13,7 @@ body {
   }
 }
 
-#crm-container {
+#cms-container {
   position: absolute;
   top: 31px;
   bottom: 0;
@@ -26,7 +26,7 @@ body {
   -o-transition: all 0.3s;
   transition: all 0.3s;
 
-  #crm-menu-container {
+  #cms-menu-container {
     position: absolute;
 
     height: 100%;
@@ -148,7 +148,7 @@ body {
       }
     }
   }
-  #crm-content {
+  #cms-content {
     padding: 5px;
     margin-left: 180px;
     min-width: 290px;
@@ -302,9 +302,9 @@ body {
 }
 
 @media (max-width: 700px) {
-  #crm-container {
+  #cms-container {
     top: 40px;
-    #crm-menu-container {
+    #cms-menu-container {
       margin-left: -180px;
 
       > div.menu-container {
@@ -315,7 +315,7 @@ body {
         }
       }
     }
-    #crm-content {
+    #cms-content {
       margin-left: 0;
 
       .view-container {
@@ -326,10 +326,10 @@ body {
     }
 
     &.shifted {
-      #crm-menu-container {
+      #cms-menu-container {
         margin-left: 0;
       }
-      #crm-content {
+      #cms-content {
         margin-left: 180px;
       }
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
-use NAttreid\Crm\LocaleService;
+use NAttreid\Cms\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\Utils\ArrayHash;
@@ -12,7 +12,7 @@ use Nette\Utils\ArrayHash;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class ConfigurationPresenter extends CrmPresenter
+class ConfigurationPresenter extends CmsPresenter
 {
 
 	/** @var Tracy */
@@ -60,34 +60,34 @@ class ConfigurationPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
 
-		$form->addGroup('crm.settings.basic');
-		$form->addImageUpload('crmLogo', 'crm.settings.logo', 'crm.settings.deleteLogo')
-			->setNamespace('crm')
+		$form->addGroup('cms.settings.basic');
+		$form->addImageUpload('cmsLogo', 'cms.settings.logo', 'cms.settings.deleteLogo')
+			->setNamespace('cms')
 			->setPreview('300x100');
-		$form->addCheckbox('sendNewUserPassword', 'crm.settings.sendNewUserPassword');
-		$form->addCheckbox('sendChangePassword', 'crm.settings.sendChangePassword');
-		$form->addCheckbox('dockbarAdvanced', 'crm.settings.dockbarAdvanced');
-		$form->addSelectUntranslated('defaultLocale', 'crm.settings.defaultLocale', $this->localeService->fetch())
+		$form->addCheckbox('sendNewUserPassword', 'cms.settings.sendNewUserPassword');
+		$form->addCheckbox('sendChangePassword', 'cms.settings.sendChangePassword');
+		$form->addCheckbox('dockbarAdvanced', 'cms.settings.dockbarAdvanced');
+		$form->addSelectUntranslated('defaultLocale', 'cms.settings.defaultLocale', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->defaultLocaleId);
-		$form->addMultiSelectUntranslated('allowedLocales', 'crm.settings.allowedLocales', $this->localeService->fetch())
+		$form->addMultiSelectUntranslated('allowedLocales', 'cms.settings.allowedLocales', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->allowedLocaleIds)
 			->setRequired();
 
-		$form->addGroup('crm.settings.development');
+		$form->addGroup('cms.settings.development');
 		if (!$this->tracy->isEnabled()) {
-			$form->addLink('debugOn', 'crm.settings.debugOn')
+			$form->addLink('debugOn', 'cms.settings.debugOn')
 				->link($this->link('debug!', true))
 				->setAjaxRequest()
 				->addClass('btn-success')
 				->setAttribute('data-ajax-off', 'history');
 		} else {
-			$form->addLink('debugOff', 'crm.settings.debugOff')
+			$form->addLink('debugOff', 'cms.settings.debugOff')
 				->link($this->link('debug!', false))
 				->setAjaxRequest()
 				->addClass('btn-danger')
 				->setAttribute('data-ajax-off', 'history');
 		}
-		$form->addCheckbox('mailPanel', 'crm.settings.mailPanel')
+		$form->addCheckbox('mailPanel', 'cms.settings.mailPanel')
 			->setDefaultValue($this->configurator->mailPanel);
 
 		$form->getRenderer()->primaryButton = $form->addSubmit('save', 'form.save');
@@ -111,7 +111,7 @@ class ConfigurationPresenter extends CrmPresenter
 		foreach ($values as $name => $value) {
 			$this->configurator->$name = $value;
 		}
-		$this->flashNotifier->success('crm.settings.settingsSaved');
+		$this->flashNotifier->success('cms.settings.settingsSaved');
 
 		if ($this->isAjax()) {
 			$this->redrawControl('configuration');

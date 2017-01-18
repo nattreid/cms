@@ -1,8 +1,8 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
-use NAttreid\Crm\Mailing\Mailer;
+use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
@@ -15,7 +15,7 @@ use Nette\Utils\Random;
 use Nextras\Orm\Model\Model;
 
 /**
- * Prihlaseni do crm
+ * Prihlaseni do CMS
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -91,9 +91,9 @@ class SignPresenter extends BasePresenter
 	 */
 	public function actionForgottenPassword()
 	{
-		$session = $this->getSession('crm/forgottenPassword');
+		$session = $this->getSession('cms/forgottenPassword');
 		if ($session->count >= self::MAX_TRY) {
-			$this->flashNotifier->warning('crm.user.restorePasswordDisabledForHour');
+			$this->flashNotifier->warning('cms.user.restorePasswordDisabledForHour');
 			$this->redirect(":{$this->module}:Sign:in");
 		}
 	}
@@ -104,7 +104,7 @@ class SignPresenter extends BasePresenter
 	 */
 	public function renderRestorePassword($hash)
 	{
-		$session = $this->getSession('crm/restorePassword');
+		$session = $this->getSession('cms/restorePassword');
 		if (!isset($session->$hash)) {
 			$this->redirect(":{$this->module}:Sign:in");
 		} else {
@@ -123,16 +123,16 @@ class SignPresenter extends BasePresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setAttribute('autofocus', true)
 			->setRequired();
 
-		$form->addPassword('password', 'crm.user.password')
+		$form->addPassword('password', 'cms.user.password')
 			->setRequired();
 
-		$form->addCheckbox('remember', 'crm.user.staySignedIn');
+		$form->addCheckbox('remember', 'cms.user.staySignedIn');
 
-		$form->addSubmit('send', 'crm.user.signin');
+		$form->addSubmit('send', 'cms.user.signin');
 
 		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 
@@ -157,9 +157,9 @@ class SignPresenter extends BasePresenter
 			$this->redirect(":{$this->module}:Homepage:");
 		} catch (AuthenticationException $e) {
 			if ($e->getCode() == IAuthenticator::NOT_APPROVED) {
-				$form->addError('crm.user.accountDeactived');
+				$form->addError('cms.user.accountDeactived');
 			} else {
-				$form->addError('crm.user.incorrectUsernameOrPassword');
+				$form->addError('cms.user.incorrectUsernameOrPassword');
 			}
 		}
 	}
@@ -173,7 +173,7 @@ class SignPresenter extends BasePresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('usernameOrEmail', 'crm.user.usernameOrEmail')
+		$form->addText('usernameOrEmail', 'cms.user.usernameOrEmail')
 			->setRequired();
 
 		$form->addSubmit('send', 'form.send');
@@ -197,8 +197,8 @@ class SignPresenter extends BasePresenter
 		if (!$user) {
 			$user = $this->orm->users->getByEmail($value);
 			if (!$user) {
-				$form->addError('crm.user.incorrectUsernameOrEmail');
-				$session = $this->getSession('crm/forgottenPassword');
+				$form->addError('cms.user.incorrectUsernameOrEmail');
+				$session = $this->getSession('cms/forgottenPassword');
 				if (isset($session->count)) {
 					$session->count++;
 				} else {
@@ -212,12 +212,12 @@ class SignPresenter extends BasePresenter
 
 		$hash = $this->hasher->hash(Random::generate());
 
-		$session = $this->getSession('crm/restorePassword');
+		$session = $this->getSession('cms/restorePassword');
 		$session->setExpiration('1 hours');
 		$session->$hash = $user->email;
 
 		$this->mailer->sendRestorePassword($user->email, $hash);
-		$this->flashNotifier->info('crm.user.mailToRestorePasswordSent');
+		$this->flashNotifier->info('cms.user.mailToRestorePasswordSent');
 		$this->redirect(":{$this->module}:Sign:in");
 	}
 
@@ -232,10 +232,10 @@ class SignPresenter extends BasePresenter
 
 		$form->addHidden('hash');
 
-		$form->addPassword('password', 'crm.user.newPassword')
+		$form->addPassword('password', 'cms.user.newPassword')
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
-		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'cms.user.passwordVerify')
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password']);
 
@@ -253,7 +253,7 @@ class SignPresenter extends BasePresenter
 	 */
 	public function restorePasswordFormSucceeded(Form $form, $values)
 	{
-		$session = $this->getSession('crm/restorePassword');
+		$session = $this->getSession('cms/restorePassword');
 		$email = $session->{$values->hash};
 		$session->remove();
 
@@ -261,9 +261,9 @@ class SignPresenter extends BasePresenter
 		if ($user) {
 			$user->setPassword($values->password);
 			$this->orm->persistAndFlush($user);
-			$this->flashNotifier->success('crm.user.passwordChanged');
+			$this->flashNotifier->success('cms.user.passwordChanged');
 		} else {
-			$this->flashNotifier->error('crm.permissions.accessDenied');
+			$this->flashNotifier->error('cms.permissions.accessDenied');
 		}
 		$this->redirect(":{$this->module}:Sign:in");
 	}
@@ -277,18 +277,18 @@ class SignPresenter extends BasePresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setRequired();
-		$form->addText('firstName', 'crm.user.firstName');
-		$form->addText('surname', 'crm.user.surname');
-		$form->addText('email', 'crm.user.email')
+		$form->addText('firstName', 'cms.user.firstName');
+		$form->addText('surname', 'cms.user.surname');
+		$form->addText('email', 'cms.user.email')
 			->setRequired()
 			->addRule(Form::EMAIL);
 
-		$form->addPassword('password', 'crm.user.newPassword')
+		$form->addPassword('password', 'cms.user.newPassword')
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
-		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'cms.user.passwordVerify')
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password']);
 
@@ -323,7 +323,7 @@ class SignPresenter extends BasePresenter
 		$this->user->setExpiration('+ ' . $this->loginExpiracy, true);
 		$this->user->login($values->username, $password);
 
-		$this->flashNotifier->success('crm.user.dataSaved');
+		$this->flashNotifier->success('cms.user.dataSaved');
 
 		$this->redirect(":{$this->module}:Homepage:");
 	}

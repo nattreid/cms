@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Tracking\Tracking;
@@ -10,7 +10,7 @@ use NAttreid\Tracking\Tracking;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class HomepagePresenter extends CrmPresenter
+class HomepagePresenter extends CmsPresenter
 {
 
 	/** @var AppManager */
@@ -30,7 +30,7 @@ class HomepagePresenter extends CrmPresenter
 	{
 		$template = $this->template;
 
-		if ($this->user->isAllowed('crm.homepage.info', 'view')) {
+		if ($this->user->isAllowed('cms.homepage.info', 'view')) {
 			$template->viewInfo = true;
 
 			$template->ip = $this->app->info->ip;

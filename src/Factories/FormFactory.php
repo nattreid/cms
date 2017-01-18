@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Factories;
+namespace NAttreid\Cms\Factories;
 
 use NAttreid\Form\Factories\Factory;
 use Nette\ComponentModel\IContainer;

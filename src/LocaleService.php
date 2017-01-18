@@ -1,11 +1,11 @@
 <?php
 
-namespace NAttreid\Crm;
+namespace NAttreid\Cms;
 
 use Kdyby\Translation\Translator;
 use NAttreid\AppManager\AppManager;
-use NAttreid\Crm\Model\Locale;
-use NAttreid\Crm\Model\Orm;
+use NAttreid\Cms\Model\Locale;
+use NAttreid\Cms\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nette\SmartObject;
@@ -43,7 +43,7 @@ class LocaleService
 	public function __construct(Model $orm, IStorage $storage, AppManager $app, Translator $translator)
 	{
 		$this->orm = $orm;
-		$this->cache = new Cache($storage, 'nattreid-crm-localeService');
+		$this->cache = new Cache($storage, 'nattreid-cms-localeService');
 		$this->translator = $translator;
 
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];

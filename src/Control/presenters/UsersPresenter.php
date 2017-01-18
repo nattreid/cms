@@ -1,9 +1,9 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
-use NAttreid\Crm\LocaleService;
-use NAttreid\Crm\Mailing\Mailer;
+use NAttreid\Cms\LocaleService;
+use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\User;
@@ -21,7 +21,7 @@ use Ublaboo\DataGrid\DataGrid;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class UsersPresenter extends CrmPresenter
+class UsersPresenter extends CmsPresenter
 {
 
 	/** @var string */
@@ -83,8 +83,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderAdd()
 	{
-		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
-		$this->addBreadcrumbLink('crm.user.add');
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
+		$this->addBreadcrumbLink('cms.user.add');
 	}
 
 	/**
@@ -92,8 +92,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderEdit()
 	{
-		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
-		$this->addBreadcrumbLink('crm.user.edit');
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
+		$this->addBreadcrumbLink('cms.user.edit');
 	}
 
 	/**
@@ -101,8 +101,8 @@ class UsersPresenter extends CrmPresenter
 	 */
 	public function renderChangePassword()
 	{
-		$this->addBreadcrumbLink('dockbar.settings.users', ':Crm:Users:');
-		$this->addBreadcrumbLink('crm.user.changePassword');
+		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
+		$this->addBreadcrumbLink('cms.user.changePassword');
 	}
 
 	/**
@@ -214,21 +214,21 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setRequired();
-		$form->addText('firstName', 'crm.user.firstName');
-		$form->addText('surname', 'crm.user.surname');
-		$form->addText('email', 'crm.user.email')
+		$form->addText('firstName', 'cms.user.firstName');
+		$form->addText('surname', 'cms.user.surname');
+		$form->addText('email', 'cms.user.email')
 			->setRequired()
 			->addRule(Form::EMAIL);
-		$form->addPhone('phone', 'crm.user.phone');
-		$form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
+		$form->addPhone('phone', 'cms.user.phone');
+		$form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
 
-		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
+		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs())
 			->setRequired();
 
 		if ($this->configurator->sendNewUserPassword) {
-			$form->addCheckbox('generatePassword', 'crm.user.generatePassword')
+			$form->addCheckbox('generatePassword', 'cms.user.generatePassword')
 				->addCondition($form::EQUAL, false)
 				->toggle('password')
 				->toggle('passwordVerify');
@@ -236,13 +236,13 @@ class UsersPresenter extends CrmPresenter
 			$form->addHidden('generatePassword', false);
 		}
 
-		$form->addPassword('password', 'crm.user.newPassword')
+		$form->addPassword('password', 'cms.user.newPassword')
 			->setOption('id', 'password')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
-		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'cms.user.passwordVerify')
 			->setOption('id', 'passwordVerify')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
@@ -274,27 +274,27 @@ class UsersPresenter extends CrmPresenter
 		try {
 			$user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('crm.user.dupliciteUsername');
+			$form->addError('cms.user.dupliciteUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideUsername');
+			$form->addError('cms.user.invalideUsername');
 			return;
 		}
 
 		try {
 			$user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('crm.user.dupliciteEmail');
+			$form->addError('cms.user.dupliciteEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideUsername');
+			$form->addError('cms.user.invalideUsername');
 			return;
 		}
 
 		try {
 			$user->setPhone(Strings::ifEmpty($values->phone));
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalidePhone');
+			$form->addError('cms.user.invalidePhone');
 			return;
 		}
 
@@ -313,7 +313,7 @@ class UsersPresenter extends CrmPresenter
 			$this->mailer->sendNewUser($user->email, $user->username, $password);
 		}
 
-		$this->flashNotifier->success('crm.user.dataSaved');
+		$this->flashNotifier->success('cms.user.dataSaved');
 		$this->restoreBacklink();
 	}
 
@@ -326,27 +326,27 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setDefaultValue($this->user->username)
 			->setRequired();
-		$form->addText('firstName', 'crm.user.firstName')
+		$form->addText('firstName', 'cms.user.firstName')
 			->setDefaultValue($this->user->firstName);
-		$form->addText('surname', 'crm.user.surname')
+		$form->addText('surname', 'cms.user.surname')
 			->setDefaultValue($this->user->surname);
-		$form->addText('email', 'crm.user.email')
+		$form->addText('email', 'cms.user.email')
 			->setDefaultValue($this->user->email)
 			->setRequired()
 			->addRule(Form::EMAIL);
-		$form->addPhone('phone', 'crm.user.phone')
+		$form->addPhone('phone', 'cms.user.phone')
 			->setDefaultValue($this->user->phone);
 
-		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
+		$language = $form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
 		$locale = $this->localeService->get($this->user->language);
 		if ($locale) {
 			$language->setDefaultValue($locale->id);
 		}
 
-		$form->addMultiSelectUntranslated('roles', 'crm.permissions.roles', $this->orm->aclRoles->fetchPairs())
+		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs())
 			->setDefaultValue($this->user->roles->getRawValue())
 			->setRequired();
 
@@ -368,27 +368,27 @@ class UsersPresenter extends CrmPresenter
 		try {
 			$this->user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('crm.user.dupliciteUsername');
+			$form->addError('cms.user.dupliciteUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideUsername');
+			$form->addError('cms.user.invalideUsername');
 			return;
 		}
 
 		try {
 			$this->user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('crm.user.dupliciteEmail');
+			$form->addError('cms.user.dupliciteEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideUsername');
+			$form->addError('cms.user.invalideUsername');
 			return;
 		}
 
 		try {
 			$this->user->setPhone(Strings::ifEmpty($values->phone));
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalidePhone');
+			$form->addError('cms.user.invalidePhone');
 			return;
 		}
 
@@ -401,7 +401,7 @@ class UsersPresenter extends CrmPresenter
 
 		$this->orm->persistAndFlush($this->user);
 
-		$this->flashNotifier->success('crm.user.dataSaved');
+		$this->flashNotifier->success('cms.user.dataSaved');
 		$this->restoreBacklink();
 	}
 
@@ -414,12 +414,12 @@ class UsersPresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setDisabled()
 			->setDefaultValue($this->user->username);
 
 		if ($this->configurator->sendNewUserPassword) {
-			$form->addCheckbox('generatePassword', 'crm.user.generatePassword')
+			$form->addCheckbox('generatePassword', 'cms.user.generatePassword')
 				->addCondition($form::EQUAL, false)
 				->toggle('password')
 				->toggle('passwordVerify');
@@ -427,13 +427,13 @@ class UsersPresenter extends CrmPresenter
 			$form->addHidden('generatePassword', false);
 		}
 
-		$form->addPassword('password', 'crm.user.newPassword')
+		$form->addPassword('password', 'cms.user.newPassword')
 			->setOption('id', 'password')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength)
 			->endCondition();
-		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'cms.user.passwordVerify')
 			->setOption('id', 'passwordVerify')
 			->addConditionOn($form['generatePassword'], Form::EQUAL, false)
 			->setRequired()
@@ -468,7 +468,7 @@ class UsersPresenter extends CrmPresenter
 			$this->mailer->sendNewPassword($this->user->email, $this->user->username, $password);
 		}
 
-		$this->flashNotifier->success('crm.user.passwordChanged');
+		$this->flashNotifier->success('cms.user.passwordChanged');
 		$this->restoreBacklink();
 	}
 
@@ -483,25 +483,25 @@ class UsersPresenter extends CrmPresenter
 
 		$grid->setDataSource($this->orm->users->findAll());
 
-		$grid->addToolbarButton('add', 'crm.user.add');
+		$grid->addToolbarButton('add', 'cms.user.add');
 
-		$grid->addColumnText('username', 'crm.user.username')
+		$grid->addColumnText('username', 'cms.user.username')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('firstName', 'crm.user.firstName')
+		$grid->addColumnText('firstName', 'cms.user.firstName')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('surname', 'crm.user.surname')
+		$grid->addColumnText('surname', 'cms.user.surname')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('email', 'crm.user.email')
+		$grid->addColumnText('email', 'cms.user.email')
 			->setSortable()
 			->setFilterText();
 
-		$grid->addColumnText('roles', 'crm.permissions.roles', 'roles.id')
+		$grid->addColumnText('roles', 'cms.permissions.roles', 'roles.id')
 			->setRenderer(function (User $user) {
 				$obj = new Html;
 				$delimiter = '';
@@ -521,7 +521,7 @@ class UsersPresenter extends CrmPresenter
 			1 => 'default.active',
 			0 => 'default.deactive'
 		];
-		$state = $grid->addColumnStatus('active', 'crm.user.state');
+		$state = $grid->addColumnStatus('active', 'cms.user.state');
 		$state->setFilterSelect($active)
 			->setTranslateOptions();
 		$state->addOption(1, 'default.active')
@@ -534,16 +534,16 @@ class UsersPresenter extends CrmPresenter
 			$grid->addAction('tryUser', null, 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')
-				->setTitle('crm.user.tryUser');
+				->setTitle('cms.user.tryUser');
 		}
 
 		$grid->addAction('edit', null)
 			->setIcon('pencil')
-			->setTitle('crm.user.edit');
+			->setTitle('cms.user.edit');
 
 		$grid->addAction('changePassword', null)
 			->setIcon('wrench')
-			->setTitle('crm.user.changePassword');
+			->setTitle('cms.user.changePassword');
 
 		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')

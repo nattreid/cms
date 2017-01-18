@@ -1,20 +1,20 @@
-{block title}{_'crm.homepage.title'}{/block}
+{block title}{_'cms.homepage.title'}{/block}
 {block content}
 {panel id => homepage}
     {if $viewInfo}
         <table>
             <thead>
             <tr>
-                <td colspan="2">{_'crm.homepage.server.title'}</td>
+                <td colspan="2">{_'cms.homepage.server.title'}</td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td>{_'crm.homepage.server.ip'}</td>
+                <td>{_'cms.homepage.server.ip'}</td>
                 <th>{$ip}</th>
             </tr>
             <tr n:ifset="$load">
-                <td>{_'crm.homepage.server.load'}</td>
+                <td>{_'cms.homepage.server.load'}</td>
                 <th>{$load}</th>
             </tr>
             </tbody>
@@ -22,12 +22,12 @@
         <table n:ifset="$onlineUsers">
             <thead>
             <tr>
-                <td colspan="2">{_'crm.homepage.front.title'}</td>
+                <td colspan="2">{_'cms.homepage.front.title'}</td>
             </tr>
             </thead>
             <tbody>
             <tr n:ifset="$onlineUsers">
-                <td>{_'crm.homepage.front.onlineUsers'}</td>
+                <td>{_'cms.homepage.front.onlineUsers'}</td>
                 <th>{$onlineUsers}</th>
             </tr>
             </tbody>

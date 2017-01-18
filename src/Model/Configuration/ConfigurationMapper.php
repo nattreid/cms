@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Model;
+namespace NAttreid\Cms\Model;
 
 use NAttreid\Orm\Structure\Table;
 

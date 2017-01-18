@@ -1,15 +1,15 @@
-# CRM pro Nette Framework
+# CMS pro Nette Framework
 Administrace webové aplikace
 
 ## Nastaveni
 Zaregistrujte a nastavete extension v **config.neon**. Od namespace je odvozen název modulu pro další rozšíření administrace a to tak, že se k namespace přidá '*Ext*'
 ```neon
 extensions:
-    crm: NAttreid\Crm\DI\CrmExtension
+    cms: NAttreid\Cms\DI\CmsExtension
 
-crm:
-    namespace: 'Crm'
-    url: '/crm/'
+cms:
+    namespace: 'Cms'
+    url: '/cms/'
     sender: 'Odesilatel <nejaky@mail.cz>'
     front: ':Front:Homepage:'
 
@@ -22,29 +22,29 @@ crm:
     loginExpiration: '20 minutes'
     sessionExpiration: '14 days'
 
-    layout: '%appDir%/modules/CrmExt/templates/crm.latte' # hlavní šablona
+    layout: '%appDir%/cms/templates/cms.latte' # hlavní šablona
 ```
 
 a přidejte model do ORM. V příkladu je extension orm pod nazvem **orm**
 ```neon
 orm:
     add:
-        - NAttreid\Crm\Model\Orm
+        - NAttreid\Cms\Model\Orm
 ```
 
 Pro přidání *assets* použijte
 ```neon
-crm:
+cms:
     assets:
         - %wwwDir%/js/example.js
         - %wwwDir%/css/example.css
         - {%wwwDir%/js/cs.js, cs} # localizace pro cs
-        - {files: ["*.js", "*.css", "*.less"], from: %appDir%/modules/CrmExt}
+        - {files: ["*.js", "*.css", "*.less"], from: %appDir%/cms}
 ```
 
 Přídání dalších modulů
 ```neon
-crm:
+cms:
     menu:
         Example:
             link: 'Homepage:'
@@ -52,11 +52,11 @@ crm:
                 test:
                     link: 'action' # pokud je null, provede se default action
 ```
-Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**. Příklad presenteru test z ukázky menu
+Presenter musí dědit z třídy **\NAttreid\Cms\Control\ModulePresenter**. Příklad presenteru test z ukázky menu
 ```php
-namespace App\CrmExtModule\ExampleModule\Presenters;
+namespace App\Cms\Example\Presenters;
 
-class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
+class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
     public function renderDefault() {
         // pro zobrazeni menu v mobilu (defaultne je skryto)
         $this->viewMobileMenu();
@@ -64,17 +64,17 @@ class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
 }
 ```
 
-**crm.latte**
+**cms.latte**
 ```latte
 {extends $layout}
 ```
-Šablona **@layout.latte** pro modul musí dědit z *crm.latte*
+Šablona **@layout.latte** pro modul musí dědit z *cms.latte*
 
 
 ## Rozšiřitelnost pomocí extension
-Třída extension musí dědit z **\NAttreid\Crm\DI\ModuleExtension**
+Třída extension musí dědit z **\NAttreid\Cms\DI\ModuleExtension**
 ```php
-class ExampleExtension extends \NAttreid\Crm\DI\ModuleExtension {
+class ExampleExtension extends \NAttreid\Cms\DI\ModuleExtension {
 
     protected $namespace = 'example';
     protected $dir = __DIR__;
@@ -100,11 +100,11 @@ menu:
             link:
 ```
 
-Presenter musí dědit z třídy **\NAttreid\Crm\Control\ModulePresenter**
+Presenter musí dědit z třídy **\NAttreid\Cms\Control\ModulePresenter**
 ```php
 namespace Package\Example\Presenters;
 
-class TestPresenter extends \NAttreid\Crm\Control\ModulePresenter {
+class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
     
 }
 ```

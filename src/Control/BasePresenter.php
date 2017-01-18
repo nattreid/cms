@@ -1,13 +1,13 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use IPub\FlashMessages\TFlashMessages;
 use Kdyby\Translation\Translator;
-use NAttreid\Crm\Configurator\IConfigurator;
-use NAttreid\Crm\Factories\DataGridFactory;
-use NAttreid\Crm\Factories\FormFactory;
-use NAttreid\Crm\LoaderFactory;
+use NAttreid\Cms\Configurator\IConfigurator;
+use NAttreid\Cms\Factories\DataGridFactory;
+use NAttreid\Cms\Factories\FormFactory;
+use NAttreid\Cms\LoaderFactory;
 use NAttreid\Form\Form;
 use NAttreid\Form\Rules;
 use NAttreid\Latte\TemplateTrait;
@@ -23,7 +23,7 @@ use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
 
 /**
- * Zakladni presenter pro CRM
+ * Zakladni presenter pro CMS
  *
  * @property-read string $namespace
  * @property-read string $module
@@ -40,19 +40,19 @@ abstract class BasePresenter extends Presenter
 		TemplateTrait;
 
 	/**
-	 * Namespace pro crm
+	 * Namespace pro CMS
 	 * @var string
 	 */
 	private $namespace;
 
 	/**
-	 * Nazev modulu crm
+	 * Nazev modulu CMS
 	 * @var string
 	 */
 	private $module;
 
 	/**
-	 * Vrati namespace pro crm
+	 * Vrati namespace pro CMS
 	 * @return string
 	 */
 	protected function getNamespace()
@@ -61,7 +61,7 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/**
-	 * Vrati nazev modulu crm
+	 * Vrati nazev modulu CMS
 	 * @return string
 	 */
 	protected function getModule()

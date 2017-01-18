@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="{ifset viewport}{include viewport|striptags|strip}{else}width=device-width,initial-scale=1{/ifset}">
 
-    <title>{ifset title}{include title|striptags|strip} | {/ifset} {_'crm.title'} | {$baseTitle}</title>
+    <title>{ifset title}{include title|striptags|strip} | {/ifset} {_'cms.title'} | {$baseTitle}</title>
 
     <meta name="robots" content="noindex,nofollow"/>
     <meta name="author" content=""/>
@@ -20,14 +20,14 @@
 <body class="preload">
 {block body}
     {control dockbar}
-    <div id="crm-container" n:class="$shifted ? shifted">
-        <div id="crm-menu-container">
-            <a n:if="$crmLogo" n:href=":Crm:Homepage:">
-                <img n:img="$crmLogo, '150x150', 'fit'">
+    <div id="cms-container" n:class="$shifted ? shifted">
+        <div id="cms-menu-container">
+            <a n:if="$cmsLogo" n:href=":Cms:Homepage:">
+                <img n:img="$cmsLogo, '150x150', 'fit'">
             </a>
             {control menu}
         </div>
-        <div id="crm-content">
+        <div id="cms-content">
             {control flashMessages}
             {control breadcrumb, id => breadcrumb}
             {include content}

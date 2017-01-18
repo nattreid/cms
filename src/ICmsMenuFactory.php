@@ -1,11 +1,11 @@
 <?php
 
-namespace NAttreid\Crm;
+namespace NAttreid\Cms;
 
 use NAttreid\Menu\Menu\Menu;
 
 
-interface ICrmMenuFactory
+interface ICmsMenuFactory
 {
 	/**  @return Menu */
 	public function create();

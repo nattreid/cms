@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Utils\Date;
@@ -11,7 +11,7 @@ use Ublaboo\DataGrid\DataGrid;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class LogsPresenter extends CrmPresenter
+class LogsPresenter extends CmsPresenter
 {
 
 	/** @var AppManager */
@@ -93,16 +93,16 @@ class LogsPresenter extends CrmPresenter
 
 		$grid->setDefaultSort(['changed' => 'DESC']);
 
-		$clearLogs = $grid->addToolbarButton('clearLogs!', 'crm.logs.clearLogs');
+		$clearLogs = $grid->addToolbarButton('clearLogs!', 'cms.logs.clearLogs');
 		$clearLogs->setClass($clearLogs->getClass() . ' ajax');
-		$clearLogs->addAttributes(['data-confirm' => $this->translate('crm.logs.confirmDelete', 2)]);
+		$clearLogs->addAttributes(['data-confirm' => $this->translate('cms.logs.confirmDelete', 2)]);
 
-		$grid->addColumnText('name', 'crm.logs.log')
+		$grid->addColumnText('name', 'cms.logs.log')
 			->setFilterText();
 
-		$grid->addColumnText('size', 'crm.logs.size');
+		$grid->addColumnText('size', 'cms.logs.size');
 
-		$grid->addColumnDateTime('changed', 'crm.logs.lastChange')
+		$grid->addColumnDateTime('changed', 'cms.logs.lastChange')
 			->setSortable()
 			->setRenderer(function ($row) {
 				return Date::getDateTime($row['changed']);
@@ -111,21 +111,21 @@ class LogsPresenter extends CrmPresenter
 		$grid->addAction('showFile', null)
 			->addAttributes(['target' => '_blank'])
 			->setIcon('edit')
-			->setTitle('crm.logs.show');
+			->setTitle('cms.logs.show');
 
 		$grid->addAction('downloadFile', null)
 			->setIcon('download')
-			->setTitle('crm.logs.download');
+			->setTitle('cms.logs.download');
 
 		$grid->addAction('delete', null, 'delete!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
 			->setConfirm(function ($item) {
-				return $this->translate('crm.logs.confirmDelete', 1, ['name' => $item['name']]);
+				return $this->translate('cms.logs.confirmDelete', 1, ['name' => $item['name']]);
 			});
 
-		$grid->addGroupAction('crm.logs.download')->onSelect[] = [$this, 'actionDownloadFile'];
+		$grid->addGroupAction('cms.logs.download')->onSelect[] = [$this, 'actionDownloadFile'];
 		$grid->addGroupAction('default.delete')->onSelect[] = [$this, 'handleDelete'];
 
 		return $grid;

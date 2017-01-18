@@ -1,18 +1,18 @@
 <?php
 
-namespace NAttreid\Crm\DI;
+namespace NAttreid\Cms\DI;
 
 use Kdyby\Translation\Translator;
-use NAttreid\Crm\ICrmMenuFactory;
-use NAttreid\Crm\LoaderFactory;
-use NAttreid\Crm\Routing\Router;
+use NAttreid\Cms\ICmsMenuFactory;
+use NAttreid\Cms\LoaderFactory;
+use NAttreid\Cms\Routing\Router;
 use Nette\DI\CompilerExtension;
 use Nette\DI\MissingServiceException;
 use Nette\DI\Statement;
 use Nette\Utils\Strings;
 
 /**
- * Rozsireni modulu crm
+ * Rozsireni modulu CMS
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -65,7 +65,7 @@ abstract class ModuleExtension extends CompilerExtension
 			$builder->getDefinition($router)
 				->addSetup('addModule', [$this->namespace]);
 		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'nattreid/crm'");
+			throw new MissingServiceException("Missing extension 'nattreid/cms'");
 		}
 	}
 
@@ -96,7 +96,7 @@ abstract class ModuleExtension extends CompilerExtension
 				] + $config['menu']
 		];
 
-		$menu = $builder->getByType(ICrmMenuFactory::class);
+		$menu = $builder->getByType(ICmsMenuFactory::class);
 		$builder->getDefinition($menu)
 			->addSetup('addMenu', [$items, null, $config['position']]);
 

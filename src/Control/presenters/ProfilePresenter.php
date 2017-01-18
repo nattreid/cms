@@ -1,9 +1,9 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use InvalidArgumentException;
-use NAttreid\Crm\LocaleService;
+use NAttreid\Cms\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\User;
@@ -18,7 +18,7 @@ use Nextras\Orm\Model\Model;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class ProfilePresenter extends CrmPresenter
+class ProfilePresenter extends CmsPresenter
 {
 
 	/** @var int */
@@ -67,21 +67,21 @@ class ProfilePresenter extends CrmPresenter
 
 		$form->addProtection();
 
-		$form->addText('username', 'crm.user.username')
+		$form->addText('username', 'cms.user.username')
 			->setDisabled()
 			->setDefaultValue($this->profile->username);
-		$form->addText('firstName', 'crm.user.firstName')
+		$form->addText('firstName', 'cms.user.firstName')
 			->setDefaultValue($this->profile->firstName);
-		$form->addText('surname', 'crm.user.surname')
+		$form->addText('surname', 'cms.user.surname')
 			->setDefaultValue($this->profile->surname);
-		$form->addText('email', 'crm.user.email')
+		$form->addText('email', 'cms.user.email')
 			->setDefaultValue($this->profile->email)
 			->setRequired()
 			->addRule(Form::EMAIL);
-		$form->addPhone('phone', 'crm.user.phone')
+		$form->addPhone('phone', 'cms.user.phone')
 			->setDefaultValue($this->profile->phone);
 
-		$language = $form->addSelectUntranslated('language', 'crm.user.language', $this->localeService->allowed, 'form.none');
+		$language = $form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
 		$locale = $this->localeService->get($this->profile->language);
 		if ($locale) {
 			$language->setDefaultValue($locale->id);
@@ -110,17 +110,17 @@ class ProfilePresenter extends CrmPresenter
 		try {
 			$this->profile->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('crm.user.dupliciteEmail');
+			$form->addError('cms.user.dupliciteEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalideEmail');
+			$form->addError('cms.user.invalideEmail');
 			return;
 		}
 
 		try {
 			$this->profile->setPhone(Strings::ifEmpty($values->phone));
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('crm.user.invalidePhone');
+			$form->addError('cms.user.invalidePhone');
 			return;
 		}
 
@@ -132,7 +132,7 @@ class ProfilePresenter extends CrmPresenter
 
 		$this->orm->persistAndFlush($this->profile);
 
-		$this->flashNotifier->success('crm.user.dataSaved');
+		$this->flashNotifier->success('cms.user.dataSaved');
 
 
 		if ($this->isAjax()) {
@@ -149,13 +149,13 @@ class ProfilePresenter extends CrmPresenter
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
 
-		$form->addPassword('oldPassword', 'crm.user.oldPassword')
+		$form->addPassword('oldPassword', 'cms.user.oldPassword')
 			->setRequired();
 
-		$form->addPassword('password', 'crm.user.newPassword')
+		$form->addPassword('password', 'cms.user.newPassword')
 			->setRequired()
 			->addRule(Form::MIN_LENGTH, null, $this->minPasswordLength);
-		$form->addPassword('passwordVerify', 'crm.user.passwordVerify')
+		$form->addPassword('passwordVerify', 'cms.user.passwordVerify')
 			->setRequired()
 			->addRule(Form::EQUAL, null, $form['password']);
 
@@ -178,9 +178,9 @@ class ProfilePresenter extends CrmPresenter
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);
 			$this->orm->persistAndFlush($this->profile);
-			$this->flashNotifier->success('crm.user.passwordChanged');
+			$this->flashNotifier->success('cms.user.passwordChanged');
 		} catch (AuthenticationException $e) {
-			$form->addError('crm.user.incorrectPassword');
+			$form->addError('cms.user.incorrectPassword');
 		}
 		if ($this->isAjax()) {
 			$this->redrawControl('passwordForm');

@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Form\Form;
@@ -11,7 +11,7 @@ use Nette\Utils\ArrayHash;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class DatabasePresenter extends CrmPresenter
+class DatabasePresenter extends CmsPresenter
 {
 
 	/** @var AppManager */
@@ -31,10 +31,10 @@ class DatabasePresenter extends CrmPresenter
 	{
 		$form = $this->formFactory->create();
 
-		$form->addUpload('sql', 'crm.database.file')
+		$form->addUpload('sql', 'cms.database.file')
 			->setRequired();
 
-		$form->addSubmit('upload', 'crm.database.upload');
+		$form->addSubmit('upload', 'cms.database.upload');
 
 		$form->onSuccess[] = [$this, 'uploadFormSucceeded'];
 
@@ -51,9 +51,9 @@ class DatabasePresenter extends CrmPresenter
 		$uploaded = $this->app->loadDatabase($values->sql);
 		if ($uploaded) {
 			$this->app->invalidateCache();
-			$this->flashNotifier->success('crm.database.uploaded');
+			$this->flashNotifier->success('cms.database.uploaded');
 		} else {
-			$this->flashNotifier->error('crm.database.error');
+			$this->flashNotifier->error('cms.database.error');
 		}
 	}
 

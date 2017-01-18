@@ -1,6 +1,6 @@
 {
-  "name": "nattreid/crm",
-  "description": "CRM for Nette Framework",
+  "name": "nattreid/cms",
+  "description": "CMS for Nette Framework",
   "type": "library",
   "license": [
     "Unlicense"

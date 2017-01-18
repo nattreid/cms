@@ -1,10 +1,10 @@
 {
-  "name": "crm",
-  "description": "Crm for Nette Framework",
+  "name": "cms",
+  "description": "CMS for Nette Framework",
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
-    "url": "git@git.newtravel.cz:nattreid/crm.git"
+    "url": "git@git.newtravel.cz:nattreid/cms.git"
   },
   "author": "Attreid",
   "license": "Unlicense",

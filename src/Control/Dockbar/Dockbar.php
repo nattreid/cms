@@ -1,10 +1,10 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
-use NAttreid\Crm\Configurator\Configurator;
+use NAttreid\Cms\Configurator\Configurator;
 use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\Model\Acl;
 use NAttreid\Security\User;
@@ -89,7 +89,7 @@ class Dockbar extends Control
 	public function handleLogOut()
 	{
 		$this->user->logout();
-		$this->flashNotifier->info('crm.user.youAreLoggedOut');
+		$this->flashNotifier->info('cms.user.youAreLoggedOut');
 		$this->presenter->redirect(":{$this->module}:Sign:in");
 	}
 
@@ -323,7 +323,7 @@ class Dockbar extends Control
 		} elseif (is_array($item)) {
 			return !is_array(current($item));
 		} else {
-			throw new \InvalidArgumentException('Crm menu items is wrong in config.neon');
+			throw new \InvalidArgumentException('Cms menu items is wrong in config.neon');
 		}
 	}
 

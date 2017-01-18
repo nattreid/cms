@@ -1,13 +1,13 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
 /**
- * Crm presenter
+ * Cms presenter
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class CrmPresenter extends Presenter
+abstract class CmsPresenter extends Presenter
 {
 	protected function startup()
 	{
@@ -17,7 +17,7 @@ abstract class CrmPresenter extends Presenter
 			&& !$this->isLinkCurrent(":{$this->module}:Profile:")
 			&& !$this['dockbar']->isLinkAllowed($this->getAction(true))
 		) {
-			$this->flashNotifier->error('crm.permissions.accessDenied');
+			$this->flashNotifier->error('cms.permissions.accessDenied');
 			$this->redirect(":{$this->module}:Homepage:");
 		}
 	}

@@ -2,14 +2,14 @@
     {ifset $memory}
         <div class="cell memoryInfo">
             <div class="header">
-                {_'crm.info.memory.info'}
+                {_'cms.info.memory.info'}
             </div>
             <table>
                 <tr class="odd">
-                    <th>{_'crm.info.memory.usage'}</th>
-                    <th>{_'crm.info.memory.free'}</th>
-                    <th>{_'crm.info.memory.used'}</th>
-                    <th>{_'crm.info.memory.size'}</th>
+                    <th>{_'cms.info.memory.usage'}</th>
+                    <th>{_'cms.info.memory.free'}</th>
+                    <th>{_'cms.info.memory.used'}</th>
+                    <th>{_'cms.info.memory.size'}</th>
                 </tr>
                 <tr class="even">
                     <td>
@@ -22,11 +22,11 @@
                                  style="width: {$memory->buffer|percent:$memory->total:0|noescape};"></div>
                         </div>
                         <div>
-                            {_'crm.info.memory.total'}: {$memory->used|percent:$memory->total:0}
-                            ({_'crm.info.memory.apps'}: {$memory->application|percent:$memory->total:0}
+                            {_'cms.info.memory.total'}: {$memory->used|percent:$memory->total:0}
+                            ({_'cms.info.memory.apps'}: {$memory->application|percent:$memory->total:0}
                             -
-                            {_'crm.info.memory.cache'}: {$memory->cache|percent:$memory->total:0} -
-                            {_'crm.info.memory.buffers'}: {$memory->buffer|percent:$memory->total:0})
+                            {_'cms.info.memory.cache'}: {$memory->cache|percent:$memory->total:0} -
+                            {_'cms.info.memory.buffers'}: {$memory->buffer|percent:$memory->total:0})
                         </div>
                     </td>
                     <td>{$memory->free|size}</td>

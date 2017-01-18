@@ -1,8 +1,8 @@
 <?php
 
-namespace NAttreid\Crm\Control;
+namespace NAttreid\Cms\Control;
 
-use NAttreid\Crm\ICrmMenuFactory;
+use NAttreid\Cms\ICmsMenuFactory;
 use NAttreid\Menu\Breadcrumb\Breadcrumb;
 use NAttreid\Menu\Breadcrumb\Link as BLink;
 use NAttreid\Menu\Menu\Link;
@@ -12,7 +12,7 @@ use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use WebChemistry\Images\TPresenter;
 
 /**
- * Presenter pro moduly CRM
+ * Presenter pro moduly CMS
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -28,7 +28,7 @@ abstract class Presenter extends BasePresenter
 
 		if (!$this->user->loggedIn) {
 			if ($this->user->logoutReason === IUserStorage::INACTIVITY) {
-				$this->flashNotifier->info('crm.user.inactivityLogout');
+				$this->flashNotifier->info('cms.user.inactivityLogout');
 			}
 			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
 		}
@@ -37,7 +37,7 @@ abstract class Presenter extends BasePresenter
 	protected function beforeRender()
 	{
 		parent::beforeRender();
-		$this->template->crmLogo = $this->configurator->crmLogo;
+		$this->template->cmsLogo = $this->configurator->cmsLogo;
 
 		if (!isset($this->template->shifted)) {
 			$this->template->shifted = false;
@@ -68,10 +68,10 @@ abstract class Presenter extends BasePresenter
 	/* ###################################################################### */
 	/*                                 Menu                                   */
 
-	/** @var ICrmMenuFactory */
+	/** @var ICmsMenuFactory */
 	private $menuFactory;
 
-	public function injectMenu(ICrmMenuFactory $menuFactory)
+	public function injectMenu(ICmsMenuFactory $menuFactory)
 	{
 		$this->menuFactory = $menuFactory;
 	}
@@ -84,7 +84,7 @@ abstract class Presenter extends BasePresenter
 	{
 		$moduleMenu = $this->menuFactory->create();
 		$moduleMenu->setTranslator($this->translator);
-		$moduleMenu->setBaseUrl('crm.title', ":{$this->module}:Homepage:");
+		$moduleMenu->setBaseUrl('cms.title', ":{$this->module}:Homepage:");
 		return $moduleMenu;
 	}
 
