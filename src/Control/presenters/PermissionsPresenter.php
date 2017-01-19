@@ -184,7 +184,7 @@ class PermissionsPresenter extends CmsPresenter
 		}
 		$this->orm->persistAndFlush($permission);
 		$grid = $this['editRolePermissions'];
-		$grid->setDataSource([$this->orm->aclResources->getResource($this->role->name,$resource)]);
+		$grid->setDataSource([$this->orm->aclResources->getResource($this->role->name, $resource)]);
 		$grid->redrawItem($resource);
 		$this->flashNotifier->success('default.dataSaved');
 	}
@@ -243,7 +243,6 @@ class PermissionsPresenter extends CmsPresenter
 			->setTranslator()
 			->setItems($this->orm->aclRoles->fetchPairs());
 		$container->addMultiSelect('resource', $this->translate('cms.permissions.resource'))
-			->setTranslator()
 			->setItems($this->orm->aclResources->fetchPairsByName());
 		$container->addSelect('privilege', 'cms.permissions.privilege', $this->privileges);
 		$container->addSelect('allowed', 'default.state', $this->access);
@@ -503,7 +502,8 @@ class PermissionsPresenter extends CmsPresenter
 			})
 			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByResource())
 			->setEditableCallback([$this, 'setPermissionResource'])
-			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclResources->fetchPairsByResource());
+			->setFilterSelect(['' => 'form.none'] + $this->orm->aclResources->fetchPairsByName())
+			->setTranslateOptions();
 
 		$privilege = $grid->addColumnStatus('privilege', 'cms.permissions.privilege');
 		$privilege->setFilterSelect(['' => 'form.none'] + $this->privileges)
