@@ -39,7 +39,7 @@ management:
         confirmDeploy: "Opravdu chcete provést deploy?"
     database:
         title: "Databáze"
-        backupDatabase: "Záloha"
+        backupDatabase: "Záloha DB"
         confirmBackupDatabase: "Opravdu chcete provést zálohu databáze?"
         uploadDatabase: "Obnovení databáze"
         dropDatabase: "Smazání databáze"

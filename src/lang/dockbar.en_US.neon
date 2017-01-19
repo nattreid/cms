@@ -39,7 +39,7 @@ management:
         confirmDeploy: "Do you really want to deploy?"
     database:
         title: "Database"
-        backupDatabase: "Backup"
+        backupDatabase: "Backup DB"
         confirmBackupDatabase: "Do you really want to backup database?"
         uploadDatabase: "Upload database"
         dropDatabase: "Drop database"
