@@ -498,7 +498,7 @@ class PermissionsPresenter extends CmsPresenter
 
 		$grid->addColumnText('resource', 'cms.permissions.resource')
 			->setRenderer(function (Acl $acl) {
-				return $this->translate($acl->resource->resource);
+				return $this->translate($acl->resource->name);
 			})
 			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByResource())
 			->setEditableCallback([$this, 'setPermissionResource'])
