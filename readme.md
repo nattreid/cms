@@ -38,7 +38,10 @@ cms:
     assets:
         - %wwwDir%/js/example.js
         - %wwwDir%/css/example.css
-        - {%wwwDir%/js/cs.js, cs} # localizace pro cs
+        - {%wwwDir%/js/cs.js, locale: cs} # localizace pro cs
+        - http://someUrt/scritp.js # remote
+        - //someUrt/scritp.js # remote
+        - {%wwwDir%/js/example.js, remote: true} # remote
         - {files: ["*.js", "*.css", "*.less"], from: %appDir%/cms}
 ```
 

@@ -2,6 +2,7 @@
 
 namespace NAttreid\Cms;
 
+use InvalidArgumentException;
 use Nette\Http\IRequest;
 use Nette\SmartObject;
 use WebLoader\Compiler;
@@ -18,6 +19,10 @@ class LoaderFactory
 {
 	use SmartObject;
 
+	const
+		JS = 'js',
+		CSS = 'css';
+
 	/** @var string * */
 	private $wwwDir;
 
@@ -30,17 +35,17 @@ class LoaderFactory
 	/** @var string * */
 	private $root = __DIR__ . '/../assets';
 
-	/** @var array */
-	private $files = [];
+	/** @var FileCollection[][] */
+	private $files;
 
-	/** @var array */
-	private $filesLocale, $jsFilters, $cssFilters = [];
+	/** @var string[][] */
+	private $filters = [];
 
-	function __construct($wwwDir, $jsFilters, $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = null)
+	function __construct($wwwDir, array $jsFilters, array $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = null)
 	{
 		$this->wwwDir = $wwwDir;
-		$this->jsFilters = $jsFilters;
-		$this->cssFilters = $cssFilters;
+		$this->filters[self::JS] = $jsFilters;
+		$this->filters[self::CSS] = $cssFilters;
 		$this->httpRequest = $httpRequest;
 		if ($loader !== null) {
 			foreach ($loader->getTempPaths() as $path) {
@@ -58,30 +63,25 @@ class LoaderFactory
 	 */
 	public function addFile($file, $locale = null)
 	{
-		if ($locale !== null) {
-			if (!isset($this->filesLocale[$locale])) {
-				$this->filesLocale[$locale] = [];
-			}
-			$this->filesLocale[$locale][] = $file;
+		$collection = $this->getCollection($this->getType($file), $locale);
+		if ($this->isRemoteFile($file)) {
+			$collection->addRemoteFile($file);
 		} else {
-			$this->files[$file] = $file;
+			$collection->addFile($file);
 		}
 		return $this;
 	}
 
 	/**
-	 * Odebere soubor
+	 * Prida remote soubor
 	 * @param string $file
 	 * @param string $locale
 	 * @return self
 	 */
-	public function removeFile($file, $locale = null)
+	public function addRemoteFile($file, $locale = null)
 	{
-		if ($locale !== null) {
-			unset($this->filesLocale[$locale][$file]);
-		} else {
-			unset($this->files[$file]);
-		}
+		$collection = $this->getCollection($this->getType($file), $locale);
+		$collection->addRemoteFile($file);
 		return $this;
 	}
 
@@ -91,12 +91,11 @@ class LoaderFactory
 	 */
 	public function createCssLoader()
 	{
-		$fileCollection = $this->createFileCollection(array_filter($this->files, [$this, 'isCss']));
-		$compiler = Compiler::createCssCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
-		foreach ($this->cssFilters as $filter) {
+		$compiler = Compiler::createCssCompiler($this->files[self::CSS][null], $this->wwwDir . '/' . $this->outputDir);
+		foreach ($this->filters[self::CSS] as $filter) {
 			$compiler->addFileFilter($filter);
 		}
-		return new CssLoader($compiler, $this->httpRequest->url->basePath . $this->outputDir);
+		return new CssLoader($compiler, $this->httpRequest->getUrl()->basePath . $this->outputDir);
 	}
 
 	/**
@@ -106,40 +105,26 @@ class LoaderFactory
 	 */
 	public function createJavaScriptLoader($locale = null)
 	{
-		$fileCollection = $this->createFileCollection(array_filter($this->files, [$this, 'isJs']));
-		$compiler = Compiler::createJsCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
-		$compiler->setAsync(true);
-		foreach ($this->jsFilters as $filter) {
-			$compiler->addFileFilter($filter);
-		}
-		/* @var $compilers Compiler */
-		$compilers = [$compiler];
+		$compilers[] = $this->createJSCompiler($this->files[self::JS][null]);
 		if ($locale !== null) {
-			if (isset($this->filesLocale[$locale])) {
-				$fileCollection = $this->createFileCollection(array_filter($this->filesLocale[$locale], [$this, 'isJs']));
-				$compilers[] = Compiler::createJsCompiler($fileCollection, $this->wwwDir . '/' . $this->outputDir);
-			}
+			$compilers[] = $this->createJSCompiler($this->files[self::JS][$locale]);
 		}
 
-		return new JavaScriptLoader($this->httpRequest->url->basePath . $this->outputDir, ...$compilers);
+		return new JavaScriptLoader($this->httpRequest->getUrl()->basePath . $this->outputDir, ...$compilers);
 	}
 
 	/**
-	 * Vytvori kolekci
-	 * @param array $files
-	 * @return FileCollection
+	 * @param FileCollection $collection
+	 * @return Compiler
 	 */
-	private function createFileCollection(array $files)
+	private function createJSCompiler(FileCollection $collection)
 	{
-		$fileCollection = new FileCollection($this->root);
-		foreach ($files as $file) {
-			if ($this->isRemoteFile($file)) {
-				$fileCollection->addRemoteFile($file);
-			} else {
-				$fileCollection->addFile($file);
-			}
+		$compiler = Compiler::createJsCompiler($collection, $this->wwwDir . '/' . $this->outputDir);
+		$compiler->setAsync(true);
+		foreach ($this->filters[self::JS] as $filter) {
+			$compiler->addFileFilter($filter);
 		}
-		return $fileCollection;
+		return $compiler;
 	}
 
 	/**
@@ -153,23 +138,35 @@ class LoaderFactory
 	}
 
 	/**
-	 * Je soubor css
-	 * @param string $file
-	 * @return boolean
+	 * Vrati kolekci souboru
+	 * @param string $type
+	 * @param string $locale
+	 * @return FileCollection
 	 */
-	private function isCss($file)
+	private function getCollection($type, $locale = null)
 	{
-		return preg_match('~\.(css|less)$~', $file);
+		if (!isset($this->files[$type][$locale])) {
+			$this->files[$type][$locale] = new FileCollection($this->root);
+		}
+		return $this->files[$type][$locale];
 	}
 
 	/**
-	 * Je soubor js
+	 * Vrati typ souboru
 	 * @param string $file
-	 * @return boolean
+	 * @return string
 	 */
-	private function isJs($file)
+	private function getType($file)
 	{
-		return preg_match('~\.js$~', $file);
+		$css = '/\.(css|less)$/';
+		$js = '/\.js$/';
+
+		if (preg_match($css, $file)) {
+			return self::CSS;
+		} elseif (preg_match($js, $file)) {
+			return self::JS;
+		}
+		throw new InvalidArgumentException("Unknown assets file '$file'");
 	}
 
 }

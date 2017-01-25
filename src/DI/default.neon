@@ -22,6 +22,7 @@ cssFilters:
     - WebLoader\Filter\LessFilter
     - Joseki\Webloader\CssMinFilter
 assets:
+    ckeditor: {/ckeditor/ckeditor.js, remote: true}
 menu:
 moduleMapping: App\Cms\*\Presenters\*Presenter
 

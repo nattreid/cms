@@ -37,6 +37,7 @@ use Nette\InvalidStateException;
 use Nette\Reflection\ClassType;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
+use SplFileInfo;
 use WebLoader\FileNotFoundException;
 
 /**
@@ -46,6 +47,8 @@ use WebLoader\FileNotFoundException;
  */
 class CmsExtension extends CompilerExtension
 {
+	/** @var string */
+	private $wwwDir;
 
 	public function loadConfiguration()
 	{
@@ -56,7 +59,7 @@ class CmsExtension extends CompilerExtension
 			throw new InvalidStateException("Cms: 'front' does not set in config.neon");
 		}
 
-		$config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);
+		$this->wwwDir = $config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);
 		$config['fileManagerDir'] = Helpers::expand($config['fileManagerDir'], $builder->parameters);
 		$config['layout'] = Helpers::expand($config['layout'], $builder->parameters);
 
@@ -106,8 +109,85 @@ class CmsExtension extends CompilerExtension
 			->addSetup('addFile', ['js/i18n/cms.cs.min.js', 'cs']);
 
 		if (!empty($config['assets'])) {
-			foreach ($this->findFiles($config['assets']) as $file => $locale) {
-				$loader->addSetup('addFile', [$file, $locale]);
+			$this->addLoaderFiles($loader, $config['assets']);
+		}
+	}
+
+	/**
+	 * @param ServiceDefinition $loader
+	 * @param $assets
+	 */
+	private function addLoaderFiles(ServiceDefinition $loader, $assets)
+	{
+		foreach ($assets as $file) {
+			if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
+				$this->addLoaderFileByFinder($loader, $file);
+			} elseif (is_array($file)) {
+				$this->addLoaderFile($loader, $file);
+			} else {
+				$this->checkFileExists($file);
+				$loader->addSetup('addFile', [$file]);
+			}
+		}
+	}
+
+	/**
+	 * @param ServiceDefinition $loader
+	 * @param string[] $file
+	 */
+	private function addLoaderFileByFinder(ServiceDefinition $loader, $file)
+	{
+		$finder = Finder::findFiles($file['files']);
+
+		if (isset($file['exclude'])) {
+			$finder->exclude($file['exclude']);
+		}
+
+		if (isset($file['in'])) {
+			$finder->in($file['in']);
+		} else {
+			$finder->from($file['from']);
+		}
+
+		$foundFilesList = [];
+		foreach ($finder as $foundFile) {
+			/* @var $foundFile SplFileInfo */
+			$foundFilesList[] = $foundFile->getPathname();
+		}
+
+		natsort($foundFilesList);
+
+		foreach ($foundFilesList as $foundFilePathname) {
+			$loader->addSetup('addFile', [$foundFilePathname]);
+		}
+	}
+
+	/**
+	 * @param ServiceDefinition $loader
+	 * @param string[] $file
+	 */
+	private function addLoaderFile(ServiceDefinition $loader, $file)
+	{
+		$name = $file[0];
+		$locale = isset($file['locale']) ? $file['locale'] : null;
+		$remote = isset($file['remote']) ? (bool)$file['remote'] : false;
+		$this->checkFileExists($name);
+		if ($remote) {
+			$loader->addSetup('addRemoteFile', [$name, $locale]);
+		} else {
+			$loader->addSetup('addFile', [$name, $locale]);
+		}
+	}
+
+	/**
+	 * @param string $file
+	 * @throws FileNotFoundException
+	 */
+	private function checkFileExists($file)
+	{
+		if (!file_exists($file)) {
+			if (!file_exists($this->wwwDir . $file)) {
+				throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
 			}
 		}
 	}
@@ -173,7 +253,7 @@ class CmsExtension extends CompilerExtension
 		$this->setRouting($config);
 		$this->setTranslation();
 		$this->setTracy();
-		$this->setFlash();
+		$this->setFlashMessages();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
 
@@ -275,7 +355,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setFlash()
+	private function setFlashMessages()
 	{
 		$builder = $this->getContainerBuilder();
 		try {
@@ -299,6 +379,11 @@ class CmsExtension extends CompilerExtension
 		});
 	}
 
+	/**
+	 * @param $filters
+	 * @param $filter
+	 * @return array
+	 */
 	private function createFilterServices($filters, $filter)
 	{
 		$builder = $this->getContainerBuilder();
@@ -311,62 +396,5 @@ class CmsExtension extends CompilerExtension
 			$result[] = '@' . $name;
 		}
 		return $result;
-	}
-
-	/**
-	 * @param array $filesConfig
-	 * @return array
-	 */
-	private function findFiles(array $filesConfig)
-	{
-		$normalizedFiles = array();
-
-		foreach ($filesConfig as $file) {
-			// finder support
-			if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
-				$finder = Finder::findFiles($file['files']);
-
-				if (isset($file['exclude'])) {
-					$finder->exclude($file['exclude']);
-				}
-
-				if (isset($file['in'])) {
-					$finder->in($file['in']);
-				} else {
-					$finder->from($file['from']);
-				}
-
-				$foundFilesList = [];
-				foreach ($finder as $foundFile) {
-					/* @var $foundFile \SplFileInfo */
-					$foundFilesList[] = $foundFile->getPathname();
-				}
-
-				natsort($foundFilesList);
-
-				foreach ($foundFilesList as $foundFilePathname) {
-					$normalizedFiles[$foundFilePathname] = null;
-				}
-			} elseif (is_array($file)) {
-				$this->checkFileExists($file[0]);
-				$normalizedFiles[$file[0]] = $file[1];
-			} else {
-				$this->checkFileExists($file);
-				$normalizedFiles[$file] = null;
-			}
-		}
-
-		return $normalizedFiles;
-	}
-
-	/**
-	 * @param string $file
-	 * @throws FileNotFoundException
-	 */
-	protected function checkFileExists($file)
-	{
-		if (!file_exists($file)) {
-			throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
-		}
 	}
 }
