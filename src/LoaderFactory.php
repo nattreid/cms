@@ -106,7 +106,7 @@ class LoaderFactory
 	public function createJavaScriptLoader($locale = null)
 	{
 		$compilers[] = $this->createJSCompiler($this->files[self::JS][null]);
-		if ($locale !== null) {
+		if ($locale !== null && isset($this->files[self::JS][$locale])) {
 			$compilers[] = $this->createJSCompiler($this->files[self::JS][$locale]);
 		}
 
