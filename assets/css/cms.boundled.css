@@ -16072,6 +16072,7 @@ body.preload * {
   background-image: -o-linear-gradient(left, #1e1e1e, #323232);
   background-image: -moz-linear-gradient(left, #1e1e1e, #323232);
   background-image: linear-gradient(left, #1e1e1e, #323232);
+  background-image: -ms-linear-gradient(left, #1e1e1e, #323232);
   outline: 0;
   text-shadow: -1px -1px #000;
   box-shadow: inset -4px 1px 10px rgba(0, 0, 0, 0.6);
