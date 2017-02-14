@@ -2,13 +2,12 @@
 
 namespace NAttreid\Cms\DI;
 
-use Kdyby\Translation\Translator;
+use NAttreid\Cms\ExtensionTranslatorTrait;
 use NAttreid\Cms\ICmsMenuFactory;
 use NAttreid\Cms\LoaderFactory;
 use NAttreid\Cms\Routing\Router;
 use Nette\DI\CompilerExtension;
 use Nette\DI\MissingServiceException;
-use Nette\DI\Statement;
 use Nette\Utils\Strings;
 
 /**
@@ -18,6 +17,8 @@ use Nette\Utils\Strings;
  */
 abstract class ModuleExtension extends CompilerExtension
 {
+
+	use ExtensionTranslatorTrait;
 
 	/**
 	 * Nazev modulu
@@ -45,7 +46,9 @@ abstract class ModuleExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$this->setRouting();
-		$this->setTranslation();
+		$this->setTranslation($this->dir . '/../lang/', [
+			$this->namespace
+		]);
 		$this->setMenu();
 
 		$uName = Strings::firstUpper($this->namespace);
@@ -66,22 +69,6 @@ abstract class ModuleExtension extends CompilerExtension
 				->addSetup('addModule', [$this->namespace]);
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/cms'");
-		}
-	}
-
-	private function setTranslation()
-	{
-		$builder = $this->getContainerBuilder();
-		try {
-			$translator = $builder->getByType(Translator::class);
-			$def = $builder->getDefinition($translator);
-			$setup = [
-				new Statement('addResource', ['neon', $this->dir . '/../lang/' . $this->namespace . '.cs_CZ.neon', 'cs_CZ', $this->namespace]),
-				new Statement('addResource', ['neon', $this->dir . '/../lang/' . $this->namespace . '.en_US.neon', 'en_US', $this->namespace])
-			];
-			$def->setSetup(array_merge($def->getSetup(), $setup));
-		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'kdyby/translation'");
 		}
 	}
 

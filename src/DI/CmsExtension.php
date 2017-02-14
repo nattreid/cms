@@ -3,7 +3,6 @@
 namespace NAttreid\Cms\DI;
 
 use IPub\FlashMessages\FlashNotifier;
-use Kdyby\Translation\Translator;
 use NAttreid\Cms\Configurator\Configurator;
 use NAttreid\Cms\Control\BasePresenter;
 use NAttreid\Cms\Control\CmsPresenter;
@@ -15,6 +14,7 @@ use NAttreid\Cms\Control\ModulePresenter;
 use NAttreid\Cms\Control\ProfilePresenter;
 use NAttreid\Cms\Control\SignPresenter;
 use NAttreid\Cms\Control\UsersPresenter;
+use NAttreid\Cms\ExtensionTranslatorTrait;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
 use NAttreid\Cms\ICmsMenuFactory;
@@ -32,7 +32,6 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
 use Nette\DI\MissingServiceException;
 use Nette\DI\ServiceDefinition;
-use Nette\DI\Statement;
 use Nette\InvalidStateException;
 use Nette\Reflection\ClassType;
 use Nette\Utils\Finder;
@@ -47,6 +46,8 @@ use WebLoader\FileNotFoundException;
  */
 class CmsExtension extends CompilerExtension
 {
+	use ExtensionTranslatorTrait;
+
 	/** @var string */
 	private $wwwDir;
 
@@ -256,7 +257,14 @@ class CmsExtension extends CompilerExtension
 		$namespace = Strings::firstLower($config['namespace']);
 
 		$this->setRouting($config);
-		$this->setTranslation();
+		$this->setTranslation(__DIR__ . '/../lang/', [
+			'ublaboo_datagrid',
+			'form',
+			'cms',
+			'security',
+			'dockbar',
+			'default'
+		]);
 		$this->setFlashMessages();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
@@ -326,32 +334,6 @@ class CmsExtension extends CompilerExtension
 			foreach ($this->findByType(ModulePresenter::class) as $def) {
 				$def->addSetup('setLayout', [__DIR__ . '/../Control/presenters/templates/@layout.latte']);
 			}
-		}
-	}
-
-	private function setTranslation()
-	{
-		$builder = $this->getContainerBuilder();
-		try {
-			$translator = $builder->getByType(Translator::class);
-			$def = $builder->getDefinition($translator);
-			$setup = [
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/ublaboo_datagrid.cs_CZ.neon', 'cs_CZ', 'ublaboo_datagrid']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/ublaboo_datagrid.en_US.neon', 'en_US', 'ublaboo_datagrid']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.cs_CZ.neon', 'cs_CZ', 'form']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/form.en_US.neon', 'en_US', 'form']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.cs_CZ.neon', 'cs_CZ', 'cms']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/cms.en_US.neon', 'en_US', 'cms']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/security.cs_CZ.neon', 'cs_CZ', 'security']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/security.en_US.neon', 'en_US', 'security']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.cs_CZ.neon', 'cs_CZ', 'dockbar']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/dockbar.en_US.neon', 'en_US', 'dockbar']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.cs_CZ.neon', 'cs_CZ', 'default']),
-				new Statement('addResource', ['neon', __DIR__ . '/../lang/default.en_US.neon', 'en_US', 'default'])
-			];
-			$def->setSetup(array_merge($def->getSetup(), $setup));
-		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'kdyby/translation'");
 		}
 	}
 
