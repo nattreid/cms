@@ -19,7 +19,7 @@ class Router extends \NAttreid\Routing\Router
 	/** @var */
 	private $modules = [];
 
-	public function __construct($namespace, $url = null)
+	public function __construct($namespace, $url)
 	{
 		parent::__construct($url);
 		$this->namespace = $namespace;
