@@ -58,10 +58,14 @@ class CmsExtension extends CompilerExtension
 		if ($config['front'] === null) {
 			throw new InvalidStateException("Cms: 'front' does not set in config.neon");
 		}
+		if ($config['tracy']['cookie'] === null) {
+			throw new \Nette\InvalidStateException("Cms: 'tracy.cookie' does not set in config.neon");
+		}
 
 		$this->wwwDir = $config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);
 		$config['fileManagerDir'] = Helpers::expand($config['fileManagerDir'], $builder->parameters);
 		$config['layout'] = Helpers::expand($config['layout'], $builder->parameters);
+		$config['tracy']['mailPath'] = Helpers::expand($config['tracy']['mailPath'], $builder->parameters);
 
 		$builder->addDefinition($this->prefix('dockbar'))
 			->setImplement(IDockbarFactory::class)
@@ -92,6 +96,7 @@ class CmsExtension extends CompilerExtension
 		$this->setPresenters($config);
 		$this->setMenu($config);
 		$this->setMailing($config);
+		$this->setTracy($config);
 	}
 
 	private function setLoader($config)
@@ -252,7 +257,6 @@ class CmsExtension extends CompilerExtension
 
 		$this->setRouting($config);
 		$this->setTranslation();
-		$this->setTracy();
 		$this->setFlashMessages();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
@@ -260,6 +264,14 @@ class CmsExtension extends CompilerExtension
 		$authenticator = $builder->getByType(Authenticator::class);
 		$builder->getDefinition($authenticator)
 			->addSetup('addMapping', [$namespace, '']);
+	}
+
+	public function afterCompile(\Nette\PhpGenerator\ClassType $class)
+	{
+		$initialize = $class->methods['initialize'];
+		if (class_exists('Tracy\Debugger')) {
+			$initialize->addBody('$this->getService(?)->run();', [$this->prefix('tracyPlugin')]);
+		}
 	}
 
 	private function setRouting($config)
@@ -343,16 +355,14 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setTracy()
+	private function setTracy($config)
 	{
 		$builder = $this->getContainerBuilder();
-		try {
-			$tracy = $builder->getByType(Tracy::class);
-			$builder->getDefinition($tracy)
-				->addSetup('enableMail', ['@' . $this->prefix('configurator') . '::mailPanel']);
-		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'nattreid/tracyplugin'");
-		}
+
+		$builder->addDefinition($this->prefix('tracyPlugin'))
+			->setClass(Tracy::class)
+			->setArguments([$config['tracy']['cookie']])
+			->addSetup('setMail', [$config['tracy']['mailPath'], ['@' . $this->prefix('configurator') . '::mailPanel']]);
 	}
 
 	private function setFlashMessages()

@@ -21,6 +21,9 @@ cms:
 
     loginExpiration: '20 minutes'
     sessionExpiration: '14 days'
+    
+    tracy:
+        cookie: nejakyHash
 
     layout: '%appDir%/cms/templates/cms.latte' # hlavní šablona
 ```

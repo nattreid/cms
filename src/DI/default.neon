@@ -16,6 +16,10 @@ layout: null
 
 wwwDir: %wwwDir%
 
+tracy:
+    cookie: null
+    mailPath: %tempDir%/mail-panel-mails
+
 jsFilters:
     - Joseki\Webloader\JsMinFilter
 cssFilters:
