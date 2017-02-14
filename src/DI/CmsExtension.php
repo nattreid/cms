@@ -245,7 +245,7 @@ class CmsExtension extends CompilerExtension
 		$dir = dirname($rc->getFileName());
 		$builder->addDefinition($this->prefix('mailer'))
 			->setClass(Mailer::class)
-			->setArguments([$config['sender'], null, $dir]);
+			->setArguments([$config['sender'], [], $dir]);
 	}
 
 	public function beforeCompile()
