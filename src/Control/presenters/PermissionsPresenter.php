@@ -559,7 +559,7 @@ class PermissionsPresenter extends CmsPresenter
 				return $item->allowed ? 'btn btn-xs btn-success ajax' : 'btn btn-xs btn-default ajax';
 			})
 			->setIcon(function (ResourceItem $item) {
-				return $item->allowed ? 'check' : 'times-circle-o';
+				return $item->allowed ? 'check' : 'close';
 			});
 
 		$grid->allowRowsAction('permission', function (ResourceItem $item) {
