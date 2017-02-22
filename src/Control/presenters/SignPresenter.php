@@ -4,9 +4,9 @@ namespace NAttreid\Cms\Control;
 
 use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
-use NAttreid\Security\Model\AclRolesMapper;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User;
+use NAttreid\Security\Model\Users\User;
 use NAttreid\Utils\Hasher;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;

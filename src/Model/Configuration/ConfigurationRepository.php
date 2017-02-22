@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Cms\Model;
+namespace NAttreid\Cms\Model\Configuration;
 
 use NAttreid\Orm\Repository;
 

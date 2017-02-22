@@ -6,7 +6,7 @@ use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Cms\Configurator\Configurator;
 use NAttreid\Security\Control\TryUser;
-use NAttreid\Security\Model\Acl;
+use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;

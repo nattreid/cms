@@ -6,7 +6,7 @@ use NAttreid\Cms\LocaleService;
 use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User;
+use NAttreid\Security\Model\Users\User;
 use NAttreid\Utils\Strings;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;

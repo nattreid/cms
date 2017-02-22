@@ -2,6 +2,8 @@
 
 namespace NAttreid\Cms\Model;
 
+use NAttreid\Cms\Model\Configuration\ConfigurationRepository;
+use NAttreid\Cms\Model\Locale\LocalesRepository;
 use Nextras\Orm\Model\Model;
 
 /**

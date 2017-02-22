@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Cms\Model;
+namespace NAttreid\Cms\Model\Locale;
 
 use Nextras\Orm\Entity\Entity;
 

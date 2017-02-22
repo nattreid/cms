@@ -3,10 +3,10 @@
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Security\AuthorizatorFactory;
-use NAttreid\Security\Model\Acl;
-use NAttreid\Security\Model\AclRole;
+use NAttreid\Security\Model\Acl\Acl;
+use NAttreid\Security\Model\AclResources\ResourceItem;
+use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\ResourceItem;
 use Nette\Forms\Container;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;

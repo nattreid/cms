@@ -3,7 +3,7 @@
 namespace NAttreid\Cms\Configurator;
 
 use NAttreid\AppManager\AppManager;
-use NAttreid\Cms\Model\Configuration;
+use NAttreid\Cms\Model\Configuration\Configuration;
 use NAttreid\Cms\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;

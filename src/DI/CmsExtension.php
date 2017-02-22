@@ -60,7 +60,7 @@ class CmsExtension extends CompilerExtension
 			throw new InvalidStateException("Cms: 'front' does not set in config.neon");
 		}
 		if ($config['tracy']['cookie'] === null) {
-			throw new \Nette\InvalidStateException("Cms: 'tracy.cookie' does not set in config.neon");
+			throw new InvalidStateException("Cms: 'tracy.cookie' does not set in config.neon");
 		}
 
 		$this->wwwDir = $config['wwwDir'] = Helpers::expand($config['wwwDir'], $builder->parameters);

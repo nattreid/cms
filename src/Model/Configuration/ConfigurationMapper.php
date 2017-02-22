@@ -1,7 +1,8 @@
 <?php
 
-namespace NAttreid\Cms\Model;
+namespace NAttreid\Cms\Model\Configuration;
 
+use NAttreid\Cms\Model\Mapper;
 use NAttreid\Orm\Structure\Table;
 
 /**

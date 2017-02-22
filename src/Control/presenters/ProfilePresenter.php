@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use NAttreid\Cms\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
-use NAttreid\Security\Model\User;
+use NAttreid\Security\Model\Users\User;
 use NAttreid\Utils\Strings;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
@@ -52,8 +52,6 @@ class ProfilePresenter extends CmsPresenter
 	public function renderDefault()
 	{
 		$this->addBreadcrumbLink('dockbar.myProfile');
-
-		$profile = $this->profile;
 	}
 
 	/**

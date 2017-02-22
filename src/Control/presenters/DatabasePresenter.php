@@ -4,6 +4,7 @@ namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Form\Form;
+use Nette\NotSupportedException;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -48,11 +49,12 @@ class DatabasePresenter extends CmsPresenter
 	 */
 	public function uploadFormSucceeded(Form $form, $values)
 	{
-		$uploaded = $this->app->loadDatabase($values->sql);
-		if ($uploaded) {
+		try {
+			$this->app->loadDatabase($values->sql);
+
 			$this->app->invalidateCache();
 			$this->flashNotifier->success('cms.database.uploaded');
-		} else {
+		} catch (NotSupportedException $ex) {
 			$this->flashNotifier->error('cms.database.error');
 		}
 	}

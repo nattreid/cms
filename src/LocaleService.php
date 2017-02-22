@@ -4,7 +4,7 @@ namespace NAttreid\Cms;
 
 use Kdyby\Translation\Translator;
 use NAttreid\AppManager\AppManager;
-use NAttreid\Cms\Model\Locale;
+use NAttreid\Cms\Model\Locale\Locale;
 use NAttreid\Cms\Model\Orm;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
