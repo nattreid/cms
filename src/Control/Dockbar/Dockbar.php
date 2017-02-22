@@ -10,7 +10,6 @@ use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
-use Nette\Http\Request;
 use Nette\Utils\Strings;
 
 /**
@@ -47,10 +46,8 @@ class Dockbar extends Control
 
 	/** @var array */
 	private $allowedHandler = [];
-	/** @var Request */
-	private $request;
 
-	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier, Request $request)
+	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
 	{
 		parent::__construct();
 		$this->app = $app;
@@ -61,7 +58,6 @@ class Dockbar extends Control
 		$this->module = $module;
 		$this->front = $front;
 		$this->links = $this->createLinks('dockbar', $permissions);
-		$this->request = $request;
 	}
 
 	/**
