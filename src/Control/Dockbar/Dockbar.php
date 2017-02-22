@@ -15,6 +15,8 @@ use Nette\Utils\Strings;
 /**
  * DockBar
  *
+ * @property-read BasePresenter $presenter
+ *
  * @author Attreid <attreid@gmail.com>
  */
 class Dockbar extends Control
@@ -65,7 +67,6 @@ class Dockbar extends Control
 	 */
 	private function getTryUser()
 	{
-		/* @var $presenter BasePresenter */
 		$presenter = $this->presenter;
 		return $presenter['tryUser'];
 	}
