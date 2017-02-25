@@ -18,7 +18,7 @@ class ConfigurationMapper extends Mapper
 		$table->addPrimaryKey('name')
 			->varChar(100);
 		$table->addColumn('serializedValue')
-			->varChar();
+			->varChar(500);
 	}
 
 }
