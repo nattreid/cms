@@ -56,7 +56,14 @@ cms:
             link: 'Homepage:'
             web:
                 test:
-                    link: 'action' # pokud je null, provede se default action
+                    link: action                            # pokud je null, provede se default action
+                    arguments: {name: value}                # argumenty
+                    toBlank: TRUE                           # otevre do noveho okna
+                    count: 5                                # pocet za linkem
+                    # nebo
+                    count: @SomeClass::countUnapproved()    # pocet za linkem
+                    # nebo
+                    count: {5, info}                        # muze byt info, warning (info je default)
 ```
 Presenter musí dědit z třídy **\NAttreid\Cms\Control\ModulePresenter**. Příklad presenteru test z ukázky menu
 ```php
