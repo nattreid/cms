@@ -344,7 +344,7 @@ class CmsExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('tracyPlugin'))
 			->setClass(Tracy::class)
 			->setArguments([$config['tracy']['cookie']])
-			->addSetup('setMail', [$config['tracy']['mailPath'], ['@' . $this->prefix('configurator') . '::mailPanel']]);
+			->addSetup('setMail', [$config['tracy']['mailPath'], '@' . $this->prefix('configurator') . '::mailPanel']);
 	}
 
 	private function setFlashMessages()
