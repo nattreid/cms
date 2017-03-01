@@ -547,6 +547,7 @@ class PermissionsPresenter extends CmsPresenter
 	protected function createComponentEditRolePermissions(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
+		$grid->setRefreshUrl(false);
 		$grid->setDataSource($this->orm->aclResources->getResources($this->role->name));
 
 		$grid->setTreeView([$this, 'getChildren'], 'hasChildren');
@@ -571,8 +572,8 @@ class PermissionsPresenter extends CmsPresenter
 		return $grid;
 	}
 
-	public function getChildren(int $id): array
+	public function getChildren(string $resource): array
 	{
-		return $this->orm->aclResources->getResources($this->role->name, $id);
+		return $this->orm->aclResources->getResources($this->role->name, $resource);
 	}
 }

@@ -140,9 +140,9 @@ abstract class Presenter extends BasePresenter
 
 	/**
 	 * Navrat na predchozi stranku
-	 * @param string $backlink
+	 * @param string|null $backlink
 	 */
-	public function handleBack(string $backlink)
+	public function handleBack(string $backlink = null)
 	{
 		$this->restoreRequest($backlink);
 	}
@@ -160,7 +160,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	public function restoreBacklink()
 	{
-		$this->handleBack($this->getParameter('cbl') ?: '');
+		$this->handleBack($this->getParameter('cbl'));
 	}
 
 	/**
@@ -168,7 +168,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	public function getBacklink()
 	{
-		return $this->link('back!', [$this->getParameter('cbl') ?: '']);
+		return $this->link('back!', [$this->getParameter('cbl')]);
 	}
 
 }

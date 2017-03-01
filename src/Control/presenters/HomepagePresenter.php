@@ -48,5 +48,4 @@ class HomepagePresenter extends CmsPresenter
 			$template->viewInfo = false;
 		}
 	}
-
 }

@@ -44,7 +44,7 @@ class LocalesRepository extends Repository
 	 * Vrati povolene jazyky
 	 * @return ICollection|Locale[]
 	 */
-	public function findAllowed(): array
+	public function findAllowed(): ICollection
 	{
 		return $this->findBy(['allowed' => 1]);
 	}

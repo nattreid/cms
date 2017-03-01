@@ -54,7 +54,7 @@ class UsersPresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
-	public function handleBack(string $backlink)
+	public function handleBack(string $backlink = null)
 	{
 		$this->redirect('default');
 	}
@@ -343,9 +343,11 @@ class UsersPresenter extends CmsPresenter
 			->setDefaultValue($this->user->phone);
 
 		$language = $form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
-		$locale = $this->localeService->get($this->user->language);
-		if ($locale) {
-			$language->setDefaultValue($locale->id);
+		if (!empty($this->user->language)) {
+			$locale = $this->localeService->get($this->user->language);
+			if ($locale) {
+				$language->setDefaultValue($locale->id);
+			}
 		}
 
 		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs())
@@ -485,7 +487,8 @@ class UsersPresenter extends CmsPresenter
 
 		$grid->setDataSource($this->orm->users->findAll());
 
-		$grid->addToolbarButton('add', 'cms.user.add');
+		$grid->addToolbarButton('add', 'cms.user.add')
+			->setIcon('plus');
 
 		$grid->addColumnText('username', 'cms.user.username')
 			->setSortable()
