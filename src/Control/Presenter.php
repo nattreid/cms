@@ -168,7 +168,7 @@ abstract class Presenter extends BasePresenter
 	 */
 	public function getBacklink()
 	{
-		return $this->link('back!', [$this->getParameter('cbl')]);
+		return $this->link('back!', [$this->getParameter('cbl') ?: '']);
 	}
 
 }
