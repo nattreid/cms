@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Model\Locale;
 
 use NAttreid\Cms\Model\Mapper;
@@ -22,11 +24,11 @@ class LocalesMapper extends Mapper
 			->varChar(5)
 			->setUnique();
 		$table->addColumn('default')
-			->boolean()
+			->bool()
 			->setDefault(0)
 			->setKey();
 		$table->addColumn('allowed')
-			->boolean()
+			->bool()
 			->setDefault(1);
 
 		$this->afterCreateTable[] = function () {

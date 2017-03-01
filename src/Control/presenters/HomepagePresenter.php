@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;

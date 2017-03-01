@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Routing;
 
 use Nette\Application\Routers\Route;
@@ -19,7 +21,7 @@ class Router extends \NAttreid\Routing\Router
 	/** @var */
 	private $modules = [];
 
-	public function __construct($namespace, $url)
+	public function __construct(string $namespace, string $url)
 	{
 		parent::__construct($url);
 		$this->namespace = $namespace;
@@ -41,7 +43,7 @@ class Router extends \NAttreid\Routing\Router
 	 * Prida modul do routy CMS
 	 * @param string $module
 	 */
-	public function addModule($module)
+	public function addModule(string $module)
 	{
 		$this->modules[] = $module;
 	}

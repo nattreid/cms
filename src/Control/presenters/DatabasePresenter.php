@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
@@ -28,7 +30,7 @@ class DatabasePresenter extends CmsPresenter
 	 * Formular nahrani databaze
 	 * @return Form
 	 */
-	protected function createComponentUploadForm()
+	protected function createComponentUploadForm(): Form
 	{
 		$form = $this->formFactory->create();
 
@@ -47,7 +49,7 @@ class DatabasePresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function uploadFormSucceeded(Form $form, $values)
+	public function uploadFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
 			$this->app->loadDatabase($values->sql);

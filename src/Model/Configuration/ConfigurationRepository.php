@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Model\Configuration;
 
+use NAttreid\Cms\Configurator\Configurator;
 use NAttreid\Orm\Repository;
 
 /**
@@ -24,7 +27,7 @@ class ConfigurationRepository extends Repository
 	 * @param string $name
 	 * @return Configuration
 	 */
-	public function get($name)
+	public function get(string $name): Configurator
 	{
 		return $this->getBy(['name' => $name]);
 	}

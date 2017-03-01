@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Cms\Mailing\Mailer;
@@ -46,7 +48,7 @@ class SignPresenter extends BasePresenter
 	/** @var Hasher */
 	private $hasher;
 
-	public function __construct($loginExpiracy, $sessionExpiracy, $minPasswordLength, Model $orm, Mailer $mailer, Hasher $hasher)
+	public function __construct(string $loginExpiracy, string $sessionExpiracy, int $minPasswordLength, Model $orm, Mailer $mailer, Hasher $hasher)
 	{
 		parent::__construct();
 		$this->loginExpiracy = $loginExpiracy;
@@ -102,7 +104,7 @@ class SignPresenter extends BasePresenter
 	 * Obnoveni hesla
 	 * @param string $hash
 	 */
-	public function renderRestorePassword($hash)
+	public function renderRestorePassword(string $hash)
 	{
 		$session = $this->getSession('cms/restorePassword');
 		if (!isset($session->$hash)) {
@@ -118,7 +120,7 @@ class SignPresenter extends BasePresenter
 	 * Prihlasovaci formular
 	 * @return Form
 	 */
-	protected function createComponentSignInForm()
+	protected function createComponentSignInForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -144,7 +146,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function signInFormSucceeded(Form $form, $values)
+	public function signInFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
 			$this->user->login($values->username, $values->password);
@@ -168,7 +170,7 @@ class SignPresenter extends BasePresenter
 	 * Formular pro zapomenute heslo
 	 * @return Form
 	 */
-	protected function createComponentForgottenPasswordForm()
+	protected function createComponentForgottenPasswordForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -190,7 +192,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function forgottenPasswordFormSucceeded(Form $form, $values)
+	public function forgottenPasswordFormSucceeded(Form $form, ArrayHash $values)
 	{
 		$value = $values->usernameOrEmail;
 		$user = $this->orm->users->getByUsername($value);
@@ -225,7 +227,7 @@ class SignPresenter extends BasePresenter
 	 * Formular pro obnoveni hesla
 	 * @return Form
 	 */
-	protected function createComponentRestorePasswordForm()
+	protected function createComponentRestorePasswordForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -251,7 +253,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function restorePasswordFormSucceeded(Form $form, $values)
+	public function restorePasswordFormSucceeded(Form $form, ArrayHash $values)
 	{
 		$session = $this->getSession('cms/restorePassword');
 		$email = $session->{$values->hash};
@@ -272,7 +274,7 @@ class SignPresenter extends BasePresenter
 	 * Formular pro prvniho uzivatele
 	 * @return Form
 	 */
-	protected function createComponentRegisterAdministratorForm()
+	protected function createComponentRegisterAdministratorForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -304,7 +306,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function registerAdministratorFormSucceeded(Form $form, $values)
+	public function registerAdministratorFormSucceeded(Form $form, ArrayHash $values)
 	{
 		$password = $values->password;
 

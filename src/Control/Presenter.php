@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Cms\ICmsMenuFactory;
 use NAttreid\Menu\Breadcrumb\Breadcrumb;
 use NAttreid\Menu\Breadcrumb\Link as BLink;
-use NAttreid\Menu\Menu\Link;
 use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
@@ -59,7 +60,7 @@ abstract class Presenter extends BasePresenter
 	 * Vytvori komponentu Dockbar
 	 * @return Dockbar
 	 */
-	protected function createComponentDockbar()
+	protected function createComponentDockbar(): Dockbar
 	{
 		$dockbar = $this->dockbarFactory->create();
 		return $dockbar;
@@ -80,7 +81,7 @@ abstract class Presenter extends BasePresenter
 	 * Hlavni menu
 	 * @return Menu
 	 */
-	protected function createComponentMenu()
+	protected function createComponentMenu(): Menu
 	{
 		$moduleMenu = $this->menuFactory->create();
 		$moduleMenu->setTranslator($this->translator);
@@ -89,21 +90,10 @@ abstract class Presenter extends BasePresenter
 	}
 
 	/**
-	 * Nastavi pocet (cislo za text linku)
-	 * @param string $link
-	 * @param int $count
-	 * @param string $type
-	 */
-	protected function setMenuCount($link, $count, $type = Link::INFO)
-	{
-		$this['menu']->setCount($link, $count, $type);
-	}
-
-	/**
 	 * Drobeckova navigace
 	 * @return Breadcrumb
 	 */
-	protected function createComponentBreadcrumb()
+	protected function createComponentBreadcrumb(): Breadcrumb
 	{
 		return $this['menu']->getBreadcrumb();
 	}
@@ -115,7 +105,7 @@ abstract class Presenter extends BasePresenter
 	 * @param array $arguments
 	 * @return BLink
 	 */
-	public function addBreadcrumbLink($name, $link = null, $arguments = [])
+	public function addBreadcrumbLink(string $name, string $link = null, array $arguments = []): BLink
 	{
 		return $this['breadcrumb']->addLink($name, $link, $arguments);
 	}
@@ -127,16 +117,16 @@ abstract class Presenter extends BasePresenter
 	 * @param array $arguments
 	 * @return BLink
 	 */
-	public function addBreadcrumbLinkUntranslated($name, $link = null, $arguments = [])
+	public function addBreadcrumbLinkUntranslated(string $name, string $link = null, array $arguments = []): BLink
 	{
 		return $this['breadcrumb']->addLinkUntranslated($name, $link, $arguments);
 	}
 
 	/**
 	 * Nastavi zobrazeni menu v mobilni verzi
-	 * @param boolean $view
+	 * @param bool $view
 	 */
-	public function viewMobileMenu($view = true)
+	public function viewMobileMenu(bool $view = true)
 	{
 		$this->template->shifted = $view;
 		$this['dockbar']->setShifted($view);
@@ -152,7 +142,7 @@ abstract class Presenter extends BasePresenter
 	 * Navrat na predchozi stranku
 	 * @param string $backlink
 	 */
-	public function handleBack($backlink)
+	public function handleBack(string $backlink)
 	{
 		$this->restoreRequest($backlink);
 	}

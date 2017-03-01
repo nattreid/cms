@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\DI;
 
 use NAttreid\Cms\ExtensionTranslatorTrait;
@@ -94,7 +96,7 @@ abstract class ModuleExtension extends CompilerExtension
 	 * @param string $file
 	 * @param string $locale
 	 */
-	protected function addLoaderFile($file, $locale = null)
+	protected function addLoaderFile(string $file, string $locale = null)
 	{
 		if ($this->loader === null) {
 			$builder = $this->getContainerBuilder();

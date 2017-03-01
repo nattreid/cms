@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\DI;
 
 use IPub\FlashMessages\FlashNotifier;
@@ -100,7 +102,7 @@ class CmsExtension extends CompilerExtension
 		$this->setTracy($config);
 	}
 
-	private function setLoader($config)
+	private function setLoader(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -121,16 +123,16 @@ class CmsExtension extends CompilerExtension
 
 	/**
 	 * @param ServiceDefinition $loader
-	 * @param $assets
+	 * @param array $assets
 	 */
-	private function addLoaderFiles(ServiceDefinition $loader, $assets)
+	private function addLoaderFiles(ServiceDefinition $loader, array $assets)
 	{
 		foreach ($assets as $file) {
 			if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
 				$this->addLoaderFileByFinder($loader, $file);
 			} elseif (is_array($file)) {
 				$this->addLoaderFile($loader, $file);
-			} else {
+			} elseif (is_string($file)) {
 				$this->checkFileExists($file);
 				$loader->addSetup('addFile', [$file]);
 			}
@@ -141,7 +143,7 @@ class CmsExtension extends CompilerExtension
 	 * @param ServiceDefinition $loader
 	 * @param string[] $file
 	 */
-	private function addLoaderFileByFinder(ServiceDefinition $loader, $file)
+	private function addLoaderFileByFinder(ServiceDefinition $loader, array $file)
 	{
 		$finder = Finder::findFiles($file['files']);
 
@@ -172,7 +174,7 @@ class CmsExtension extends CompilerExtension
 	 * @param ServiceDefinition $loader
 	 * @param string[] $file
 	 */
-	private function addLoaderFile(ServiceDefinition $loader, $file)
+	private function addLoaderFile(ServiceDefinition $loader, array $file)
 	{
 		$name = $file[0];
 		$locale = isset($file['locale']) ? $file['locale'] : null;
@@ -189,7 +191,7 @@ class CmsExtension extends CompilerExtension
 	 * @param string $file
 	 * @throws FileNotFoundException
 	 */
-	private function checkFileExists($file)
+	private function checkFileExists(string $file)
 	{
 		if (!file_exists($file)) {
 			if (!file_exists($this->wwwDir . $file)) {
@@ -198,7 +200,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setPresenters($config)
+	private function setPresenters(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -223,7 +225,7 @@ class CmsExtension extends CompilerExtension
 			->setArguments([$config['loginExpiration'], $config['sessionExpiration'], $config['minPasswordLength']]);
 	}
 
-	private function setMenu($config)
+	private function setMenu(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -238,7 +240,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setMailing($config)
+	private function setMailing(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -282,7 +284,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setRouting($config)
+	private function setRouting(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 		$routerFactory = $builder->getByType(RouterFactory::class);
@@ -314,14 +316,14 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setModule($config, $namespace)
+	private function setModule(array $config, string $namespace)
 	{
 		foreach ($this->findByType(BasePresenter::class) as $def) {
 			$def->addSetup('setModule', [$config['namespace'], $namespace]);
 		}
 	}
 
-	private function setLayout($config)
+	private function setLayout(array $config)
 	{
 		if ($config['layout'] !== null) {
 			foreach ($this->findByType(CmsPresenter::class) as $def) {
@@ -337,7 +339,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setTracy($config)
+	private function setTracy(array $config)
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -363,7 +365,7 @@ class CmsExtension extends CompilerExtension
 	 * @param string $type
 	 * @return ServiceDefinition[]
 	 */
-	private function findByType($type)
+	private function findByType(string $type): array
 	{
 		$type = ltrim($type, '\\');
 		return array_filter($this->getContainerBuilder()->getDefinitions(), function (ServiceDefinition $def) use ($type) {
@@ -372,11 +374,12 @@ class CmsExtension extends CompilerExtension
 	}
 
 	/**
-	 * @param $filters
-	 * @param $filter
-	 * @return array
+	 * @param string[] $filters
+	 * @param string $filter
+	 * @return string[]
+	 * @return string[]
 	 */
-	private function createFilterServices($filters, $filter)
+	private function createFilterServices(array $filters, string $filter): array
 	{
 		$builder = $this->getContainerBuilder();
 		$result = [];

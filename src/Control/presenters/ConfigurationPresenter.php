@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Cms\LocaleService;
@@ -37,7 +39,7 @@ class ConfigurationPresenter extends CmsPresenter
 		$this['configurationForm']->setDefaults($this->configurator->fetchConfigurations());
 	}
 
-	public function handleDebug($on)
+	public function handleDebug(bool $on)
 	{
 		if ($this->isAjax()) {
 			if ($on) {
@@ -55,7 +57,7 @@ class ConfigurationPresenter extends CmsPresenter
 	 * Komponenta formulare nastaveni
 	 * @return Form
 	 */
-	protected function createComponentConfigurationForm()
+	protected function createComponentConfigurationForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
@@ -102,7 +104,7 @@ class ConfigurationPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function configurationFormSucseeded(Form $form, $values)
+	public function configurationFormSucseeded(Form $form, ArrayHash $values)
 	{
 		$this->localeService->default = $values->defaultLocale;
 		$this->localeService->allowed = $values->allowedLocales;

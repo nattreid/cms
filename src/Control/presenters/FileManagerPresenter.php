@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Filemanager\FileManager;
@@ -19,7 +21,7 @@ class FileManagerPresenter extends CmsPresenter
 	/** @var IFileManagerFactory */
 	private $fileManagerFactory;
 
-	public function __construct($basePath, IFileManagerFactory $fileManagerFactory)
+	public function __construct(string $basePath, IFileManagerFactory $fileManagerFactory)
 	{
 		parent::__construct();
 		$this->basePath = $basePath;
@@ -38,7 +40,7 @@ class FileManagerPresenter extends CmsPresenter
 	 * Komponenta mangeru
 	 * @return FileManager
 	 */
-	protected function createComponentFileManager()
+	protected function createComponentFileManager(): FileManager
 	{
 		$manager = $this->fileManagerFactory->create($this->basePath);
 

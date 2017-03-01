@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use IPub\FlashMessages\TFlashMessages;
@@ -21,6 +23,8 @@ use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
+use WebLoader\Nette\CssLoader;
+use WebLoader\Nette\JavaScriptLoader;
 
 /**
  * Zakladni presenter pro CMS
@@ -113,7 +117,7 @@ abstract class BasePresenter extends Presenter
 	 * @param string $module
 	 * @param string $namespace
 	 */
-	public function setModule($module, $namespace)
+	public function setModule(string $module, string $namespace)
 	{
 		$this->module = $module;
 		$this->namespace = $namespace;
@@ -151,7 +155,7 @@ abstract class BasePresenter extends Presenter
 	 * Prihlaseni za uzivatele
 	 * @return TryUser
 	 */
-	protected function createComponentTryUser()
+	protected function createComponentTryUser(): TryUser
 	{
 		$control = $this->tryUserFactory->create(":{$this->module}:Homepage:");
 		$control->permission = 'dockbar.settings.users.tryUser';
@@ -183,7 +187,7 @@ abstract class BasePresenter extends Presenter
 	 *
 	 * @return string
 	 */
-	protected function translate($message, $count = null, array $parameters = [], $domain = null, $locale = null)
+	protected function translate(string $message, int $count = null, array $parameters = [], string $domain = null, string $locale = null)
 	{
 		return $this->translator->translate($message, $count, $parameters, $domain, $locale);
 	}
@@ -217,14 +221,14 @@ abstract class BasePresenter extends Presenter
 		$this->loaderFactory = $loaderFactory;
 	}
 
-	/** @return \WebLoader\Nette\CssLoader */
-	protected function createComponentLoadCss()
+	/** @return CssLoader */
+	protected function createComponentLoadCss(): CssLoader
 	{
 		return $this->loaderFactory->createCssLoader();
 	}
 
-	/** @return \WebLoader\Nette\JavaScriptLoader */
-	protected function createComponentLoadJs()
+	/** @return JavaScriptLoader */
+	protected function createComponentLoadJs(): JavaScriptLoader
 	{
 		return $this->loaderFactory->createJavaScriptLoader($this->locale);
 	}

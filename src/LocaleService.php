@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms;
 
 use Kdyby\Translation\Translator;
@@ -67,7 +69,7 @@ class LocaleService
 	/**
 	 * @return string
 	 */
-	protected function getDefault()
+	protected function getDefault(): string
 	{
 		$key = 'default';
 		$result = $this->cache->load($key);
@@ -84,7 +86,7 @@ class LocaleService
 	/**
 	 * @return int
 	 */
-	protected function getDefaultLocaleId()
+	protected function getDefaultLocaleId(): int
 	{
 		return $this->orm->locales->getDefault()->id;
 	}
@@ -92,7 +94,7 @@ class LocaleService
 	/**
 	 * @return int[]
 	 */
-	protected function getAllowedLocaleIds()
+	protected function getAllowedLocaleIds(): array
 	{
 		return $this->orm->locales->findAllowed()->fetchPairs('id', 'id');
 	}
@@ -100,7 +102,7 @@ class LocaleService
 	/**
 	 * @return array
 	 */
-	protected function getAllowed()
+	protected function getAllowed(): array
 	{
 		$key = 'allowed';
 		$result = $this->cache->load($key);
@@ -118,7 +120,7 @@ class LocaleService
 	 * Nastavi vychozi jazyk
 	 * @param int $localeId
 	 */
-	protected function setDefault($localeId)
+	protected function setDefault(int $localeId)
 	{
 		$this->orm->locales->getById($localeId)->setDefault();
 	}
@@ -145,7 +147,7 @@ class LocaleService
 	/**
 	 * @return array
 	 */
-	public function fetch()
+	public function fetch(): array
 	{
 		return $this->orm->locales->fetchPairsById();
 	}
@@ -154,7 +156,7 @@ class LocaleService
 	 * @param string $locale
 	 * @return Locale
 	 */
-	public function get($locale)
+	public function get(string $locale): Locale
 	{
 		return $this->orm->locales->getByLocale($locale);
 	}
@@ -163,7 +165,7 @@ class LocaleService
 	 * @param int $id
 	 * @return Locale
 	 */
-	public function getById($id)
+	public function getById(int $id): Locale
 	{
 		return $this->orm->locales->getById($id);
 	}
@@ -171,7 +173,7 @@ class LocaleService
 	/**
 	 * @return int
 	 */
-	protected function getCurrentLocaleId()
+	protected function getCurrentLocaleId(): int
 	{
 		$locale = $this->translator->getLocale();
 		if (!isset($this->currentId[$locale])) {

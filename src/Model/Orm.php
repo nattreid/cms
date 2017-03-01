@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Model;
 
 use NAttreid\Cms\Model\Configuration\ConfigurationRepository;

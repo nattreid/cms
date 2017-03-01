@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Factories;
 
 use Kdyby\Translation\Translator;
@@ -29,7 +31,7 @@ class DataGridFactory
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	public function create(IContainer $parent = null, $name = null)
+	public function create(IContainer $parent = null, string $name = null): DataGrid
 	{
 		$grid = new DataGrid($parent, $name);
 

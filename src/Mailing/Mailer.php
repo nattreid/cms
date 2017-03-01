@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Mailing;
+
 use NAttreid\Mailing\BaseMailer;
 
 /**
@@ -16,7 +19,7 @@ class Mailer extends BaseMailer
 	 * @param string $email
 	 * @param string $hash
 	 */
-	public function sendRestorePassword($email, $hash)
+	public function sendRestorePassword(string $email, string $hash)
 	{
 		$mail = $this->createMail('restorePassword');
 
@@ -36,7 +39,7 @@ class Mailer extends BaseMailer
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function sendNewUser($email, $username, $password)
+	public function sendNewUser(string $email, string $username, string $password)
 	{
 		$mail = $this->createMail('newUser');
 
@@ -56,7 +59,7 @@ class Mailer extends BaseMailer
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function sendNewPassword($email, $username, $password)
+	public function sendNewPassword(string $email, string $username, string $password)
 	{
 		$mail = $this->createMail('newPassword');
 

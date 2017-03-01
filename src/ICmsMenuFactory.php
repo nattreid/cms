@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms;
 
 use NAttreid\Menu\Menu\Menu;
@@ -7,6 +9,5 @@ use NAttreid\Menu\Menu\Menu;
 
 interface ICmsMenuFactory
 {
-	/**  @return Menu */
-	public function create();
+	public function create(): Menu;
 }

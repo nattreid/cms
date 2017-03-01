@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
@@ -33,16 +35,16 @@ class LogsPresenter extends CmsPresenter
 
 	/**
 	 * Zobrazeni souboru
-	 * @param int $id
+	 * @param string $id
 	 */
-	public function actionShowFile($id)
+	public function actionShowFile(string $id)
 	{
 		$this->sendResponse($this->app->logs->getFile($id));
 	}
 
 	/**
 	 * Stazeni souboru
-	 * @param int $id
+	 * @param string[]|string $id
 	 */
 	public function actionDownloadFile($id)
 	{
@@ -51,7 +53,7 @@ class LogsPresenter extends CmsPresenter
 
 	/**
 	 * Smazani logu
-	 * @param int $id
+	 * @param string[]|string $id
 	 * @secured
 	 */
 	public function handleDelete($id)
@@ -85,7 +87,7 @@ class LogsPresenter extends CmsPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	protected function createComponentLogsList($name)
+	protected function createComponentLogsList(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 

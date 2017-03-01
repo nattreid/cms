@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
@@ -18,7 +20,7 @@ class InfoPresenter extends CmsPresenter
 	/** @var AppManager */
 	private $app;
 
-	public function __construct($refresh, AppManager $app)
+	public function __construct(int $refresh, AppManager $app)
 	{
 		parent::__construct();
 		$this->refresh = $refresh * 1000;

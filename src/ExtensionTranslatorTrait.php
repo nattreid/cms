@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms;
 
 use Kdyby\Translation\Translator;
@@ -8,7 +10,7 @@ use Nette\DI\Statement;
 
 trait ExtensionTranslatorTrait
 {
-	private function setTranslation($dir, array $domains)
+	private function setTranslation(string $dir, array $domains)
 	{
 		$builder = $this->getContainerBuilder();
 		try {

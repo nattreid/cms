@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Model\Locale;
 
 use Nextras\Orm\Entity\Entity;
@@ -9,8 +11,8 @@ use Nextras\Orm\Entity\Entity;
  *
  * @property int $id {primary}
  * @property string $name
- * @property boolean $default {default false}
- * @property boolean $allowed {default true}
+ * @property bool $default {default false}
+ * @property bool $allowed {default true}
  *
  * @author Attreid <attreid@gmail.com>
  */

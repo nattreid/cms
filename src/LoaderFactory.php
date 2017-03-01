@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms;
 
 use InvalidArgumentException;
@@ -41,7 +43,7 @@ class LoaderFactory
 	/** @var string[][] */
 	private $filters = [];
 
-	function __construct($wwwDir, array $jsFilters, array $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = null)
+	function __construct(string $wwwDir, array $jsFilters, array $cssFilters, IRequest $httpRequest, \WebLoader\Nette\LoaderFactory $loader = null)
 	{
 		$this->wwwDir = $wwwDir;
 		$this->filters[self::JS] = $jsFilters;
@@ -61,7 +63,7 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return self
 	 */
-	public function addFile($file, $locale = null)
+	public function addFile(string $file, string $locale = null): self
 	{
 		$collection = $this->getCollection($this->getType($file), $locale);
 		if ($this->isRemoteFile($file)) {
@@ -78,7 +80,7 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return self
 	 */
-	public function addRemoteFile($file, $locale = null)
+	public function addRemoteFile(string $file, string $locale = null): self
 	{
 		$collection = $this->getCollection($this->getType($file), $locale);
 		$collection->addRemoteFile($file);
@@ -89,7 +91,7 @@ class LoaderFactory
 	 * Vytvori komponentu css
 	 * @return CssLoader
 	 */
-	public function createCssLoader()
+	public function createCssLoader(): CssLoader
 	{
 		$compiler = Compiler::createCssCompiler($this->files[self::CSS][null], $this->wwwDir . '/' . $this->outputDir);
 		foreach ($this->filters[self::CSS] as $filter) {
@@ -103,7 +105,7 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return JavaScriptLoader
 	 */
-	public function createJavaScriptLoader($locale = null)
+	public function createJavaScriptLoader(string $locale = null): JavaScriptLoader
 	{
 		$compilers[] = $this->createJSCompiler($this->files[self::JS][null]);
 		if ($locale !== null && isset($this->files[self::JS][$locale])) {
@@ -117,7 +119,7 @@ class LoaderFactory
 	 * @param FileCollection $collection
 	 * @return Compiler
 	 */
-	private function createJSCompiler(FileCollection $collection)
+	private function createJSCompiler(FileCollection $collection): Compiler
 	{
 		$compiler = Compiler::createJsCompiler($collection, $this->wwwDir . '/' . $this->outputDir);
 		$compiler->setAsync(true);
@@ -130,9 +132,9 @@ class LoaderFactory
 	/**
 	 * Je vzdaleny soubor
 	 * @param string $file
-	 * @return boolean
+	 * @return bool
 	 */
-	private function isRemoteFile($file)
+	private function isRemoteFile(string $file): bool
 	{
 		return (filter_var($file, FILTER_VALIDATE_URL) or strpos($file, '//') === 0);
 	}
@@ -143,7 +145,7 @@ class LoaderFactory
 	 * @param string $locale
 	 * @return FileCollection
 	 */
-	private function getCollection($type, $locale = null)
+	private function getCollection(string $type, string $locale = null): FileCollection
 	{
 		if (!isset($this->files[$type][$locale])) {
 			$this->files[$type][$locale] = new FileCollection($this->root);
@@ -156,7 +158,7 @@ class LoaderFactory
 	 * @param string $file
 	 * @return string
 	 */
-	private function getType($file)
+	private function getType(string $file): string
 	{
 		$css = '/\.(css|less)$/';
 		$js = '/\.js$/';

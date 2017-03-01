@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Model\Locale;
 
 use NAttreid\Orm\Repository;
@@ -24,16 +26,16 @@ class LocalesRepository extends Repository
 	 * Vrati vychozi lokalizaci
 	 * @return Locale
 	 */
-	public function getDefault()
+	public function getDefault(): Locale
 	{
 		return $this->getBy(['default' => 1]);
 	}
 
 	/**
-	 * @param $locale
+	 * @param string $locale
 	 * @return Locale
 	 */
-	public function getByLocale($locale)
+	public function getByLocale(string $locale): Locale
 	{
 		return $this->getBy(['name' => $locale]);
 	}
@@ -42,7 +44,7 @@ class LocalesRepository extends Repository
 	 * Vrati povolene jazyky
 	 * @return ICollection|Locale[]
 	 */
-	public function findAllowed()
+	public function findAllowed(): array
 	{
 		return $this->findBy(['allowed' => 1]);
 	}
@@ -51,7 +53,7 @@ class LocalesRepository extends Repository
 	 * Vrati povolene jazyky
 	 * @return array
 	 */
-	public function fetchAllowed()
+	public function fetchAllowed(): array
 	{
 		return $this->findAllowed()->fetchPairs('id', 'name');
 	}

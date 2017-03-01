@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Configurator;
 
 use NAttreid\AppManager\AppManager;
@@ -45,10 +47,10 @@ class Configurator implements IConfigurator
 
 	/**
 	 * Prida vychozi hodnotu
-	 * @param $property
-	 * @param $value
+	 * @param string $property
+	 * @param mixed $value
 	 */
-	public function addDefault($property, $value)
+	public function addDefault(string $property, $value)
 	{
 		$this->default[$property] = $value;
 	}
@@ -63,7 +65,7 @@ class Configurator implements IConfigurator
 		]);
 	}
 
-	public function __get($name)
+	public function __get(string $name)
 	{
 		$result = $this->cache->load($name);
 		if ($result === null) {
@@ -84,7 +86,7 @@ class Configurator implements IConfigurator
 		return $result;
 	}
 
-	public function __set($name, $value)
+	public function __set(string $name, $value)
 	{
 		$configuration = $this->orm->configuration->getById($name);
 		if ($configuration === null) {
@@ -95,7 +97,7 @@ class Configurator implements IConfigurator
 		$this->orm->persistAndFlush($configuration);
 	}
 
-	public function fetchConfigurations()
+	public function fetchConfigurations(): array
 	{
 		$conf = $this->orm->configuration->findAll()->fetchPairs('name', 'value');
 		return array_merge($this->default, $conf);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Cms\LocaleService;
@@ -42,7 +44,7 @@ class UsersPresenter extends CmsPresenter
 	/** @var User */
 	private $user;
 
-	public function __construct($passwordChars, $minPasswordLength, Model $orm, Mailer $mailer, LocaleService $localeService)
+	public function __construct(string $passwordChars, int $minPasswordLength, Model $orm, Mailer $mailer, LocaleService $localeService)
 	{
 		parent::__construct();
 		$this->passwordChars = $passwordChars;
@@ -52,12 +54,12 @@ class UsersPresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
-	public function handleBack($backlink)
+	public function handleBack(string $backlink)
 	{
 		$this->redirect('default');
 	}
 
-	public function actionEdit($id)
+	public function actionEdit(int $id)
 	{
 		$this->user = $this->orm->users->getById($id);
 		if (!$this->user) {
@@ -65,7 +67,7 @@ class UsersPresenter extends CmsPresenter
 		}
 	}
 
-	public function actionChangePassword($id)
+	public function actionChangePassword(int $id)
 	{
 		$this->actionEdit($id);
 	}
@@ -110,7 +112,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleTryUser($id)
+	public function handleTryUser(int $id)
 	{
 		$this['tryUser']->set($id);
 		$this->restoreBacklink();
@@ -121,7 +123,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDelete($id)
+	public function handleDelete(int $id)
 	{
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
@@ -135,9 +137,9 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Ulozi stav uzivatele
 	 * @param int $id
-	 * @param boolean $value
+	 * @param bool $value
 	 */
-	public function setState($id, $value)
+	public function setState(int $id, bool $value)
 	{
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
@@ -209,7 +211,7 @@ class UsersPresenter extends CmsPresenter
 	 * Formular pridani uzivatele
 	 * @return Form
 	 */
-	protected function createComponentAddForm()
+	protected function createComponentAddForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -261,7 +263,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function addFormSucceeded(Form $form, $values)
+	public function addFormSucceeded(Form $form, ArrayHash $values)
 	{
 		if ($values->generatePassword) {
 			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
@@ -321,7 +323,7 @@ class UsersPresenter extends CmsPresenter
 	 * Formular editace uzivatele
 	 * @return Form
 	 */
-	protected function createComponentEditForm()
+	protected function createComponentEditForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -363,7 +365,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function editFormSucceeded(Form $form, $values)
+	public function editFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
 			$this->user->setUsername($values->username);
@@ -409,7 +411,7 @@ class UsersPresenter extends CmsPresenter
 	 * Zmena hesla
 	 * @return Form
 	 */
-	protected function createComponentPasswordForm()
+	protected function createComponentPasswordForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->addProtection();
@@ -452,7 +454,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function passwordFormSucceeded(Form $form, $values)
+	public function passwordFormSucceeded(Form $form, ArrayHash $values)
 	{
 		if ($values->generatePassword) {
 			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
@@ -477,7 +479,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	protected function createComponentUserList($name)
+	protected function createComponentUserList(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 

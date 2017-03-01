@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use InvalidArgumentException;
@@ -33,7 +35,7 @@ class ProfilePresenter extends CmsPresenter
 	/** @var LocaleService */
 	private $localeService;
 
-	public function __construct($minPasswordLength, Model $orm, LocaleService $localeService)
+	public function __construct(int $minPasswordLength, Model $orm, LocaleService $localeService)
 	{
 		parent::__construct();
 		$this->minPasswordLength = $minPasswordLength;
@@ -58,7 +60,7 @@ class ProfilePresenter extends CmsPresenter
 	 * Formular uzivatele
 	 * @return Form
 	 */
-	protected function createComponentUserForm()
+	protected function createComponentUserForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
@@ -103,7 +105,7 @@ class ProfilePresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function userFormSucceeded(Form $form, $values)
+	public function userFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
 			$this->profile->setEmail($values->email);
@@ -140,9 +142,9 @@ class ProfilePresenter extends CmsPresenter
 
 	/**
 	 * Formular zmeny hesla
-	 * @return \Nette\Application\UI\Form
+	 * @return Form
 	 */
-	protected function createComponentPasswordForm()
+	protected function createComponentPasswordForm(): Form
 	{
 		$form = $this->formFactory->create();
 		$form->setAjaxRequest();
@@ -171,7 +173,7 @@ class ProfilePresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function passwordFormSucceeded(Form $form, $values)
+	public function passwordFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);

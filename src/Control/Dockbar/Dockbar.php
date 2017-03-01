@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use IPub\FlashMessages\FlashNotifier;
@@ -49,7 +51,7 @@ class Dockbar extends Control
 	/** @var array */
 	private $allowedHandler = [];
 
-	public function __construct($permissions, $module, $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
+	public function __construct(array $permissions, string $module, string $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
 	{
 		parent::__construct();
 		$this->app = $app;
@@ -65,7 +67,7 @@ class Dockbar extends Control
 	/**
 	 * @return TryUser
 	 */
-	private function getTryUser()
+	private function getTryUser(): TryUser
 	{
 		$presenter = $this->presenter;
 		return $presenter['tryUser'];
@@ -73,9 +75,9 @@ class Dockbar extends Control
 
 	/**
 	 * Nastavi aktivni tlacitko pro menu (posun)
-	 * @param boolean $shifted
+	 * @param bool $shifted
 	 */
-	public function setShifted($shifted = true)
+	public function setShifted(bool $shifted = true)
 	{
 		$this->template->shifted = $shifted;
 	}
@@ -230,9 +232,9 @@ class Dockbar extends Control
 	/**
 	 * Ma opravneni zobrazit stranku?
 	 * @param string $link
-	 * @return boolean
+	 * @return bool
 	 */
-	public function isLinkAllowed($link)
+	public function isLinkAllowed(string $link): bool
 	{
 		if (isset($this->allowedLinks[$link])) {
 			return true;
@@ -272,7 +274,7 @@ class Dockbar extends Control
 	 * @param array $items
 	 * @return array
 	 */
-	private function createLinks($parent, $items)
+	private function createLinks(string $parent, array $items): array
 	{
 		$arr = [];
 		foreach ($items as $name => $item) {
@@ -310,10 +312,10 @@ class Dockbar extends Control
 
 	/**
 	 * Je link
-	 * @param mixed $item
-	 * @return boolean
+	 * @param string|array $item
+	 * @return bool
 	 */
-	private function isLink($item)
+	private function isLink($item): bool
 	{
 		if ($item === null) {
 			return true;
@@ -326,9 +328,9 @@ class Dockbar extends Control
 
 	/**
 	 * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
-	 * @param boolean $ajax
+	 * @param bool $ajax
 	 */
-	private function checkHandlerPermission($ajax = true)
+	private function checkHandlerPermission(bool $ajax = true)
 	{
 		if (!isset($this->allowedHandler[$this->presenter->getSignal()[1]])) {
 			$this->presenter->terminate();
@@ -342,7 +344,5 @@ class Dockbar extends Control
 
 interface IDockbarFactory
 {
-
-	/** @return Dockbar */
-	public function create();
+	public function create(): Dockbar;
 }

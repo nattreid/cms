@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Cms\Control;
 
 use NAttreid\Security\AuthorizatorFactory;
@@ -55,7 +57,7 @@ class PermissionsPresenter extends CmsPresenter
 		$this->addBreadcrumbLink('dockbar.settings.permissions');
 	}
 
-	public function actionEditRolePermissions($id)
+	public function actionEditRolePermissions(int $id)
 	{
 		$this->role = $this->orm->aclRoles->getById($id);
 		if (!$this->role) {
@@ -75,7 +77,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDeleteRole($id)
+	public function handleDeleteRole(int $id)
 	{
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
@@ -91,7 +93,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDeletePermission($id)
+	public function handleDeletePermission(int $id)
 	{
 		if ($this->isAjax()) {
 			$permission = $this->orm->acl->getById($id);
@@ -167,9 +169,9 @@ class PermissionsPresenter extends CmsPresenter
 	}
 
 	/**
-	 * @param $resource
+	 * @param string $resource
 	 */
-	public function handlePermission($resource)
+	public function handlePermission(string $resource)
 	{
 		$permission = $this->orm->acl->getPermission($resource, $this->role->name);
 		if (!$permission) {
@@ -209,7 +211,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Pridani role
 	 * @param ArrayHash $values
 	 */
-	public function addRole($values)
+	public function addRole(ArrayHash $values)
 	{
 		if ($this->isAjax()) {
 			try {
@@ -253,7 +255,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Pridani pravidla
 	 * @param ArrayHash $values
 	 */
-	public function addPermission($values)
+	public function addPermission(ArrayHash $values)
 	{
 		if ($this->isAjax()) {
 			foreach ($values->resource as $resource) {
@@ -281,9 +283,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Ulozi nazev role
 	 * @param int $id
-	 * @param array $value
+	 * @param string $value
 	 */
-	public function setRoleTitle($id, $value)
+	public function setRoleTitle(int $id, string $value)
 	{
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
@@ -299,9 +301,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Ulozi jmeno role
 	 * @param int $id
-	 * @param array $value
+	 * @param string $value
 	 */
-	public function setRoleName($id, $value)
+	public function setRoleName(int $id, string $value)
 	{
 		if ($this->isAjax()) {
 			$grid = $this['rolesList'];
@@ -325,9 +327,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Ulozi rodice role
 	 * @param int $id
-	 * @param array $value
+	 * @param string $value
 	 */
-	public function setRoleParent($id, $value)
+	public function setRoleParent(int $id, string $value)
 	{
 		if ($this->isAjax()) {
 			$role = $this->orm->aclRoles->getById($id);
@@ -344,9 +346,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Nastavi roli pravidlu
 	 * @param int $id
-	 * @param array $value
+	 * @param int $value
 	 */
-	public function setPermissionRole($id, $value)
+	public function setPermissionRole(int $id, int $value)
 	{
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
@@ -364,9 +366,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Nastavi zdroj pravidlu
 	 * @param int $id
-	 * @param array $value
+	 * @param int $value
 	 */
-	public function setPermissionResource($id, $value)
+	public function setPermissionResource(int $id, int $value)
 	{
 		if ($this->isAjax()) {
 			$acl = $this->orm->acl->getById($id);
@@ -384,9 +386,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Ulozi operaci pravidla
 	 * @param int $id
-	 * @param boolean $value
+	 * @param string $value
 	 */
-	public function setPermissionPrivilege($id, $value)
+	public function setPermissionPrivilege(int $id, string $value)
 	{
 		if ($this->isAjax()) {
 			$permission = $this->orm->acl->getById($id);
@@ -404,9 +406,9 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Ulozi stav pravidla
 	 * @param int $id
-	 * @param boolean $value
+	 * @param bool $value
 	 */
-	public function setPermissionState($id, $value)
+	public function setPermissionState(int $id, bool $value)
 	{
 		if ($this->isAjax()) {
 			$permission = $this->orm->acl->getById($id);
@@ -426,7 +428,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	protected function createComponentRolesList($name)
+	protected function createComponentRolesList(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 
@@ -478,7 +480,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 */
-	protected function createComponentPermissionsList($name)
+	protected function createComponentPermissionsList(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 
@@ -542,7 +544,7 @@ class PermissionsPresenter extends CmsPresenter
 		return $grid;
 	}
 
-	protected function createComponentEditRolePermissions($name)
+	protected function createComponentEditRolePermissions(string $name): DataGrid
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 		$grid->setDataSource($this->orm->aclResources->getResources($this->role->name));
@@ -569,7 +571,7 @@ class PermissionsPresenter extends CmsPresenter
 		return $grid;
 	}
 
-	public function getChildren($id)
+	public function getChildren(int $id): array
 	{
 		return $this->orm->aclResources->getResources($this->role->name, $id);
 	}
