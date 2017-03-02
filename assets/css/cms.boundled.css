@@ -11264,6 +11264,7 @@ button.close {
 
 .fileManagerContainer .viewer .viewer-container.data .buttons {
   text-align: right;
+  margin-top: 5px;
 }
 
 .fileManagerContainer .viewer .viewer-container.image {

@@ -100,6 +100,7 @@ settings:
 database:
     file: 'Soubor'
     uploaded: 'Nahráno'
+    upload: 'Nahrát'
     error: 'Chyba při nahrávání'
 
 logs:
