@@ -18,7 +18,7 @@
                     <tr n:class="$iterator->counter % 2 == 1 ? even">
                         <td><strong>{$row->name}</strong></td>
                         <td>{isset($row->ip) ? $row->ip}</td>
-                        <td>{$row->ip6}</td>
+                        <td>{isset($row->ip6) ? $row->ip6}</td>
                         <td>{isset($row->mac) ? $row->mac}</td>
                         <td>{$row->recieve|size:2}</td>
                         <td>{$row->sent|size:2}</td>
