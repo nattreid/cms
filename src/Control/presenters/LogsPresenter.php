@@ -102,7 +102,7 @@ class LogsPresenter extends CmsPresenter
 		$grid->addColumnText('name', 'cms.logs.log')
 			->setFilterText();
 
-		$grid->addColumnText('size', 'cms.logs.size');
+		$grid->addColumnText('formatedSize', 'cms.logs.size');
 
 		$grid->addColumnDateTime('changed', 'cms.logs.lastChange')
 			->setSortable()
