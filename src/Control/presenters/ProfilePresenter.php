@@ -9,7 +9,6 @@ use NAttreid\Cms\LocaleService;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\Users\User;
-use NAttreid\Utils\Strings;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
 use Nextras\Dbal\UniqueConstraintViolationException;
@@ -118,7 +117,7 @@ class ProfilePresenter extends CmsPresenter
 		}
 
 		try {
-			$this->profile->setPhone(Strings::ifEmpty($values->phone));
+			$this->profile->setPhone($values->phone ?? null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;

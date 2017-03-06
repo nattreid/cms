@@ -9,7 +9,6 @@ use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\Users\User;
-use NAttreid\Utils\Strings;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
@@ -294,7 +293,7 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$user->setPhone(Strings::ifEmpty($values->phone));
+			$user->setPhone($values->phone ?? null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;
@@ -390,7 +389,7 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$this->user->setPhone(Strings::ifEmpty($values->phone));
+			$this->user->setPhone($values->phone ?? null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;

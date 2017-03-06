@@ -165,7 +165,7 @@ class LocaleService
 	 * @param int $id
 	 * @return Locale
 	 */
-	public function getById(int $id): Locale
+	public function getById($id): Locale
 	{
 		return $this->orm->locales->getById($id);
 	}
