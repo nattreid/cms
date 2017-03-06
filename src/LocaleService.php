@@ -154,18 +154,18 @@ class LocaleService
 
 	/**
 	 * @param string $locale
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function get(string $locale): Locale
+	public function get(string $locale)
 	{
 		return $this->orm->locales->getByLocale($locale);
 	}
 
 	/**
 	 * @param int $id
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getById($id): Locale
+	public function getById($id)
 	{
 		return $this->orm->locales->getById($id);
 	}
