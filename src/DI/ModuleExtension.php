@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace NAttreid\Cms\DI;
 
-use NAttreid\Cms\ExtensionTranslatorTrait;
 use NAttreid\Cms\Factories\ICmsMenuFactory;
 use NAttreid\Cms\Factories\LoaderFactory;
 use NAttreid\Cms\Routing\Router;
