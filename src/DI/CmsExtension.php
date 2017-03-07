@@ -356,7 +356,7 @@ class CmsExtension extends CompilerExtension
 			$flash = $builder->getByType(FlashNotifier::class);
 			$builder->getDefinition($flash);
 		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'ipub/flash-messages'");
+			throw new MissingServiceException("Missing extension 'nattreid/flash-messages'");
 		}
 	}
 

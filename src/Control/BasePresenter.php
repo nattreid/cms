@@ -7,6 +7,7 @@ namespace NAttreid\Cms\Control;
 use IPub\FlashMessages\Components\Control;
 use IPub\FlashMessages\Components\IControl;
 use IPub\FlashMessages\Entities\IMessage;
+use IPub\FlashMessages\Entities\Message;
 use IPub\FlashMessages\FlashNotifier;
 use IPub\FlashMessages\Storage\IStorage;
 use Kdyby\Translation\Translator;
@@ -135,12 +136,7 @@ abstract class BasePresenter extends Presenter
 	protected function beforeRender()
 	{
 		parent::beforeRender();
-		if ($this->isAjax()) {
-			$messages = $this->flashStorage->get(IStorage::KEY_MESSAGES, []);
-			if (count($messages) > 0) {
-				$this['flashMessages']->redrawControl();
-			}
-		}
+		$this->redrawFlashMessages();
 	}
 
 	/* ###################################################################### */
@@ -272,6 +268,20 @@ abstract class BasePresenter extends Presenter
 	protected function createComponentFlashMessages(): Control
 	{
 		return $this->flashMessagesFactory->create('bootstrap');
+	}
+
+	private function redrawFlashMessages()
+	{
+		if ($this->isAjax()) {
+			/* @var $messages Message[] */
+			$messages = $this->flashStorage->get(IStorage::KEY_MESSAGES, []);
+			foreach ($messages as $message) {
+				if (!$message->isDisplayed()) {
+					$this['flashMessages']->redrawControl();
+					break;
+				}
+			}
+		}
 	}
 
 	/* ###################################################################### */
