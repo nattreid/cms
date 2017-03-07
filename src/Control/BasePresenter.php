@@ -4,12 +4,16 @@ declare(strict_types = 1);
 
 namespace NAttreid\Cms\Control;
 
-use IPub\FlashMessages\TFlashMessages;
+use IPub\FlashMessages\Components\Control;
+use IPub\FlashMessages\Components\IControl;
+use IPub\FlashMessages\Entities\IMessage;
+use IPub\FlashMessages\FlashNotifier;
+use IPub\FlashMessages\Storage\IStorage;
 use Kdyby\Translation\Translator;
 use NAttreid\Cms\Configurator\IConfigurator;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
-use NAttreid\Cms\LoaderFactory;
+use NAttreid\Cms\Factories\LoaderFactory;
 use NAttreid\Form\Form;
 use NAttreid\Form\Rules;
 use NAttreid\Latte\TemplateTrait;
@@ -40,8 +44,7 @@ use WebLoader\Nette\JavaScriptLoader;
 abstract class BasePresenter extends Presenter
 {
 
-	use TFlashMessages,
-		TemplateTrait;
+	use TemplateTrait;
 
 	/**
 	 * Namespace pro CMS
@@ -129,6 +132,17 @@ abstract class BasePresenter extends Presenter
 		parent::checkRequirements($element);
 	}
 
+	protected function beforeRender()
+	{
+		parent::beforeRender();
+		if ($this->isAjax()) {
+			$messages = $this->flashStorage->get(IStorage::KEY_MESSAGES, []);
+			if (count($messages) > 0) {
+				$this['flashMessages']->redrawControl();
+			}
+		}
+	}
+
 	/* ###################################################################### */
 	/*                               Configurator                             */
 
@@ -208,6 +222,56 @@ abstract class BasePresenter extends Presenter
 		Number::setLocale($this->locale);
 		Date::setLocale($this->locale);
 		$this->template->locale = $this->locale;
+	}
+
+	/* ###################################################################### */
+	/*                             FlashMessages                              */
+
+	/** @var IControl */
+	private $flashMessagesFactory;
+
+	/** @var FlashNotifier */
+	protected $flashNotifier;
+
+	/** @var IStorage */
+	private $flashStorage;
+
+	/**
+	 * @param IControl $flashMessagesFactory
+	 * @param FlashNotifier $flashNotifier
+	 */
+	public function injectFlashMessages(IControl $flashMessagesFactory, FlashNotifier $flashNotifier, IStorage $flashStorage)
+	{
+		$this->flashMessagesFactory = $flashMessagesFactory;
+		$this->flashNotifier = $flashNotifier;
+		$this->flashStorage = $flashStorage;
+	}
+
+	/**
+	 * Store flash message
+	 *
+	 * @param string $message
+	 * @param string $level
+	 * @param string|null $title
+	 * @param bool $overlay
+	 * @param int|null $count
+	 * @param array|null $parameters
+	 *
+	 * @return IMessage
+	 */
+	public function flashMessage($message, $level = 'info', $title = null, $overlay = false, $count = null, $parameters = []): IMessage
+	{
+		return $this->flashNotifier->message($message, $level, $title, $overlay, $count, $parameters);
+	}
+
+	/**
+	 * Flash messages component
+	 *
+	 * @return Control
+	 */
+	protected function createComponentFlashMessages(): Control
+	{
+		return $this->flashMessagesFactory->create('bootstrap');
 	}
 
 	/* ###################################################################### */

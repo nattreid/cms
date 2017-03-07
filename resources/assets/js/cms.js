@@ -12,10 +12,8 @@ $(document).ready(function () {
     });
 
     function flashMessage() {
-        var time = 2000;
-        $('.ipub-flash-messages .alert').click(function () {
-            $(this).remove();
-        }).each(function () {
+        var time = 3000;
+        $('.ipub-flash-messages .alert').each(function () {
             time += 1000;
             $(this).delay(time).fadeOut();
         });

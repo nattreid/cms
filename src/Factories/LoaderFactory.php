@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace NAttreid\Cms;
+namespace NAttreid\Cms\Factories;
 
 use InvalidArgumentException;
 use Nette\Http\IRequest;
@@ -35,7 +35,7 @@ class LoaderFactory
 	private $outputDir = 'webtemp';
 
 	/** @var string * */
-	private $root = __DIR__ . '/../assets';
+	private $root = __DIR__ . '/../../assets';
 
 	/** @var FileCollection[][] */
 	private $files;

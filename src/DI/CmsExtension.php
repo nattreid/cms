@@ -19,8 +19,8 @@ use NAttreid\Cms\Control\UsersPresenter;
 use NAttreid\Cms\ExtensionTranslatorTrait;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
-use NAttreid\Cms\ICmsMenuFactory;
-use NAttreid\Cms\LoaderFactory;
+use NAttreid\Cms\Factories\ICmsMenuFactory;
+use NAttreid\Cms\Factories\LoaderFactory;
 use NAttreid\Cms\LocaleService;
 use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Cms\Routing\Router;
@@ -356,7 +356,7 @@ class CmsExtension extends CompilerExtension
 			$flash = $builder->getByType(FlashNotifier::class);
 			$builder->getDefinition($flash);
 		} catch (MissingServiceException $ex) {
-			throw new MissingServiceException("Missing extension 'nattreid/flash-messages'");
+			throw new MissingServiceException("Missing extension 'ipub/flash-messages'");
 		}
 	}
 

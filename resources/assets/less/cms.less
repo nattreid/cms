@@ -181,12 +181,10 @@ body {
 
     .ipub-flash-messages {
       position: fixed;
-      width: 30%;
-      margin: 10px 0 0 0;
-      left: 50%;
-      margin-left: -15%;
+      width: 40%;
+      margin-top: 10px;
+      left: 30%;
       z-index: 1;
-      cursor: pointer;
     }
 
     #breadcrumb {
@@ -318,6 +316,11 @@ body {
     }
     #cms-content {
       margin-left: 0;
+
+      .ipub-flash-messages {
+        width: calc(~'100% - 10px');
+        left: 5px;
+      }
 
       .view-container {
         &.form {

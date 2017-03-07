@@ -2,10 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace NAttreid\Cms;
+namespace NAttreid\Cms\Factories;
 
 use NAttreid\Menu\Menu\Menu;
-
 
 interface ICmsMenuFactory
 {

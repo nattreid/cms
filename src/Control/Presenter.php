@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace NAttreid\Cms\Control;
 
-use NAttreid\Cms\ICmsMenuFactory;
+use NAttreid\Cms\Factories\ICmsMenuFactory;
 use NAttreid\Menu\Breadcrumb\Breadcrumb;
 use NAttreid\Menu\Breadcrumb\Link as BLink;
 use NAttreid\Menu\Menu\Menu;

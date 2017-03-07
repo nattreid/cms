@@ -21,7 +21,7 @@
     "php": ">= 7.0",
     "nette/application": "~2.4",
     "nette/di": "~2.4",
-    "nattreid/flash-messages": "~1.0",
+    "ipub/flash-messages": "~2.0",
     "nattreid/security": "~1.0",
     "nattreid/menu": "~2.0",
     "nattreid/latte": "~1.0",

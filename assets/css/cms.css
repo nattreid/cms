@@ -599,12 +599,10 @@ body.preload * {
 }
 #cms-container #cms-content .ipub-flash-messages {
   position: fixed;
-  width: 30%;
-  margin: 10px 0 0 0;
-  left: 50%;
-  margin-left: -15%;
+  width: 40%;
+  margin-top: 10px;
+  left: 30%;
   z-index: 1;
-  cursor: pointer;
 }
 #cms-container #cms-content #breadcrumb ul {
   list-style: none;
@@ -705,6 +703,10 @@ body.preload * {
   }
   #cms-container #cms-content {
     margin-left: 0;
+  }
+  #cms-container #cms-content .ipub-flash-messages {
+    width: calc(100% - 10px);
+    left: 5px;
   }
   #cms-container #cms-content .view-container.form {
     width: 100%;
