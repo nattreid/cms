@@ -16,7 +16,6 @@ use NAttreid\Cms\Control\ModulePresenter;
 use NAttreid\Cms\Control\ProfilePresenter;
 use NAttreid\Cms\Control\SignPresenter;
 use NAttreid\Cms\Control\UsersPresenter;
-use NAttreid\Cms\ExtensionTranslatorTrait;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
 use NAttreid\Cms\Factories\ICmsMenuFactory;

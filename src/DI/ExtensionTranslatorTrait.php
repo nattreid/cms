@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace NAttreid\Cms;
+namespace NAttreid\Cms\DI;
 
 use Kdyby\Translation\Translator;
 use Nette\DI\MissingServiceException;
