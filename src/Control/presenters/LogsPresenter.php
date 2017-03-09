@@ -60,9 +60,8 @@ class LogsPresenter extends CmsPresenter
 	{
 		if ($this->isAjax()) {
 			$this->app->logs->delete($id);
-
 			$grid = $this['logsList'];
-			$grid->setDataSource($this->app->logs->getLogs());
+			$grid->setDataSource($this->app->logs->logs);
 			$grid->reload();
 		} else {
 			$this->terminate();
@@ -75,8 +74,10 @@ class LogsPresenter extends CmsPresenter
 	public function handleClearLogs()
 	{
 		if ($this->isAjax()) {
-			$this->app->clearLog();
-			$this['logsList']->redrawControl();
+			$this->app->logs->delete();
+			$grid = $this['logsList'];
+			$grid->setDataSource($this->app->logs->logs);
+			$grid->reload();
 		} else {
 			$this->terminate();
 		}
@@ -91,7 +92,7 @@ class LogsPresenter extends CmsPresenter
 	{
 		$grid = $this->dataGridFactory->create($this, $name);
 
-		$grid->setDataSource($this->app->logs->getLogs());
+		$grid->setDataSource($this->app->logs->logs);
 
 		$grid->setDefaultSort(['changed' => 'DESC']);
 
