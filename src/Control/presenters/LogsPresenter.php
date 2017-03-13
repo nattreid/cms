@@ -107,9 +107,7 @@ class LogsPresenter extends CmsPresenter
 
 		$grid->addColumnDateTime('changed', 'cms.logs.lastChange')
 			->setSortable()
-			->setRenderer(function ($row) {
-				return Date::getDateTime($row['changed']);
-			});
+			->setFormat(Date::getFormat(Date::DATETIME));
 
 		$grid->addAction('showFile', null)
 			->addAttributes(['target' => '_blank'])
