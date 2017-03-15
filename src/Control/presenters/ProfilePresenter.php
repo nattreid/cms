@@ -117,7 +117,7 @@ class ProfilePresenter extends CmsPresenter
 		}
 
 		try {
-			$this->profile->setPhone($values->phone ?? null);
+			$this->profile->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;

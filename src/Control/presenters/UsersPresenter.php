@@ -293,7 +293,7 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$user->setPhone($values->phone ?? null);
+			$user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;
@@ -389,7 +389,7 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$this->user->setPhone($values->phone ?? null);
+			$this->user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidePhone');
 			return;
