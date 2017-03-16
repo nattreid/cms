@@ -1,4 +1,7 @@
 /* ***************************** cms.less *********************************** */
+@cms-menu-size: 180px;
+
+
 body {
   font-size: 13px;
   background-color: #f1f1f1;
@@ -30,7 +33,7 @@ body {
     position: absolute;
 
     height: 100%;
-    width: 180px;
+    width: @cms-menu-size;
 
     -webkit-transition: margin 0.3s;
     -moz-transition: margin 0.3s;
@@ -151,7 +154,7 @@ body {
   }
   #cms-content {
     padding: 5px;
-    margin-left: 180px;
+    margin-left: @cms-menu-size;
     min-width: 290px;
     overflow: auto;
     height: 100%;
@@ -304,7 +307,7 @@ body {
   #cms-container {
     top: 40px;
     #cms-menu-container {
-      margin-left: -180px;
+      margin-left: -@cms-menu-size;
 
       > div.menu-container {
         > dl {
@@ -334,7 +337,7 @@ body {
         margin-left: 0;
       }
       #cms-content {
-        margin-left: 180px;
+        margin-left: @cms-menu-size;
       }
     }
   }
