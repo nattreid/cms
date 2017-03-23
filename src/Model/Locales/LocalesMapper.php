@@ -31,7 +31,7 @@ class LocalesMapper extends Mapper
 			->bool()
 			->setDefault(1);
 
-		$this->afterCreateTable[] = function () {
+		$this->onCreateTable[] = function () {
 			$this->insert([
 				[
 					'id' => 1,
