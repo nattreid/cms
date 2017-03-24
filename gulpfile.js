@@ -30,7 +30,7 @@ var boundledJS = [
     paths.dev.vendor + 'nette.ajax.js/extensions/confirm.ajax.js',
     paths.dev.vendor + 'jquery-ui-touch-punch/jquery.ui.touch-punch.js',
     paths.dev.vendor + 'nette-live-form-validation/live-form-validation.js',
-    paths.dev.vendor + 'utils/assets/utils.js',
+    paths.dev.vendor + 'nattreid-utils/assets/utils.js',
     paths.dev.vendor + 'bootstrap/dist/js/bootstrap.js',
     paths.dev.vendor + 'nprogress/nprogress.js',
     paths.dev.js + 'nette.nprogress.js',
@@ -53,9 +53,9 @@ var boundledJS = [
     paths.dev.js + 'dockbar.js',
     paths.dev.js + 'info.js',
     // plugins
-    paths.dev.vendor + 'form/assets/form.js',
-    paths.dev.vendor + 'menu/assets/menu.js',
-    paths.dev.vendor + 'filemanager/assets/fileManager.js'
+    paths.dev.vendor + 'nattreid-form/assets/form.js',
+    paths.dev.vendor + 'nattreid-menu/assets/menu.js',
+    paths.dev.vendor + 'nattreid-file-manager/assets/fileManager.js'
 ];
 
 var locale = {
@@ -123,7 +123,7 @@ function getBoundledCSS() {
                     return url.replace('../fonts/', '/fonts/bootstrap/');
                 }
             })),
-        gulp.src(paths.dev.vendor + 'filemanager/assets/fileManager.css')
+        gulp.src(paths.dev.vendor + 'nattreid-file-manager/assets/fileManager.css')
             .pipe(modifyCssUrls({
                 modify: function (url, filePath) {
                     return url.replace('/images/', '/images/fileManager/');
@@ -141,7 +141,7 @@ function getBoundledCSS() {
             paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
             // plugins
-            paths.dev.vendor + 'vpaginator/assets/vpaginator.less',
+            paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.less',
             // cms
             paths.dev.css + '*.css'
         ])

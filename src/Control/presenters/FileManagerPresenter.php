@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
-use NAttreid\Filemanager\FileManager;
-use NAttreid\Filemanager\IFileManagerFactory;
+use NAttreid\FileManager\FileManager;
+use NAttreid\FileManager\IFileManagerFactory;
 
 /**
  * FileManager

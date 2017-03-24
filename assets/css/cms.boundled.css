@@ -11163,6 +11163,323 @@ button.close {
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
+/* ************************** fileManager.less ****************************** */
+
+.fileManagerContainer .viewer {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999999;
+}
+
+.fileManagerContainer .viewer .background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  opacity: 0.6;
+  z-index: -200;
+}
+
+.fileManagerContainer .viewer .viewer-container {
+  margin: auto auto;
+  text-align: center;
+  border: 1px solid #bfbfbf;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 1px 1px 12px -1px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 1px 1px 12px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 12px -1px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  background-color: #f1f3ef;
+  min-width: 150px;
+  min-height: 50px;
+  max-width: 900px;
+  max-height: 600px;
+}
+
+.fileManagerContainer .viewer .viewer-container a.viewerClose {
+  position: absolute;
+  top: -1px;
+  right: 4px;
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+  font-size: 40px;
+  opacity: .7;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fileManagerContainer .viewer .viewer-container a.viewerClose:hover {
+  opacity: 1;
+}
+
+.fileManagerContainer .viewer .viewer-container.data {
+  width: 90%;
+  height: 80%;
+}
+
+.fileManagerContainer .viewer .viewer-container.data pre,
+.fileManagerContainer .viewer .viewer-container.data textarea {
+  height: calc(100% - 42px);
+  width: 100%;
+  padding: 5px;
+  background: #ffffff;
+  text-align: left;
+  margin-top: 5px;
+  border: 1px solid #bfbfbf;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.fileManagerContainer .viewer .viewer-container.data pre.notAlign,
+.fileManagerContainer .viewer .viewer-container.data textarea.notAlign {
+  white-space: pre;
+  word-wrap: initial;
+  word-break: initial;
+}
+
+.fileManagerContainer .viewer .viewer-container.data form {
+  height: calc(100% - 42px);
+}
+
+.fileManagerContainer .viewer .viewer-container.data .properties {
+  display: block;
+  text-align: left;
+}
+
+.fileManagerContainer .viewer .viewer-container.data .properties input[type='checkbox'] {
+  margin: -2px 0 0 10px;
+}
+
+.fileManagerContainer .viewer .viewer-container.data .buttons {
+  text-align: right;
+  margin-top: 5px;
+}
+
+.fileManagerContainer .viewer .viewer-container.image {
+  width: auto;
+  height: auto;
+}
+
+.fileManagerContainer .fileManagerPath {
+  margin-bottom: 10px;
+}
+
+.fileManagerContainer .fileManagerPath .path {
+  padding-right: 10px;
+  border-right: 1px solid #333;
+}
+
+.fileManagerContainer .fileManagerPath .buttons {
+  position: relative;
+  top: 1px;
+}
+
+.fileManagerContainer .fileManagerPath .buttons a {
+  vertical-align: top;
+  margin-left: 5px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.fileManagerContainer .fileManagerPath .buttons a.fa-file {
+  font-size: 16px;
+}
+
+.fileManagerContainer .fileManagerPath .buttons a:hover {
+  opacity: 1;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer {
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .properties {
+  display: none;
+  position: absolute;
+  padding: 12px;
+  margin: 20px 0 0 20px;
+  background-color: #000;
+  opacity: .8;
+  color: #fff;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .properties td {
+  padding-right: 5px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu {
+  display: none;
+  padding: 30px;
+  margin: 0;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul {
+  min-width: 120px;
+  background-image: -webkit-linear-gradient(#fff, #bbb);
+  background-image: -o-linear-gradient(#fff, #bbb);
+  background-image: -moz-linear-gradient(#fff, #bbb);
+  background-image: linear-gradient(#fff, #bbb);
+  border: 1px solid;
+  border-color: #aeafb1 #777879 #777879 #aeafb1;
+  padding: 2px 0;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
+  list-style: none;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li {
+  border-bottom: 1px solid #bcbbbb;
+  border-top: 1px solid #eee;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li:first-child {
+  border-top-width: 0;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li:last-child {
+  border-bottom-width: 0;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a {
+  color: #2c2f34;
+  display: block;
+  padding: 4px 5px;
+  text-decoration: none;
+  font-weight: bold;
+  text-shadow: 1px 1px #fff;
+  padding-left: 25px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a:before {
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  font: normal normal normal 14px/1 FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a.fm-delete:before {
+  content: "\f1f8";
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a.fm-rename:before {
+  left: 10px;
+  content: "\f246";
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a.fm-edit:before {
+  content: "\f044";
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li a.fm-download:before {
+  content: "\f019";
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li:hover {
+  background-image: -webkit-linear-gradient(#5c94da, #006aeb);
+  background-image: -o-linear-gradient(#5c94da, #006aeb);
+  background-image: -moz-linear-gradient(#5c94da, #006aeb);
+  background-image: linear-gradient(#5c94da, #006aeb);
+  -moz-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer .fileContextMenu ul li:hover a {
+  color: #fff;
+  text-shadow: -1px -1px #2c2f34;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.item {
+  display: block;
+  text-align: center;
+  padding: 5px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.item .image {
+  margin: 0 auto;
+  background-image: url("/images/fileManager/icons.png");
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position: -150px -250px;
+  display: block;
+  height: 50px;
+  width: 50px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.item input[type="text"] {
+  width: 100%;
+  color: #333;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.item:hover {
+  background-color: #f0f0f0;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.directory .image {
+  background-image: url("data:image/png;base64,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") !important;
+  background-size: 50px;
+  background-position: 0;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.application-xml .image {
+  background-position: 0px -200px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.text-x-php .image {
+  background-position: 0px -450px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.text-html .image {
+  background-position: -200px -400px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.image-x-icon .image {
+  background-position: -200px -150px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.image-jpeg .image {
+  background-position: -400px -350px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.image-png .image {
+  background-position: -300px -300px;
+}
+
+.fileManagerContainer .fileManagerContent .itemContainer a.image-gif .image {
+  background-position: 0px -300px;
+}
 /*! jQuery UI - v1.12.1 - 2016-09-14
 * http://jqueryui.com
 * Includes: core.css, accordion.css, autocomplete.css, menu.css, button.css, controlgroup.css, checkboxradio.css, datepicker.css, dialog.css, draggable.css, resizable.css, progressbar.css, selectable.css, selectmenu.css, slider.css, sortable.css, spinner.css, tabs.css, tooltip.css, theme.css
@@ -15212,6 +15529,61 @@ select.selectpicker {
   float: none;
 }
 /*# sourceMappingURL=bootstrap-select.css.map */
+@default: #000;
+@active: #337ab7;
+@button: #555;
+
+.visualPaginator {
+  text-align: center;
+
+  ul.pagination {
+    li {
+      display: inline-block;
+      min-width: 35px;
+      height: 29px;
+      line-height: 29px;
+      text-align: center;
+      border: 1px solid transparent;
+
+      a, span {
+        text-decoration: none;
+        padding: 0 5px;
+        display: block;
+        color: @default;
+      }
+
+      a:hover {
+        color: @active;
+      }
+
+    }
+
+    li.other {
+      border: 1px solid transparent;
+    }
+
+    li.active {
+      border: 1px solid @active;
+      font-weight: bold;
+
+      span {
+        color: @active;
+      }
+    }
+
+    li.disabled {
+      display: none;
+    }
+    li.next, li.prev {
+      border: 1px solid @button;
+      background: inherit;
+    }
+
+    li.next:hover, li.prev:hover {
+      border: 1px solid @active;
+    }
+  }
+}
 /*!
  * jQuery UI CSS Framework 1.12.0
  * http://jqueryui.com
