@@ -3,18 +3,12 @@
   "description": "CMS for Nette Framework",
   "type": "library",
   "license": [
-    "Unlicense"
+    "MIT"
   ],
   "authors": [
     {
       "name": "Attreid",
       "email": "attreid@gmail.com"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packages.newtravel.cz"
     }
   ],
   "require": {
@@ -25,16 +19,16 @@
     "nattreid/security": "~1.0",
     "nattreid/menu": "~2.0",
     "nattreid/latte": "~1.0",
-    "nattreid/appmanager": "~1.0",
+    "nattreid/app-manager": "~1.0",
     "nattreid/form": "~1.0",
     "nattreid/utils": "~1.0",
     "nattreid/routing": "~1.0",
     "nattreid/mailing": "~1.0",
     "nattreid/tracking": "~1.0",
     "ublaboo/datagrid": "~5.0",
-    "nattreid/tracyplugin": "~1.0",
-    "nattreid/filemanager": "~1.0",
-    "nattreid/webloader": "~2.5",
+    "nattreid/tracy-plugin": "~1.0",
+    "nattreid/file-manager": "~1.0",
+    "attreid/webloader": "~2.5",
     "joseki/webloader-filters": "~1.1",
     "oyejorge/less.php": "~1.7",
     "webchemistry/images": "~2.1",

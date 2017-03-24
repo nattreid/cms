@@ -1,8 +1,8 @@
 {
-  "name": "cms",
+  "name": "nattreid-cms",
   "description": "CMS for Nette Framework",
   "license": [
-    "Unlicense"
+    "MIT"
   ],
   "authors": [
     {
@@ -31,12 +31,12 @@
     "bootstrap-select": "~1.10",
     "ublaboo-datagrid": "latest",
     "ckeditor": "#full/4.5.9",
-    "kcfinder": "git@git.newtravel.cz:nattreid/kcfinder.git#latest",
-    "filemanager": "git@git.newtravel.cz:nattreid/filemanager.git#latest",
-    "menu": "git@git.newtravel.cz:nattreid/menu.git#latest",
-    "utils": "git@git.newtravel.cz:nattreid/utils.git#latest",
-    "form": "git@git.newtravel.cz:nattreid/form.git#latest",
-    "vpaginator": "git@git.newtravel.cz:nattreid/vpaginator.git#latest"
+    "attreid-kcfinder": "~3.20",
+    "nattreid-file-manager": "~1.2",
+    "nattreid-menu": "~2.3",
+    "nattreid-utils": "~1.0",
+    "nattreid-form": "~1.1",
+    "nattreid-visual-paginator": "~1.1"
   },
   "resolutions": {
     "nette.ajax.js": ">= 2.1.0",
