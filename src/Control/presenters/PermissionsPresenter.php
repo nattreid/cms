@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
@@ -501,7 +501,7 @@ class PermissionsPresenter extends CmsPresenter
 
 		$grid->addColumnText('resource', 'cms.permissions.resource')
 			->setRenderer(function (Acl $acl) {
-				return $this->translate($acl->resource->name) . ' (' . $acl->resource->resource . ')';
+				return $acl->resource->resource . ' - ( ' . $this->translate($acl->resource->name) . ' )';
 			})
 			->setEditableInputTypeSelect($this->orm->aclResources->fetchPairsByResourceName())
 			->setEditableCallback([$this, 'setPermissionResource'])
