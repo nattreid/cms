@@ -20,26 +20,27 @@
     "*.json"
   ],
   "dependencies": {
-    "jquery": "~1.12",
-    "jquery-ui": "~1.12",
-    "nette.ajax.js": "~2.1",
+    "jquery": "~3",
+    "jquery-ui": "~1",
+    "nette.ajax.js": "~2",
     "jquery-ui-touch-punch": "latest",
-    "nette-live-form-validation": "~1.6",
-    "history.nette.ajax.js": "~2.0",
-    "nprogress": "~0.2",
-    "moment": "~2.13",
-    "bootstrap-select": "~1.10",
+    "nette-live-form-validation": "~1",
+    "history.nette.ajax.js": "~2",
+    "nprogress": "latest",
+    "moment": "~2",
+    "bootstrap-select": "~1",
     "ublaboo-datagrid": "latest",
     "ckeditor": "#full/4.5.9",
-    "attreid-kcfinder": "~3.20",
-    "nattreid-file-manager": "~1.2",
-    "nattreid-menu": "~2.3",
-    "nattreid-utils": "~1.0",
-    "nattreid-form": "~1.1",
-    "nattreid-visual-paginator": "~1.1"
+    "attreid-kcfinder": "~3",
+    "nattreid-file-manager": "~1",
+    "nattreid-menu": "~2",
+    "nattreid-utils": "~1",
+    "nattreid-form": "~1",
+    "nattreid-visual-paginator": "~1"
   },
   "resolutions": {
-    "nette.ajax.js": ">= 2.1.0",
-    "nette-forms": "^2.3"
+    "jquery": "~3",
+    "nette.ajax.js": "~2",
+    "nette-forms": "~2"
   }
 }

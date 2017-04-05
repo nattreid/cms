@@ -142,6 +142,7 @@ function getBoundledCSS() {
             paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
             // plugins
+            paths.dev.vendor + 'nattreid-form/assets/form.css',
             paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.less',
             // cms
             paths.dev.css + '*.css'

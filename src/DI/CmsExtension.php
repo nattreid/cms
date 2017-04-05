@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\DI;
 
@@ -105,8 +105,8 @@ class CmsExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$jsFilters = $this->createFilterServices($config['jsFilters'], 'jsFilter');
-		$cssFilters = $this->createFilterServices($config['cssFilters'], 'cssFilter');
+		$jsFilters = $this->createFilterServices($config['jsFilters'] ?? [], 'jsFilter');
+		$cssFilters = $this->createFilterServices($config['cssFilters'] ?? [], 'cssFilter');
 
 		$loader = $builder->addDefinition($this->prefix('loaderFactory'))
 			->setClass(LoaderFactory::class)
@@ -177,7 +177,7 @@ class CmsExtension extends CompilerExtension
 	{
 		$name = $file[0];
 		$locale = isset($file['locale']) ? $file['locale'] : null;
-		$remote = isset($file['remote']) ? (bool)$file['remote'] : false;
+		$remote = isset($file['remote']) ? (bool) $file['remote'] : false;
 		$this->checkFileExists($name);
 		if ($remote) {
 			$loader->addSetup('addRemoteFile', [$name, $locale]);
