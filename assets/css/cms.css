@@ -1142,3 +1142,7 @@ body.preload * {
 #phpInfo img {
   display: none;
 }
+
+.permissionList li {
+  margin: 5px;
+}

@@ -48,7 +48,6 @@ permissions:
             restoreJs:
                 ajax: true
             clearCache:
-                ajax: true
             invalidateCache:
                 ajax: true
             clearSessions:

@@ -1,0 +1,17 @@
+<ul class="permissionList" n:snippet="list">
+    {include child, resources => $resources}
+</ul>
+
+{define child}
+    <li n:foreach="$resources as $resource">
+        <a n:class="btn, btn-xs, $resource->allowed ? btn-success : btn-default, ajax"
+                n:href="permission, $resource->id" data-ajax-off="history">
+            <span class="fa fa-check"></span>
+        </a>
+        {_$resource->name}
+        <ul n:if="$resource->hasItems">
+            {include child, resources => $resource->items}
+        </ul>
+    </li>
+{/define}
+    

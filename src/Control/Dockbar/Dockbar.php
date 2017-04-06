@@ -138,10 +138,11 @@ class Dockbar extends Control
 	 */
 	public function handleClearCache()
 	{
-		$this->checkHandlerPermission();
+		$this->checkHandlerPermission(false);
 
 		$this->app->clearCache();
 		$this->flashNotifier->success('dockbar.management.application.cacheCleared');
+		$this->redirect('this');
 	}
 
 	/**

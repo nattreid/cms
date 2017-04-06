@@ -235,6 +235,7 @@ abstract class BasePresenter extends Presenter
 	/**
 	 * @param IControl $flashMessagesFactory
 	 * @param FlashNotifier $flashNotifier
+	 * @param IStorage $flashStorage
 	 */
 	public function injectFlashMessages(IControl $flashMessagesFactory, FlashNotifier $flashNotifier, IStorage $flashStorage)
 	{

@@ -6,7 +6,6 @@ namespace NAttreid\Cms\Control;
 
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Model\Acl\Acl;
-use NAttreid\Security\Model\AclResources\ResourceItem;
 use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Security\Model\Orm;
 use Nette\Forms\Container;
@@ -42,11 +41,15 @@ class PermissionsPresenter extends CmsPresenter
 	/** @var AuthorizatorFactory */
 	private $authorizatorFactory;
 
-	public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory)
+	/** @var IPermissionListFactory */
+	private $permissionListFactory;
+
+	public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory, IPermissionListFactory $permissionListFactory)
 	{
 		parent::__construct();
 		$this->orm = $orm;
 		$this->authorizatorFactory = $authorizatorFactory;
+		$this->permissionListFactory = $permissionListFactory;
 	}
 
 	/**
@@ -166,29 +169,6 @@ class PermissionsPresenter extends CmsPresenter
 		} else {
 			$this->terminate();
 		}
-	}
-
-	/**
-	 * @param string $resource
-	 */
-	public function handlePermission(string $resource)
-	{
-		$permission = $this->orm->acl->getPermission($resource, $this->role->name);
-		if (!$permission) {
-			$permission = new Acl;
-			$this->orm->acl->attach($permission);
-			$permission->role = $this->role;
-			$permission->privilege = Acl::PRIVILEGE_VIEW;
-			$permission->resource = $this->orm->aclResources->getByResource($resource);
-			$permission->allowed = true;
-		} else {
-			$permission->allowed = !$permission->allowed;
-		}
-		$this->orm->persistAndFlush($permission);
-		$grid = $this['editRolePermissions'];
-		$grid->setDataSource([$this->orm->aclResources->getResource($this->role->name, $resource)]);
-		$grid->redrawItem($resource);
-		$this->flashNotifier->success('default.dataSaved');
 	}
 
 	/**
@@ -544,36 +524,10 @@ class PermissionsPresenter extends CmsPresenter
 		return $grid;
 	}
 
-	protected function createComponentEditRolePermissions(string $name): DataGrid
+	protected function createComponentEditRolePermissions(): PermissionList
 	{
-		$grid = $this->dataGridFactory->create($this, $name);
-		$grid->setRefreshUrl(false);
-		$grid->setDataSource($this->orm->aclResources->getResources($this->role->name));
-
-		$grid->setTreeView([$this, 'getChildren'], 'hasChildren');
-
-		$grid->addColumnText('name', 'cms.permissions.resource')
-			->setRenderer(function (ResourceItem $item) {
-				return $this->translate($item->name);
-			});
-
-		$grid->addAction('permission', null, 'permission!', ['resource' => 'id'])
-			->setClass(function (ResourceItem $item) {
-				return $item->allowed ? 'btn btn-xs btn-success ajax' : 'btn btn-xs btn-default ajax';
-			})
-			->setIcon(function (ResourceItem $item) {
-				return $item->allowed ? 'check' : 'close';
-			});
-
-		$grid->allowRowsAction('permission', function (ResourceItem $item) {
-			return $item->resource !== null;
-		});
-
-		return $grid;
-	}
-
-	public function getChildren(string $resource): array
-	{
-		return $this->orm->aclResources->getResources($this->role->name, $resource);
+		$control = $this->permissionListFactory->create();
+		$control->setRole($this->role);
+		return $control;
 	}
 }

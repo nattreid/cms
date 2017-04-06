@@ -12,7 +12,9 @@ use NAttreid\Cms\Control\Dockbar;
 use NAttreid\Cms\Control\FileManagerPresenter;
 use NAttreid\Cms\Control\IDockbarFactory;
 use NAttreid\Cms\Control\InfoPresenter;
+use NAttreid\Cms\Control\IPermissionListFactory;
 use NAttreid\Cms\Control\ModulePresenter;
+use NAttreid\Cms\Control\PermissionList;
 use NAttreid\Cms\Control\ProfilePresenter;
 use NAttreid\Cms\Control\SignPresenter;
 use NAttreid\Cms\Control\UsersPresenter;
@@ -73,6 +75,10 @@ class CmsExtension extends CompilerExtension
 			->setImplement(IDockbarFactory::class)
 			->setFactory(Dockbar::class)
 			->setArguments([$config['permissions'], $config['namespace'], $config['front']]);
+
+		$builder->addDefinition($this->prefix('permissionList'))
+			->setImplement(IPermissionListFactory::class)
+			->setFactory(PermissionList::class);
 
 		$builder->addDefinition($this->prefix('fileManagerFactory'))
 			->setImplement(IFileManagerFactory::class)
