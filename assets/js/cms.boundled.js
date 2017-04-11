@@ -50472,11 +50472,6 @@ $(document).ready(function () {
         return;
     }
 
-    if ($.fn.typeahead === undefined) {
-        console.error('Plugin "typeahead.js" required by "nextras.js" is missing!');
-        return;
-    }
-
     // nextras form
     Nette.getValuePrototype = Nette.getValue;
     Nette.getValue = function (elem) {
@@ -50495,26 +50490,6 @@ $(document).ready(function () {
         }
     };
 
-    // typehead
-    $('.typeahead').each(function () {
-        var source = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: $(this).data('typeahead-url'),
-                wildcard: '__QUERY_PLACEHOLDER__'
-            }
-        });
-
-        $(this).typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            source: source
-        });
-    });
-
 })(jQuery, window, Nette);
 Nette.validators.NAttreidFormRules_validatePhone = function (elem, arg, value) {
     if (!elem.hasAttribute('required') && value.length === 0) {
@@ -50523,6 +50498,50 @@ Nette.validators.NAttreidFormRules_validatePhone = function (elem, arg, value) {
     var regexp = /^(\(?\+?([0-9]{1,4})\)?)?([0-9]{6,16})$/;
     return regexp.test(value.replace(/[-\.\s]+/g, ''));
 };
+(function ($, window) {
+    if (window.jQuery === undefined) {
+        console.error('Plugin "jQuery" required by "typeahead.js" is missing!');
+        return;
+    }
+
+    if ($.fn.typeahead === undefined) {
+        console.error('Plugin "typeahead.js" required by "typeahead.js" is missing!');
+        return;
+    }
+
+    function typeahead() {
+        $('.typeahead').each(function () {
+            if (!$(this).parent().hasClass('twitter-typeahead')) {
+                var source = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: $(this).data('typeahead-url'),
+                        wildcard: '__QUERY_PLACEHOLDER__'
+                    }
+                });
+
+                var options = {
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                };
+                var dataset = {
+                    source: source
+                };
+                if ($(this).data('limit') !== undefined) {
+                    dataset.limit = $(this).data('limit');
+                }
+
+                $(this).typeahead(options, dataset);
+            }
+        });
+    }
+
+    $(document).ready(typeahead);
+    $(document).ajaxComplete(typeahead);
+
+})(jQuery, window);
 (function ($, window) {
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "Menu.js" is missing!');
