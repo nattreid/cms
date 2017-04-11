@@ -1,6 +1,6 @@
 roles:
-    guest: "Guest"
-    user: "User"
-    editor: "Editor"
-    admin: "Administrator"
-    superadmin: "Portal Administrator"
+	guest: "Guest"
+	user: "User"
+	editor: "Editor"
+	admin: "Administrator"
+	superadmin: "Portal Administrator"

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
@@ -109,17 +109,17 @@ class ProfilePresenter extends CmsPresenter
 		try {
 			$this->profile->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError($this->translate('cms.user.dupliciteEmail'));
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideEmail');
+			$form->addError($this->translate('cms.user.invalideEmail'));
 			return;
 		}
 
 		try {
 			$this->profile->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError($this->translate('cms.user.invalidePhone'));
 			return;
 		}
 
@@ -179,7 +179,7 @@ class ProfilePresenter extends CmsPresenter
 			$this->orm->persistAndFlush($this->profile);
 			$this->flashNotifier->success('cms.user.passwordChanged');
 		} catch (AuthenticationException $e) {
-			$form->addError('cms.user.incorrectPassword');
+			$form->addError($this->translate('cms.user.incorrectPassword'));
 		}
 		if ($this->isAjax()) {
 			$this->redrawControl('passwordForm');

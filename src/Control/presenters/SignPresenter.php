@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
@@ -159,9 +159,9 @@ class SignPresenter extends BasePresenter
 			$this->redirect(":{$this->module}:Homepage:");
 		} catch (AuthenticationException $e) {
 			if ($e->getCode() == IAuthenticator::NOT_APPROVED) {
-				$form->addError('cms.user.accountDeactived');
+				$form->addError($this->translate('cms.user.accountDeactived'));
 			} else {
-				$form->addError('cms.user.incorrectUsernameOrPassword');
+				$form->addError($this->translate('cms.user.incorrectUsernameOrPassword'));
 			}
 		}
 	}
@@ -199,7 +199,7 @@ class SignPresenter extends BasePresenter
 		if (!$user) {
 			$user = $this->orm->users->getByEmail($value);
 			if (!$user) {
-				$form->addError('cms.user.incorrectUsernameOrEmail');
+				$form->addError($this->translate('cms.user.incorrectUsernameOrEmail'));
 				$session = $this->getSession('cms/forgottenPassword');
 				if (isset($session->count)) {
 					$session->count++;

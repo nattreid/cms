@@ -17,67 +17,67 @@ layout: null
 wwwDir: %wwwDir%
 
 tracy:
-    cookie: null
-    mailPath: %tempDir%/mail-panel-mails
+	cookie: null
+	mailPath: %tempDir%/mail-panel-mails
 
 jsFilters:
-    - Joseki\Webloader\JsMinFilter
+	- Joseki\Webloader\JsMinFilter
 cssFilters:
-    - WebLoader\Filter\LessFilter
-    - Joseki\Webloader\CssMinFilter
+	- WebLoader\Filter\LessFilter
+	- Joseki\Webloader\CssMinFilter
 assets:
-    ckeditor: {/ckeditor/ckeditor.js, remote: true}
+	ckeditor: {/ckeditor/ckeditor.js, remote: true}
 menu:
 moduleMapping: App\Cms\*\Presenters\*Presenter
 
 permissions:
-    settings:
-        users:
-            link: 'Users:'
-        permissions:
-            link: 'Permissions:'
-        configuration:
-            link: 'Configuration:'
-    application:
-        fileManager:
-            link: 'FileManager:'
-    management:
-        application:
-            restoreCss:
-                ajax: true
-            restoreJs:
-                ajax: true
-            clearCache:
-            invalidateCache:
-                ajax: true
-            clearSessions:
-                confirm: 'dockbar.management.application.confirmDeleteSessions'
-                ajax: true
-            clearTemp:
-                confirm: 'dockbar.management.application.confirmDeleteTemp'
-        source:
-            deploy:
-                confirm: 'dockbar.management.source.confirmDeploy'
-                ajax: true
-            composerUpdate:
-                confirm: 'dockbar.management.source.confirmComposerUpdate'
-                ajax: true
-        database:
-            backupDatabase:
-                confirm: 'dockbar.management.database.confirmBackupDatabase'
-            uploadDatabase:
-                advanced: true
-                link: 'Database:upload'
-            dropDatabase:
-                confirm: 'dockbar.management.database.confirmDropDatabase'
-                advanced: true
-        backup:
-            confirm: 'dockbar.management.confirmBackup'
+	settings:
+		users:
+			link: 'Users:'
+		permissions:
+			link: 'Permissions:'
+		configuration:
+			link: 'Configuration:'
+	application:
+		fileManager:
+			link: 'FileManager:'
+	management:
+		application:
+			restoreCss:
+				ajax: true
+			restoreJs:
+				ajax: true
+			clearCache:
+			invalidateCache:
+				ajax: true
+			clearSessions:
+				confirm: 'dockbar.management.application.confirmDeleteSessions'
+				ajax: true
+			clearTemp:
+				confirm: 'dockbar.management.application.confirmDeleteTemp'
+		source:
+			deploy:
+				confirm: 'dockbar.management.source.confirmDeploy'
+				ajax: true
+			composerUpdate:
+				confirm: 'dockbar.management.source.confirmComposerUpdate'
+				ajax: true
+		database:
+			backupDatabase:
+				confirm: 'dockbar.management.database.confirmBackupDatabase'
+			uploadDatabase:
+				advanced: true
+				link: 'Database:upload'
+			dropDatabase:
+				confirm: 'dockbar.management.database.confirmDropDatabase'
+				advanced: true
+		backup:
+			confirm: 'dockbar.management.confirmBackup'
 
-    info:
-        logs:
-            link: 'Logs:'
-        server:
-            link: 'Info:server'
-        php:
-            link: 'Info:php'
+	info:
+		logs:
+			link: 'Logs:'
+		server:
+			link: 'Info:server'
+		php:
+			link: 'Info:php'

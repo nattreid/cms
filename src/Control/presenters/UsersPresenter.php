@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
@@ -275,27 +275,27 @@ class UsersPresenter extends CmsPresenter
 		try {
 			$user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteUsername');
+			$form->addError($this->translate('cms.user.dupliciteUsername'));
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError($this->translate('cms.user.invalideUsername'));
 			return;
 		}
 
 		try {
 			$user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError($this->translate('cms.user.dupliciteEmail'));
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError($this->translate('cms.user.invalideUsername'));
 			return;
 		}
 
 		try {
 			$user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError($this->translate('cms.user.invalidePhone'));
 			return;
 		}
 
@@ -371,27 +371,27 @@ class UsersPresenter extends CmsPresenter
 		try {
 			$this->user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteUsername');
+			$form->addError($this->translate('cms.user.dupliciteUsername'));
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError($this->translate('cms.user.invalideUsername'));
 			return;
 		}
 
 		try {
 			$this->user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError($this->translate('cms.user.dupliciteEmail'));
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError($this->translate('cms.user.invalideUsername'));
 			return;
 		}
 
 		try {
 			$this->user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError($this->translate('cms.user.invalidePhone'));
 			return;
 		}
 
