@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
@@ -52,7 +52,7 @@ class DatabasePresenter extends CmsPresenter
 	public function uploadFormSucceeded(Form $form, ArrayHash $values)
 	{
 		try {
-			$this->app->loadDatabase((string)$values->sql);
+			$this->app->loadDatabase((string) $values->sql);
 
 			$this->app->invalidateCache();
 			$this->flashNotifier->success('cms.database.uploaded');
