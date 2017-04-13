@@ -6,6 +6,8 @@ namespace NAttreid\Cms\Control;
 
 use NAttreid\Breadcrumbs\Breadcrumb;
 use NAttreid\Breadcrumbs\Link;
+use NAttreid\Cms\Control\Dockbar\Dockbar;
+use NAttreid\Cms\Control\Dockbar\IDockbarFactory;
 use NAttreid\Cms\Factories\ICmsMenuFactory;
 use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;

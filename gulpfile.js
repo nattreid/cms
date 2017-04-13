@@ -48,7 +48,7 @@ var boundledJS = [
     paths.dev.vendor + 'bootstrap-select/dist/js/bootstrap-select.js',
     // form
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
-    paths.dev.vendor + 'typeahead.js/dist/typeahead.bundle.js',
+    paths.dev.vendor + 'corejs-typeahead/dist/typeahead.bundle.js',
     // cms
     paths.dev.js + 'cms.js',
     paths.dev.js + 'dockbar.js',

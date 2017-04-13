@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace NAttreid\Cms\Control;
+namespace NAttreid\Cms\Control\Dockbar;
 
 use IPub\FlashMessages\FlashNotifier;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Cms\Configurator\Configurator;
+use NAttreid\Cms\Control\BasePresenter;
 use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\User;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
-use Nette\Utils\Strings;
 
 /**
  * DockBar
@@ -42,13 +42,16 @@ class Dockbar extends Control
 	/** @var FlashNotifier */
 	private $flashNotifier;
 
-	/** @var array */
-	private $links;
+	/** @var Item[] */
+	private $items = [];
 
-	/** @var array */
+	/** @var Item[] */
+	private $addedItems = [];
+
+	/** @var bool[] */
 	private $allowedLinks = [];
 
-	/** @var array */
+	/** @var bool[] */
 	private $allowedHandler = [];
 
 	public function __construct(array $permissions, string $module, string $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
@@ -61,7 +64,7 @@ class Dockbar extends Control
 
 		$this->module = $module;
 		$this->front = $front;
-		$this->links = $this->createLinks('dockbar', $permissions);
+		$this->parseLinks($permissions);
 	}
 
 	/**
@@ -71,6 +74,14 @@ class Dockbar extends Control
 	{
 		$presenter = $this->presenter;
 		return $presenter['tryUser'];
+	}
+
+	public function addLink(string $name, string $link, bool $ajax = false)
+	{
+		$this->addedItems[] = new Item('', $this->module, $name, [
+			'link' => $link,
+			'ajax' => $ajax
+		]);
 	}
 
 	/**
@@ -252,7 +263,8 @@ class Dockbar extends Control
 
 		// linky pro dockbar
 		$template->front = $this->front;
-		$template->links = $this->links;
+		$template->items = $this->items;
+		$template->addedItems = $this->addedItems;
 		$template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 
 		//uzivatelske jmeno
@@ -269,61 +281,33 @@ class Dockbar extends Control
 		$template->render();
 	}
 
-	/**
-	 * Prava pro dockbar
-	 * @param string $parent
-	 * @param array $items
-	 * @return array
-	 */
-	private function createLinks(string $parent, array $items): array
+
+	private function parseLinks(array $items, Item $parent = null)
 	{
-		$arr = [];
+		$resource = $parent === null ? 'dockbar' : $parent->resource;
+
 		foreach ($items as $name => $item) {
-			$resource = $parent . '.' . $name;
-			if ($this->isLink($item)) {
-				if ($this->user->isAllowed($resource, Acl::PRIVILEGE_VIEW)) {
-
-					if (!empty($item['advanced']) && !$this->configurator->dockbarAdvanced) {
-						continue;
-					}
-
-					if (isset($item['link'])) {
-						$link = $item['link'] = ":{$this->module}:" . $item['link'];
-						if (Strings::endsWith($link, ':default')) {
-							$link = substr($link, 0, -7);
-						}
-						$this->allowedLinks[$link] = true;
+			$obj = new Item($resource, $this->module, $name, $item);
+			if (
+				$this->user->isAllowed($obj->resource, Acl::PRIVILEGE_VIEW)
+				&& (!($item['advanced'] ?? false) || $this->configurator->dockbarAdvanced)
+			) {
+				if ($obj->isLink()) {
+					if ($obj->handler) {
+						$this->allowedHandler[$obj->link] = true;
 					} else {
-						$this->allowedHandler[$name] = true;
-						$item['handler'] = $name;
+						$this->allowedLinks[$obj->link] = true;
 					}
-					$item['name'] = $resource;
-					$arr[$name] = $item;
+				} else {
+					$this->parseLinks($item, $obj);
 				}
-			} else {
-				$result = $this->createLinks($resource, $item);
-				if (!empty($result)) {
-					$result['name'] = $resource . '.title';
-					$arr[$name] = $result;
+
+				if ($parent !== null) {
+					$parent->addItem($obj);
+				} else {
+					$this->items[] = $obj;
 				}
 			}
-		}
-		return $arr;
-	}
-
-	/**
-	 * Je link
-	 * @param string|array $item
-	 * @return bool
-	 */
-	private function isLink($item): bool
-	{
-		if ($item === null) {
-			return true;
-		} elseif (is_array($item)) {
-			return !is_array(current($item));
-		} else {
-			throw new \InvalidArgumentException('Cms menu items is wrong in config.neon');
 		}
 	}
 

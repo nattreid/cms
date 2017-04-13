@@ -10,15 +10,22 @@
                 <li class="frontPage">
                     <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
                 </li>
-                {include item, rows => $links}
+                <li class="frontPage">
+                    <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
+                </li>
+                {include item, items => $items}
             </ul>
             <ul class="identity">
                 <li>
                     <div><span>{$userName}</span></div>
                     <ul class="menu">
                         <li class="myProfile"><a href="{$profileLink}">{_'dockbar.myProfile'}</a></li>
-                        <li n:if="$tryUserEnable" class="closeTryUser"><a n:href="closeTryUser">{_'dockbar.closeTryUser'}</a></li>
-                        <li class="logout"><a n:href="logout">{_'dockbar.logout'}</a></li>
+                        <li n:if="$tryUserEnable" class="closeTryUser">
+                            <a n:href="closeTryUser">{_'dockbar.closeTryUser'}</a>
+                        </li>
+                        <li class="logout">
+                            <a n:href="logout">{_'dockbar.logout'}</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -27,22 +34,18 @@
 {/snippet}
 
 {define item}
-
-    {default $final = false}
-
-    <li n:class="$name" n:if="is_array($row)" n:foreach="$rows as $name => $row">
-        {if isset($row[link]) || isset($row[handler])}
+    <li n:class="$item->name" n:foreach="$items as $item">
+        {if $item->isLink()}
             <a
-                    n:class="$name, isset($row[ajax]) ? ajax"
-                    {ifset $row[ajax]}data-ajax-off="history"{/ifset}
-                    {ifset $row[link]}href="{plink $row[link]}"{/ifset}
-                    {ifset $row[handler]}href="{link $row[handler]}"{/ifset}
-                    {ifset $row[confirm]}data-confirm="{_$row[confirm]}"{/ifset}
-            >{_$row[name]}</a>
+                    n:class="$item->name, $item->ajax ? ajax"
+                    {if $item->ajax}data-ajax-off="history"{/if}
+                    href="{if $item->handler}{link $item->link}{else}{plink $item->link}{/if}"
+                    {if $item->confirm}data-confirm="{_$item->confirm}"{/if}
+            >{_$item->title}</a>
         {else}
-            <div><span>{_$row[name]}</span></div>
+            <div><span>{_$item->title}</span></div>
             <ul>
-                {include item, rows => $row}
+                {include item, items => $item->items}
             </ul>
         {/if}
     </li>
