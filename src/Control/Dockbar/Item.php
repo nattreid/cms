@@ -46,10 +46,10 @@ class Item
 	/** @var string */
 	private $confirm;
 
-	public function __construct(string $parent, string $module, string $name, array $item = null)
+	public function __construct(string $parent = null, string $module = null, string $name, array $item = null)
 	{
 		$this->name = $name;
-		$this->resource = $parent . '.' . $name;
+		$this->resource = ($parent !== null ? $parent . '.' : '') . $name;
 		if ($this->_isLink($item)) {
 			$this->parseLink($item, $module);
 			$this->parseAjax($item);
@@ -111,10 +111,10 @@ class Item
 		return $this->name;
 	}
 
-	private function parseLink(array $item = null, string $module)
+	private function parseLink(array $item = null, string $module = null)
 	{
 		if (isset($item['link'])) {
-			$link = $item['link'] = ":$module:" . $item['link'];
+			$link = $item['link'] = ($module !== null ? ":$module:" : '') . $item['link'];
 			if (Strings::endsWith($link, ':default')) {
 				$link = substr($link, 0, -7);
 			}

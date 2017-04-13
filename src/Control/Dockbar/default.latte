@@ -10,8 +10,12 @@
                 <li class="frontPage">
                     <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
                 </li>
-                <li class="frontPage">
-                    <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
+                <li n:class="$item->name" n:foreach="$addedItems as $item">
+                    <a
+                            n:class="$item->name, $item->ajax ? ajax"
+                            {if $item->ajax}data-ajax-off="history"{/if}
+                            href="{plink $item->link}"
+                    >{_$item->title}</a>
                 </li>
                 {include item, items => $items}
             </ul>

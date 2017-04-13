@@ -23,6 +23,7 @@ use Nette\Application\UI\Control;
  */
 class Dockbar extends Control
 {
+	private static $parent = 'dockbar';
 
 	/** @var string */
 	private $module;
@@ -78,7 +79,7 @@ class Dockbar extends Control
 
 	public function addLink(string $name, string $link, bool $ajax = false)
 	{
-		$this->addedItems[] = new Item('', $this->module, $name, [
+		$this->addedItems[] = new Item(null, null, $name, [
 			'link' => $link,
 			'ajax' => $ajax
 		]);
@@ -284,7 +285,7 @@ class Dockbar extends Control
 
 	private function parseLinks(array $items, Item $parent = null)
 	{
-		$resource = $parent === null ? 'dockbar' : $parent->resource;
+		$resource = $parent === null ? self::$parent : $parent->resource;
 
 		foreach ($items as $name => $item) {
 			$obj = new Item($resource, $this->module, $name, $item);
