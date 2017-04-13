@@ -38,10 +38,10 @@
 {/snippet}
 
 {define item}
-    <li n:class="$item->name" n:foreach="$items as $item">
+    <li n:class="$item->class" n:foreach="$items as $item">
         {if $item->isLink()}
             <a
-                    n:class="$item->name, $item->ajax ? ajax"
+                    n:class="$item->class, $item->ajax ? ajax"
                     {if $item->ajax}data-ajax-off="history"{/if}
                     href="{if $item->handler}{link $item->link}{else}{plink $item->link}{/if}"
                     {if $item->confirm}data-confirm="{_$item->confirm}"{/if}

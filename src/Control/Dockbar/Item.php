@@ -13,6 +13,7 @@ use Nette\SmartObject;
  * @property bool $handler
  * @property string $link
  * @property string $name
+ * @property string $class
  * @property bool $ajax
  * @property string $confirm
  * @property string $title
@@ -69,6 +70,11 @@ class Item
 	public function isLink(): bool
 	{
 		return $this->link !== null;
+	}
+
+	protected function getClass(): string
+	{
+		return Strings::webalize($this->name);
 	}
 
 	public function isAjax(): bool
