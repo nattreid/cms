@@ -77,6 +77,12 @@ class Dockbar extends Control
 		return $presenter['tryUser'];
 	}
 
+	/**
+	 * Prida link do dockbaru
+	 * @param string $name
+	 * @param string $link
+	 * @param bool $ajax
+	 */
 	public function addLink(string $name, string $link, bool $ajax = false)
 	{
 		$this->addedItems[] = new Item(null, null, $name, [
