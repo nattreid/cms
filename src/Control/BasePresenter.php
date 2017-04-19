@@ -63,7 +63,7 @@ abstract class BasePresenter extends Presenter
 	 * Vrati namespace pro CMS
 	 * @return string
 	 */
-	protected function getNamespace()
+	protected function getNamespace(): string
 	{
 		return $this->namespace;
 	}
@@ -72,12 +72,12 @@ abstract class BasePresenter extends Presenter
 	 * Vrati nazev modulu CMS
 	 * @return string
 	 */
-	protected function getModule()
+	protected function getModule(): string
 	{
 		return $this->module;
 	}
 
-	protected function startup()
+	protected function startup(): void
 	{
 		parent::startup();
 
@@ -121,19 +121,19 @@ abstract class BasePresenter extends Presenter
 	 * @param string $module
 	 * @param string $namespace
 	 */
-	public function setModule(string $module, string $namespace)
+	public function setModule(string $module, string $namespace): void
 	{
 		$this->module = $module;
 		$this->namespace = $namespace;
 	}
 
-	public function checkRequirements($element)
+	public function checkRequirements($element): void
 	{
 		$this->user->setNamespace($this->namespace);
 		parent::checkRequirements($element);
 	}
 
-	protected function beforeRender()
+	protected function beforeRender(): void
 	{
 		parent::beforeRender();
 		$this->redrawFlashMessages();
@@ -145,7 +145,7 @@ abstract class BasePresenter extends Presenter
 	/** @var IConfigurator */
 	protected $configurator;
 
-	public function injectConfigurator(IConfigurator $configurator)
+	public function injectConfigurator(IConfigurator $configurator): void
 	{
 		$this->configurator = $configurator;
 	}
@@ -156,7 +156,7 @@ abstract class BasePresenter extends Presenter
 	/** @var ITryUserFactory */
 	private $tryUserFactory;
 
-	public function injectTryUserFactory(ITryUserFactory $tryUserFactory)
+	public function injectTryUserFactory(ITryUserFactory $tryUserFactory): void
 	{
 		$this->tryUserFactory = $tryUserFactory;
 	}
@@ -181,7 +181,7 @@ abstract class BasePresenter extends Presenter
 	/** @var Translator */
 	protected $translator;
 
-	public function injectTranslator(Translator $translator)
+	public function injectTranslator(Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
@@ -202,7 +202,7 @@ abstract class BasePresenter extends Presenter
 		return $this->translator->translate($message, $count, $parameters, $domain, $locale);
 	}
 
-	private function initLocale()
+	private function initLocale(): void
 	{
 		if (empty($this->locale)) {
 			$this->locale = $this->translator->getDefaultLocale();
@@ -237,7 +237,7 @@ abstract class BasePresenter extends Presenter
 	 * @param FlashNotifier $flashNotifier
 	 * @param IStorage $flashStorage
 	 */
-	public function injectFlashMessages(IControl $flashMessagesFactory, FlashNotifier $flashNotifier, IStorage $flashStorage)
+	public function injectFlashMessages(IControl $flashMessagesFactory, FlashNotifier $flashNotifier, IStorage $flashStorage): void
 	{
 		$this->flashMessagesFactory = $flashMessagesFactory;
 		$this->flashNotifier = $flashNotifier;
@@ -271,7 +271,7 @@ abstract class BasePresenter extends Presenter
 		return $this->flashMessagesFactory->create('bootstrap');
 	}
 
-	private function redrawFlashMessages()
+	private function redrawFlashMessages(): void
 	{
 		if ($this->isAjax()) {
 			/* @var $messages Message[] */
@@ -291,7 +291,7 @@ abstract class BasePresenter extends Presenter
 	/** @var LoaderFactory */
 	private $loaderFactory;
 
-	public function injectLoaderFactory(LoaderFactory $loaderFactory)
+	public function injectLoaderFactory(LoaderFactory $loaderFactory): void
 	{
 		$this->loaderFactory = $loaderFactory;
 	}
@@ -314,7 +314,7 @@ abstract class BasePresenter extends Presenter
 	/** @var FormFactory */
 	protected $formFactory;
 
-	public function injectFormFactory(FormFactory $formFactory)
+	public function injectFormFactory(FormFactory $formFactory): void
 	{
 		$this->formFactory = $formFactory;
 	}
@@ -325,7 +325,7 @@ abstract class BasePresenter extends Presenter
 	/** @var DataGridFactory */
 	protected $dataGridFactory;
 
-	public function injectDataGridFactory(DataGridFactory $dataGridFactory)
+	public function injectDataGridFactory(DataGridFactory $dataGridFactory): void
 	{
 		$this->dataGridFactory = $dataGridFactory;
 	}

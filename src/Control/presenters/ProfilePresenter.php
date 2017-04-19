@@ -42,7 +42,7 @@ class ProfilePresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
-	public function actionDefault()
+	public function actionDefault(): void
 	{
 		$this->profile = $this->orm->users->getById($this->user->getId());
 		if (!$this->profile) {
@@ -50,7 +50,7 @@ class ProfilePresenter extends CmsPresenter
 		}
 	}
 
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$this->addBreadcrumbLink('dockbar.myProfile');
 	}
@@ -172,7 +172,7 @@ class ProfilePresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function passwordFormSucceeded(Form $form, ArrayHash $values)
+	public function passwordFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		try {
 			$this->profile->setPassword($values->password, $values->oldPassword);

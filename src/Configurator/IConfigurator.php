@@ -24,12 +24,12 @@ interface IConfigurator
 	 * @param string $property
 	 * @param mixed $value
 	 */
-	public function addDefault(string $property, $value);
+	public function addDefault(string $property, $value): void;
 
 	/**
 	 * Smaze cache
 	 */
-	public function cleanCache();
+	public function cleanCache(): void;
 
 	/**
 	 * Vrati nastaveni

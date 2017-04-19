@@ -59,7 +59,7 @@ class LocaleService
 	/**
 	 * Smaze cache
 	 */
-	public function cleanCache()
+	public function cleanCache(): void
 	{
 		$this->cache->clean([
 			Cache::TAGS => [$this->tag]
@@ -120,7 +120,7 @@ class LocaleService
 	 * Nastavi vychozi jazyk
 	 * @param int $localeId
 	 */
-	protected function setDefault(int $localeId)
+	protected function setDefault(int $localeId): void
 	{
 		$this->orm->locales->getById($localeId)->setDefault();
 	}
@@ -129,7 +129,7 @@ class LocaleService
 	 * Nastavi povolene jazyky
 	 * @param int[] $allowed
 	 */
-	protected function setAllowed(array $allowed)
+	protected function setAllowed(array $allowed): void
 	{
 		$locales = $this->orm->locales->findAll();
 		foreach ($locales as $locale) {
@@ -156,7 +156,7 @@ class LocaleService
 	 * @param string $locale
 	 * @return Locale|null
 	 */
-	public function get(string $locale)
+	public function get(string $locale): ?Locale
 	{
 		return $this->orm->locales->getByLocale($locale);
 	}
@@ -165,7 +165,7 @@ class LocaleService
 	 * @param int $id
 	 * @return Locale|null
 	 */
-	public function getById($id)
+	public function getById($id): ?Locale
 	{
 		return $this->orm->locales->getById($id);
 	}

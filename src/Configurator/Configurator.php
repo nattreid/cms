@@ -50,7 +50,7 @@ class Configurator implements IConfigurator
 	 * @param string $property
 	 * @param mixed $value
 	 */
-	public function addDefault(string $property, $value)
+	public function addDefault(string $property, $value): void
 	{
 		$this->default[$property] = $value;
 	}
@@ -58,7 +58,7 @@ class Configurator implements IConfigurator
 	/**
 	 * smaze cache
 	 */
-	public function cleanCache()
+	public function cleanCache(): void
 	{
 		$this->cache->clean([
 			Cache::TAGS => [$this->tag]

@@ -54,7 +54,7 @@ class CmsExtension extends CompilerExtension
 	/** @var string */
 	private $wwwDir;
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
@@ -107,7 +107,7 @@ class CmsExtension extends CompilerExtension
 		$this->setTracy($config);
 	}
 
-	private function setLoader(array $config)
+	private function setLoader(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -130,7 +130,7 @@ class CmsExtension extends CompilerExtension
 	 * @param ServiceDefinition $loader
 	 * @param array $assets
 	 */
-	private function addLoaderFiles(ServiceDefinition $loader, array $assets)
+	private function addLoaderFiles(ServiceDefinition $loader, array $assets): void
 	{
 		foreach ($assets as $file) {
 			if (is_array($file) && isset($file['files']) && (isset($file['in']) || isset($file['from']))) {
@@ -148,7 +148,7 @@ class CmsExtension extends CompilerExtension
 	 * @param ServiceDefinition $loader
 	 * @param string[] $file
 	 */
-	private function addLoaderFileByFinder(ServiceDefinition $loader, array $file)
+	private function addLoaderFileByFinder(ServiceDefinition $loader, array $file): void
 	{
 		$finder = Finder::findFiles($file['files']);
 
@@ -179,7 +179,7 @@ class CmsExtension extends CompilerExtension
 	 * @param ServiceDefinition $loader
 	 * @param string[] $file
 	 */
-	private function addLoaderFile(ServiceDefinition $loader, array $file)
+	private function addLoaderFile(ServiceDefinition $loader, array $file): void
 	{
 		$name = $file[0];
 		$locale = isset($file['locale']) ? $file['locale'] : null;
@@ -196,7 +196,7 @@ class CmsExtension extends CompilerExtension
 	 * @param string $file
 	 * @throws FileNotFoundException
 	 */
-	private function checkFileExists(string $file)
+	private function checkFileExists(string $file): void
 	{
 		if (!file_exists($file)) {
 			if (!file_exists($this->wwwDir . $file)) {
@@ -205,7 +205,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setPresenters(array $config)
+	private function setPresenters(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -230,7 +230,7 @@ class CmsExtension extends CompilerExtension
 			->setArguments([$config['loginExpiration'], $config['sessionExpiration'], $config['minPasswordLength']]);
 	}
 
-	private function setMenu(array $config)
+	private function setMenu(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -245,7 +245,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setMailing(array $config)
+	private function setMailing(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -256,7 +256,7 @@ class CmsExtension extends CompilerExtension
 			->setArguments([$config['sender'], [], $dir]);
 	}
 
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->loadFromFile(__DIR__ . '/default.neon'), $this->config);
@@ -281,7 +281,7 @@ class CmsExtension extends CompilerExtension
 			->addSetup('addMapping', [$namespace, '']);
 	}
 
-	public function afterCompile(\Nette\PhpGenerator\ClassType $class)
+	public function afterCompile(\Nette\PhpGenerator\ClassType $class): void
 	{
 		$initialize = $class->methods['initialize'];
 		if (class_exists('Tracy\Debugger')) {
@@ -289,7 +289,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setRouting(array $config)
+	private function setRouting(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 		$routerFactory = $builder->getByType(RouterFactory::class);
@@ -321,14 +321,14 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setModule(array $config, string $namespace)
+	private function setModule(array $config, string $namespace): void
 	{
 		foreach ($this->findByType(BasePresenter::class) as $def) {
 			$def->addSetup('setModule', [$config['namespace'], $namespace]);
 		}
 	}
 
-	private function setLayout(array $config)
+	private function setLayout(array $config): void
 	{
 		if ($config['layout'] !== null) {
 			foreach ($this->findByType(CmsPresenter::class) as $def) {
@@ -344,7 +344,7 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
-	private function setTracy(array $config)
+	private function setTracy(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -354,7 +354,7 @@ class CmsExtension extends CompilerExtension
 			->addSetup('setMail', [$config['tracy']['mailPath'], '@' . $this->prefix('configurator') . '::mailPanel']);
 	}
 
-	private function setFlashMessages()
+	private function setFlashMessages(): void
 	{
 		$builder = $this->getContainerBuilder();
 		try {

@@ -11492,7 +11492,7 @@ button.close {
   display: none;
   position: absolute;
   padding: 12px;
-  margin: 20px 0 0 20px;
+  margin: -10px 0px 0px 10px;
   background-color: #000;
   opacity: .8;
   color: #fff;

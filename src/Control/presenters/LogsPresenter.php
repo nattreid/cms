@@ -28,7 +28,7 @@ class LogsPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$this->addBreadcrumbLink('dockbar.info.logs');
 	}
@@ -37,7 +37,7 @@ class LogsPresenter extends CmsPresenter
 	 * Zobrazeni souboru
 	 * @param string $id
 	 */
-	public function actionShowFile(string $id)
+	public function actionShowFile(string $id): void
 	{
 		$this->sendResponse($this->app->logs->getFile($id));
 	}
@@ -46,7 +46,7 @@ class LogsPresenter extends CmsPresenter
 	 * Stazeni souboru
 	 * @param string[]|string $id
 	 */
-	public function actionDownloadFile($id)
+	public function actionDownloadFile($id): void
 	{
 		$this->sendResponse($this->app->logs->downloadFile($id));
 	}
@@ -56,7 +56,7 @@ class LogsPresenter extends CmsPresenter
 	 * @param string[]|string $id
 	 * @secured
 	 */
-	public function handleDelete($id)
+	public function handleDelete($id): void
 	{
 		if ($this->isAjax()) {
 			$this->app->logs->delete($id);
@@ -71,7 +71,7 @@ class LogsPresenter extends CmsPresenter
 	/**
 	 * Smazani logu
 	 */
-	public function handleClearLogs()
+	public function handleClearLogs(): void
 	{
 		if ($this->isAjax()) {
 			$this->app->logs->delete();

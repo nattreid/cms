@@ -3,15 +3,15 @@
         {_'cms.info.hardware.info'}
     </div>
     <table>
-        {ifset $hardware->server}
+        {if $hardware->server}
             <tr class="odd">
                 <th>{_'cms.info.hardware.server'}</th>
             </tr>
             <tr class="even">
                 <td>{$hardware->server}</td>
             </tr>
-        {/ifset}
-        {ifset $hardware->cpu}
+        {/if}
+        {if $hardware->cpu}
             <tr class="odd">
                 <th>{_'cms.info.hardware.cpu', count($hardware->cpu)}</th>
             </tr>
@@ -38,8 +38,8 @@
                     {/ifset}
                 </td>
             </tr>
-        {/ifset}
-        {ifset $hardware->scsi}
+        {/if}
+        {if $hardware->scsi}
             <tr class="odd">
                 <th>{_'cms.info.hardware.scsi'}</th>
             </tr>
@@ -48,6 +48,6 @@
                     <strong>{$scsi->name}</strong> ({$scsi->type})
                 </td>
             </tr>
-        {/ifset}
+        {/if}
     </table>
 </div>

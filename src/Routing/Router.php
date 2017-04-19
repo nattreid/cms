@@ -27,7 +27,7 @@ class Router extends \NAttreid\Routing\Router
 		$this->namespace = $namespace;
 	}
 
-	public function createRoutes()
+	public function createRoutes(): void
 	{
 		ksort($this->modules);
 		foreach ($this->modules as $module) {
@@ -43,7 +43,7 @@ class Router extends \NAttreid\Routing\Router
 	 * Prida modul do routy CMS
 	 * @param string $module
 	 */
-	public function addModule(string $module)
+	public function addModule(string $module): void
 	{
 		$this->modules[] = $module;
 	}

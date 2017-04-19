@@ -73,7 +73,7 @@ class ResourceItem
 		$this->setParentPermission($this->isAllowed);
 	}
 
-	private function setParentPermission(bool $isAllowed)
+	private function setParentPermission(bool $isAllowed): void
 	{
 		if ($this->parent) {
 			if (!$this->parent->resource) {
@@ -94,7 +94,7 @@ class ResourceItem
 	/**
 	 * @return ResourceItem|null
 	 */
-	protected function getParent()
+	protected function getParent(): ?ResourceItem
 	{
 		return $this->parent;
 	}

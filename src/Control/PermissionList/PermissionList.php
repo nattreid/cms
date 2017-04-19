@@ -38,12 +38,12 @@ class PermissionList extends Control
 		$this->user = $user;
 	}
 
-	public function setRole(AclRole $role)
+	public function setRole(AclRole $role): void
 	{
 		$this->role = $role;
 	}
 
-	public function render()
+	public function render(): void
 	{
 		$this->template->setFile(__DIR__ . '/default.latte');
 
@@ -112,10 +112,10 @@ class PermissionList extends Control
 	 * @param string $resource
 	 * @secured
 	 */
-	public function handlePermission(string $resource)
+	public function handlePermission(string $resource): void
 	{
 		if ($this->presenter->isAjax()) {
-			$childrenPermission = function (ResourceItem $resourceItem, $allowed = null) use (&$childrenPermission) {
+			$childrenPermission = function (ResourceItem $resourceItem, bool $allowed = null) use (&$childrenPermission) {
 				if ($resourceItem->resource) {
 					$allowed = $this->savePermission($resourceItem, $allowed);
 				} else {
@@ -126,7 +126,7 @@ class PermissionList extends Control
 				}
 				return $allowed;
 			};
-			$parentPermission = function (ResourceItem $resourceItem, $allowed) use (&$parentPermission) {
+			$parentPermission = function (ResourceItem $resourceItem, bool $allowed) use (&$parentPermission) {
 				if ($allowed) {
 					$parent = $resourceItem->parent;
 					if ($parent !== null) {
@@ -150,7 +150,7 @@ class PermissionList extends Control
 		}
 	}
 
-	private function savePermission(ResourceItem $item, $allowed = null): bool
+	private function savePermission(ResourceItem $item, bool $allowed = null): bool
 	{
 		$permission = $this->orm->acl->getPermission($item->id, $this->role->name, $item->privilege);
 		if (!$permission) {
@@ -170,6 +170,5 @@ class PermissionList extends Control
 
 interface IPermissionListFactory
 {
-
 	public function create(): PermissionList;
 }

@@ -62,7 +62,7 @@ class Item
 	 * Prida item
 	 * @param Item $item
 	 */
-	public function addItem(Item $item)
+	public function addItem(Item $item): void
 	{
 		$this->items[] = $item;
 	}
@@ -74,7 +74,7 @@ class Item
 
 	protected function getClass(): string
 	{
-		return Strings::webalize($this->name);
+		return Strings::webalize($this->name, null, false);
 	}
 
 	public function isAjax(): bool
@@ -117,7 +117,7 @@ class Item
 		return $this->name;
 	}
 
-	private function parseLink(array $item = null, string $module = null)
+	private function parseLink(array $item = null, string $module = null): void
 	{
 		if (isset($item['link'])) {
 			$link = $item['link'] = ($module !== null ? ":$module:" : '') . $item['link'];
@@ -132,12 +132,12 @@ class Item
 		}
 	}
 
-	private function parseAjax(array $item = null)
+	private function parseAjax(array $item = null): void
 	{
 		$this->ajax = $item['ajax'] ?? false;
 	}
 
-	private function parseConfirm(array $item = null)
+	private function parseConfirm(array $item = null): void
 	{
 		$this->confirm = $item['confirm'] ?? null;
 	}

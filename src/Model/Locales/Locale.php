@@ -21,7 +21,7 @@ class Locale extends Entity
 	/**
 	 * Nastavi na vychozi
 	 */
-	public function setDefault()
+	public function setDefault(): void
 	{
 		$repo = $this->getRepository();
 		$locales = $repo->findAll();

@@ -28,7 +28,7 @@ class HomepagePresenter extends CmsPresenter
 		$this->tracking = $tracking;
 	}
 
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$template = $this->template;
 

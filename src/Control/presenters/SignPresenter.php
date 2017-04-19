@@ -59,7 +59,7 @@ class SignPresenter extends BasePresenter
 		$this->hasher = $hasher;
 	}
 
-	protected function startup()
+	protected function startup(): void
 	{
 		parent::startup();
 		if ($this->user->loggedIn) {
@@ -71,7 +71,7 @@ class SignPresenter extends BasePresenter
 	/**
 	 * Prihlaseni
 	 */
-	public function actionIn()
+	public function actionIn(): void
 	{
 		if ($this->orm->users->isEmpty()) {
 			$this->redirect('registerAdministrator');
@@ -81,7 +81,7 @@ class SignPresenter extends BasePresenter
 	/**
 	 * Prvni prihlaseni administratora
 	 */
-	public function actionRegisterAdministrator()
+	public function actionRegisterAdministrator(): void
 	{
 		if (!$this->orm->users->isEmpty()) {
 			$this->terminate();
@@ -91,7 +91,7 @@ class SignPresenter extends BasePresenter
 	/**
 	 * Obnoveni hesla je mozno jen trikrat do hodiny
 	 */
-	public function actionForgottenPassword()
+	public function actionForgottenPassword(): void
 	{
 		$session = $this->getSession('cms/forgottenPassword');
 		if ($session->count >= self::MAX_TRY) {
@@ -104,7 +104,7 @@ class SignPresenter extends BasePresenter
 	 * Obnoveni hesla
 	 * @param string $hash
 	 */
-	public function renderRestorePassword(string $hash)
+	public function renderRestorePassword(string $hash): void
 	{
 		$session = $this->getSession('cms/restorePassword');
 		if (!isset($session->$hash)) {
@@ -192,7 +192,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function forgottenPasswordFormSucceeded(Form $form, ArrayHash $values)
+	public function forgottenPasswordFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		$value = $values->usernameOrEmail;
 		$user = $this->orm->users->getByUsername($value);
@@ -253,7 +253,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function restorePasswordFormSucceeded(Form $form, ArrayHash $values)
+	public function restorePasswordFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		$session = $this->getSession('cms/restorePassword');
 		$email = $session->{$values->hash};
@@ -306,7 +306,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function registerAdministratorFormSucceeded(Form $form, ArrayHash $values)
+	public function registerAdministratorFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		$password = $values->password;
 

@@ -31,7 +31,7 @@ class FileManagerPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$this->addBreadcrumbLink('dockbar.application.fileManager');
 	}

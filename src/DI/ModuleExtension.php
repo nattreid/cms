@@ -42,7 +42,7 @@ abstract class ModuleExtension extends CompilerExtension
 	/** @var LoaderFactory */
 	private $loader;
 
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -60,7 +60,7 @@ abstract class ModuleExtension extends CompilerExtension
 			]);
 	}
 
-	private function setRouting()
+	private function setRouting(): void
 	{
 		$builder = $this->getContainerBuilder();
 
@@ -73,7 +73,7 @@ abstract class ModuleExtension extends CompilerExtension
 		}
 	}
 
-	private function setMenu()
+	private function setMenu(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->loadFromFile($this->dir . '/default.neon'), $this->config);
@@ -95,7 +95,7 @@ abstract class ModuleExtension extends CompilerExtension
 	 * @param string $file
 	 * @param string $locale
 	 */
-	protected function addLoaderFile(string $file, string $locale = null)
+	protected function addLoaderFile(string $file, string $locale = null): void
 	{
 		if ($this->loader === null) {
 			$builder = $this->getContainerBuilder();

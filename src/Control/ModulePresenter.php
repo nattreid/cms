@@ -11,7 +11,7 @@ namespace NAttreid\Cms\Control;
  */
 abstract class ModulePresenter extends Presenter
 {
-	protected function startup()
+	protected function startup(): void
 	{
 		parent::startup();
 		$link = $this->getAction(true);

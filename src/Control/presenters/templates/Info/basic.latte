@@ -3,7 +3,7 @@
         {_'cms.info.basic.info'}
     </div>
     <table>
-        <tr class="odd" n:ifset="$system->hostname">
+        <tr class="odd" n:if="$system->hostname">
             <td>{_'cms.info.basic.hostname'}</td>
             <th>{$system->hostname}</th>
         </tr>
@@ -30,13 +30,13 @@
             {/ifset}
         </tr>
         <tr class="even" n:snippet="users">
-            {ifset $system->users}
+            {if !empty($system->users)}
                 <td>{_'cms.info.basic.users'}</td>
-                <th>{$system->users->count} ({$system->users->list|implode:', '})</th>
-            {/ifset}
+                <th>{$system->users|length} ({$system->users|implode:', '})</th>
+            {/if}
         </tr>
         <tr class="odd" n:snippet="load">
-            {if !empty($system->load)}
+            {if $system->load}
                 <td>{_'cms.info.basic.load'}</td>
                 <th>{$system->load}</th>
             {/if}

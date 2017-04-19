@@ -53,12 +53,12 @@ class UsersPresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
-	public function handleBack(string $backlink = null)
+	public function handleBack(string $backlink = null): void
 	{
 		$this->redirect('default');
 	}
 
-	public function actionEdit(int $id)
+	public function actionEdit(int $id): void
 	{
 		$this->user = $this->orm->users->getById($id);
 		if (!$this->user) {
@@ -66,7 +66,7 @@ class UsersPresenter extends CmsPresenter
 		}
 	}
 
-	public function actionChangePassword(int $id)
+	public function actionChangePassword(int $id): void
 	{
 		$this->actionEdit($id);
 	}
@@ -74,7 +74,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni seznamu
 	 */
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users');
 	}
@@ -82,7 +82,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Novy uzivatel
 	 */
-	public function renderAdd()
+	public function renderAdd(): void
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
 		$this->addBreadcrumbLink('cms.user.add');
@@ -91,7 +91,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Editace uzivatele
 	 */
-	public function renderEdit()
+	public function renderEdit(): void
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
 		$this->addBreadcrumbLink('cms.user.edit');
@@ -100,7 +100,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Zmena hesla
 	 */
-	public function renderChangePassword()
+	public function renderChangePassword(): void
 	{
 		$this->addBreadcrumbLink('dockbar.settings.users', ':Cms:Users:');
 		$this->addBreadcrumbLink('cms.user.changePassword');
@@ -111,7 +111,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleTryUser(int $id)
+	public function handleTryUser(int $id): void
 	{
 		$this['tryUser']->set($id);
 		$this->restoreBacklink();
@@ -122,7 +122,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDelete(int $id)
+	public function handleDelete(int $id): void
 	{
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
@@ -138,7 +138,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param int $id
 	 * @param bool $value
 	 */
-	public function setState(int $id, bool $value)
+	public function setState(int $id, bool $value): void
 	{
 		if ($this->isAjax()) {
 			$user = $this->orm->users->getById($id);
@@ -154,7 +154,7 @@ class UsersPresenter extends CmsPresenter
 	 * Smaze uzivatele
 	 * @param array $ids
 	 */
-	public function deleteUsers(array $ids)
+	public function deleteUsers(array $ids): void
 	{
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
@@ -172,7 +172,7 @@ class UsersPresenter extends CmsPresenter
 	 * Aktivuje uzivatele
 	 * @param array $ids
 	 */
-	public function activateUsers(array $ids)
+	public function activateUsers(array $ids): void
 	{
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
@@ -191,7 +191,7 @@ class UsersPresenter extends CmsPresenter
 	 * Deaktivuje uzivatele
 	 * @param array $ids
 	 */
-	public function deactivateUsers(array $ids)
+	public function deactivateUsers(array $ids): void
 	{
 		if ($this->isAjax()) {
 			$users = $this->orm->users->findById($ids);
@@ -262,7 +262,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function addFormSucceeded(Form $form, ArrayHash $values)
+	public function addFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		if ($values->generatePassword) {
 			$password = Random::generate($this->minPasswordLength, $this->passwordChars);
@@ -366,7 +366,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function editFormSucceeded(Form $form, ArrayHash $values)
+	public function editFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		try {
 			$this->user->setUsername($values->username);
@@ -455,7 +455,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function passwordFormSucceeded(Form $form, ArrayHash $values)
+	public function passwordFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		if ($values->generatePassword) {
 			$password = Random::generate($this->minPasswordLength, $this->passwordChars);

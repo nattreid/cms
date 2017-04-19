@@ -11,7 +11,7 @@ namespace NAttreid\Cms\Control;
  */
 abstract class CmsPresenter extends Presenter
 {
-	protected function startup()
+	protected function startup(): void
 	{
 		parent::startup();
 		if (

@@ -1,5 +1,5 @@
 {snippet network}
-    {ifset $network}
+    {if !empty($network)}
         <div class="cell networkInfo">
             <div class="header">
                 {_'cms.info.network.info'}
@@ -27,5 +27,5 @@
                 {/foreach}
             </table>
         </div>
-    {/ifset}
+    {/if}
 {/snippet}

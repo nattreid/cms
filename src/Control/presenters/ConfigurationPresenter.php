@@ -33,13 +33,13 @@ class ConfigurationPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni nastaveni
 	 */
-	public function renderDefault()
+	public function renderDefault(): void
 	{
 		$this->addBreadcrumbLink('dockbar.settings.configuration');
 		$this['configurationForm']->setDefaults($this->configurator->fetchConfigurations());
 	}
 
-	public function handleDebug(bool $on)
+	public function handleDebug(bool $on): void
 	{
 		if ($this->isAjax()) {
 			if ($on) {
@@ -104,7 +104,7 @@ class ConfigurationPresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function configurationFormSucseeded(Form $form, ArrayHash $values)
+	public function configurationFormSucseeded(Form $form, ArrayHash $values): void
 	{
 		$this->localeService->default = $values->defaultLocale;
 		$this->localeService->allowed = $values->allowedLocales;

@@ -25,7 +25,7 @@ abstract class Presenter extends BasePresenter
 	use TPresenter,
 		SecuredLinksPresenterTrait;
 
-	protected function startup()
+	protected function startup(): void
 	{
 		parent::startup();
 
@@ -37,7 +37,7 @@ abstract class Presenter extends BasePresenter
 		}
 	}
 
-	protected function beforeRender()
+	protected function beforeRender(): void
 	{
 		parent::beforeRender();
 		$this->template->cmsLogo = $this->configurator->cmsLogo;
@@ -53,7 +53,7 @@ abstract class Presenter extends BasePresenter
 	/** @var IDockbarFactory */
 	private $dockbarFactory;
 
-	public function injectDockbarFactory(IDockbarFactory $dockbarFactory)
+	public function injectDockbarFactory(IDockbarFactory $dockbarFactory): void
 	{
 		$this->dockbarFactory = $dockbarFactory;
 	}
@@ -74,7 +74,7 @@ abstract class Presenter extends BasePresenter
 	/** @var ICmsMenuFactory */
 	private $menuFactory;
 
-	public function injectMenu(ICmsMenuFactory $menuFactory)
+	public function injectMenu(ICmsMenuFactory $menuFactory): void
 	{
 		$this->menuFactory = $menuFactory;
 	}
@@ -128,7 +128,7 @@ abstract class Presenter extends BasePresenter
 	 * Nastavi zobrazeni menu v mobilni verzi
 	 * @param bool $view
 	 */
-	public function viewMobileMenu(bool $view = true)
+	public function viewMobileMenu(bool $view = true): void
 	{
 		$this->template->shifted = $view;
 		$this['dockbar']->setShifted($view);
@@ -144,7 +144,7 @@ abstract class Presenter extends BasePresenter
 	 * Navrat na predchozi stranku
 	 * @param string|null $backlink
 	 */
-	public function handleBack(string $backlink = null)
+	public function handleBack(string $backlink = null): void
 	{
 		$this->restoreRequest($backlink);
 	}
@@ -152,7 +152,7 @@ abstract class Presenter extends BasePresenter
 	/**
 	 * Ulozi aktualni request
 	 */
-	public function storeBacklink()
+	public function storeBacklink(): void
 	{
 		$this->cbl = $this->storeRequest('+30 minutes');
 	}
@@ -160,7 +160,7 @@ abstract class Presenter extends BasePresenter
 	/**
 	 * Obnovi predchozi request
 	 */
-	public function restoreBacklink()
+	public function restoreBacklink(): void
 	{
 		$this->handleBack($this->getParameter('cbl'));
 	}
@@ -168,7 +168,7 @@ abstract class Presenter extends BasePresenter
 	/**
 	 * Vrati zpatecni adresu
 	 */
-	public function getBacklink()
+	public function getBacklink(): string
 	{
 		return $this->link('back!', [$this->getParameter('cbl')]);
 	}

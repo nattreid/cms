@@ -10,7 +10,7 @@ use Nette\DI\Statement;
 
 trait ExtensionTranslatorTrait
 {
-	private function setTranslation(string $dir, array $domains)
+	private function setTranslation(string $dir, array $domains): void
 	{
 		$builder = $this->getContainerBuilder();
 		try {

@@ -49,7 +49,7 @@ class DatabasePresenter extends CmsPresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 */
-	public function uploadFormSucceeded(Form $form, ArrayHash $values)
+	public function uploadFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		try {
 			$this->app->loadDatabase((string) $values->sql);

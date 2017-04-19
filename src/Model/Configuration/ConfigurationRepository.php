@@ -16,7 +16,7 @@ use NAttreid\Orm\Repository;
 class ConfigurationRepository extends Repository
 {
 
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [Configuration::class];
 	}
@@ -24,9 +24,9 @@ class ConfigurationRepository extends Repository
 	/**
 	 * Vrati hodnotu
 	 * @param string $name
-	 * @return Configuration|false
+	 * @return Configuration|null
 	 */
-	public function get(string $name)
+	public function get(string $name): ?Configuration
 	{
 		return $this->getBy(['name' => $name]);
 	}

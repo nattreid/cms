@@ -19,7 +19,7 @@ class Mailer extends BaseMailer
 	 * @param string $email
 	 * @param string $hash
 	 */
-	public function sendRestorePassword(string $email, string $hash)
+	public function sendRestorePassword(string $email, string $hash): void
 	{
 		$mail = $this->createMail('restorePassword');
 
@@ -39,7 +39,7 @@ class Mailer extends BaseMailer
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function sendNewUser(string $email, string $username, string $password)
+	public function sendNewUser(string $email, string $username, string $password): void
 	{
 		$mail = $this->createMail('newUser');
 
@@ -59,7 +59,7 @@ class Mailer extends BaseMailer
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function sendNewPassword(string $email, string $username, string $password)
+	public function sendNewPassword(string $email, string $username, string $password): void
 	{
 		$mail = $this->createMail('newPassword');
 

@@ -15,7 +15,7 @@ use NAttreid\Orm\Structure\Table;
 class ConfigurationMapper extends Mapper
 {
 
-	protected function createTable(Table $table)
+	protected function createTable(Table $table): void
 	{
 		$table->addPrimaryKey('name')
 			->varChar(100);

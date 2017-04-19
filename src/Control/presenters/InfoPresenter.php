@@ -30,7 +30,7 @@ class InfoPresenter extends CmsPresenter
 	/**
 	 * Refresh
 	 */
-	public function handleRefresh()
+	public function handleRefresh(): void
 	{
 		if ($this->isAjax()) {
 			$this->redrawControl('server');
@@ -55,7 +55,7 @@ class InfoPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni informaci o serveru
 	 */
-	public function renderServer()
+	public function renderServer(): void
 	{
 		$this->addBreadcrumbLink('dockbar.info.server');
 		$this->template->refresh = $this->refresh;
@@ -69,7 +69,7 @@ class InfoPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni informaci o PHP
 	 */
-	public function renderPhp()
+	public function renderPhp(): void
 	{
 		$this->addBreadcrumbLink('dockbar.info.php');
 		$this->template->php = $this->app->info->phpInfo;

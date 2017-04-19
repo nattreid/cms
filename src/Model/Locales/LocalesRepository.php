@@ -17,7 +17,7 @@ use Nextras\Orm\Collection\ICollection;
 class LocalesRepository extends Repository
 {
 
-	public static function getEntityClassNames()
+	public static function getEntityClassNames(): array
 	{
 		return [Locale::class];
 	}

@@ -83,7 +83,7 @@ class Dockbar extends Control
 	 * @param string $link
 	 * @param bool $ajax
 	 */
-	public function addLink(string $name, string $link, bool $ajax = false)
+	public function addLink(string $name, string $link, bool $ajax = false): void
 	{
 		$this->addedItems[] = new Item(null, null, $name, [
 			'link' => $link,
@@ -95,7 +95,7 @@ class Dockbar extends Control
 	 * Nastavi aktivni tlacitko pro menu (posun)
 	 * @param bool $shifted
 	 */
-	public function setShifted(bool $shifted = true)
+	public function setShifted(bool $shifted = true): void
 	{
 		$this->template->shifted = $shifted;
 	}
@@ -103,7 +103,7 @@ class Dockbar extends Control
 	/**
 	 * Odhlaseni
 	 */
-	public function handleLogOut()
+	public function handleLogOut(): void
 	{
 		$this->user->logout();
 		$this->flashNotifier->info('cms.user.youAreLoggedOut');
@@ -113,7 +113,7 @@ class Dockbar extends Control
 	/**
 	 * Vypnuti TryUser
 	 */
-	public function handleCloseTryUser()
+	public function handleCloseTryUser(): void
 	{
 		$this->getTryUser()->handleLogoutTryRole();
 	}
@@ -121,7 +121,7 @@ class Dockbar extends Control
 	/**
 	 * Znovunacte CSS
 	 */
-	public function handleRestoreCss()
+	public function handleRestoreCss(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -132,7 +132,7 @@ class Dockbar extends Control
 	/**
 	 * Znovunacte Javascript
 	 */
-	public function handleRestoreJs()
+	public function handleRestoreJs(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -143,7 +143,7 @@ class Dockbar extends Control
 	/**
 	 * Smazani cache
 	 */
-	public function handleClearSessions()
+	public function handleClearSessions(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -154,7 +154,7 @@ class Dockbar extends Control
 	/**
 	 * Smazani cache
 	 */
-	public function handleClearCache()
+	public function handleClearCache(): void
 	{
 		$this->checkHandlerPermission(false);
 
@@ -166,7 +166,7 @@ class Dockbar extends Control
 	/**
 	 * Smazani cache
 	 */
-	public function handleInvalidateCache()
+	public function handleInvalidateCache(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -177,7 +177,7 @@ class Dockbar extends Control
 	/**
 	 * Smazani temp
 	 */
-	public function handleClearTemp()
+	public function handleClearTemp(): void
 	{
 		$this->checkHandlerPermission(false);
 
@@ -189,7 +189,7 @@ class Dockbar extends Control
 	/**
 	 * Deploy
 	 */
-	public function handleDeploy()
+	public function handleDeploy(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -205,7 +205,7 @@ class Dockbar extends Control
 	/**
 	 * Aktualizace composeru
 	 */
-	public function handleComposerUpdate()
+	public function handleComposerUpdate(): void
 	{
 		$this->checkHandlerPermission();
 
@@ -216,7 +216,7 @@ class Dockbar extends Control
 	/**
 	 * Zaloha databaze
 	 */
-	public function handleBackupDatabase()
+	public function handleBackupDatabase(): void
 	{
 		$this->checkHandlerPermission(false);
 
@@ -227,7 +227,7 @@ class Dockbar extends Control
 	/**
 	 * Smazání databaze
 	 */
-	public function handleDropDatabase()
+	public function handleDropDatabase(): void
 	{
 		$this->checkHandlerPermission(false);
 
@@ -240,7 +240,7 @@ class Dockbar extends Control
 	/**
 	 * Zaloha
 	 */
-	public function handleBackup()
+	public function handleBackup(): void
 	{
 		$this->checkHandlerPermission(false);
 
@@ -264,7 +264,7 @@ class Dockbar extends Control
 		}
 	}
 
-	public function render()
+	public function render(): void
 	{
 		$template = $this->template;
 
@@ -289,7 +289,7 @@ class Dockbar extends Control
 	}
 
 
-	private function parseLinks(array $items, Item $parent = null)
+	private function parseLinks(array $items, Item $parent = null): void
 	{
 		$resource = $parent === null ? self::$parent : $parent->resource;
 
@@ -322,7 +322,7 @@ class Dockbar extends Control
 	 * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
 	 * @param bool $ajax
 	 */
-	private function checkHandlerPermission(bool $ajax = true)
+	private function checkHandlerPermission(bool $ajax = true): void
 	{
 		if (!isset($this->allowedHandler[$this->presenter->getSignal()[1]])) {
 			$this->presenter->terminate();
