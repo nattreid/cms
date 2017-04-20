@@ -296,10 +296,14 @@ class Dockbar extends Control
 		foreach ($items as $name => $item) {
 			$obj = new Item($resource, $this->module, $name, $item);
 			if (
-				$this->user->isAllowed($obj->resource, Acl::PRIVILEGE_VIEW)
-				&& (!($item['advanced'] ?? false) || $this->configurator->dockbarAdvanced)
+				!($item['advanced'] ?? false)
+				|| $this->configurator->dockbarAdvanced
 			) {
 				if ($obj->isLink()) {
+					if (!$this->user->isAllowed($obj->resource, Acl::PRIVILEGE_VIEW)) {
+						continue;
+					}
+
 					if ($obj->handler) {
 						$this->allowedHandler[$obj->link] = true;
 					} else {
@@ -312,7 +316,9 @@ class Dockbar extends Control
 				if ($parent !== null) {
 					$parent->addItem($obj);
 				} else {
-					$this->items[] = $obj;
+					if ($obj->hasItems) {
+						$this->items[] = $obj;
+					}
 				}
 			}
 		}

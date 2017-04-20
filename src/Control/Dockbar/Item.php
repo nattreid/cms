@@ -19,6 +19,7 @@ use Nette\SmartObject;
  * @property string $title
  * @property Item[] $items
  * @property string $resource
+ * @property bool $hasItems
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -110,6 +111,11 @@ class Item
 	protected function getItems(): array
 	{
 		return $this->items;
+	}
+
+	protected function getHasItems(): bool
+	{
+		return count($this->items) > 0;
 	}
 
 	protected function getName(): string
