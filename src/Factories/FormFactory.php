@@ -6,8 +6,8 @@ namespace NAttreid\Cms\Factories;
 
 use NAttreid\Form\Factories\Factory;
 use NAttreid\Form\Form;
+use NAttreid\Form\Rendering\HorizontalFormRenderer;
 use Nette\ComponentModel\IContainer;
-use Nextras\Forms\Rendering\Bs3FormRenderer;
 
 /**
  * Tovarna na formular
@@ -19,7 +19,7 @@ class FormFactory extends Factory
 	public function create(IContainer $parent = null, string $name = null): Form
 	{
 		$form = parent::create($parent, $name);
-		$form->setRenderer(new Bs3FormRenderer);
+		$form->setRenderer(new HorizontalFormRenderer);
 		return $form;
 	}
 
