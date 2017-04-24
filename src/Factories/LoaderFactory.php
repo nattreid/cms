@@ -122,7 +122,7 @@ class LoaderFactory
 	private function createJSCompiler(FileCollection $collection): Compiler
 	{
 		$compiler = Compiler::createJsCompiler($collection, $this->wwwDir . '/' . $this->outputDir);
-		$compiler->setAsync(true);
+		$compiler->setDefer(true);
 		foreach ($this->filters[self::JS] as $filter) {
 			$compiler->addFileFilter($filter);
 		}
