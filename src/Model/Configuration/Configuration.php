@@ -21,12 +21,12 @@ class Configuration extends Entity
 
 	protected function getterValue()
 	{
-		return unserialize($this->serializedValue);
+		return unserialize(base64_decode($this->serializedValue));
 	}
 
 	protected function setterValue($value)
 	{
-		$this->serializedValue = serialize($value);
+		$this->serializedValue = base64_encode(serialize($value));
 		return $value;
 	}
 
