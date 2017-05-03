@@ -49,6 +49,8 @@ var boundledJS = [
     // form
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
     paths.dev.vendor + 'corejs-typeahead/dist/typeahead.bundle.js',
+    // ckeditor
+    paths.dev.vendor + 'ckeditor/adapters/jquery.js',
     // cms
     paths.dev.js + 'cms.js',
     paths.dev.js + 'dockbar.js',
