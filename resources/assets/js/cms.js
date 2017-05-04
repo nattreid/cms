@@ -19,10 +19,32 @@ $(document).ready(function () {
         });
     }
 
+    function ckEditorLine() {
+        $('textarea.ckEditorLine').ckeditor({
+            height: '80px',
+            toolbarGroups: [
+                {name: 'basicstyles', groups: ['basicstyles']},
+                {name: 'paragraph', groups: ['align']},
+                {name: 'styles', groups: ['styles']},
+                {name: 'colors', groups: ['colors']}
+            ],
+            enterMode: CKEDITOR.ENTER_BR,
+            removeButtons: 'BGColor,Styles,Format,Underline,Strike,Subscript,Superscript,RemoveFormat',
+            removePlugins: 'elementspath',
+            resize_enabled: false,
+            on: {
+                change: function (evt) {
+                    this.updateElement();
+                }
+            }
+        });
+    }
+
     function redraw() {
         $('.datagrid a').attr('data-ajax-off', 'history');
 
         flashMessage();
+        ckEditorLine();
     }
 
     redraw();
