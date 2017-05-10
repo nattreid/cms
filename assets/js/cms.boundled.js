@@ -50749,8 +50749,8 @@ $(document).ready(function () {
                 'Minulý měsíc': ranges.lastMonth
             },
             format: {
-                date: 'DD.MM.YYYY',
-                time: 'HH:mm'
+                date: 'D.M.YYYY',
+                time: 'H:mm'
             }
         },
         en: {
@@ -50771,8 +50771,8 @@ $(document).ready(function () {
                 'Last Month': ranges.lastMonth
             },
             format: {
-                date: 'MM/DD/YYYY',
-                time: 'HH:mm'
+                date: 'M/D/YYYY',
+                time: 'H:mm'
             }
         }
     };
@@ -50922,8 +50922,9 @@ Nette.validators.NAttreidFormRules_validatePhone = function (elem, arg, value) {
                 var options = {
                     hint: true,
                     highlight: true,
-                    minLength: 1
+                    minLength: $(this).data('min-length') ? $(this).data('min-length') : 1
                 };
+
                 var dataset = {
                     source: source
                 };
@@ -50932,6 +50933,13 @@ Nette.validators.NAttreidFormRules_validatePhone = function (elem, arg, value) {
                 }
 
                 $(this).typeahead(options, dataset);
+
+                if ($(this).data('submit-on-select') !== undefined) {
+                    var form = $(this).closest('form');
+                    $(this).bind('typeahead:select', function (ev, suggestion) {
+                        form.submit();
+                    });
+                }
             }
         });
     }
