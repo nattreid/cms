@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NAttreid\Cms\Control;
 
+use NAttreid\Form\IContainer;
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclRoles\AclRole;
@@ -221,12 +222,11 @@ class PermissionsPresenter extends CmsPresenter
 	 */
 	public function permissionForm(Container $container): void
 	{
-		$container->addSelect('role', $this->translate('cms.permissions.role'))
-			->setTranslator()
+		/* @var $container IContainer */
+		$container->addSelectUntranslated('role', 'cms.permissions.role')
 			->setItems($this->orm->aclRoles->fetchPairs());
-		$container->addMultiSelect('resource', $this->translate('cms.permissions.resource'))
-			->setItems($this->orm->aclResources->fetchPairsByResourceName())
-			->setTranslator();
+		$container->addMultiSelectUntranslated('resource', 'cms.permissions.resource')
+			->setItems($this->orm->aclResources->fetchPairsByResourceName());
 		$container->addSelect('privilege', 'cms.permissions.privilege', $this->privileges);
 		$container->addSelect('allowed', 'default.state', $this->access);
 	}
