@@ -139,6 +139,17 @@ abstract class BasePresenter extends Presenter
 		$this->redrawFlashMessages();
 	}
 
+	/**
+	 * Presmerovani ajaxoveho pozadavku
+	 * @param string $destination
+	 * @param array $args
+	 */
+	public function ajaxRedirect(string $destination, array $args = []): void
+	{
+		$this->payload->forceRedirect = $this->link($destination, $args);
+		$this->sendPayload();
+	}
+
 	/* ###################################################################### */
 	/*                               Configurator                             */
 

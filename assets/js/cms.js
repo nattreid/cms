@@ -3,6 +3,16 @@
 $(document).ready(function () {
     $("body").removeClass("preload");
 
+    $.nette.ext('forceRedirect', {
+        success: function (payload) {
+            window.console.log(payload);
+            if (payload.forceRedirect) {
+                window.location.href = payload.forceRedirect;
+                return false;
+            }
+        }
+    });
+
     $.nette.init();
 
     $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', function () {

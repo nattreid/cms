@@ -50637,6 +50637,16 @@ this,k=[],f=this.each(function(){var b=a(this),c=b.data("ckeditorInstance");if(b
 $(document).ready(function () {
     $("body").removeClass("preload");
 
+    $.nette.ext('forceRedirect', {
+        success: function (payload) {
+            window.console.log(payload);
+            if (payload.forceRedirect) {
+                window.location.href = payload.forceRedirect;
+                return false;
+            }
+        }
+    });
+
     $.nette.init();
 
     $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', function () {
