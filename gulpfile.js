@@ -44,7 +44,6 @@ var boundledJS = [
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-instant-url-refresh.js',
     paths.dev.vendor + 'happy/dist/happy.js',
     paths.dev.vendor + 'bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
-    paths.dev.vendor + 'jquery-ui-sortable/jquery-ui-sortable.js',
     paths.dev.vendor + 'bootstrap-select/dist/js/bootstrap-select.js',
     // form
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
