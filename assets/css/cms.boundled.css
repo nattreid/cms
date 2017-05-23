@@ -16698,7 +16698,8 @@ a.ui-button:active,
 .btn-info,
 .btn-primary,
 .btn-success,
-.btn-warning {
+.btn-warning,
+.btn-danger {
   text-shadow: inherit;
 }
 
