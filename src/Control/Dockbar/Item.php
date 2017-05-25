@@ -48,7 +48,10 @@ class Item
 	/** @var string */
 	private $confirm;
 
-	public function __construct(string $parent = null, string $module = null, string $name, array $item = null)
+	/** @var string[] */
+	private $class = [];
+
+	public function __construct(string $name, array $item = null, string $parent = null, string $module = null)
 	{
 		$this->name = $name;
 		$this->resource = ($parent !== null ? $parent . '.' : '') . $name;
@@ -57,6 +60,15 @@ class Item
 			$this->parseAjax($item);
 			$this->parseConfirm($item);
 		}
+	}
+
+	/**
+	 * Nastavi tridu elementu
+	 * @param string $class
+	 */
+	public function addClass(string $class): void
+	{
+		$this->class[] = $class;
 	}
 
 	/**
@@ -75,7 +87,8 @@ class Item
 
 	protected function getClass(): string
 	{
-		return Strings::webalize($this->name, null, false);
+		$class = implode(' ', $this->class);
+		return Strings::webalize($this->name, null, false) . ($class ?: '');
 	}
 
 	public function isAjax(): bool

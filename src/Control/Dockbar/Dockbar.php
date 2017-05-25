@@ -83,10 +83,10 @@ class Dockbar extends Control
 	 * @param string $link
 	 * @param bool $ajax
 	 */
-	public function addLink(string $name, string $link, bool $ajax = false): void
+	public function addLink(string $name, string $link = null, bool $ajax = false): void
 	{
-		$this->addedItems[] = new Item(null, null, $name, [
-			'link' => $link,
+		$this->addedItems[] = new Item($name, [
+			'link' => $link ?? '#',
 			'ajax' => $ajax
 		]);
 	}
@@ -294,7 +294,7 @@ class Dockbar extends Control
 		$resource = $parent === null ? self::$parent : $parent->resource;
 
 		foreach ($items as $name => $item) {
-			$obj = new Item($resource, $this->module, $name, $item);
+			$obj = new Item($name, $item, $resource, $this->module);
 			if (
 				!($item['advanced'] ?? false)
 				|| $this->configurator->dockbarAdvanced

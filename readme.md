@@ -73,6 +73,12 @@ class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
     public function renderDefault() {
         // pro zobrazeni menu v mobilu (defaultne je skryto)
         $this->viewMobileMenu();
+        
+        // pridani tlacitka do Dockbaru
+        $this['dockbar']->addLink('tlacitko', 'link!');
+        // nebo
+        $this['dockbar']->addLink('tlacitko')
+            ->addClass('trida'); // spusteni pomoci javascriptu
     }
 }
 ```
