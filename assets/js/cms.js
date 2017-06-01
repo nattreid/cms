@@ -33,13 +33,13 @@ $(document).ready(function () {
         $('textarea.ckEditorLine').ckeditor({
             height: '80px',
             toolbarGroups: [
-                {name: 'basicstyles', groups: ['basicstyles']},
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
                 {name: 'paragraph', groups: ['align']},
                 {name: 'styles', groups: ['styles']},
                 {name: 'colors', groups: ['colors']}
             ],
             enterMode: CKEDITOR.ENTER_BR,
-            removeButtons: 'BGColor,Styles,Format,Underline,Strike,Subscript,Superscript,RemoveFormat',
+            removeButtons: 'BGColor,Styles,Format,Underline,Strike,Subscript,Superscript',
             removePlugins: 'elementspath',
             resize_enabled: false,
             on: {
