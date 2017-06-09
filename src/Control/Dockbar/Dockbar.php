@@ -314,7 +314,9 @@ class Dockbar extends Control
 				}
 
 				if ($parent !== null) {
-					$parent->addItem($obj);
+					if ($obj->isLink() || $obj->hasItems) {
+						$parent->addItem($obj);
+					}
 				} else {
 					if ($obj->hasItems) {
 						$this->items[] = $obj;
