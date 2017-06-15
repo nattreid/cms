@@ -16,7 +16,7 @@
                             n:class="$item->name, $item->ajax ? ajax"
                             {if $item->ajax}data-ajax-off="history"{/if}
                             href="{if $item->link == '#'}#{else}{plink $item->link}{/if}"
-                    >{_$item->title}</a>
+                    ><span>{_$item->title}</span></a>
                 </li>
             </ul>
             <ul class="identity">
