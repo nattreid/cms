@@ -686,7 +686,7 @@ body.preload * {
 #cms-container #cms-content .datagrid .datagrid-inline-edit {
   position: relative;
 }
-#cms-container #cms-content .datagrid select[multiple]:hover {
+#cms-container #cms-content .datagrid table select[multiple]:hover {
   height: 140px;
   position: absolute;
   width: 97%;
