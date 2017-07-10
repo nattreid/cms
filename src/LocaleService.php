@@ -156,7 +156,7 @@ class LocaleService
 	 * @param string $locale
 	 * @return Locale|null
 	 */
-	public function get(string $locale): ?Locale
+	public function get(?string $locale): ?Locale
 	{
 		return $this->orm->locales->getByLocale($locale);
 	}
