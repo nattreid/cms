@@ -33,9 +33,9 @@ class LocalesRepository extends Repository
 
 	/**
 	 * @param string $locale
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getByLocale(?string $locale): Locale
+	public function getByLocale(?string $locale): ?Locale
 	{
 		return $this->getBy(['name' => $locale]);
 	}
