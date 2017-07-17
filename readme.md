@@ -128,5 +128,12 @@ class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
 }
 ```
 
+## Další 
+
+Přesměrování při AJAXovém volání v presenteru
+```php
+$this->ajaxRedirect('link', ['args']);
+```
+
 
 
