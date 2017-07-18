@@ -15,6 +15,7 @@ use NAttreid\Cms\Configurator\IConfigurator;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
 use NAttreid\Cms\Factories\LoaderFactory;
+use NAttreid\Form\Control\ImageUpload\Preview;
 use NAttreid\Form\Form;
 use NAttreid\Form\Rules;
 use NAttreid\Latte\TemplateTrait;
@@ -113,6 +114,7 @@ abstract class BasePresenter extends Presenter
 			SelectBox::VALID => 'form.option',
 			UploadControl::VALID => 'form.fileUpload',
 			Rules::PHONE => 'form.phone',
+			Preview::DELETE => 'form.delete',
 		];
 	}
 

@@ -24,6 +24,7 @@ phone: "Telefonní číslo '%value' není platné."
 send: "Odeslat"
 save: "Uložit"
 reset: "Smazat"
+delete: "Smazat"
 
 none: ""
 

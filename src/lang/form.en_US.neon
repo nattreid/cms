@@ -24,6 +24,7 @@ phone: "Please enter a valid phone number."
 send: "Send"
 save: "Save"
 reset: "Reset"
+delete: "Delete"
 
 none: ""
 
