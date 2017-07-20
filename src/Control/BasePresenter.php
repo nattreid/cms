@@ -114,6 +114,7 @@ abstract class BasePresenter extends Presenter
 			SelectBox::VALID => 'form.option',
 			UploadControl::VALID => 'form.fileUpload',
 			Rules::PHONE => 'form.phone',
+			Rules::IMAGE => 'form.imageAndSvg',
 			Preview::DELETE => 'form.delete',
 		];
 	}

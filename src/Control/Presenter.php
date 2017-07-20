@@ -9,6 +9,7 @@ use NAttreid\Breadcrumbs\Link;
 use NAttreid\Cms\Control\Dockbar\Dockbar;
 use NAttreid\Cms\Control\Dockbar\IDockbarFactory;
 use NAttreid\Cms\Factories\ICmsMenuFactory;
+use NAttreid\ImageStorage\TraitImagePresenter;
 use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
@@ -22,7 +23,7 @@ use WebChemistry\Images\TPresenter;
 abstract class Presenter extends BasePresenter
 {
 
-	use TPresenter,
+	use TraitImagePresenter,
 		SecuredLinksPresenterTrait;
 
 	protected function startup(): void

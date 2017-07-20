@@ -20,6 +20,7 @@ image: "The uploaded file must be image in format JPEG, GIF or PNG."
 option: "Please select a valid option."
 fileUpload: "An error occurred during file upload."
 phone: "Please enter a valid phone number."
+imageAndSvg: "The uploaded file must be image in format JPEG, GIF, PNG or SVG."
 
 send: "Send"
 save: "Save"

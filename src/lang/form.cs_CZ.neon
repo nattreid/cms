@@ -20,6 +20,7 @@ image: "Soubor musí být JPEG, PNG nebo GIF."
 option: "Vyberte platnou možnost."
 fileUpload: "Při nahrávání souboru nastala chyba."
 phone: "Telefonní číslo '%value' není platné."
+imageAndSvg: "Soubor musí být JPEG, PNG, GIF nebo SVG."
 
 send: "Odeslat"
 save: "Uložit"

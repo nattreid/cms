@@ -14036,6 +14036,10 @@ fieldset[disabled] .btn-danger.active {
   background-color: #f9f9f9;
 }
 
+.datagrid table thead tr.row-group-actions .datagrid-selected-rows-count {
+  margin-left: 0.3em;
+}
+
 .datagrid table thead tr th {
   font-size: 90%;
   vertical-align: top;
@@ -15121,12 +15125,11 @@ label {
   box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
 }
 /*!
- * Datepicker for Bootstrap v1.6.4 (https://github.com/eternicode/bootstrap-datepicker)
+ * Datepicker for Bootstrap v1.7.1 (https://github.com/uxsolutions/bootstrap-datepicker)
  *
- * Copyright 2012 Stefan Petre
- * Improvements by Andrew Rowls
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
+
 .datepicker {
   border-radius: 4px;
   direction: ltr;
@@ -15134,10 +15137,13 @@ label {
 .datepicker-inline {
   width: 220px;
 }
-.datepicker.datepicker-rtl {
+.datepicker-rtl {
   direction: rtl;
 }
-.datepicker.datepicker-rtl table tr td span {
+.datepicker-rtl.dropdown-menu {
+  left: auto;
+}
+.datepicker-rtl table tr td span {
   float: right;
 }
 .datepicker-dropdown {
@@ -15766,6 +15772,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 .datepicker tfoot tr th:hover {
   background: #eeeeee;
 }
+.datepicker .prev.disabled,
+.datepicker .next.disabled {
+  visibility: hidden;
+}
 .datepicker .cw {
   font-size: 10px;
   width: 12px;
@@ -15799,7 +15809,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 }
 /*# sourceMappingURL=bootstrap-datepicker3.css.map */
 /*!
- * Bootstrap-select v1.12.2 (http://silviomoreto.github.io/bootstrap-select)
+ * Bootstrap-select v1.12.4 (http://silviomoreto.github.io/bootstrap-select)
  *
  * Copyright 2013-2017 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
