@@ -48549,15 +48549,17 @@ $(document).ready(function () {
             var loc = locale.locale;
             loc.format = locale.format.date;
 
-            $(this).daterangepicker(
-                {
-                    showDropdowns: true,
-                    ranges: locale.ranges,
-                    autoApply: true,
-                    autoUpdateInput: false,
-                    locale: loc
-                }
-            )
+            var data = {
+                showDropdowns: true,
+                autoApply: true,
+                autoUpdateInput: false,
+                locale: loc
+            };
+            if (!$(this).data('only-range')) {
+                data.ranges = locale.ranges
+            }
+
+            $(this).daterangepicker(data)
                 .keyup(function (e) {
                     if (e.keyCode === 46) {
                         $(this).val('');
