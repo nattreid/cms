@@ -12,6 +12,9 @@ cms:
     url: '/cms/'
     sender: 'Odesilatel <nejaky@mail.cz>'
     front: ':Front:Homepage:'
+    
+    configurator:
+    	defaultPromenna: 'hodnota' # nastaveni vychozich hodnot v configuratoru
 
     fileManagerDir: %appDir%/../
     infoRefresh: 15 # vteriny

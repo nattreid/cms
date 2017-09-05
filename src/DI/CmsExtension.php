@@ -88,9 +88,6 @@ class CmsExtension extends CompilerExtension
 			->setClass(Router::class)
 			->setArguments([$config['namespace'], $config['url']]);
 
-		$builder->addDefinition($this->prefix('configurator'))
-			->setClass(Configurator::class);
-
 		$builder->addDefinition($this->prefix('formFactory'))
 			->setClass(FormFactory::class);
 
@@ -100,11 +97,26 @@ class CmsExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('localeService'))
 			->setClass(LocaleService::class);
 
+		$this->setConfigurator($config);
 		$this->setLoader($config);
 		$this->setPresenters($config);
 		$this->setMenu($config);
 		$this->setMailing($config);
 		$this->setTracy($config);
+	}
+
+	private function setConfigurator(array $config): void
+	{
+		$builder = $this->getContainerBuilder();
+
+		$defaults = $config['configurator'] ?? [];
+
+		$configurator = $builder->addDefinition($this->prefix('configurator'))
+			->setClass(Configurator::class);
+
+		foreach ($defaults as $variable => $value) {
+			$configurator->addSetup('addDefault', [$variable, $value]);
+		}
 	}
 
 	private function setLoader(array $config): void

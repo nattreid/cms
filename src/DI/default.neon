@@ -2,6 +2,7 @@ namespace: 'Cms'
 url: '/cms/'
 sender: null
 front: null
+configurator: null
 
 fileManagerDir: %appDir%/../
 infoRefresh: 15 # vteriny
