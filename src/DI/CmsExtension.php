@@ -85,17 +85,17 @@ class CmsExtension extends CompilerExtension
 			->setFactory(FileManager::class);
 
 		$builder->addDefinition($this->prefix('router'))
-			->setClass(Router::class)
+			->setType(Router::class)
 			->setArguments([$config['namespace'], $config['url']]);
 
 		$builder->addDefinition($this->prefix('formFactory'))
-			->setClass(FormFactory::class);
+			->setType(FormFactory::class);
 
 		$builder->addDefinition($this->prefix('dataGridFactory'))
-			->setClass(DataGridFactory::class);
+			->setType(DataGridFactory::class);
 
 		$builder->addDefinition($this->prefix('localeService'))
-			->setClass(LocaleService::class);
+			->setType(LocaleService::class);
 
 		$this->setConfigurator($config);
 		$this->setLoader($config);
@@ -112,7 +112,7 @@ class CmsExtension extends CompilerExtension
 		$defaults = $config['configurator'] ?? [];
 
 		$configurator = $builder->addDefinition($this->prefix('configurator'))
-			->setClass(Configurator::class);
+			->setType(Configurator::class);
 
 		foreach ($defaults as $variable => $value) {
 			$configurator->addSetup('addDefault', [$variable, $value]);
@@ -127,7 +127,7 @@ class CmsExtension extends CompilerExtension
 		$cssFilters = $this->createFilterServices($config['cssFilters'] ?? [], 'cssFilter');
 
 		$loader = $builder->addDefinition($this->prefix('loaderFactory'))
-			->setClass(LoaderFactory::class)
+			->setType(LoaderFactory::class)
 			->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
 			->addSetup('addFile', ['css/cms.boundled.min.css'])
 			->addSetup('addFile', ['js/cms.boundled.min.js'])
@@ -222,23 +222,23 @@ class CmsExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('profile'))
-			->setClass(ProfilePresenter::class)
+			->setType(ProfilePresenter::class)
 			->setArguments([$config['minPasswordLength']]);
 
 		$builder->addDefinition($this->prefix('fileManager'))
-			->setClass(FileManagerPresenter::class)
+			->setType(FileManagerPresenter::class)
 			->setArguments([$config['fileManagerDir']]);
 
 		$builder->addDefinition($this->prefix('info'))
-			->setClass(InfoPresenter::class)
+			->setType(InfoPresenter::class)
 			->setArguments([$config['infoRefresh']]);
 
 		$builder->addDefinition($this->prefix('users'))
-			->setClass(UsersPresenter::class)
+			->setType(UsersPresenter::class)
 			->setArguments([$config['passwordChars'], $config['minPasswordLength']]);
 
 		$builder->addDefinition($this->prefix('sign'))
-			->setClass(SignPresenter::class)
+			->setType(SignPresenter::class)
 			->setArguments([$config['loginExpiration'], $config['sessionExpiration'], $config['minPasswordLength']]);
 	}
 
@@ -264,7 +264,7 @@ class CmsExtension extends CompilerExtension
 		$rc = new ClassType(Mailer::class);
 		$dir = dirname($rc->getFileName());
 		$builder->addDefinition($this->prefix('mailer'))
-			->setClass(Mailer::class)
+			->setType(Mailer::class)
 			->setArguments([$config['sender'], $dir]);
 	}
 
@@ -361,7 +361,7 @@ class CmsExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('tracyPlugin'))
-			->setClass(Tracy::class)
+			->setType(Tracy::class)
 			->setArguments([$config['tracy']['cookie']])
 			->addSetup('setMail', [$config['tracy']['mailPath'], '@' . $this->prefix('configurator') . '::mailPanel']);
 	}
@@ -404,7 +404,7 @@ class CmsExtension extends CompilerExtension
 		foreach ($filters as $class) {
 			$name = $this->prefix($filter . $counter++);
 			$builder->addDefinition($name)
-				->setClass($class);
+				->setType($class);
 			$result[] = '@' . $name;
 		}
 		return $result;
