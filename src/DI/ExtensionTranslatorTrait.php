@@ -19,7 +19,10 @@ trait ExtensionTranslatorTrait
 			$setup = [];
 			$languages = [
 				'cs_CZ',
-				'en_US'
+				'en_US',
+				'de_DE',
+				'pl_PL',
+				'sk_SK'
 			];
 			foreach ($domains as $domain) {
 				foreach ($languages as $lang) {
