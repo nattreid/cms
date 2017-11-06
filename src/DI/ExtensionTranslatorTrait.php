@@ -26,7 +26,10 @@ trait ExtensionTranslatorTrait
 			];
 			foreach ($domains as $domain) {
 				foreach ($languages as $lang) {
-					$setup[] = new Statement('addResource', ['neon', "$dir/$domain.$lang.neon", $lang, $domain]);
+					$file = "$dir/$domain.$lang.neon";
+					if (file_exists($file)) {
+						$setup[] = new Statement('addResource', ['neon', $file, $lang, $domain]);
+					}
 				}
 			}
 			$def->setSetup(array_merge($def->getSetup(), $setup));
