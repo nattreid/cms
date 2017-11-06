@@ -1,5 +1,5 @@
 ﻿protection: "Czas minął, proszę wysłać formularz ponownie."
- equal: "'%label' się nie zgadza."
+equal: "'%label' się nie zgadza."
 notEqual: "'%label' nie może być %s."
 filled: "'%label' jest obowiązkowe."
 blank: "'%label' musi być puste."
