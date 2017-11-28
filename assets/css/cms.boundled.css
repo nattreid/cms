@@ -17195,28 +17195,30 @@ body.preload * {
 #dockbar .dockbar-content > ul.dockbar-menu {
   margin-left: 20px;
 }
-#dockbar .dockbar-content > ul.identity {
+#dockbar .dockbar-content > ul.dockbar-right {
   float: right;
 }
-#dockbar .dockbar-content > ul.identity > li > ul {
+#dockbar .dockbar-content > ul.dockbar-right > li > ul {
   right: -1px;
   left: initial;
 }
-#dockbar .dockbar-content > ul.identity > li > div::before {
+#dockbar .dockbar-content > ul.dockbar-right > li > div::before {
   left: 7px;
-  content: "\f007";
 }
-#dockbar .dockbar-content > ul.identity > li > div span {
+#dockbar .dockbar-content > ul.dockbar-right > li > div > span {
   display: inline-block;
 }
-#dockbar .dockbar-content > ul.identity > li li.myProfile > a:before {
+#dockbar .dockbar-content > ul.dockbar-right > li.identity > ul > li.myProfile > a:before {
   content: "\f044";
 }
-#dockbar .dockbar-content > ul.identity > li li.closeTryUser > a:before {
+#dockbar .dockbar-content > ul.dockbar-right > li.identity > ul > li.closeTryUser > a:before {
   content: "\f235";
 }
-#dockbar .dockbar-content > ul.identity > li li.logout > a:before {
+#dockbar .dockbar-content > ul.dockbar-right > li.identity > ul > li.logout > a:before {
   content: "\f08b";
+}
+#dockbar .dockbar-content > ul.dockbar-right > li.identity > div::before {
+  content: "\f007";
 }
 @media (max-width: 700px) {
   #dockbar {

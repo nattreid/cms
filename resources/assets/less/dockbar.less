@@ -252,8 +252,9 @@
         margin-left: 20px;
       }
 
-      &.identity {
+      &.dockbar-right {
         float: right;
+
         > li {
           > ul {
             right: -1px;
@@ -262,20 +263,29 @@
           > div {
             &::before {
               left: 7px;
-              content: "\f007";
             }
-            span {
+            > span {
               display: inline-block;
             }
           }
-          li.myProfile > a:before {
-            content: "\f044";
+        }
+
+        > li.identity {
+          > ul {
+            > li {
+              &.myProfile > a:before {
+                content: "\f044";
+              }
+              &.closeTryUser > a:before {
+                content: "\f235";
+              }
+              &.logout > a:before {
+                content: "\f08b";
+              }
+            }
           }
-          li.closeTryUser > a:before {
-            content: "\f235";
-          }
-          li.logout > a:before {
-            content: "\f08b";
+          > div::before {
+            content: "\f007";
           }
         }
       }
