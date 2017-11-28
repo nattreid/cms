@@ -69,6 +69,9 @@ class ProfilePresenter extends CmsPresenter
 		$form->addText('username', 'cms.user.username')
 			->setDisabled()
 			->setDefaultValue($this->profile->username);
+		$form->addText('roles', 'cms.permissions.roles')
+			->setDisabled()
+			->setDefaultValue(implode(', ',$this->profile->getRoleTitles()));
 		$form->addText('firstName', 'cms.user.firstName')
 			->setDefaultValue($this->profile->firstName);
 		$form->addText('surname', 'cms.user.surname')
