@@ -34536,7 +34536,7 @@ $.nette.ext('history', {
 })(jQuery);
 
 //! moment.js
-//! version : 2.19.2
+//! version : 2.19.3
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -35196,7 +35196,7 @@ var matchTimestamp = /[+-]?\d+(\.\d{1,3})?/; // 123456789 123456789.123
 
 // any word (or two) characters or numbers including two/three word month in arabic.
 // includes scottish gaelic two word and hyphenated months
-var matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
+var matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
 
 
 var regexes = {};
@@ -39015,7 +39015,7 @@ addParseToken('x', function (input, array, config) {
 // Side effect imports
 
 
-hooks.version = '2.19.2';
+hooks.version = '2.19.3';
 
 setHookCallback(createLocal);
 
@@ -48495,15 +48495,6 @@ $(document).ready(function () {
         return;
     }
 
-    var ranges = {
-        today: [window.moment(), window.moment()],
-        yesterday: [window.moment().subtract(1, 'days'), window.moment().subtract(1, 'days')],
-        last7Days: [window.moment().subtract(6, 'days'), window.moment()],
-        last30Days: [window.moment().subtract(29, 'days'), window.moment()],
-        thisMonth: [window.moment().startOf('month'), window.moment().endOf('month')],
-        lastMonth: [window.moment().subtract(1, 'month').startOf('month'), window.moment().subtract(1, 'month').endOf('month')]
-    };
-
     var localize = {
         cs: {
             locale: {
@@ -48516,12 +48507,13 @@ $(document).ready(function () {
                 customRangeLabel: 'Vybrané období'
             },
             ranges: {
-                'Dnes': ranges.today,
-                'Včera': ranges.yesterday,
-                'Posledních 7 dní': ranges.last7Days,
-                'Posledních 30 dní': ranges.last30Days,
-                'Tento měsíc': ranges.thisMonth,
-                'Minulý měsíc': ranges.lastMonth
+                today: 'Dnes',
+                yesterday: 'Včera',
+                thisMonth: 'Tento měsíc',
+                lastMonth: 'Minulý měsíc',
+                lastDay: 'Za posledních 1 den',
+                lastXDays: 'Za poslední %i dny',
+                lastDays: 'Posledních %i dní'
             },
             format: {
                 date: 'D.M.YYYY',
@@ -48538,12 +48530,12 @@ $(document).ready(function () {
                 customRangeLabel: 'Custom Range'
             },
             ranges: {
-                'Today': ranges.today,
-                'Yesterday': ranges.yesterday,
-                'Last 7 Days': ranges.last7Days,
-                'Last 30 Days': ranges.last30Days,
-                'This Month': ranges.thisMonth,
-                'Last Month': ranges.lastMonth
+                today: 'Today',
+                yesterday: 'Yesterday',
+                thisMonth: 'This Month',
+                lastMonth: 'Last Month',
+                lastDay: 'Last 1 Day',
+                lastDays: 'Last %i Days'
             },
             format: {
                 date: 'M/D/YYYY',
@@ -48554,9 +48546,39 @@ $(document).ready(function () {
 
     var locale = localize[window.moment.locale()];
 
+    function localeInterval(interval) {
+        switch (interval) {
+            case 1:
+                return locale.ranges.lastDay
+            case 2:
+            case 3:
+            case 4:
+                if (locale.ranges.lastXDays !== undefined) {
+                    return locale.ranges.lastXDays.replace('%i', interval);
+                }
+            default:
+                return locale.ranges.lastDays.replace('%i', interval);
+        }
+    }
+
+    function getRanges(intervals) {
+        var ranges = {};
+        ranges[locale.ranges.today] = [window.moment(), window.moment()];
+        ranges[locale.ranges.yesterday] = [window.moment().subtract(1, 'days'), window.moment().subtract(1, 'days')];
+
+        intervals.forEach(function (interval) {
+            ranges[localeInterval(interval)] = [window.moment().subtract(interval - 1, 'days'), window.moment()];
+        });
+
+        ranges[locale.ranges.thisMonth] = [window.moment().startOf('month'), window.moment().endOf('month')];
+        ranges[locale.ranges.lastMonth] = [window.moment().subtract(1, 'month').startOf('month'), window.moment().subtract(1, 'month').endOf('month')];
+
+        return ranges;
+    }
+
     // datepicker
     $(document).on('focus', '.form-date', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
+        if ($(this).data('daterangepicker') === undefined) {
             var loc = locale.locale;
             loc.format = locale.format.date;
 
@@ -48583,7 +48605,7 @@ $(document).ready(function () {
 
     // datetimepicker
     $(document).on('focus', '.form-datetime', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
+        if ($(this).data('daterangepicker') === undefined) {
             var loc = locale.locale;
             loc.format = locale.format.date + ' ' + locale.format.time;
 
@@ -48612,7 +48634,7 @@ $(document).ready(function () {
 
     // daterangepicker
     $(document).on('focus', '.form-daterange', function () {
-        if (typeof $(this).data('daterangepicker') === 'undefined') {
+        if ($(this).data('daterangepicker') === undefined) {
             var loc = locale.locale;
             loc.format = locale.format.date;
 
@@ -48623,7 +48645,7 @@ $(document).ready(function () {
                 locale: loc
             };
             if (!$(this).data('only-range')) {
-                data.ranges = locale.ranges
+                data.ranges = getRanges($(this).data('intervals'));
             }
 
             $(this).daterangepicker(data)

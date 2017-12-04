@@ -54,6 +54,9 @@ class CmsExtension extends CompilerExtension
 	/** @var string */
 	private $wwwDir;
 
+	/**
+	 * @throws FileNotFoundException
+	 */
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
@@ -119,6 +122,10 @@ class CmsExtension extends CompilerExtension
 		}
 	}
 
+	/**
+	 * @param array $config
+	 * @throws FileNotFoundException
+	 */
 	private function setLoader(array $config): void
 	{
 		$builder = $this->getContainerBuilder();
@@ -141,6 +148,7 @@ class CmsExtension extends CompilerExtension
 	/**
 	 * @param ServiceDefinition $loader
 	 * @param array $assets
+	 * @throws FileNotFoundException
 	 */
 	private function addLoaderFiles(ServiceDefinition $loader, array $assets): void
 	{
@@ -190,6 +198,7 @@ class CmsExtension extends CompilerExtension
 	/**
 	 * @param ServiceDefinition $loader
 	 * @param string[] $file
+	 * @throws FileNotFoundException
 	 */
 	private function addLoaderFile(ServiceDefinition $loader, array $file): void
 	{
