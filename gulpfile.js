@@ -66,6 +66,12 @@ var locale = {
         paths.dev.vendor + 'bootstrap-select/dist/js/i18n/defaults-cs_CZ.js',
         paths.dev.vendor + 'bootstrap-datepicker/js/locales/bootstrap-datepicker.cs.js',
         paths.dev.js + 'locale.js'
+    ],
+    'en': [
+        paths.dev.vendor + 'jquery-ui/ui/i18n/datepicker-en-GB.js',
+        paths.dev.vendor + 'bootstrap-select/dist/js/i18n/defaults-en_US.js',
+        paths.dev.vendor + 'bootstrap-datepicker/js/locales/bootstrap-datepicker.en-GB.js',
+        paths.dev.js + 'locale.js'
     ]
 };
 
@@ -95,17 +101,21 @@ gulp.task('jsBoundledMin', function () {
         .pipe(gulp.dest(paths.production.js));
 });
 
-gulp.task('jsCs', function () {
-    return gulp.src(locale.cs)
-        .pipe(concat('cms.cs.js'))
-        .pipe(gulp.dest(paths.production.lang));
+gulp.task('jsLocale', function () {
+    for (var lang in locale) {
+        gulp.src(locale[lang])
+            .pipe(concat('cms.' + lang + '.js'))
+            .pipe(gulp.dest(paths.production.lang));
+    }
 });
 
-gulp.task('jsCsMin', function () {
-    return gulp.src(locale.cs)
-        .pipe(concat('cms.cs.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.production.lang));
+gulp.task('jsLocaleMin', function () {
+    for (var lang in locale) {
+        gulp.src(locale[lang])
+            .pipe(concat('cms.' + lang + '.min.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest(paths.production.lang));
+    }
 });
 
 // *****************************************************************************
@@ -196,13 +206,13 @@ gulp.task('cssBoundledMin', function () {
 // *****************************************************************************
 
 gulp.task('watch', function () {
-    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
-    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
+    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin']);
+    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin']);
 
     gulp.watch(paths.dev.css + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
     gulp.watch(paths.dev.less + '*.less', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
     gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
 });
 
-gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
+gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
 
