@@ -138,7 +138,8 @@ class CmsExtension extends CompilerExtension
 			->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
 			->addSetup('addFile', ['css/cms.boundled.min.css'])
 			->addSetup('addFile', ['js/cms.boundled.min.js'])
-			->addSetup('addFile', ['js/i18n/cms.cs.min.js', 'cs']);
+			->addSetup('addFile', ['js/i18n/cms.cs.min.js', 'cs'])
+			->addSetup('addFile', ['js/i18n/cms.en.min.js', 'en']);
 
 		if (!empty($config['assets'])) {
 			$this->addLoaderFiles($loader, $config['assets']);
