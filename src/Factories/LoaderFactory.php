@@ -90,6 +90,7 @@ class LoaderFactory
 	/**
 	 * Vytvori komponentu css
 	 * @return CssLoader
+	 * @throws \WebLoader\InvalidArgumentException
 	 */
 	public function createCssLoader(): CssLoader
 	{
@@ -118,6 +119,7 @@ class LoaderFactory
 	/**
 	 * @param FileCollection $collection
 	 * @return Compiler
+	 * @throws \WebLoader\InvalidArgumentException
 	 */
 	private function createJSCompiler(FileCollection $collection): Compiler
 	{

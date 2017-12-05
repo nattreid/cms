@@ -11,6 +11,7 @@ use NAttreid\Cms\Control\BasePresenter;
 use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\User;
+use Nette\Application\AbortException;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
 
@@ -102,6 +103,7 @@ class Dockbar extends Control
 
 	/**
 	 * Odhlaseni
+	 * @throws AbortException
 	 */
 	public function handleLogOut(): void
 	{
@@ -153,6 +155,7 @@ class Dockbar extends Control
 
 	/**
 	 * Smazani cache
+	 * @throws AbortException
 	 */
 	public function handleClearCache(): void
 	{
@@ -176,6 +179,7 @@ class Dockbar extends Control
 
 	/**
 	 * Smazani temp
+	 * @throws AbortException
 	 */
 	public function handleClearTemp(): void
 	{
@@ -215,6 +219,7 @@ class Dockbar extends Control
 
 	/**
 	 * Zaloha databaze
+	 * @throws AbortException
 	 */
 	public function handleBackupDatabase(): void
 	{
@@ -226,6 +231,7 @@ class Dockbar extends Control
 
 	/**
 	 * Smazání databaze
+	 * @throws AbortException
 	 */
 	public function handleDropDatabase(): void
 	{
@@ -239,6 +245,7 @@ class Dockbar extends Control
 
 	/**
 	 * Zaloha
+	 * @throws AbortException
 	 */
 	public function handleBackup(): void
 	{
@@ -264,6 +271,9 @@ class Dockbar extends Control
 		}
 	}
 
+	/**
+	 * @throws \Nette\Application\UI\InvalidLinkException
+	 */
 	public function render(): void
 	{
 		$template = $this->template;
@@ -329,6 +339,7 @@ class Dockbar extends Control
 	/**
 	 * Zkontroluje opravneni a pokud je nema, ukonci aplikaci
 	 * @param bool $ajax
+	 * @throws AbortException
 	 */
 	private function checkHandlerPermission(bool $ajax = true): void
 	{

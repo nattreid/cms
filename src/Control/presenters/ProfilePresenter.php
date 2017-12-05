@@ -42,6 +42,9 @@ class ProfilePresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
+	/**
+	 * @throws \Nette\Application\BadRequestException
+	 */
 	public function actionDefault(): void
 	{
 		$this->profile = $this->orm->users->getById($this->user->getId());

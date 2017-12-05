@@ -10,6 +10,7 @@ use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\Users\User;
 use NAttreid\Utils\Hasher;
+use Nette\Application\AbortException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Utils\ArrayHash;
@@ -59,6 +60,9 @@ class SignPresenter extends BasePresenter
 		$this->hasher = $hasher;
 	}
 
+	/**
+	 * @throws AbortException
+	 */
 	protected function startup(): void
 	{
 		parent::startup();
@@ -70,6 +74,7 @@ class SignPresenter extends BasePresenter
 
 	/**
 	 * Prihlaseni
+	 * @throws AbortException
 	 */
 	public function actionIn(): void
 	{
@@ -80,6 +85,7 @@ class SignPresenter extends BasePresenter
 
 	/**
 	 * Prvni prihlaseni administratora
+	 * @throws AbortException
 	 */
 	public function actionRegisterAdministrator(): void
 	{
@@ -90,6 +96,7 @@ class SignPresenter extends BasePresenter
 
 	/**
 	 * Obnoveni hesla je mozno jen trikrat do hodiny
+	 * @throws AbortException
 	 */
 	public function actionForgottenPassword(): void
 	{
@@ -103,6 +110,7 @@ class SignPresenter extends BasePresenter
 	/**
 	 * Obnoveni hesla
 	 * @param string $hash
+	 * @throws AbortException
 	 */
 	public function renderRestorePassword(string $hash): void
 	{
@@ -145,6 +153,7 @@ class SignPresenter extends BasePresenter
 	 * Zpracovani prihlasovaciho formulare
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AbortException
 	 */
 	public function signInFormSucceeded(Form $form, ArrayHash $values)
 	{
@@ -169,6 +178,7 @@ class SignPresenter extends BasePresenter
 	/**
 	 * Formular pro zapomenute heslo
 	 * @return Form
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	protected function createComponentForgottenPasswordForm(): Form
 	{
@@ -191,6 +201,7 @@ class SignPresenter extends BasePresenter
 	 * Zpracovani formulare pro zapomenute heslo
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AbortException
 	 */
 	public function forgottenPasswordFormSucceeded(Form $form, ArrayHash $values): void
 	{
@@ -252,6 +263,8 @@ class SignPresenter extends BasePresenter
 	 * Zpracovani formulare pro obnoveni hesla
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AuthenticationException
+	 * @throws AbortException
 	 */
 	public function restorePasswordFormSucceeded(Form $form, ArrayHash $values): void
 	{
@@ -305,6 +318,8 @@ class SignPresenter extends BasePresenter
 	 * Zpracovani formulare pro prvniho uzivatele
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AuthenticationException
+	 * @throws AbortException
 	 */
 	public function registerAdministratorFormSucceeded(Form $form, ArrayHash $values): void
 	{

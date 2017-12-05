@@ -29,6 +29,7 @@ class InfoPresenter extends CmsPresenter
 
 	/**
 	 * Refresh
+	 * @throws \Nette\Application\AbortException
 	 */
 	public function handleRefresh(): void
 	{

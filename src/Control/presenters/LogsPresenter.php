@@ -6,6 +6,7 @@ namespace NAttreid\Cms\Control;
 
 use NAttreid\AppManager\AppManager;
 use NAttreid\Utils\Date;
+use Nette\Application\AbortException;
 use Ublaboo\DataGrid\DataGrid;
 
 /**
@@ -36,6 +37,7 @@ class LogsPresenter extends CmsPresenter
 	/**
 	 * Zobrazeni souboru
 	 * @param string $id
+	 * @throws AbortException
 	 */
 	public function actionShowFile(string $id): void
 	{
@@ -45,6 +47,7 @@ class LogsPresenter extends CmsPresenter
 	/**
 	 * Stazeni souboru
 	 * @param string[]|string $id
+	 * @throws AbortException
 	 */
 	public function actionDownloadFile($id): void
 	{
@@ -55,6 +58,7 @@ class LogsPresenter extends CmsPresenter
 	 * Smazani logu
 	 * @param string[]|string $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDelete($id): void
 	{
@@ -70,6 +74,7 @@ class LogsPresenter extends CmsPresenter
 
 	/**
 	 * Smazani logu
+	 * @throws AbortException
 	 */
 	public function handleClearLogs(): void
 	{
@@ -87,6 +92,7 @@ class LogsPresenter extends CmsPresenter
 	 * Seznamu logu
 	 * @param string $name
 	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
 	 */
 	protected function createComponentLogsList(string $name): DataGrid
 	{

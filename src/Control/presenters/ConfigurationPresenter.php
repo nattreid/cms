@@ -39,6 +39,10 @@ class ConfigurationPresenter extends CmsPresenter
 		$this['configurationForm']->setDefaults($this->configurator->fetchConfigurations());
 	}
 
+	/**
+	 * @param bool $on
+	 * @throws \Nette\Application\AbortException
+	 */
 	public function handleDebug(bool $on): void
 	{
 		if ($this->isAjax()) {
@@ -103,6 +107,7 @@ class ConfigurationPresenter extends CmsPresenter
 	 * Ulozeni nastaveni
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws \Nette\Application\AbortException
 	 */
 	public function configurationFormSucseeded(Form $form, ArrayHash $values): void
 	{

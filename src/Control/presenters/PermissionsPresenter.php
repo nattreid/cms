@@ -9,6 +9,8 @@ use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Security\Model\Orm;
+use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Forms\Container;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
@@ -61,6 +63,10 @@ class PermissionsPresenter extends CmsPresenter
 		$this->addBreadcrumbLink('dockbar.settings.permissions');
 	}
 
+	/**
+	 * @param int $id
+	 * @throws BadRequestException
+	 */
 	public function actionEditRolePermissions(int $id): void
 	{
 		$this->role = $this->orm->aclRoles->getById($id);
@@ -80,6 +86,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Smazani role
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDeleteRole(int $id): void
 	{
@@ -96,6 +103,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Smazani pravidlo
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDeletePermission(int $id): void
 	{
@@ -111,6 +119,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Smaze role
 	 * @param array $ids
+	 * @throws AbortException
 	 */
 	public function deleteRoles(array $ids): void
 	{
@@ -129,6 +138,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Smaze pravidla
 	 * @param array $ids
+	 * @throws AbortException
 	 */
 	public function deletePermissions(array $ids): void
 	{
@@ -147,6 +157,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Smazani nepouzitych zdroju (pro prehlednost)
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDeleteUnusedResources(): void
 	{
@@ -161,6 +172,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Smazani cache ACL
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleClearCacheACL(): void
 	{
@@ -191,6 +203,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Pridani role
 	 * @param ArrayHash $values
+	 * @throws AbortException
 	 */
 	public function addRole(ArrayHash $values): void
 	{
@@ -234,6 +247,7 @@ class PermissionsPresenter extends CmsPresenter
 	/**
 	 * Pridani pravidla
 	 * @param ArrayHash $values
+	 * @throws AbortException
 	 */
 	public function addPermission(ArrayHash $values): void
 	{
@@ -264,6 +278,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Ulozi nazev role
 	 * @param int $id
 	 * @param string $value
+	 * @throws AbortException
 	 */
 	public function setRoleTitle(int $id, string $value): void
 	{
@@ -282,6 +297,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Ulozi jmeno role
 	 * @param int $id
 	 * @param string $value
+	 * @throws AbortException
 	 */
 	public function setRoleName(int $id, string $value): void
 	{
@@ -308,6 +324,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Ulozi rodice role
 	 * @param int $id
 	 * @param string $value
+	 * @throws AbortException
 	 */
 	public function setRoleParent(int $id, string $value): void
 	{
@@ -327,6 +344,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Nastavi roli pravidlu
 	 * @param int $id
 	 * @param int $value
+	 * @throws AbortException
 	 */
 	public function setPermissionRole(int $id, int $value): void
 	{
@@ -347,6 +365,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Nastavi zdroj pravidlu
 	 * @param int $id
 	 * @param int $value
+	 * @throws AbortException
 	 */
 	public function setPermissionResource(int $id, int $value): void
 	{
@@ -367,6 +386,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Ulozi operaci pravidla
 	 * @param int $id
 	 * @param string $value
+	 * @throws AbortException
 	 */
 	public function setPermissionPrivilege(int $id, string $value): void
 	{
@@ -387,6 +407,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Ulozi stav pravidla
 	 * @param int $id
 	 * @param bool $value
+	 * @throws AbortException
 	 */
 	public function setPermissionState(int $id, bool $value): void
 	{
@@ -407,6 +428,7 @@ class PermissionsPresenter extends CmsPresenter
 	 * Seznam roli
 	 * @param string $name
 	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
 	 */
 	protected function createComponentRolesList(string $name): DataGrid
 	{
@@ -459,6 +481,8 @@ class PermissionsPresenter extends CmsPresenter
 	 * Seznam pravidel
 	 * @param string $name
 	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridColumnStatusException
 	 */
 	protected function createComponentPermissionsList(string $name): DataGrid
 	{

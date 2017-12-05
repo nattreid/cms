@@ -11,6 +11,9 @@ namespace NAttreid\Cms\Control;
  */
 abstract class ModulePresenter extends Presenter
 {
+	/**
+	 * @throws \Nette\Application\AbortException
+	 */
 	protected function startup(): void
 	{
 		parent::startup();

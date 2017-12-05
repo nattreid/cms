@@ -11,6 +11,10 @@ namespace NAttreid\Cms\Control;
  */
 abstract class CmsPresenter extends Presenter
 {
+	/**
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Nette\Application\UI\InvalidLinkException
+	 */
 	protected function startup(): void
 	{
 		parent::startup();

@@ -9,6 +9,8 @@ use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Form\Form;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\Users\User;
+use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
@@ -53,11 +55,19 @@ class UsersPresenter extends CmsPresenter
 		$this->localeService = $localeService;
 	}
 
+	/**
+	 * @param string|null $backlink
+	 * @throws AbortException
+	 */
 	public function handleBack(string $backlink = null): void
 	{
 		$this->redirect('default');
 	}
 
+	/**
+	 * @param int $id
+	 * @throws BadRequestException
+	 */
 	public function actionEdit(int $id): void
 	{
 		$this->user = $this->orm->users->getById($id);
@@ -66,6 +76,10 @@ class UsersPresenter extends CmsPresenter
 		}
 	}
 
+	/**
+	 * @param int $id
+	 * @throws BadRequestException
+	 */
 	public function actionChangePassword(int $id): void
 	{
 		$this->actionEdit($id);
@@ -121,6 +135,7 @@ class UsersPresenter extends CmsPresenter
 	 * Smaze uzivatele
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDelete(int $id): void
 	{
@@ -137,6 +152,7 @@ class UsersPresenter extends CmsPresenter
 	 * Ulozi stav uzivatele
 	 * @param int $id
 	 * @param bool $value
+	 * @throws AbortException
 	 */
 	public function setState(int $id, bool $value): void
 	{
@@ -153,6 +169,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Smaze uzivatele
 	 * @param array $ids
+	 * @throws AbortException
 	 */
 	public function deleteUsers(array $ids): void
 	{
@@ -171,6 +188,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Aktivuje uzivatele
 	 * @param array $ids
+	 * @throws AbortException
 	 */
 	public function activateUsers(array $ids): void
 	{
@@ -190,6 +208,7 @@ class UsersPresenter extends CmsPresenter
 	/**
 	 * Deaktivuje uzivatele
 	 * @param array $ids
+	 * @throws AbortException
 	 */
 	public function deactivateUsers(array $ids): void
 	{
@@ -479,6 +498,7 @@ class UsersPresenter extends CmsPresenter
 	 * Seznam uzivatelu
 	 * @param string $name
 	 * @return DataGrid
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
 	 */
 	protected function createComponentUserList(string $name): DataGrid
 	{

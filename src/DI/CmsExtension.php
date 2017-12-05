@@ -396,7 +396,7 @@ class CmsExtension extends CompilerExtension
 	{
 		$type = ltrim($type, '\\');
 		return array_filter($this->getContainerBuilder()->getDefinitions(), function (ServiceDefinition $def) use ($type) {
-			return is_a($def->getClass(), $type, true) || is_a($def->getImplement(), $type, true);
+			return is_a($def->getType(), $type, true) || is_a($def->getImplement(), $type, true);
 		});
 	}
 

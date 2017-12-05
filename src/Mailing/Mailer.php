@@ -18,6 +18,7 @@ class Mailer extends BaseMailer
 	 * Odeslani linku pro zmenu hesla
 	 * @param string $email
 	 * @param string $hash
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function sendRestorePassword(string $email, string $hash): void
 	{
@@ -38,6 +39,7 @@ class Mailer extends BaseMailer
 	 * @param string $email
 	 * @param string $username
 	 * @param string $password
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function sendNewUser(string $email, string $username, string $password): void
 	{
@@ -58,6 +60,7 @@ class Mailer extends BaseMailer
 	 * @param string $email
 	 * @param string $username
 	 * @param string $password
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function sendNewPassword(string $email, string $username, string $password): void
 	{

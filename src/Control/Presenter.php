@@ -13,7 +13,6 @@ use NAttreid\ImageStorage\TraitImagePresenter;
 use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
-use WebChemistry\Images\TPresenter;
 
 /**
  * Presenter pro moduly CMS
@@ -26,6 +25,9 @@ abstract class Presenter extends BasePresenter
 	use TraitImagePresenter,
 		SecuredLinksPresenterTrait;
 
+	/**
+	 * @throws \Nette\Application\AbortException
+	 */
 	protected function startup(): void
 	{
 		parent::startup();

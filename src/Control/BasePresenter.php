@@ -130,6 +130,10 @@ abstract class BasePresenter extends Presenter
 		$this->namespace = $namespace;
 	}
 
+	/**
+	 * @param $element
+	 * @throws \Nette\Application\ForbiddenRequestException
+	 */
 	public function checkRequirements($element): void
 	{
 		$this->user->setNamespace($this->namespace);
@@ -146,6 +150,8 @@ abstract class BasePresenter extends Presenter
 	 * Presmerovani ajaxoveho pozadavku
 	 * @param string $destination
 	 * @param array $args
+	 * @throws \Nette\Application\AbortException
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function ajaxRedirect(string $destination, array $args = []): void
 	{
@@ -216,6 +222,9 @@ abstract class BasePresenter extends Presenter
 		return $this->translator->translate($message, $count, $parameters, $domain, $locale);
 	}
 
+	/**
+	 * @throws \Nette\Application\AbortException
+	 */
 	private function initLocale(): void
 	{
 		if (empty($this->locale)) {

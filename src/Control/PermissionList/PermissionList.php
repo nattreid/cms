@@ -8,6 +8,7 @@ use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclRoles\AclRole;
 use NAttreid\Security\Model\Orm;
 use NAttreid\Security\User;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Control;
 use Nette\InvalidArgumentException;
 use Nextras\Application\UI\SecuredLinksControlTrait;
@@ -111,6 +112,7 @@ class PermissionList extends Control
 	/**
 	 * @param string $resource
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handlePermission(string $resource): void
 	{
@@ -146,7 +148,7 @@ class PermissionList extends Control
 			$this->user->refreshPermissions();
 			$this->redrawControl();
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
