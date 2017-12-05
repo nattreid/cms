@@ -87,7 +87,7 @@ abstract class BasePresenter extends Presenter
 		// lokalizace
 		$this->initLocale();
 
-		$this->template->baseTitle = $this->configurator->title;
+		$this->template->configurator = $this->configurator;
 		$this->template->layout = __DIR__ . '/presenters/templates/@layout.latte';
 
 		// Prelozeni defaultnich zprav pro pravidla formulare
