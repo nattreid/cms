@@ -202,6 +202,7 @@ class SignPresenter extends BasePresenter
 	 * @param Form $form
 	 * @param ArrayHash $values
 	 * @throws AbortException
+	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function forgottenPasswordFormSucceeded(Form $form, ArrayHash $values): void
 	{

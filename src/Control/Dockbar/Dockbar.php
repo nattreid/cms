@@ -114,6 +114,7 @@ class Dockbar extends Control
 
 	/**
 	 * Vypnuti TryUser
+	 * @throws AbortException
 	 */
 	public function handleCloseTryUser(): void
 	{
@@ -122,6 +123,7 @@ class Dockbar extends Control
 
 	/**
 	 * Znovunacte CSS
+	 * @throws AbortException
 	 */
 	public function handleRestoreCss(): void
 	{
@@ -133,6 +135,7 @@ class Dockbar extends Control
 
 	/**
 	 * Znovunacte Javascript
+	 * @throws AbortException
 	 */
 	public function handleRestoreJs(): void
 	{
@@ -144,6 +147,7 @@ class Dockbar extends Control
 
 	/**
 	 * Smazani cache
+	 * @throws AbortException
 	 */
 	public function handleClearSessions(): void
 	{
@@ -168,6 +172,7 @@ class Dockbar extends Control
 
 	/**
 	 * Smazani cache
+	 * @throws AbortException
 	 */
 	public function handleInvalidateCache(): void
 	{
@@ -192,6 +197,7 @@ class Dockbar extends Control
 
 	/**
 	 * Deploy
+	 * @throws AbortException
 	 */
 	public function handleDeploy(): void
 	{
@@ -208,6 +214,7 @@ class Dockbar extends Control
 
 	/**
 	 * Aktualizace composeru
+	 * @throws AbortException
 	 */
 	public function handleComposerUpdate(): void
 	{

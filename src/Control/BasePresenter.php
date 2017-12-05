@@ -24,11 +24,13 @@ use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\User;
 use NAttreid\Utils\Date;
 use NAttreid\Utils\Number;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter;
 use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
+use WebLoader\InvalidArgumentException;
 use WebLoader\Nette\CssLoader;
 use WebLoader\Nette\JavaScriptLoader;
 
@@ -78,6 +80,9 @@ abstract class BasePresenter extends Presenter
 		return $this->module;
 	}
 
+	/**
+	 * @throws AbortException
+	 */
 	protected function startup(): void
 	{
 		parent::startup();
@@ -150,7 +155,7 @@ abstract class BasePresenter extends Presenter
 	 * Presmerovani ajaxoveho pozadavku
 	 * @param string $destination
 	 * @param array $args
-	 * @throws \Nette\Application\AbortException
+	 * @throws AbortException
 	 * @throws \Nette\Application\UI\InvalidLinkException
 	 */
 	public function ajaxRedirect(string $destination, array $args = []): void
@@ -223,7 +228,7 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/**
-	 * @throws \Nette\Application\AbortException
+	 * @throws AbortException
 	 */
 	private function initLocale(): void
 	{
@@ -319,13 +324,17 @@ abstract class BasePresenter extends Presenter
 		$this->loaderFactory = $loaderFactory;
 	}
 
-	/** @return CssLoader */
+	/** @return CssLoader
+	 * @throws InvalidArgumentException
+	 */
 	protected function createComponentLoadCss(): CssLoader
 	{
 		return $this->loaderFactory->createCssLoader();
 	}
 
-	/** @return JavaScriptLoader */
+	/** @return JavaScriptLoader
+	 * @throws InvalidArgumentException
+	 */
 	protected function createComponentLoadJs(): JavaScriptLoader
 	{
 		return $this->loaderFactory->createJavaScriptLoader($this->locale);

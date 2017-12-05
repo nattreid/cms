@@ -105,6 +105,7 @@ class LoaderFactory
 	 * Vytvori komponentu js
 	 * @param string $locale
 	 * @return JavaScriptLoader
+	 * @throws \WebLoader\InvalidArgumentException
 	 */
 	public function createJavaScriptLoader(string $locale = null): JavaScriptLoader
 	{

@@ -11,7 +11,9 @@ use NAttreid\Security\Model\Orm;
 use NAttreid\Security\Model\Users\User;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\InvalidArgumentException;
+use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 use Nette\Utils\Random;
@@ -124,6 +126,7 @@ class UsersPresenter extends CmsPresenter
 	 * Prepne na uzivatele pod id
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleTryUser(int $id): void
 	{
@@ -280,6 +283,8 @@ class UsersPresenter extends CmsPresenter
 	 * Zpracovani noveho uzivatele
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AuthenticationException
+	 * @throws InvalidLinkException
 	 */
 	public function addFormSucceeded(Form $form, ArrayHash $values): void
 	{
@@ -473,6 +478,8 @@ class UsersPresenter extends CmsPresenter
 	 * Zpracovani zmeny hesla
 	 * @param Form $form
 	 * @param ArrayHash $values
+	 * @throws AuthenticationException
+	 * @throws InvalidLinkException
 	 */
 	public function passwordFormSucceeded(Form $form, ArrayHash $values): void
 	{
@@ -499,6 +506,7 @@ class UsersPresenter extends CmsPresenter
 	 * @param string $name
 	 * @return DataGrid
 	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
+	 * @throws \Ublaboo\DataGrid\Exception\DataGridColumnStatusException
 	 */
 	protected function createComponentUserList(string $name): DataGrid
 	{
