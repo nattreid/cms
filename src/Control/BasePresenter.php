@@ -15,6 +15,7 @@ use NAttreid\Cms\Configurator\IConfigurator;
 use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
 use NAttreid\Cms\Factories\LoaderFactory;
+use NAttreid\Cms\ISettings;
 use NAttreid\Form\Control\ImageUpload\Preview;
 use NAttreid\Form\Form;
 use NAttreid\Form\Rules;
@@ -30,6 +31,7 @@ use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
+use Tracy\Debugger;
 use WebLoader\InvalidArgumentException;
 use WebLoader\Nette\CssLoader;
 use WebLoader\Nette\JavaScriptLoader;
@@ -133,6 +135,16 @@ abstract class BasePresenter extends Presenter
 	{
 		$this->module = $module;
 		$this->namespace = $namespace;
+	}
+
+	/**
+	 * @param ISettings[] $settings
+	 */
+	public function setSettings(array $settings)
+	{
+		foreach ($settings as $obj) {
+			$obj->init($this->template, $this);
+		}
 	}
 
 	/**

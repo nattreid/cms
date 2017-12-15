@@ -22,6 +22,7 @@ use NAttreid\Cms\Factories\DataGridFactory;
 use NAttreid\Cms\Factories\FormFactory;
 use NAttreid\Cms\Factories\ICmsMenuFactory;
 use NAttreid\Cms\Factories\LoaderFactory;
+use NAttreid\Cms\ISettings;
 use NAttreid\Cms\LocaleService;
 use NAttreid\Cms\Mailing\Mailer;
 use NAttreid\Cms\Routing\Router;
@@ -345,8 +346,10 @@ class CmsExtension extends CompilerExtension
 
 	private function setModule(array $config, string $namespace): void
 	{
+		$settings = $this->findByType(ISettings::class);
 		foreach ($this->findByType(BasePresenter::class) as $def) {
 			$def->addSetup('setModule', [$config['namespace'], $namespace]);
+			$def->addSetup('setSettings', [$settings]);
 		}
 	}
 

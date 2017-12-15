@@ -131,6 +131,19 @@ class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
 }
 ```
 
+## Nastavení BasePresenteru
+
+Zaregistrujte službu, která bude implementovat z **\NAttreid\Cms\ISettings**
+```php
+class CmsSettings implements ISettings {
+    
+    public function init(ITemplate $template, BasePresenter $presenter)
+	{
+		// php kod ...
+	}
+}
+```
+
 ## Další 
 
 Přesměrování při AJAXovém volání v presenteru

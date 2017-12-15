@@ -9,7 +9,7 @@ namespace NAttreid\Cms\Control;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class ModulePresenter extends Presenter
+abstract class ModulePresenter extends AbstractPresenter
 {
 	/**
 	 * @throws \Nette\Application\AbortException

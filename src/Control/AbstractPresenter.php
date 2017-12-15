@@ -19,7 +19,7 @@ use Nextras\Application\UI\SecuredLinksPresenterTrait;
  *
  * @author Attreid <attreid@gmail.com>
  */
-abstract class Presenter extends BasePresenter
+abstract class AbstractPresenter extends BasePresenter
 {
 
 	use TraitImagePresenter,
