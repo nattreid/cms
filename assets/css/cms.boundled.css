@@ -17200,7 +17200,7 @@ body.preload * {
 }
 #dockbar .dockbar-content > ul.dockbar-right > li > ul {
   right: -1px;
-  left: initial;
+  left: auto;
 }
 #dockbar .dockbar-content > ul.dockbar-right > li > div::before {
   left: 7px;
