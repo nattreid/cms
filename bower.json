@@ -23,7 +23,7 @@
     "jquery": "~3",
     "jquery-ui": "~1",
     "nette.ajax.js": "~2",
-    "jquery-ui-touch-punch": "latest",
+    "jqueryui-touch-punch": "latest",
     "nette-live-form-validation": "~1",
     "history.nette.ajax.js": "~2",
     "nprogress": "latest",

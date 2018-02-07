@@ -28,7 +28,7 @@ var boundledJS = [
     paths.dev.vendor + 'jquery-ui/jquery-ui.js',
     paths.dev.vendor + 'nette.ajax.js/nette.ajax.js',
     paths.dev.vendor + 'nette.ajax.js/extensions/confirm.ajax.js',
-    paths.dev.vendor + 'jquery-ui-touch-punch/jquery.ui.touch-punch.js',
+    paths.dev.vendor + 'jqueryui-touch-punch/jquery.ui.touch-punch.js',
     paths.dev.vendor + 'nette-live-form-validation/live-form-validation.js',
     paths.dev.vendor + 'nattreid-utils/assets/utils.js',
     paths.dev.vendor + 'bootstrap/dist/js/bootstrap.js',
