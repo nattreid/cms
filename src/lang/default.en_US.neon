@@ -16,6 +16,7 @@ id: "ID"
 name: "Name"
 state: "State"
 url: "URL"
+typeaheadEmpty: "Requested item doesn't exists"
 
 time:
     years: "{0}|{1}%count% year|[2,Inf[%count% years"
