@@ -115,17 +115,17 @@ class ProfilePresenter extends CmsPresenter
 		try {
 			$this->profile->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError('cms.user.duplicityEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideEmail');
+			$form->addError('cms.user.invalidEmail');
 			return;
 		}
 
 		try {
 			$this->profile->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError('cms.user.invalidPhone');
 			return;
 		}
 

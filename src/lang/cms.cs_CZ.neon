@@ -30,14 +30,14 @@ user:
 
     registerAdministrator: "Registrace administrátora"
 
-    dupliciteUsername: "Uživatelské jméno je již použito."
-    dupliciteEmail: "E-mailová adresa je již použita."
+    duplicityUsername: "Uživatelské jméno je již použito."
+    duplicityEmail: "E-mailová adresa je již použita."
     incorrectPassword: "Nesprávné heslo."
     incorrectUsernameOrPassword: "Nesprávné uživatelské jméno nebo heslo."
     incorrectUsernameOrEmail: "Nesprávné uživatelské jméno nebo e-mail."
-    invalideUsername: "Uživatelské jméno obsahuje neplatné znaky"
-    invalideEmail: "Email neni v platném formátu"
-    invalidePhone: "Telefon neni v platném formátu"
+    invalidUsername: "Uživatelské jméno obsahuje neplatné znaky"
+    invalidEmail: "Email neni v platném formátu"
+    invalidPhone: "Telefon neni v platném formátu"
 
     dataSaved: "Uživatelská data uložena"
     passwordChanged: "Heslo změněno"
@@ -78,7 +78,7 @@ permissions:
     aclCacheCleared: "Cache ACL smazána."
     accessDenied: "Nemáte práva pro tuto akci."
     roleUsed: "Role již v databázi existuje."
-    dupliciteName: "Jméno je již použito"
+    duplicityName: "Jméno je již použito"
     invalidName: "Jméno obsahuje nepovolené znaky"
 
 settings:

@@ -299,27 +299,27 @@ class UsersPresenter extends CmsPresenter
 		try {
 			$user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteUsername');
+			$form->addError('cms.user.duplicityUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError('cms.user.invalidUsername');
 			return;
 		}
 
 		try {
 			$user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError('cms.user.duplicityEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError('cms.user.invalidUsername');
 			return;
 		}
 
 		try {
 			$user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError('cms.user.invalidPhone');
 			return;
 		}
 
@@ -395,27 +395,27 @@ class UsersPresenter extends CmsPresenter
 		try {
 			$this->user->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteUsername');
+			$form->addError('cms.user.duplicityUsername');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError('cms.user.invalidUsername');
 			return;
 		}
 
 		try {
 			$this->user->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
-			$form->addError('cms.user.dupliciteEmail');
+			$form->addError('cms.user.duplicityEmail');
 			return;
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalideUsername');
+			$form->addError('cms.user.invalidUsername');
 			return;
 		}
 
 		try {
 			$this->user->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
-			$form->addError('cms.user.invalidePhone');
+			$form->addError('cms.user.invalidPhone');
 			return;
 		}
 

@@ -220,7 +220,7 @@ class PermissionsPresenter extends CmsPresenter
 				$this->flashNotifier->success('default.dataSaved');
 				$this['rolesList']->reload();
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('cms.permissions.dupliciteName');
+				$this->flashNotifier->error('cms.permissions.duplicityName');
 			} catch (InvalidArgumentException $ex) {
 				$this->flashNotifier->error('cms.permissions.invalidName');
 			}
@@ -309,7 +309,7 @@ class PermissionsPresenter extends CmsPresenter
 				$this->orm->persistAndFlush($role);
 				$this->flashNotifier->success('default.dataSaved');
 			} catch (UniqueConstraintViolationException $ex) {
-				$this->flashNotifier->error('cms.permissions.dupliciteName');
+				$this->flashNotifier->error('cms.permissions.duplicityName');
 				$grid->redrawItem($id);
 			} catch (InvalidArgumentException $ex) {
 				$this->flashNotifier->error('cms.permissions.invalidName');

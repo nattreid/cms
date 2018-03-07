@@ -30,14 +30,14 @@ user:
 
     registerAdministrator: "Register Administrator"
 
-    dupliciteUsername: "Username is used."
-    dupliciteEmail: "E-mail is used."
+    duplicityUsername: "Username is used."
+    duplicityEmail: "E-mail is used."
     incorrectPassword: "Wrong password."
     incorrectUsernameOrPassword: "Wrong username or password."
     incorrectUsernameOrEmail: "Wrong username or E-mail."
-    invalideUsername: "Username contains invalid characters"
-    invalideEmail: "Email is not valid"
-    invalidePhone: "Phone is not valid"
+    invalidUsername: "Username contains invalid characters"
+    invalidEmail: "Email is not valid"
+    invalidPhone: "Phone is not valid"
 
     dataSaved: "User data saved"
     passwordChanged: "Password changed"
@@ -78,7 +78,7 @@ permissions:
     aclCacheCleared: "Cache ACL deleted."
     accessDenied: "You do not have rights for this event."
     roleUsed: "Role already exists in the database."
-    dupliciteName: "Name already exists in the database."
+    duplicityName: "Name already exists in the database."
     invalidName: "Name contains invalid characters"
 
 settings:
