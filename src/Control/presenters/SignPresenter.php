@@ -142,7 +142,7 @@ class SignPresenter extends BasePresenter
 
 		$form->addCheckbox('remember', 'cms.user.staySignedIn');
 
-		$form->addSubmit('send', 'cms.user.signin');
+		$form->addSubmit('send', 'cms.user.signIn');
 
 		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 
@@ -168,7 +168,7 @@ class SignPresenter extends BasePresenter
 			$this->redirect(":{$this->module}:Homepage:");
 		} catch (AuthenticationException $e) {
 			if ($e->getCode() == IAuthenticator::NOT_APPROVED) {
-				$form->addError('cms.user.accountDeactived');
+				$form->addError('cms.user.accountDeactivated');
 			} else {
 				$form->addError('cms.user.incorrectUsernameOrPassword');
 			}

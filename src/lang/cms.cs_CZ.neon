@@ -15,8 +15,7 @@ user:
     language: "Jazyk"
     state: "Stav"
 
-    signin: "Přihlásit"
-    signIn: "Přihlášení"
+    signIn: "Přihlásit"
     staySignedIn: "zůstat přihlášen"
     forgottenPassword: "Zapomněli jste heslo?"
     usernameOrEmail: "Uživatelské jméno nebo E-mail"
@@ -38,6 +37,7 @@ user:
     invalidUsername: "Uživatelské jméno obsahuje neplatné znaky"
     invalidEmail: "Email neni v platném formátu"
     invalidPhone: "Telefon neni v platném formátu"
+    accountDeactivated: "Účet je deaktivován"
 
     dataSaved: "Uživatelská data uložena"
     passwordChanged: "Heslo změněno"

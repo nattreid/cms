@@ -15,7 +15,6 @@ user:
     language: "Language"
     state: "State"
 
-    signin: "Login"
     signIn: "Sign in"
     staySignedIn: "remember me"
     forgottenPassword: "Forgot your password?"
@@ -38,6 +37,7 @@ user:
     invalidUsername: "Username contains invalid characters"
     invalidEmail: "Email is not valid"
     invalidPhone: "Phone is not valid"
+    accountDeactivated: "Account is deactivated"
 
     dataSaved: "User data saved"
     passwordChanged: "Password changed"
