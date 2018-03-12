@@ -629,50 +629,6 @@ body.preload * {
 #cms-container #cms-content .visualPaginator {
   text-align: center;
 }
-#cms-container #cms-content .panel-container {
-  background-color: #f9f9f9;
-  border: 1px solid #e5e5e5;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-}
-#cms-container #cms-content .panel-container header {
-  background: #fff;
-  padding: 5px 10px;
-  -moz-border-top-right-radius: 4px;
-  -moz-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-  border-bottom: 1px solid #e5e5e5;
-}
-#cms-container #cms-content .panel-container header h1 {
-  color: #444;
-  font-size: 1.3em;
-  margin: 0;
-}
-#cms-container #cms-content .panel-container .content {
-  padding: 15px;
-  overflow: auto;
-}
-#cms-container #cms-content .panel-container.half .content {
-  max-width: 600px;
-}
-#cms-container #cms-content .view-container {
-  padding: 10px;
-  border: 1px solid #e5e5e5;
-  background-color: #fcfcfc;
-}
-#cms-container #cms-content .view-container.half {
-  max-width: 600px;
-}
-#cms-container #cms-content .odd {
-  background-color: #eee;
-}
-#cms-container #cms-content .even {
-  background-color: #f5f5f5;
-}
 #cms-container #cms-content .ui-widget {
   font-family: inherit;
   font-size: inherit;
@@ -708,9 +664,6 @@ body.preload * {
   #cms-container #cms-content .ipub-flash-messages {
     width: calc(100% - 10px);
     left: 5px;
-  }
-  #cms-container #cms-content .view-container.form {
-    width: 100%;
   }
   #cms-container.shifted #cms-menu-container {
     margin-left: 0;
