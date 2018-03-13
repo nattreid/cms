@@ -7,6 +7,7 @@ namespace NAttreid\Cms\Control;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Utils\Date;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Ublaboo\DataGrid\DataGrid;
 
 /**
@@ -38,16 +39,23 @@ class LogsPresenter extends CmsPresenter
 	 * Zobrazeni souboru
 	 * @param string $id
 	 * @throws AbortException
+	 * @throws BadRequestException
 	 */
 	public function actionShowFile(string $id): void
 	{
-		$this->sendResponse($this->app->logs->getFile($id));
+		$response = $this->app->logs->getFile($id);
+		if ($response) {
+			$this->sendResponse($response);
+		} else {
+			$this->error();
+		}
 	}
 
 	/**
 	 * Stazeni souboru
 	 * @param string[]|string $id
 	 * @throws AbortException
+	 * @throws BadRequestException
 	 */
 	public function actionDownloadFile($id): void
 	{
