@@ -20,6 +20,8 @@ use Nette\Utils\Random;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\Exception\DataGridColumnStatusException;
+use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * Uzivatele
@@ -503,14 +505,13 @@ class UsersPresenter extends CmsPresenter
 
 	/**
 	 * Seznam uzivatelu
-	 * @param string $name
 	 * @return DataGrid
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridColumnStatusException
+	 * @throws DataGridException
+	 * @throws DataGridColumnStatusException
 	 */
-	protected function createComponentUserList(string $name): DataGrid
+	protected function createComponentUserList(): DataGrid
 	{
-		$grid = $this->dataGridFactory->create($this, $name);
+		$grid = $this->dataGridFactory->create();
 
 		$grid->setDataSource($this->orm->users->findAll());
 

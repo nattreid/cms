@@ -9,6 +9,7 @@ use NAttreid\Utils\Date;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * Logy
@@ -98,13 +99,12 @@ class LogsPresenter extends CmsPresenter
 
 	/**
 	 * Seznamu logu
-	 * @param string $name
 	 * @return DataGrid
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
+	 * @throws DataGridException
 	 */
-	protected function createComponentLogsList(string $name): DataGrid
+	protected function createComponentLogsList(): DataGrid
 	{
-		$grid = $this->dataGridFactory->create($this, $name);
+		$grid = $this->dataGridFactory->create();
 
 		$grid->setDataSource($this->app->logs->logs);
 

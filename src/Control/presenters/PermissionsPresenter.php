@@ -17,6 +17,8 @@ use Nette\Utils\ArrayHash;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\Exception\DataGridColumnStatusException;
+use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * Prava uzivatelu
@@ -426,13 +428,12 @@ class PermissionsPresenter extends CmsPresenter
 
 	/**
 	 * Seznam roli
-	 * @param string $name
 	 * @return DataGrid
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
+	 * @throws DataGridException
 	 */
-	protected function createComponentRolesList(string $name): DataGrid
+	protected function createComponentRolesList(): DataGrid
 	{
-		$grid = $this->dataGridFactory->create($this, $name);
+		$grid = $this->dataGridFactory->create();
 
 		$grid->setDataSource($this->orm->aclRoles->findAll());
 
@@ -479,14 +480,13 @@ class PermissionsPresenter extends CmsPresenter
 
 	/**
 	 * Seznam pravidel
-	 * @param string $name
 	 * @return DataGrid
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridException
-	 * @throws \Ublaboo\DataGrid\Exception\DataGridColumnStatusException
+	 * @throws DataGridException
+	 * @throws DataGridColumnStatusException
 	 */
-	protected function createComponentPermissionsList(string $name): DataGrid
+	protected function createComponentPermissionsList(): DataGrid
 	{
-		$grid = $this->dataGridFactory->create($this, $name);
+		$grid = $this->dataGridFactory->create();
 
 		$grid->setDataSource($this->orm->acl->findAll());
 
