@@ -90,7 +90,7 @@ return datepicker.regional.cs;
 		clear: "Vymazat",
 		monthsTitle: "Měsíc",
 		weekStart: 1,
-		format: "dd.m.yyyy"
+		format: "dd.mm.yyyy"
 	};
 }(jQuery));
 
