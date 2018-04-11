@@ -32,10 +32,10 @@ class SignPresenter extends BasePresenter
 	public $backlink;
 
 	/** @var string */
-	private $loginExpiracy;
+	private $loginExpiration;
 
 	/** @var string */
-	private $sessionExpiracy;
+	private $sessionExpiration;
 
 	/** @var int */
 	private $minPasswordLength;
@@ -49,11 +49,11 @@ class SignPresenter extends BasePresenter
 	/** @var Hasher */
 	private $hasher;
 
-	public function __construct(string $loginExpiracy, string $sessionExpiracy, int $minPasswordLength, Model $orm, Mailer $mailer, Hasher $hasher)
+	public function __construct(string $loginExpiration, string $sessionExpiration, int $minPasswordLength, Model $orm, Mailer $mailer, Hasher $hasher)
 	{
 		parent::__construct();
-		$this->loginExpiracy = $loginExpiracy;
-		$this->sessionExpiracy = $sessionExpiracy;
+		$this->loginExpiration = $loginExpiration;
+		$this->sessionExpiration = $sessionExpiration;
 		$this->minPasswordLength = $minPasswordLength;
 		$this->orm = $orm;
 		$this->mailer = $mailer;
@@ -160,9 +160,9 @@ class SignPresenter extends BasePresenter
 		try {
 			$this->user->login($values->username, $values->password);
 			if ($values->remember) {
-				$this->user->setExpiration('+ ' . $this->sessionExpiracy, false);
+				$this->user->setExpiration('+ ' . $this->sessionExpiration, false);
 			} else {
-				$this->user->setExpiration('+ ' . $this->loginExpiracy, true);
+				$this->user->setExpiration('+ ' . $this->loginExpiration, true);
 			}
 			$this->restoreRequest($this->backlink);
 			$this->redirect(":{$this->module}:Homepage:");
@@ -338,7 +338,7 @@ class SignPresenter extends BasePresenter
 
 		$this->orm->persistAndFlush($user);
 
-		$this->user->setExpiration('+ ' . $this->loginExpiracy, true);
+		$this->user->setExpiration('+ ' . $this->loginExpiration, true);
 		$this->user->login($values->username, $password);
 
 		$this->flashNotifier->success('cms.user.dataSaved');
