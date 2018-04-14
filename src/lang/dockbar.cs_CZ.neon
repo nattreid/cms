@@ -6,6 +6,7 @@ settings:
     users.tryUser: "Změna identity"
     permissions: "Práva"
     permissions.permissionsList: "Seznam práv"
+    permissions.superadmin: "Editace Superadmina"
     configuration: "Nastavení"
 application:
     title: "Aplikace"

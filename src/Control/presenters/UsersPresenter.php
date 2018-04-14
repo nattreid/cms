@@ -47,7 +47,7 @@ class UsersPresenter extends CmsPresenter
 	private $localeService;
 
 	/** @var User */
-	private $user;
+	private $currentUser;
 
 	public function __construct(string $passwordChars, int $minPasswordLength, Model $orm, Mailer $mailer, LocaleService $localeService)
 	{
@@ -74,8 +74,8 @@ class UsersPresenter extends CmsPresenter
 	 */
 	public function actionEdit(int $id): void
 	{
-		$this->user = $this->orm->users->getById($id);
-		if (!$this->user) {
+		$this->currentUser = $this->orm->users->getById($id);
+		if (!$this->currentUser) {
 			$this->error();
 		}
 	}
@@ -249,7 +249,7 @@ class UsersPresenter extends CmsPresenter
 		$form->addPhone('phone', 'cms.user.phone');
 		$form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
 
-		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs())
+		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')))
 			->setRequired();
 
 		if ($this->configurator->sendNewUserPassword) {
@@ -354,30 +354,34 @@ class UsersPresenter extends CmsPresenter
 		$form->addProtection();
 
 		$form->addText('username', 'cms.user.username')
-			->setDefaultValue($this->user->username)
+			->setDefaultValue($this->currentUser->username)
 			->setRequired();
 		$form->addText('firstName', 'cms.user.firstName')
-			->setDefaultValue($this->user->firstName);
+			->setDefaultValue($this->currentUser->firstName);
 		$form->addText('surname', 'cms.user.surname')
-			->setDefaultValue($this->user->surname);
+			->setDefaultValue($this->currentUser->surname);
 		$form->addText('email', 'cms.user.email')
-			->setDefaultValue($this->user->email)
+			->setDefaultValue($this->currentUser->email)
 			->setRequired()
 			->addRule(Form::EMAIL);
 		$form->addPhone('phone', 'cms.user.phone')
-			->setDefaultValue($this->user->phone);
+			->setDefaultValue($this->currentUser->phone);
 
 		$language = $form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
-		if (!empty($this->user->language)) {
-			$locale = $this->localeService->get($this->user->language);
+		if (!empty($this->currentUser->language)) {
+			$locale = $this->localeService->get($this->currentUser->language);
 			if ($locale) {
 				$language->setDefaultValue($locale->id);
 			}
 		}
 
-		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs())
-			->setDefaultValue($this->user->roles->getRawValue())
+		$roles = $form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')))
 			->setRequired();
+		try {
+			$roles->setDefaultValue($this->currentUser->roles->getRawValue());
+		} catch (InvalidArgumentException $ex) {
+
+		}
 
 		$form->addSubmit('save', 'form.save');
 		$form->addLink('back', 'form.back', $this->getBacklink());
@@ -395,7 +399,7 @@ class UsersPresenter extends CmsPresenter
 	public function editFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		try {
-			$this->user->setUsername($values->username);
+			$this->currentUser->setUsername($values->username);
 		} catch (UniqueConstraintViolationException $ex) {
 			$form->addError('cms.user.duplicityUsername');
 			return;
@@ -405,7 +409,7 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$this->user->setEmail($values->email);
+			$this->currentUser->setEmail($values->email);
 		} catch (UniqueConstraintViolationException $ex) {
 			$form->addError('cms.user.duplicityEmail');
 			return;
@@ -415,20 +419,20 @@ class UsersPresenter extends CmsPresenter
 		}
 
 		try {
-			$this->user->setPhone($values->phone ?: null);
+			$this->currentUser->setPhone($values->phone ?: null);
 		} catch (InvalidArgumentException $ex) {
 			$form->addError('cms.user.invalidPhone');
 			return;
 		}
 
-		$this->user->firstName = $values->firstName;
-		$this->user->surname = $values->surname;
-		$this->user->roles->set($values->roles);
+		$this->currentUser->firstName = $values->firstName;
+		$this->currentUser->surname = $values->surname;
+		$this->currentUser->roles->set($values->roles);
 
 		$language = $this->localeService->getById($values->language);
-		$this->user->language = $language === null ? null : $language->name;
+		$this->currentUser->language = $language === null ? null : $language->name;
 
-		$this->orm->persistAndFlush($this->user);
+		$this->orm->persistAndFlush($this->currentUser);
 
 		$this->flashNotifier->success('cms.user.dataSaved');
 		$this->restoreBacklink();
@@ -445,7 +449,7 @@ class UsersPresenter extends CmsPresenter
 
 		$form->addText('username', 'cms.user.username')
 			->setDisabled()
-			->setDefaultValue($this->user->username);
+			->setDefaultValue($this->currentUser->username);
 
 		if ($this->configurator->sendNewUserPassword) {
 			$form->addCheckbox('generatePassword', 'cms.user.generatePassword')
@@ -491,12 +495,12 @@ class UsersPresenter extends CmsPresenter
 			$password = $values->password;
 		}
 
-		$this->user->setPassword($password);
+		$this->currentUser->setPassword($password);
 
-		$this->orm->persistAndFlush($this->user);
+		$this->orm->persistAndFlush($this->currentUser);
 
 		if ($this->configurator->sendChangePassword) {
-			$this->mailer->sendNewPassword($this->user->email, $this->user->username, $password);
+			$this->mailer->sendNewPassword($this->currentUser->email, $this->currentUser->username, $password);
 		}
 
 		$this->flashNotifier->success('cms.user.passwordChanged');
@@ -547,7 +551,7 @@ class UsersPresenter extends CmsPresenter
 				}
 				return $obj;
 			})
-			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')));
 
 		$active = [
 			'' => 'form.none',

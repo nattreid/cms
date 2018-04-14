@@ -8,10 +8,12 @@ use NAttreid\Form\IContainer;
 use NAttreid\Security\AuthorizatorFactory;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\Model\AclRoles\AclRole;
+use NAttreid\Security\Model\AclRoles\AclRolesMapper;
 use NAttreid\Security\Model\Orm;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Forms\Container;
+use Nette\Http\IResponse;
 use Nette\InvalidArgumentException;
 use Nette\Utils\ArrayHash;
 use Nextras\Dbal\UniqueConstraintViolationException;
@@ -49,12 +51,21 @@ class PermissionsPresenter extends CmsPresenter
 	/** @var IPermissionListFactory */
 	private $permissionListFactory;
 
+	/** @var bool */
+	private $viewSuperadmin;
+
 	public function __construct(Model $orm, AuthorizatorFactory $authorizatorFactory, IPermissionListFactory $permissionListFactory)
 	{
 		parent::__construct();
 		$this->orm = $orm;
 		$this->authorizatorFactory = $authorizatorFactory;
 		$this->permissionListFactory = $permissionListFactory;
+	}
+
+	protected function startup(): void
+	{
+		parent::startup();
+		$this->viewSuperadmin = $this->user->isAllowed('dockbar.settings.permissions.superadmin');
 	}
 
 	/**
@@ -74,6 +85,10 @@ class PermissionsPresenter extends CmsPresenter
 		$this->role = $this->orm->aclRoles->getById($id);
 		if (!$this->role) {
 			$this->error();
+		}
+		if (!$this->viewSuperadmin && $this->role->name === AclRolesMapper::SUPERADMIN) {
+			$this->flashNotifier->error('cms.permissions.accessDenied');
+			$this->error(null, IResponse::S403_FORBIDDEN);
 		}
 	}
 
@@ -192,7 +207,7 @@ class PermissionsPresenter extends CmsPresenter
 	 */
 	public function roleForm(Container $container): void
 	{
-		$roles = ['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs();
+		$roles = ['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->viewSuperadmin);
 		$container->addText('title', 'cms.permissions.role')
 			->setRequired();
 		$container->addText('name', 'cms.permissions.name')
@@ -239,7 +254,7 @@ class PermissionsPresenter extends CmsPresenter
 	{
 		/* @var $container IContainer */
 		$container->addSelectUntranslated('role', 'cms.permissions.role')
-			->setItems($this->orm->aclRoles->fetchPairs());
+			->setItems($this->orm->aclRoles->fetchPairs($this->viewSuperadmin));
 		$container->addMultiSelectUntranslated('resource', 'cms.permissions.resource')
 			->setItems($this->orm->aclResources->fetchPairsByResourceName());
 		$container->addSelect('privilege', 'cms.permissions.privilege', $this->privileges);
@@ -435,7 +450,7 @@ class PermissionsPresenter extends CmsPresenter
 	{
 		$grid = $this->dataGridFactory->create();
 
-		$grid->setDataSource($this->orm->aclRoles->findAll());
+		$grid->setDataSource($this->orm->aclRoles->findRoles($this->viewSuperadmin));
 
 		$grid->addColumnText('title', 'cms.permissions.role')
 			->setEditableInputType('text')
@@ -452,7 +467,7 @@ class PermissionsPresenter extends CmsPresenter
 				}
 				return null;
 			})
-			->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs())
+			->setEditableInputTypeSelect([0 => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->viewSuperadmin))
 			->setEditableCallback([$this, 'setRoleParent']);
 
 		$grid->addAction('edit', null, 'editRolePermissions')
@@ -488,7 +503,7 @@ class PermissionsPresenter extends CmsPresenter
 	{
 		$grid = $this->dataGridFactory->create();
 
-		$grid->setDataSource($this->orm->acl->findAll());
+		$grid->setDataSource($this->orm->acl->findByRoles($this->viewSuperadmin));
 
 		$deleteUnusedResources = $grid->addToolbarButton('deleteUnusedResources!', 'cms.permissions.deleteUnusedResources');
 		$deleteUnusedResources->setClass($deleteUnusedResources->getClass() . ' ajax');
@@ -499,9 +514,9 @@ class PermissionsPresenter extends CmsPresenter
 			->setRenderer(function (Acl $acl) {
 				return $acl->role->title;
 			})
-			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs())
+			->setEditableInputTypeSelect($this->orm->aclRoles->fetchPairs($this->viewSuperadmin))
 			->setEditableCallback([$this, 'setPermissionRole'])
-			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs());
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->viewSuperadmin));
 
 		$grid->addColumnText('resource', 'cms.permissions.resource')
 			->setRenderer(function (Acl $acl) {

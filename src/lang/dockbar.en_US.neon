@@ -6,6 +6,7 @@ settings:
     users.tryUser: "Change Identity"
     permissions: "Permissions"
     permissions.permissionsList: "Permissions List"
+    permissions.superadmin: "Edit Superadmin"
     configuration: "Configuration"
 application:
     title: "Application"
