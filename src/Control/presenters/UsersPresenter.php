@@ -249,7 +249,7 @@ class UsersPresenter extends CmsPresenter
 		$form->addPhone('phone', 'cms.user.phone');
 		$form->addSelectUntranslated('language', 'cms.user.language', $this->localeService->allowed, 'form.none');
 
-		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')))
+		$form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin', 'view')))
 			->setRequired();
 
 		if ($this->configurator->sendNewUserPassword) {
@@ -375,7 +375,7 @@ class UsersPresenter extends CmsPresenter
 			}
 		}
 
-		$roles = $form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')))
+		$roles = $form->addMultiSelectUntranslated('roles', 'cms.permissions.roles', $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin', 'view')))
 			->setRequired();
 		try {
 			$roles->setDefaultValue($this->currentUser->roles->getRawValue());
@@ -551,7 +551,7 @@ class UsersPresenter extends CmsPresenter
 				}
 				return $obj;
 			})
-			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin')));
+			->setFilterSelect(['' => $this->translate('form.none')] + $this->orm->aclRoles->fetchPairs($this->user->isAllowed('dockbar.settings.permissions.superadmin', 'view')));
 
 		$active = [
 			'' => 'form.none',

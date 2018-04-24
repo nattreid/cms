@@ -65,7 +65,7 @@ class PermissionsPresenter extends CmsPresenter
 	protected function startup(): void
 	{
 		parent::startup();
-		$this->viewSuperadmin = $this->user->isAllowed('dockbar.settings.permissions.superadmin');
+		$this->viewSuperadmin = $this->user->isAllowed('dockbar.settings.permissions.superadmin', 'view');
 	}
 
 	/**
