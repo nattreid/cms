@@ -16983,6 +16983,9 @@ body.preload * {
 #cms-container #cms-content .visualPaginator {
   text-align: center;
 }
+#cms-container #cms-content .tooltip {
+  width: 200px;
+}
 #cms-container #cms-content .ui-widget {
   font-family: inherit;
   font-size: inherit;

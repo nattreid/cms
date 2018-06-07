@@ -30,7 +30,6 @@
     "moment": "~2",
     "bootstrap-select": "~1",
     "ublaboo-datagrid": "latest",
-    "ckeditor": "#full/4.5.9",
     "attreid-kcfinder": "~3",
     "nattreid-file-manager": "~1",
     "nattreid-menu": "~2",

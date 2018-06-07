@@ -36256,9 +36256,9 @@ $.nette.ext('history', {
 
             mom = createUTC([2000, 1]).day(i);
             if (strict && !this._fullWeekdaysParse[i]) {
-                this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\.?') + '$', 'i');
-                this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\.?') + '$', 'i');
-                this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\.?') + '$', 'i');
+                this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\\.?') + '$', 'i');
+                this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\\.?') + '$', 'i');
+                this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\\.?') + '$', 'i');
             }
             if (!this._weekdaysParse[i]) {
                 regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
@@ -37061,7 +37061,7 @@ $.nette.ext('history', {
 
     function preprocessRFC2822(s) {
         // Remove comments and folding whitespace and replace multiple-spaces with a single space
-        return s.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').trim();
+        return s.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     }
 
     function checkWeekday(weekdayStr, parsedInput, config) {
@@ -39240,7 +39240,7 @@ $.nette.ext('history', {
     // Side effect imports
 
 
-    hooks.version = '2.22.1';
+    hooks.version = '2.22.2';
 
     setHookCallback(createLocal);
 
@@ -49494,32 +49494,11 @@ $(document).ready(function () {
         });
     }
 
-    function ckEditorLine() {
-        $('textarea.ckEditorLine').ckeditor({
-            height: '80px',
-            toolbarGroups: [
-                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-                {name: 'paragraph', groups: ['align']},
-                {name: 'styles', groups: ['styles']},
-                {name: 'colors', groups: ['colors']}
-            ],
-            enterMode: CKEDITOR.ENTER_BR,
-            removeButtons: 'BGColor,Styles,Format,Underline,Strike,Subscript,Superscript',
-            removePlugins: 'elementspath',
-            resize_enabled: false,
-            on: {
-                change: function (evt) {
-                    this.updateElement();
-                }
-            }
-        });
-    }
-
     function redraw() {
         $('.datagrid a').attr('data-ajax-off', 'history');
+        $('[data-toggle="tooltip"]').tooltip({trigger: "hover", container: 'body'});
 
         flashMessage();
-        ckEditorLine();
     }
 
     redraw();
@@ -49549,6 +49528,40 @@ $(document).ready(function () {
     }
 });
 
+(function ($, window) {
+    if (window.jQuery === undefined) {
+        console.error('Plugin "jQuery" required by "ckEditor.js" is missing!');
+        return;
+    } else if (window.CKEDITOR === undefined) {
+        console.error('Plugin "ckEditor" required by "ckEditor.js" is missing!');
+        return;
+    }
+
+    function ckEditorInline() {
+        $('textarea.ckEditorInline').ckeditor({
+            height: '80px',
+            toolbarGroups: [
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                {name: 'paragraph', groups: ['align']},
+                {name: 'styles', groups: ['styles']},
+                {name: 'colors', groups: ['colors']}
+            ],
+            enterMode: CKEDITOR.ENTER_BR,
+            removeButtons: 'BGColor,Styles,Format,Underline,Strike,Subscript,Superscript',
+            removePlugins: 'elementspath',
+            resize_enabled: false,
+            on: {
+                change: function (evt) {
+                    this.updateElement();
+                }
+            }
+        });
+    }
+
+    $(document).ready(ckEditorInline);
+    $(document).ajaxComplete(ckEditorInline);
+
+})(jQuery, window);
 (function ($, window) {
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "daterangepicker.js" is missing!');
@@ -49778,6 +49791,27 @@ Nette.validators.NAttreidFormRules_validateImage = function (elem, arg, val) {
     }
     return true;
 };
+(function ($, window) {
+    if (window.jQuery === undefined) {
+        console.error('Plugin "jQuery" required by "spectrum.js" is missing!');
+        return;
+    } else if (window.jQuery.fn.spectrum === undefined) {
+        console.error('Plugin "Spectrum" required by "spectrum.js" is missing!');
+        return;
+    }
+
+    function spectrum() {
+        $('input.spectrum').spectrum({
+            color: $(this).val(),
+            showAlpha: true,
+            preferredFormat: 'rgb'
+        });
+    }
+
+    $(document).ready(spectrum);
+    $(document).ajaxComplete(spectrum);
+
+})(jQuery, window);
 (function ($, window) {
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "typeahead.js" is missing!');
