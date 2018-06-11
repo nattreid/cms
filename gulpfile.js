@@ -38,6 +38,8 @@ var boundledJS = [
     // localize
     paths.dev.vendor + 'moment/moment.js',
     paths.dev.vendor + 'moment/locale/cs.js',
+    // spectrum
+    paths.dev.vendor + 'spectrum/spectrum.js',
     // datagrid
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.js',
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.js',
@@ -57,7 +59,8 @@ var boundledJS = [
     // plugins
     paths.dev.vendor + 'nattreid-form/assets/form.js',
     paths.dev.vendor + 'nattreid-menu/assets/menu.js',
-    paths.dev.vendor + 'nattreid-file-manager/assets/fileManager.js'
+    paths.dev.vendor + 'nattreid-file-manager/assets/fileManager.js',
+    paths.dev.vendor + 'nattreid-modal/assets/modal.js'
 ];
 
 var locale = {
@@ -152,9 +155,12 @@ function getBoundledCSS() {
             paths.dev.vendor + 'happy/dist/happy.css',
             paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
+            // spectrum
+            paths.dev.vendor + 'spectrum/spectrum.css',
             // plugins
             paths.dev.vendor + 'nattreid-form/assets/form.css',
-            paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.less',
+            paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.min.css',
+            paths.dev.vendor + 'nattreid-modal/assets/modal.min.css',
             // cms
             paths.dev.css + '*.css'
         ])

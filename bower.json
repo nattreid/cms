@@ -35,6 +35,7 @@
     "nattreid-menu": "~2",
     "nattreid-utils": "~1",
     "nattreid-form": "~1",
+    "nattreid-modal": "~2",
     "nattreid-visual-paginator": "~1",
     "bootstrap": "~3"
   },
