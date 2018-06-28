@@ -31734,7 +31734,7 @@ RemoveDiacritic.init();
 })(jQuery, window);
 /**
  * Odstrani diakritiku
- * @returns {String.prototype@call;replace}
+ * @returns {string}
  */
 String.prototype.removeDiacritic = function () {
     return this.replace(/[^\u0000-\u007E]/g, function (a) {
@@ -31746,7 +31746,7 @@ String.prototype.removeDiacritic = function () {
  * Vlozi tag do hledaneho retezce (ignoruje diakritiku pri hledani)
  * @param {String} search
  * @param {String} tag
- * @returns {String|String@call;removeDiacritic@call;toLowerCase|String.prototype.injectTag.text}
+ * @returns {String}
  */
 String.prototype.injectTag = function (search, tag) {
     var text = this.removeDiacritic().toLowerCase();
@@ -31771,11 +31771,11 @@ String.prototype.injectTag = function (search, tag) {
 
 /**
  * Hash MD5
- * @returns {String|String@call;removeDiacritic@call;toLowerCase|String.prototype.injectTag.text}
+ * @returns {String}
  */
 String.prototype.hash = function () {
     return MD5Hasher.hash(this);
-}
+};
 /**
  * Format cisla
  * @param {int} decimals
@@ -31792,6 +31792,45 @@ Number.prototype.format = function (decimals, decPoint, thousandSeparator) {
         i = parseInt(obj = Math.abs(+obj || 0).toFixed(dec)) + '',
         j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + sep : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + sep) + (dec ? decPnt + Math.abs(obj - i).toFixed(dec).slice(2) : '');
+};
+var Cookie = {
+    /**
+     *
+     * @param {String} name
+     * @param {*} value
+     * @param {int} seconds
+     */
+    set: function (name, value, seconds) {
+        var expires = '';
+        if (seconds) {
+            var date = new Date();
+            date.setTime(date.getTime() + (seconds * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    },
+    /**
+     *
+     * @param name
+     * @returns {*}
+     */
+    get: function (name) {
+        var nameEQ = name + '=';
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    },
+    /**
+     *
+     * @param {String} name
+     */
+    remove: function (name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    }
 };
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
