@@ -6,6 +6,7 @@ namespace NAttreid\Cms\DI;
 
 use IPub\FlashMessages\FlashNotifier;
 use NAttreid\Cms\Configurator\Configurator;
+use NAttreid\Cms\Control\AbstractPresenter;
 use NAttreid\Cms\Control\BasePresenter;
 use NAttreid\Cms\Control\CmsPresenter;
 use NAttreid\Cms\Control\Dockbar\Dockbar;
@@ -298,6 +299,7 @@ class CmsExtension extends CompilerExtension
 		$this->setFlashMessages();
 		$this->setLayout($config);
 		$this->setModule($config, $namespace);
+		$this->setSettings();
 
 		$authenticator = $builder->getByType(Authenticator::class);
 		$builder->getDefinition($authenticator)
@@ -346,9 +348,15 @@ class CmsExtension extends CompilerExtension
 
 	private function setModule(array $config, string $namespace): void
 	{
-		$settings = $this->findByType(ISettings::class);
 		foreach ($this->findByType(BasePresenter::class) as $def) {
 			$def->addSetup('setModule', [$config['namespace'], $namespace]);
+		}
+	}
+
+	private function setSettings(): void
+	{
+		$settings = $this->findByType(ISettings::class);
+		foreach ($this->findByType(AbstractPresenter::class) as $def) {
 			$def->addSetup('setSettings', [$settings]);
 		}
 	}

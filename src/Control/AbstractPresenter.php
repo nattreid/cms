@@ -9,6 +9,7 @@ use NAttreid\Breadcrumbs\Link;
 use NAttreid\Cms\Control\Dockbar\Dockbar;
 use NAttreid\Cms\Control\Dockbar\IDockbarFactory;
 use NAttreid\Cms\Factories\ICmsMenuFactory;
+use NAttreid\Cms\ISettings;
 use NAttreid\ImageStorage\TraitImagePresenter;
 use NAttreid\Menu\Menu\Menu;
 use Nette\Security\IUserStorage;
@@ -25,6 +26,9 @@ abstract class AbstractPresenter extends BasePresenter
 	use TraitImagePresenter,
 		SecuredLinksPresenterTrait;
 
+	/** @var ISettings[] */
+	private $settings;
+
 	/**
 	 * @throws \Nette\Application\AbortException
 	 */
@@ -38,6 +42,11 @@ abstract class AbstractPresenter extends BasePresenter
 			}
 			$this->redirect(":{$this->module}:Sign:in", ['backlink' => $this->storeRequest()]);
 		}
+
+		// settings
+		foreach ($this->settings as $obj) {
+			$obj->init($this->template, $this);
+		}
 	}
 
 	protected function beforeRender(): void
@@ -48,6 +57,14 @@ abstract class AbstractPresenter extends BasePresenter
 		if (!isset($this->template->shifted)) {
 			$this->template->shifted = false;
 		}
+	}
+
+	/**
+	 * @param ISettings[] $settings
+	 */
+	public function setSettings(array $settings): void
+	{
+		$this->settings = $settings;
 	}
 
 	/* ###################################################################### */

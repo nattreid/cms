@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NAttreid\Cms;
 
-use NAttreid\Cms\Control\BasePresenter;
+use NAttreid\Cms\Control\AbstractPresenter;
 use Nette\Application\UI\ITemplate;
 
 /**
@@ -14,5 +14,5 @@ use Nette\Application\UI\ITemplate;
  */
 interface ISettings
 {
-	public function init(ITemplate $template, BasePresenter $presenter);
+	public function init(ITemplate $template, AbstractPresenter $presenter);
 }

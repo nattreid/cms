@@ -134,13 +134,13 @@ class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
 }
 ```
 
-## Nastavení BasePresenteru
+## Nastavení pro presenteru CMS
 
 Zaregistrujte službu, která bude implementovat z **\NAttreid\Cms\ISettings**
 ```php
 class CmsSettings implements ISettings {
     
-    public function init(ITemplate $template, BasePresenter $presenter)
+    public function init(\Nette\Application\UI\ITemplate $template, \NAttreid\Cms\Control\AbstractPresenter $presenter)
 	{
 		// php kod ...
 	}

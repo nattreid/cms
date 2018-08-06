@@ -138,16 +138,6 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/**
-	 * @param ISettings[] $settings
-	 */
-	public function setSettings(array $settings)
-	{
-		foreach ($settings as $obj) {
-			$obj->init($this->template, $this);
-		}
-	}
-
-	/**
 	 * @param $element
 	 * @throws \Nette\Application\ForbiddenRequestException
 	 */
