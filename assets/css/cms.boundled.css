@@ -17722,7 +17722,7 @@ body.preload * {
 #dockbar .dockbar-content > ul.dockbar-right > li.identity > div::before {
   content: "\f007";
 }
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   #dockbar {
     height: 40px;
   }

@@ -12,6 +12,7 @@ use NAttreid\Security\Control\TryUser;
 use NAttreid\Security\Model\Acl\Acl;
 use NAttreid\Security\User;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Control;
 
@@ -48,7 +49,10 @@ class Dockbar extends Control
 	private $items = [];
 
 	/** @var Item[] */
-	private $addedItems = [];
+	private $leftItems = [];
+
+	/** @var Item[] */
+	private $rightItems = [];
 
 	/** @var bool[] */
 	private $allowedLinks = [];
@@ -79,14 +83,30 @@ class Dockbar extends Control
 	}
 
 	/**
-	 * Prida link do dockbaru
+	 * Prida link do dockbaru vlevo
 	 * @param string $name
 	 * @param string $link
 	 * @param bool $ajax
+	 * @return Item
 	 */
-	public function addLink(string $name, string $link = null, bool $ajax = false): void
+	public function addLeftLink(string $name, string $link = null, bool $ajax = false): Item
 	{
-		$this->addedItems[] = new Item($name, [
+		return $this->leftItems[] = new Item($name, [
+			'link' => $link ?? '#',
+			'ajax' => $ajax
+		]);
+	}
+
+	/**
+	 * Prida link do dockbaru vpravo
+	 * @param string $name
+	 * @param string $link
+	 * @param bool $ajax
+	 * @return Item
+	 */
+	public function addRightLink(string $name, string $link = null, bool $ajax = false): Item
+	{
+		return $this->rightItems[] = new Item($name, [
 			'link' => $link ?? '#',
 			'ajax' => $ajax
 		]);
@@ -227,6 +247,7 @@ class Dockbar extends Control
 	/**
 	 * Zaloha databaze
 	 * @throws AbortException
+	 * @throws BadRequestException
 	 */
 	public function handleBackupDatabase(): void
 	{
@@ -253,6 +274,7 @@ class Dockbar extends Control
 	/**
 	 * Zaloha
 	 * @throws AbortException
+	 * @throws BadRequestException
 	 */
 	public function handleBackup(): void
 	{
@@ -288,7 +310,8 @@ class Dockbar extends Control
 		// linky pro dockbar
 		$template->front = $this->front;
 		$template->items = $this->items;
-		$template->addedItems = $this->addedItems;
+		$template->leftItems = $this->leftItems;
+		$template->rightItems = $this->rightItems;
 		$template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 
 		//uzivatelske jmeno

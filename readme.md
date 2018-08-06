@@ -78,10 +78,13 @@ class TestPresenter extends \NAttreid\Cms\Control\ModulePresenter {
         $this->viewMobileMenu();
         
         // pridani tlacitka do Dockbaru
-        $this['dockbar']->addLink('tlacitko', 'link!');
+        $this['dockbar']->addLeftLink('tlacitko', 'link!');
         // nebo
-        $this['dockbar']->addLink('tlacitko')
+        $this['dockbar']->addLeftLink('tlacitko')
             ->addClass('trida'); // spusteni pomoci javascriptu
+            
+        // tlacitko vpravo
+        $this['dockbar']->addRightLink('tlacitko')
     }
 }
 ```

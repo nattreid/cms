@@ -20,6 +20,7 @@ use Nette\SmartObject;
  * @property Item[] $items
  * @property string $resource
  * @property bool $hasItems
+ * @property bool $newWindow
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -51,6 +52,9 @@ class Item
 	/** @var string[] */
 	private $class = [];
 
+	/** @var bool */
+	private $newWindow = false;
+
 	public function __construct(string $name, array $item = null, string $parent = null, string $module = null)
 	{
 		$this->name = $name;
@@ -65,19 +69,37 @@ class Item
 	/**
 	 * Nastavi tridu elementu
 	 * @param string $class
+	 * @return self
 	 */
-	public function addClass(string $class): void
+	public function addClass(string $class): self
 	{
 		$this->class[] = $class;
+		return $this;
 	}
 
 	/**
 	 * Prida item
 	 * @param Item $item
+	 * @return Item
 	 */
-	public function addItem(Item $item): void
+	public function addItem(Item $item): Item
 	{
-		$this->items[] = $item;
+		return $this->items[] = $item;
+	}
+
+	/**
+	 * @param bool $bool
+	 * @return self
+	 */
+	public function setNewWindow(bool $bool = true): self
+	{
+		$this->newWindow = $bool;
+		return $this;
+	}
+
+	public function getNewWindow(): bool
+	{
+		return $this->newWindow;
 	}
 
 	public function isLink(): bool
@@ -88,7 +110,7 @@ class Item
 	protected function getClass(): string
 	{
 		$class = implode(' ', $this->class);
-		return Strings::webalize($this->name, null, false) . ($class ?: '');
+		return Strings::webalize($this->name, null, false) . ($class ? ' ' . $class : '');
 	}
 
 	public function isAjax(): bool
