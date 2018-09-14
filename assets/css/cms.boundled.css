@@ -15808,7 +15808,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 }
 /*# sourceMappingURL=bootstrap-datepicker3.css.map */
 /*!
- * Bootstrap-select v1.13.1 (https://developer.snapappointments.com/bootstrap-select)
+ * Bootstrap-select v1.13.2 (https://developer.snapappointments.com/bootstrap-select)
  *
  * Copyright 2012-2018 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
@@ -16033,7 +16033,7 @@ select.selectpicker {
   position: relative;
 }
 .bootstrap-select .dropdown-menu li.active small {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 .bootstrap-select .dropdown-menu li.disabled a {
   cursor: not-allowed;
@@ -17459,6 +17459,9 @@ body.preload * {
   position: absolute;
   width: 97%;
   top: 8px;
+}
+#cms-container #cms-content .panel .datagrid {
+  padding: 1em 0;
 }
 @media (max-width: 700px) {
   #cms-container {

@@ -44885,13 +44885,14 @@ document.addEventListener('DOMContentLoaded', function() {
 }));
 
 /*!
- * Bootstrap-select v1.13.1 (https://developer.snapappointments.com/bootstrap-select)
+ * Bootstrap-select v1.13.2 (https://developer.snapappointments.com/bootstrap-select)
  *
  * Copyright 2012-2018 SnapAppointments, LLC
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
  */
 
 (function (root, factory) {
+  if (root === undefined && window !== undefined) root = window;
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
     define(["jquery"], function (a0) {
@@ -45255,27 +45256,46 @@ document.addEventListener('DOMContentLoaded', function() {
     ARROW_DOWN: 40 // KeyboardEvent.which value for down arrow key
   }
 
-  var version = {};
+  var version = {
+    success: false,
+    major: '3'
+  };
 
   try {
     version.full = ($.fn.dropdown.Constructor.VERSION || '').split(' ')[0].split('.');
     version.major = version.full[0];
+    version.success = true;
   }
   catch(err) {
-    console.error('There was an issue retrieving Bootstrap\'s version. Ensure Bootstrap is being loaded before bootstrap-select and there is no namespace collision.', err);
-    version.major = '3';
+    console.warn(
+      'There was an issue retrieving Bootstrap\'s version. ' +
+      'Ensure Bootstrap is being loaded before bootstrap-select and there is no namespace collision. ' +
+      'If loading Bootstrap asynchronously, the version may need to be manually specified via $.fn.selectpicker.Constructor.BootstrapVersion.'
+    , err);
   }
 
   var classNames = {
     DISABLED: 'disabled',
-    DIVIDER: version.major === '4' ? 'dropdown-divider' : 'divider',
-    SHOW: version.major === '4' ? 'show' : 'open',
+    DIVIDER: 'divider',
+    SHOW: 'open',
     DROPUP: 'dropup',
+    MENU: 'dropdown-menu',
     MENURIGHT: 'dropdown-menu-right',
     MENULEFT: 'dropdown-menu-left',
     // to-do: replace with more advanced template/customization options
-    BUTTONCLASS: version.major === '4' ? 'btn-light' : 'btn-default',
-    POPOVERHEADER: version.major === '4' ? 'popover-header' : 'popover-title'
+    BUTTONCLASS: 'btn-default',
+    POPOVERHEADER: 'popover-title'
+  }
+
+  var Selector = {
+    MENU: '.' + classNames.MENU
+  }
+
+  if (version.major === '4') {
+    classNames.DIVIDER = 'dropdown-divider';
+    classNames.SHOW = 'show';
+    classNames.BUTTONCLASS = 'btn-light';
+    classNames.POPOVERHEADER = 'popover-header';
   }
 
   var REGEXP_ARROW = new RegExp(keyCodes.ARROW_UP + '|' + keyCodes.ARROW_DOWN);
@@ -45350,7 +45370,9 @@ document.addEventListener('DOMContentLoaded', function() {
     this.init();
   };
 
-  Selectpicker.VERSION = '1.13.1';
+  Selectpicker.VERSION = '1.13.2';
+
+  Selectpicker.BootstrapVersion = version.major;
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
@@ -45371,7 +45393,7 @@ document.addEventListener('DOMContentLoaded', function() {
     doneButtonText: 'Close',
     multipleSeparator: ', ',
     styleBase: 'btn',
-    style: 'btn-default',
+    style: classNames.BUTTONCLASS,
     size: 'auto',
     title: null,
     selectedTextFormat: 'values',
@@ -45399,7 +45421,8 @@ document.addEventListener('DOMContentLoaded', function() {
     selectOnTab: false,
     dropdownAlignRight: false,
     windowPadding: 0,
-    virtualScroll: 600
+    virtualScroll: 600,
+    display: false
   };
 
   if (version.major === '4') {
@@ -45426,7 +45449,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .after(this.$newElement)
         .prependTo(this.$newElement);
       this.$button = this.$newElement.children('button');
-      this.$menu = this.$newElement.children('.dropdown-menu');
+      this.$menu = this.$newElement.children(Selector.MENU);
       this.$menuInner = this.$menu.children('.inner');
       this.$searchbox = this.$menu.find('input');
 
@@ -45545,7 +45568,7 @@ document.addEventListener('DOMContentLoaded', function() {
           : '';
       var drop =
           '<div class="dropdown bootstrap-select' + showTick + '">' +
-          '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" data-toggle="dropdown"' + autofocus + ' role="button">' +
+          '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" ' + (this.options.display === 'static' ? 'data-display="static"' : '') + 'data-toggle="dropdown"' + autofocus + ' role="button">' +
           '<div class="filter-option">' +
             '<div class="filter-option-inner">' +
               '<div class="filter-option-inner-inner"></div>' +
@@ -45558,12 +45581,12 @@ document.addEventListener('DOMContentLoaded', function() {
           '</span>'
           ) +
           '</button>' +
-          '<div class="dropdown-menu ' + (version.major === '4' ? '' : classNames.SHOW) + '" role="combobox">' +
+          '<div class="' + classNames.MENU + ' ' + (version.major === '4' ? '' : classNames.SHOW) + '" role="combobox">' +
           header +
           searchbox +
           actionsbox +
           '<div class="inner ' + classNames.SHOW + '" role="listbox" aria-expanded="false" tabindex="-1">' +
-              '<ul class="dropdown-menu inner ' + (version.major === '4' ? classNames.SHOW : '') + '">' +
+              '<ul class="' + classNames.MENU + ' inner ' + (version.major === '4' ? classNames.SHOW : '') + '">' +
               '</ul>' +
           '</div>' +
           donebutton +
@@ -45900,7 +45923,7 @@ document.addEventListener('DOMContentLoaded', function() {
             labelSubtextElement,
             labelIconElement;
 
-        labelTextElement.textContent = options.labelEscaped;
+        labelTextElement.innerHTML = options.labelEscaped;
 
         if (options.labelIcon) {
           var whitespace = elementTemplates.whitespace.cloneNode(false);
@@ -46017,8 +46040,7 @@ document.addEventListener('DOMContentLoaded', function() {
             );
             mainData.push({
               type: 'divider',
-              optID: optID,
-              originalIndex: index
+              optID: optID
             });
           }
 
@@ -46061,8 +46083,7 @@ document.addEventListener('DOMContentLoaded', function() {
               );
               mainData.push({
                 type: 'divider',
-                optID: optID,
-                originalIndex: index
+                optID: optID
               });
             }
             liIndex++;
@@ -46078,8 +46099,7 @@ document.addEventListener('DOMContentLoaded', function() {
               content: labelEscaped,
               subtext: labelSubtext,
               type: 'optgroup-label',
-              optID: optID,
-              originalIndex: index
+              optID: optID
             });
             
             headerIndex = liIndex - 1;
@@ -46112,10 +46132,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
           availableOptionsCount++;
         } else if (thisData.divider === true) {
-          mainElements.push(generateLI(false, index, 'divider'));
+          mainElements.push(generateLI(false, index, classNames.DIVIDER));
           mainData.push({
             type: 'divider',
-            originalIndex: index
+            originalIndex: index,
+            data: thisData
           });
         } else {
           // if previous element is not an optgroup and hideDisabled is true
@@ -46144,8 +46165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             );
             mainData.push({
               type: 'divider',
-              optID: optID,
-              originalIndex: index
+              optID: optID
             });
           }
 
@@ -46335,12 +46355,13 @@ document.addEventListener('DOMContentLoaded', function() {
       this.sizeInfo.selectWidth = this.$newElement[0].offsetWidth;
 
       text.className = 'text';
-      a.className = 'dropdown-item';
+      a.className = 'dropdown-item ' + this.$element.find('option')[0].className;
       newElement.className = this.$menu[0].parentNode.className + ' ' + classNames.SHOW;
       newElement.style.width = this.sizeInfo.selectWidth + 'px';
-      menu.className = 'dropdown-menu ' + classNames.SHOW;
+      if (this.options.width === 'auto') menu.style.minWidth = 0;
+      menu.className = classNames.MENU + ' ' + classNames.SHOW;
       menuInner.className = 'inner ' + classNames.SHOW;
-      menuInnerInner.className = 'dropdown-menu inner ' + (version.major === '4' ? classNames.SHOW : '');
+      menuInnerInner.className = classNames.MENU + ' inner ' + (version.major === '4' ? classNames.SHOW : '');
       divider.className = classNames.DIVIDER;
       dropdownHeader.className = 'dropdown-header';
 
@@ -46617,7 +46638,9 @@ document.addEventListener('DOMContentLoaded', function() {
           containerPos,
           actualHeight,
           getPlacement = function ($element) {
-            var containerPosition = {};
+            var containerPosition = {},
+                // fall back to dropdown's default display setting if display is not manually set
+                display = that.options.display || $.fn.dropdown.Constructor.Default.display;
 
             that.$bsContainer.addClass($element.attr('class').replace(/form-control|fit-width/gi, '')).toggleClass(classNames.DROPUP, $element.hasClass(classNames.DROPUP));
             pos = $element.offset();
@@ -46633,7 +46656,7 @@ document.addEventListener('DOMContentLoaded', function() {
             actualHeight = $element.hasClass(classNames.DROPUP) ? 0 : $element[0].offsetHeight;
 
             // Bootstrap 4+ uses Popper for menu positioning
-            if (version.major < 4) {
+            if (version.major < 4 || display === 'static') {
               containerPosition['top'] = pos.top - containerPos.top + actualHeight;
               containerPosition['left'] = pos.left - containerPos.left;
             }
@@ -46746,10 +46769,10 @@ document.addEventListener('DOMContentLoaded', function() {
           prevActiveIndex = this.selectpicker.main.map.newIndex[this.prevActiveIndex];
           prevActive = this.selectpicker.main.elements[prevActiveIndex];
 
-          prevActive.classList.remove('selected');
+          prevActive.classList.toggle('selected', selected);
           prevActive.classList.remove('active');
           if (prevActive.firstChild) {
-            prevActive.firstChild.classList.remove('selected');
+            prevActive.firstChild.classList.toggle('selected', selected);
             prevActive.firstChild.classList.remove('active');
           }
         }
@@ -46856,16 +46879,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      this.$element.on('shown.bs.select', function () {
-        if (that.$menuInner[0].scrollTop !== that.selectpicker.view.scrollTop) {
-          that.$menuInner[0].scrollTop = that.selectpicker.view.scrollTop;
-        }
-
+      function setFocus () {
         if (that.options.liveSearch) {
           that.$searchbox.focus();
         } else {
           that.$menuInner.focus();
         }
+      }
+
+      function checkPopperExists () {
+        if (that.dropdown && that.dropdown._popper && that.dropdown._popper.state.isCreated) {
+          setFocus();
+        } else {
+          requestAnimationFrame(checkPopperExists);
+        }
+      }
+
+      this.$element.on('shown.bs.select', function () {
+        if (that.$menuInner[0].scrollTop !== that.selectpicker.view.scrollTop) {
+          that.$menuInner[0].scrollTop = that.selectpicker.view.scrollTop;
+        }
+
+        if (version.major > 3) {
+          requestAnimationFrame(checkPopperExists);
+        } else {
+          setFocus();
+        }        
       });
 
       this.$menuInner.on('click', 'li a', function (e, retainActive) {
@@ -46889,6 +46928,7 @@ document.addEventListener('DOMContentLoaded', function() {
               $option = $options.eq(clickedIndex),
               state = $option.prop('selected'),
               $optgroup = $option.parent('optgroup'),
+              $optgroupOptions = $optgroup.find('option'),
               maxOptions = that.options.maxOptions,
               maxOptionsGrp = $optgroup.data('maxOptions') || false;
               
@@ -46917,13 +46957,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (maxOptions && maxOptions == 1) {
                   $options.prop('selected', false);
                   $option.prop('selected', true);
-                  that.$menuInner.find('.selected').removeClass('selected');
+
+                  for (var i = 0; i < $options.length; i++) {
+                    that.setSelected(i, false);
+                  }
+
                   that.setSelected(clickedIndex, true);
                 } else if (maxOptionsGrp && maxOptionsGrp == 1) {
                   $optgroup.find('option:selected').prop('selected', false);
                   $option.prop('selected', true);
-                  var optgroupID = that.selectpicker.current.data[$this.parent().index() + that.selectpicker.view.position0].optID;
-                  that.$menuInner.find('.optgroup-' + optgroupID).removeClass('selected');
+
+                  for (var i = 0; i < $optgroupOptions.length; i++) {
+                    var option = $optgroupOptions[i];
+                    that.setSelected($options.index(option), false);
+                  }
+
                   that.setSelected(clickedIndex, true);
                 } else {
                   var maxOptionsText = typeof that.options.maxOptionsText === 'string' ? [that.options.maxOptionsText, that.options.maxOptionsText] : that.options.maxOptionsText,
@@ -47107,8 +47155,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if ( li.type !== 'divider' || ( li.type === 'divider' && liPrev && liPrev.type !== 'divider' && cacheLen - 1 !== i ) ) {
               that.selectpicker.search.data.push(li);
               searchMatch.push(that.selectpicker.main.elements[index]);
-              that.selectpicker.search.map.newIndex[li.originalIndex] = searchMatch.length - 1;
-              that.selectpicker.search.map.originalIndex[searchMatch.length - 1] = li.originalIndex;
+
+              if (li.hasOwnProperty('originalIndex')) {
+                that.selectpicker.search.map.newIndex[li.originalIndex] = searchMatch.length - 1;
+                that.selectpicker.search.map.originalIndex[searchMatch.length - 1] = li.originalIndex;
+              }
             }
           }
 
@@ -47158,10 +47209,11 @@ document.addEventListener('DOMContentLoaded', function() {
       this.$element.addClass('bs-select-hidden');
 
       for (var i = 0; i < this.selectpicker.current.elements.length; i++) {
-        var index = this.selectpicker.current.map.originalIndex[i], // faster than $(li).data('originalIndex')
+        var liData = this.selectpicker.current.data[i],
+            index = this.selectpicker.current.map.originalIndex[i], // faster than $(li).data('originalIndex')
             option = $selectOptions[index];
 
-        if (option) {
+        if (option && !option.disabled && liData.type !== 'divider') {
           if (option.selected) previousSelected++;
           option.selected = status;
           if (option.selected) currentSelected++;
@@ -47200,7 +47252,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     keydown: function (e) {
       var $this = $(this),
-          $parent = $this.is('input') ? $this.parent().parent() : $this.parent(),
+          isToggle = $this.hasClass('dropdown-toggle'),
+          $parent = isToggle ? $this.closest('.dropdown') : $this.closest(Selector.MENU),
           that = $parent.data('this'),
           $items = that.findLis(),
           index,
@@ -47209,7 +47262,7 @@ document.addEventListener('DOMContentLoaded', function() {
           activeLi,
           offset,
           updateScroll = false,
-          downOnTab = e.which === keyCodes.TAB && !$this.hasClass('dropdown-toggle') && !that.options.selectOnTab,
+          downOnTab = e.which === keyCodes.TAB && !isToggle && !that.options.selectOnTab,
           isArrowKey = REGEXP_ARROW.test(e.which) || downOnTab,
           scrollTop = that.$menuInner[0].scrollTop,
           isVirtual = that.isVirtual(),
@@ -47283,7 +47336,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         } else if (e.which === keyCodes.ARROW_DOWN || downOnTab) { // down
           // scroll to top and highlight first option
-          if (position0 !== 0 && index === 0) {
+          if (index === 0) {
             that.$menuInner[0].scrollTop = 0;
 
             liActiveIndex = 0;
@@ -47296,8 +47349,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         liActive = that.selectpicker.current.elements[liActiveIndex];
-        liActive.classList.add('active');
-        if (liActive.firstChild) liActive.firstChild.classList.add('active');
+
+        if (liActive) {
+          liActive.classList.add('active');
+          if (liActive.firstChild) liActive.firstChild.classList.add('active');
+        }
+        
         that.activeIndex = that.selectpicker.current.map.originalIndex[liActiveIndex];
 
         that.selectpicker.view.currentActive = liActive;
@@ -47473,6 +47530,29 @@ document.addEventListener('DOMContentLoaded', function() {
     var _option = option;
 
     [].shift.apply(args);
+
+    // if the version was not set successfully
+    if (!version.success) {
+      // try to retreive it again
+      try {
+        version.full = ($.fn.dropdown.Constructor.VERSION || '').split(' ')[0].split('.');
+      }
+      // fall back to use BootstrapVersion
+      catch(err) {
+        version.full = Selectpicker.BootstrapVersion.split(' ')[0].split('.');
+      }
+
+      version.major = version.full[0];
+      version.success = true;
+
+      if (version.major === '4') {
+        classNames.DIVIDER = 'dropdown-divider';
+        classNames.SHOW = 'show';
+        classNames.BUTTONCLASS = 'btn-light';
+        Selectpicker.DEFAULTS.style = classNames.BUTTONCLASS = 'btn-light';
+        classNames.POPOVERHEADER = 'popover-header';
+      }
+    }
 
     var value;
     var chain = this.each(function () {
