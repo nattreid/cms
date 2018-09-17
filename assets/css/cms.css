@@ -904,6 +904,9 @@ body.preload * {
 #dockbar .dockbar-content > ul.dockbar-right > li > div > span {
   display: inline-block;
 }
+#dockbar .dockbar-content > ul.dockbar-right > li.identity span.roles {
+  font-size: 9px;
+}
 #dockbar .dockbar-content > ul.dockbar-right > li.identity > ul > li.myProfile > a:before {
   content: "\f044";
 }

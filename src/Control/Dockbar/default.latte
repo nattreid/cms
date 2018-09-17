@@ -16,7 +16,12 @@
             <ul class="dockbar-right">
                 {include item, items => $rightItems}
                 <li class="identity">
-                    <div><span>{$userName}</span></div>
+                    <div>
+                        <span>
+                            <span class="roles">({$roles})</span>
+                            <strong>{$userName}</strong>
+                        </span>
+                    </div>
                     <ul class="menu">
                         <li class="myProfile"><a href="{$profileLink}">{_'dockbar.myProfile'}</a></li>
                         <li n:if="$tryUserEnable" class="closeTryUser">

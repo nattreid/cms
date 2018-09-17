@@ -315,8 +315,9 @@ class Dockbar extends Control
 		$template->profileLink = $this->presenter->link(":{$this->module}:Profile:");
 
 		//uzivatelske jmeno
-		$identity=$this->user->getIdentity();
+		$identity = $this->user->getIdentity();
 		$template->userName = empty(trim($identity->fullName)) ? $identity->username : $identity->fullName;
+		$template->roles = implode(', ', $identity->roleTitles);
 
 		$template->tryUserEnable = $this->getTryUser()->isEnable();
 
