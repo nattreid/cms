@@ -1,45 +1,45 @@
 {
-	"name": "nattreid-cms",
-	"description": "CMS for Nette Framework",
-	"version": "1.6.1",
-	"main": "./assets/cms.js",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:nattreid/cms.git"
-	},
-	"author": "Attreid",
-	"license": "MIT",
-	"dependencies": {
-		"jquery": "~3",
-		"jquery-ui": "~>1.12.1",
-		"jquery-ui-dist": "~>1.12.1",
-		"nette.ajax.js": "~2",
-		"jquery-ui-touch-punch": "~0",
-		"live-form-validation": "~1",
-		"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
-		"nprogress": "~0",
-		"moment": "~>2.19.3",
-		"bootstrap-select": "~1",
-		"ublaboo-datagrid": "~5",
-		"happy": "attreid/happy#dev",
-		"bootstrap-datepicker": "~1",
-		"kcfinder": "attreid/kcfinder#dev",
-		"nattreid-file-manager": "~1",
-		"nattreid-menu": "~2",
-		"nattreid-utils": "~1",
-		"nattreid-form": "~1",
-		"nattreid-modal": "~2",
-		"nattreid-visual-paginator": "~1",
-		"bootstrap": "~3"
-	},
-	"devDependencies": {
-		"gulp": "~4",
-		"gulp-clean-css": "~3",
-		"gulp-concat": "~2",
-		"gulp-less": "~4",
-		"gulp-modify-css-urls": "~2",
-		"gulp-uglify": "~3",
-		"streamqueue": "~1",
-		"merge-stream": "~1"
-	}
+  "name": "nattreid-cms",
+  "description": "CMS for Nette Framework",
+  "version": "1.6.2",
+  "main": "./assets/cms.js",
+  "repository": {
+	"type": "git",
+	"url": "git@github.com:nattreid/cms.git"
+  },
+  "author": "Attreid",
+  "license": "MIT",
+  "dependencies": {
+	"jquery": "~3.3",
+	"jquery-ui": "~>1.12",
+	"jquery-ui-dist": "~>1.12",
+	"nette.ajax.js": "~2.3",
+	"jquery-ui-touch-punch": "~0.2",
+	"live-form-validation": "~1.9",
+	"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
+	"nprogress": "~0.2",
+	"moment": "~>2.19",
+	"bootstrap-select": "~1.13",
+	"ublaboo-datagrid": "~5.5",
+	"happy": "attreid/happy#dev",
+	"bootstrap-datepicker": "~1.8",
+	"kcfinder": "attreid/kcfinder#dev",
+	"nattreid-file-manager": "~1.5",
+	"nattreid-menu": "~2.5",
+	"nattreid-utils": "~1.5",
+	"nattreid-form": "~1.7",
+	"nattreid-modal": "~2.1",
+	"nattreid-visual-paginator": "~1.4",
+	"bootstrap": "~3.3"
+  },
+  "devDependencies": {
+	"gulp": "~4.0",
+	"gulp-clean-css": "~3.10",
+	"gulp-concat": "~2.6",
+	"gulp-less": "~4.0",
+	"gulp-modify-css-urls": "~2.0",
+	"gulp-uglify": "~3.0",
+	"streamqueue": "~1.1",
+	"merge-stream": "~1.0"
+  }
 }
