@@ -1,7 +1,7 @@
 {
   "name": "nattreid-cms",
   "description": "CMS for Nette Framework",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "main": "./assets/cms.js",
   "repository": {
 	"type": "git",
@@ -16,7 +16,6 @@
 	"nette.ajax.js": "~2.3",
 	"jquery-ui-touch-punch": "~0.2",
 	"live-form-validation": "~1.9",
-	"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
 	"nprogress": "~0.2",
 	"moment": "~>2.19",
 	"bootstrap-select": "~1.13",
