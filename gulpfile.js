@@ -4,14 +4,15 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     streamqueue = require('streamqueue'),
-    modifyCssUrls = require('gulp-modify-css-urls');
+    modifyCssUrls = require('gulp-modify-css-urls'),
+    merge = require('merge-stream');
 
 var paths = {
     'dev': {
         'less': './resources/assets/less/',
         'css': './resources/assets/css/',
         'js': './resources/assets/js/',
-        'vendor': './resources/assets/vendor/'
+        'vendor': './node_modules/'
     },
     'production': {
         'js': './assets/js',
@@ -25,11 +26,11 @@ var paths = {
 
 var boundledJS = [
     paths.dev.vendor + 'jquery/dist/jquery.js',
-    paths.dev.vendor + 'jquery-ui/jquery-ui.js',
+    paths.dev.vendor + 'jquery-ui-dist/jquery-ui.js',
     paths.dev.vendor + 'nette.ajax.js/nette.ajax.js',
     paths.dev.vendor + 'nette.ajax.js/extensions/confirm.ajax.js',
-    paths.dev.vendor + 'jqueryui-touch-punch/jquery.ui.touch-punch.js',
-    paths.dev.vendor + 'nette-live-form-validation/live-form-validation.js',
+    paths.dev.vendor + 'jquery-ui-touch-punch/jquery.ui.touch-punch.js',
+    paths.dev.vendor + 'live-form-validation/live-form-validation.js',
     paths.dev.vendor + 'nattreid-utils/assets/utils.js',
     paths.dev.vendor + 'bootstrap/dist/js/bootstrap.js',
     paths.dev.vendor + 'nprogress/nprogress.js',
@@ -39,7 +40,7 @@ var boundledJS = [
     paths.dev.vendor + 'moment/moment.js',
     paths.dev.vendor + 'moment/locale/cs.js',
     // spectrum
-    paths.dev.vendor + 'spectrum/spectrum.js',
+    paths.dev.vendor + 'spectrum-colorpicker/spectrum.js',
     // datagrid
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid.js',
     paths.dev.vendor + 'ublaboo-datagrid/assets/dist/datagrid-spinners.js',
@@ -51,7 +52,7 @@ var boundledJS = [
     paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.js',
     paths.dev.vendor + 'corejs-typeahead/dist/typeahead.bundle.js',
     // ckeditor
-    paths.dev.vendor + 'ckeditor/adapters/jquery.js',
+    paths.dev.vendor + 'ckeditor-full/adapters/jquery.js',
     // cms
     paths.dev.js + 'cms.js',
     paths.dev.js + 'dockbar.js',
@@ -105,20 +106,26 @@ gulp.task('jsBoundledMin', function () {
 });
 
 gulp.task('jsLocale', function () {
+    var streams = [];
     for (var lang in locale) {
-        gulp.src(locale[lang])
+        var stream = gulp.src(locale[lang])
             .pipe(concat('cms.' + lang + '.js'))
             .pipe(gulp.dest(paths.production.lang));
+        streams.push(stream);
     }
+    return merge.apply(this, streams);
 });
 
 gulp.task('jsLocaleMin', function () {
+    var streams = [];
     for (var lang in locale) {
-        gulp.src(locale[lang])
+        var stream = gulp.src(locale[lang])
             .pipe(concat('cms.' + lang + '.min.js'))
             .pipe(uglify())
             .pipe(gulp.dest(paths.production.lang));
+        streams.push(stream);
     }
+    return merge.apply(this, streams);
 });
 
 // *****************************************************************************
@@ -145,7 +152,7 @@ function getBoundledCSS() {
                 }
             })),
         gulp.src([
-            paths.dev.vendor + 'jquery-ui/themes/base/jquery-ui.css',
+            paths.dev.vendor + 'jquery-ui-dist/jquery-ui.theme.css',
             paths.dev.vendor + 'bootstrap/dist/css/bootstrap-theme.css',
             paths.dev.vendor + 'bootstrap-daterangepicker/daterangepicker.css',
             paths.dev.vendor + 'nprogress/nprogress.css',
@@ -156,7 +163,7 @@ function getBoundledCSS() {
             paths.dev.vendor + 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
             paths.dev.vendor + 'bootstrap-select/dist/css/bootstrap-select.css',
             // spectrum
-            paths.dev.vendor + 'spectrum/spectrum.css',
+            paths.dev.vendor + 'spectrum-colorpicker/spectrum.css',
             // plugins
             paths.dev.vendor + 'nattreid-form/assets/form.css',
             paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.min.css',
@@ -212,13 +219,13 @@ gulp.task('cssBoundledMin', function () {
 // *****************************************************************************
 
 gulp.task('watch', function () {
-    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin']);
-    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin']);
+    gulp.watch(paths.dev.js + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin'));
+    gulp.watch(paths.dev.vendor + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin'));
 
-    gulp.watch(paths.dev.css + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
-    gulp.watch(paths.dev.less + '*.less', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
-    gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
+    gulp.watch(paths.dev.css + '*.css', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
+    gulp.watch(paths.dev.less + '*.less', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
+    gulp.watch(paths.dev.vendor + '*.css', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
 });
 
-gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
+gulp.task('default', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch'));
 

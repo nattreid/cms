@@ -1,6 +1,6 @@
 /vendor
 /nbproject
 /composer.lock
-/resources/assets/vendor
+/package-lock.json
 /node_modules
 .idea/
