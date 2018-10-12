@@ -3,7 +3,6 @@ var gulp = require('gulp'),
     minify = require('gulp-clean-css'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    streamqueue = require('streamqueue'),
     modifyCssUrls = require('gulp-modify-css-urls'),
     merge = require('merge-stream');
 
@@ -132,7 +131,7 @@ gulp.task('jsLocaleMin', function () {
 // ***********************************  CSS  ***********************************
 
 function getBoundledCSS() {
-    return streamqueue({objectMode: true},
+    return merge(
         gulp.src(paths.dev.vendor + 'font-awesome/css/font-awesome.css')
             .pipe(modifyCssUrls({
                 modify: function (url, filePath) {
@@ -175,7 +174,7 @@ function getBoundledCSS() {
 }
 
 gulp.task('css', function () {
-    return streamqueue({objectMode: true},
+    return merge(
         gulp.src(paths.dev.css + '*.css'),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
@@ -185,7 +184,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('cssBoundled', function () {
-    return streamqueue({objectMode: true},
+    return merge(
         getBoundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
@@ -195,7 +194,7 @@ gulp.task('cssBoundled', function () {
 });
 
 gulp.task('cssMin', function () {
-    return streamqueue({objectMode: true},
+    return merge(
         gulp.src(paths.dev.css + '*.css'),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
@@ -206,7 +205,7 @@ gulp.task('cssMin', function () {
 });
 
 gulp.task('cssBoundledMin', function () {
-    return streamqueue({objectMode: true},
+    return merge(
         getBoundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
