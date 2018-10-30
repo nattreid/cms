@@ -275,23 +275,6 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/**
-	 * Store flash message
-	 *
-	 * @param string $message
-	 * @param string $level
-	 * @param string|null $title
-	 * @param bool $overlay
-	 * @param int|null $count
-	 * @param array|null $parameters
-	 *
-	 * @return IMessage
-	 */
-	public function flashMessage($message, $level = 'info', $title = null, $overlay = false, $count = null, $parameters = []): IMessage
-	{
-		return $this->flashNotifier->message($message, $level, $title, $overlay, $count, $parameters);
-	}
-
-	/**
 	 * Flash messages component
 	 *
 	 * @return Control
