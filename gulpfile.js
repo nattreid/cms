@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     modifyCssUrls = require('gulp-modify-css-urls'),
-    merge = require('merge-stream');
+    merge = require('merge-stream'),
+    streamqueue = require('streamqueue');
 
 var paths = {
     'dev': {
@@ -23,7 +24,7 @@ var paths = {
 // *****************************************************************************
 // ************************************  JS  ***********************************
 
-var boundledJS = [
+var bundledJS = [
     paths.dev.vendor + 'jquery/dist/jquery.js',
     paths.dev.vendor + 'jquery-ui-dist/jquery-ui.js',
     paths.dev.vendor + 'nette.ajax.js/nette.ajax.js',
@@ -84,9 +85,9 @@ gulp.task('js', function () {
         .pipe(gulp.dest(paths.production.js));
 });
 
-gulp.task('jsBoundled', function () {
-    return gulp.src(boundledJS)
-        .pipe(concat('cms.boundled.js'))
+gulp.task('jsBundled', function () {
+    return gulp.src(bundledJS)
+        .pipe(concat('cms.bundled.js'))
         .pipe(gulp.dest(paths.production.js));
 });
 
@@ -97,9 +98,9 @@ gulp.task('jsMin', function () {
         .pipe(gulp.dest(paths.production.js));
 });
 
-gulp.task('jsBoundledMin', function () {
-    return gulp.src(boundledJS)
-        .pipe(concat('cms.boundled.min.js'))
+gulp.task('jsBundledMin', function () {
+    return gulp.src(bundledJS)
+        .pipe(concat('cms.bundled.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(paths.production.js));
 });
@@ -130,8 +131,8 @@ gulp.task('jsLocaleMin', function () {
 // *****************************************************************************
 // ***********************************  CSS  ***********************************
 
-function getBoundledCSS() {
-    return merge(
+function getBundledCSS() {
+    return streamqueue.obj(
         gulp.src(paths.dev.vendor + 'font-awesome/css/font-awesome.css')
             .pipe(modifyCssUrls({
                 modify: function (url, filePath) {
@@ -174,7 +175,7 @@ function getBoundledCSS() {
 }
 
 gulp.task('css', function () {
-    return merge(
+    return streamqueue.obj(
         gulp.src(paths.dev.css + '*.css'),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
@@ -183,18 +184,18 @@ gulp.task('css', function () {
         .pipe(gulp.dest(paths.production.css));
 });
 
-gulp.task('cssBoundled', function () {
-    return merge(
-        getBoundledCSS(),
+gulp.task('cssBundled', function () {
+    return streamqueue.obj(
+        getBundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('cms.boundled.css'))
+        .pipe(concat('cms.bundled.css'))
         .pipe(gulp.dest(paths.production.css));
 });
 
 gulp.task('cssMin', function () {
-    return merge(
+    return streamqueue.obj(
         gulp.src(paths.dev.css + '*.css'),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
@@ -204,13 +205,13 @@ gulp.task('cssMin', function () {
         .pipe(gulp.dest(paths.production.css));
 });
 
-gulp.task('cssBoundledMin', function () {
-    return merge(
-        getBoundledCSS(),
+gulp.task('cssBundledMin', function () {
+    return streamqueue.obj(
+        getBundledCSS(),
         gulp.src(paths.dev.less + '*.less')
             .pipe(less())
     )
-        .pipe(concat('cms.boundled.min.css'))
+        .pipe(concat('cms.bundled.min.css'))
         .pipe(minify({keepSpecialComments: 0}))
         .pipe(gulp.dest(paths.production.css));
 });
@@ -218,13 +219,13 @@ gulp.task('cssBoundledMin', function () {
 // *****************************************************************************
 
 gulp.task('watch', function () {
-    gulp.watch(paths.dev.js + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin'));
-    gulp.watch(paths.dev.vendor + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin'));
+    gulp.watch(paths.dev.js + '*.js', gulp.series('js', 'jsBundled', 'jsMin', 'jsBundledMin', 'jsLocale', 'jsLocaleMin'));
+    gulp.watch(paths.dev.vendor + '*.js', gulp.series('js', 'jsBundled', 'jsMin', 'jsBundledMin', 'jsLocale', 'jsLocaleMin'));
 
-    gulp.watch(paths.dev.css + '*.css', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
-    gulp.watch(paths.dev.less + '*.less', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
-    gulp.watch(paths.dev.vendor + '*.css', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
+    gulp.watch(paths.dev.css + '*.css', gulp.series('css', 'cssBundled', 'cssMin', 'cssBundledMin'));
+    gulp.watch(paths.dev.less + '*.less', gulp.series('css', 'cssBundled', 'cssMin', 'cssBundledMin'));
+    gulp.watch(paths.dev.vendor + '*.css', gulp.series('css', 'cssBundled', 'cssMin', 'cssBundledMin'));
 });
 
-gulp.task('default', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsLocale', 'jsLocaleMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch'));
+gulp.task('default', gulp.series('js', 'jsBundled', 'jsMin', 'jsBundledMin', 'jsLocale', 'jsLocaleMin', 'css', 'cssBundled', 'cssMin', 'cssBundledMin', 'watch'));
 
