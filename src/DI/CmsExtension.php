@@ -138,8 +138,8 @@ class CmsExtension extends CompilerExtension
 		$loader = $builder->addDefinition($this->prefix('loaderFactory'))
 			->setType(LoaderFactory::class)
 			->setArguments([$config['wwwDir'], $jsFilters, $cssFilters])
-			->addSetup('addFile', ['css/cms.boundled.min.css'])
-			->addSetup('addFile', ['js/cms.boundled.min.js'])
+			->addSetup('addFile', ['css/cms.bundled.min.css'])
+			->addSetup('addFile', ['js/cms.bundled.min.js'])
 			->addSetup('addFile', ['js/i18n/cms.cs.min.js', 'cs'])
 			->addSetup('addFile', ['js/i18n/cms.en.min.js', 'en']);
 
