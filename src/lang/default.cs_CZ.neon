@@ -18,6 +18,9 @@ state: "Stav"
 url: "URL"
 typeaheadEmpty: "Požadovaná položka neexistuje"
 
+yes: "Ano"
+no: "Ne"
+
 time:
     years: "{0}|{1}%count% rok|[2,4]%count% roky|[5,Inf[%count% let"
     months: "{0}|{1}%count% měsíc|[2,4]%count% měsíce|[5,Inf[%count% měsíců"

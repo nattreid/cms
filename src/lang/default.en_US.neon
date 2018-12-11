@@ -18,6 +18,9 @@ state: "State"
 url: "URL"
 typeaheadEmpty: "Requested item doesn't exists"
 
+yes: "Yes"
+no: "No"
+
 time:
     years: "{0}|{1}%count% year|[2,Inf[%count% years"
     months: "{0}|{1}%count% month|[2,Inf[%count% months"
