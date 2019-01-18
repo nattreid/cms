@@ -33,7 +33,7 @@
 	"nattreid-form": "~1.7",
 	"nattreid-modal": "~2.1",
 	"nattreid-visual-paginator": "~1.4",
-	"bootstrap": "~3.3"
+	"bootstrap": "~3.4"
   },
   "devDependencies": {
 	"gulp": "~4.0",
