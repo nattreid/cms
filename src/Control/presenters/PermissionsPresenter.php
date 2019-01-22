@@ -228,7 +228,7 @@ class PermissionsPresenter extends CmsPresenter
 			try {
 				$role = new AclRole;
 				$this->orm->aclRoles->attach($role);
-				$role->name = $values->name;
+				$role->setName($values->name);
 				$role->title = $values->title;
 				$role->parent = $values->parent;
 
