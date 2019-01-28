@@ -46,7 +46,9 @@
                     {if $item->newWindow}target="_blank"{/if}
                     href="{if $item->handler}{link $item->link}{else}{plink $item->link}{/if}"
                     {if $item->confirm}data-confirm="{_$item->confirm}"{/if}
-            >{_$item->title}</a>
+            >
+                <span>{_$item->title}</span>
+            </a>
         {else}
             <div><span>{_$item->title}</span></div>
             <ul>
