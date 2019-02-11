@@ -63,6 +63,11 @@ class LocalesMapper extends Mapper
 					'name' => 'es',
 					'default' => 0,
 					'allowed' => 1
+				], [
+					'id' => 7,
+					'name' => 'hu',
+					'default' => 0,
+					'allowed' => 1
 				]
 			]);
 		};
