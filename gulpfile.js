@@ -166,7 +166,6 @@ function getBundledCSS() {
             paths.dev.vendor + 'spectrum-colorpicker/spectrum.css',
             // plugins
             paths.dev.vendor + 'nattreid-form/assets/form.css',
-            paths.dev.vendor + 'nattreid-visual-paginator/assets/vpaginator.min.css',
             paths.dev.vendor + 'nattreid-modal/assets/modal.min.css',
             // cms
             paths.dev.css + '*.css'

@@ -3055,8 +3055,8 @@
   clip: auto;
 }
 /*!
- * Bootstrap v3.4.0 (https://getbootstrap.com/)
- * Copyright 2011-2018 Twitter, Inc.
+ * Bootstrap v3.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
@@ -12092,8 +12092,8 @@ a.ui-button:active,
 }
 
 /*!
- * Bootstrap v3.4.0 (https://getbootstrap.com/)
- * Copyright 2011-2018 Twitter, Inc.
+ * Bootstrap v3.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 .btn-default,
@@ -15799,7 +15799,6 @@ span.twitter-typeahead .tt-suggestion:focus {
   border-radius: 6px;
 }
 
-.visualPaginator{text-align:center}.visualPaginator ul.pagination li{display:inline-block;min-width:35px;height:29px;line-height:29px;text-align:center;border:1px solid transparent}.visualPaginator ul.pagination li a,.visualPaginator ul.pagination li span{text-decoration:none;padding:0 5px;display:block;color:#000}.visualPaginator ul.pagination li a:hover{color:#337ab7}.visualPaginator ul.pagination li.other{border:1px solid transparent}.visualPaginator ul.pagination li.active{border:1px solid #337ab7;font-weight:700}.visualPaginator ul.pagination li.active span{color:#337ab7}.visualPaginator ul.pagination li.disabled{display:none}.visualPaginator ul.pagination li.next,.visualPaginator ul.pagination li.prev{border:1px solid #555;background:inherit}.visualPaginator ul.pagination li.next:hover,.visualPaginator ul.pagination li.prev:hover{border:1px solid #337ab7}
 .nattreid-modal-container{display:none;position:absolute;top:0;left:0;z-index:10;width:100%}.nattreid-modal-container .nattreid-modal-background{background-color:#000;opacity:.6;position:fixed;top:0;left:0;right:0;bottom:0}.nattreid-modal-container .nattreid-modal-wrapper{background-color:#fff;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;position:fixed;padding:20px}.nattreid-modal-container .nattreid-modal-wrapper[data-draggable="1"]{cursor:move}.nattreid-modal-container .nattreid-modal-wrapper .nattreid-modal-content{cursor:default}.nattreid-modal-container .nattreid-modal-wrapper span.nattreid-modal-close{position:absolute;right:2px;top:-1px;text-decoration:none;cursor:pointer}.nattreid-modal-container .nattreid-modal-wrapper span.nattreid-modal-close:before{font:normal normal normal 14px/1 FontAwesome;text-rendering:auto;-webkit-font-smoothing:antialiased;color:#333;opacity:.6;font-size:24px;content:"\f00d"}.nattreid-modal-container .nattreid-modal-wrapper span.nattreid-modal-close:hover:before{opacity:1;font-size:28px}
 /*!
  * jQuery UI CSS Framework 1.12.0
