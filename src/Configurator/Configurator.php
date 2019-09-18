@@ -7,6 +7,7 @@ namespace NAttreid\Cms\Configurator;
 use NAttreid\AppManager\AppManager;
 use NAttreid\Cms\Model\Configuration\Configuration;
 use NAttreid\Cms\Model\Orm;
+use NAttreid\Utils\Strings;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nextras\Orm\Model\Model;
@@ -66,6 +67,16 @@ class Configurator implements IConfigurator
 	}
 
 	public function __get(string $name)
+	{
+		if (Strings::contains($name, '->')) {
+			list($name, $variable) = explode('->', $name);
+			return $this->get($name)->$variable ?? false;
+		} else {
+			return $this->get($name);
+		}
+	}
+
+	private function get($name)
 	{
 		$result = $this->cache->load($name);
 		if ($result === null) {
