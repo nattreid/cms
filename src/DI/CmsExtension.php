@@ -97,7 +97,8 @@ class CmsExtension extends CompilerExtension
 			->setType(FormFactory::class);
 
 		$builder->addDefinition($this->prefix('dataGridFactory'))
-			->setType(DataGridFactory::class);
+			->setType(DataGridFactory::class)
+			->setArguments([$config['grid']]);
 
 		$builder->addDefinition($this->prefix('localeService'))
 			->setType(LocaleService::class);

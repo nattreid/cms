@@ -18,12 +18,16 @@ class DataGridFactory
 {
 	use SmartObject;
 
+	/** @var array */
+	private $config;
+
 	/** @var Translator */
 	private $translator;
 
-	public function __construct(Translator $translator)
+	public function __construct(array $config, Translator $translator)
 	{
 		$this->translator = $translator;
+		$this->config = $config;
 	}
 
 	/**
@@ -36,7 +40,8 @@ class DataGridFactory
 		$grid = new DataGrid($parent, $name);
 
 		$grid->setTranslator($this->translator);
-		$grid->setDefaultPerPage(50);
+		$grid->setItemsPerPageList($this->config['perPage']['list'], $this->config['perPage']['all']);
+		$grid->setDefaultPerPage($this->config['perPage']['list'][0]);
 
 		return $grid;
 	}
