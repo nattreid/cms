@@ -108,6 +108,16 @@ class Configurator implements IConfigurator
 		$this->orm->persistAndFlush($configuration);
 	}
 
+	public function __unset(string $name): void
+	{
+		$configuration = $this->orm->configuration->getById($name);
+		if ($configuration) {
+			$this->orm->remove($configuration);
+			$this->orm->flush();
+
+		}
+	}
+
 	public function fetchConfigurations(): array
 	{
 		$conf = $this->orm->configuration->findAll()->fetchPairs('name', 'value');
