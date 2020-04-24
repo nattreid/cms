@@ -1,48 +1,48 @@
 {
-  "name": "nattreid-cms",
-  "description": "CMS for Nette Framework",
-  "version": "1.6.23",
-  "main": "./assets/cms.js",
-  "repository": {
-	"type": "git",
-	"url": "git@github.com:nattreid/cms.git"
-  },
-  "author": {
-	"name": "Attreid",
-	"email": "attreid@gmail.com"
-  },
-  "license": "MIT",
-  "dependencies": {
-	"bootstrap": "~3.4",
-	"bootstrap-datepicker": "~1.8",
-	"bootstrap-select": "~1.13",
-	"happy": "attreid/happy#dev",
-	"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
-	"jquery": "~3.4",
-	"jquery-ui": "~>1.12",
-	"jquery-ui-dist": "~>1.12",
-	"jquery-ui-touch-punch": "~0.2",
-	"kcfinder": "attreid/kcfinder#dev",
-	"live-form-validation": "~1.9",
-	"moment": "~>2.19",
-	"nattreid-file-manager": "^1.5.4",
-	"nattreid-form": "^1.7.8",
-	"nattreid-menu": "^2.5.5",
-	"nattreid-modal": "^2.1.5",
-	"nattreid-utils": "^1.6.2",
-	"nattreid-visual-paginator": "~1.4",
-	"nette.ajax.js": "~2.3",
-	"nprogress": "~0.2",
-	"ublaboo-datagrid": "~5.7"
-  },
-  "devDependencies": {
-	"gulp": "~4.0",
-	"gulp-clean-css": "~3.10",
-	"gulp-concat": "~2.6",
-	"gulp-less": "~4.0",
-	"gulp-modify-css-urls": "~2.0",
-	"gulp-uglify": "~3.0",
-	"merge-stream": "~1.0",
-	"streamqueue": "~1.1"
-  }
+	"name": "nattreid-cms",
+	"description": "CMS for Nette Framework",
+	"version": "1.6.26",
+	"main": "./assets/cms.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:nattreid/cms.git"
+	},
+	"author": {
+		"name": "Attreid",
+		"email": "attreid@gmail.com"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"bootstrap": "~3.4",
+		"bootstrap-datepicker": "~1.8",
+		"bootstrap-select": "~1.13",
+		"happy": "attreid/happy#dev",
+		"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
+		"jquery": "~3.4",
+		"jquery-ui": "~>1.12",
+		"jquery-ui-dist": "~>1.12",
+		"jquery-ui-touch-punch": "~0.2",
+		"kcfinder": "attreid/kcfinder#dev",
+		"live-form-validation": "~1.9",
+		"moment": "~>2.19",
+		"nattreid-file-manager": "^1.5.4",
+		"nattreid-form": "^1.7.8",
+		"nattreid-menu": "^2.5.5",
+		"nattreid-modal": "^2.1.5",
+		"nattreid-utils": "^1.6.2",
+		"nattreid-visual-paginator": "~1.4",
+		"nette.ajax.js": "~2.3",
+		"nprogress": "~0.2",
+		"ublaboo-datagrid": "~5.7"
+	},
+	"devDependencies": {
+		"gulp": "~4.0",
+		"gulp-clean-css": "~3.10",
+		"gulp-concat": "~2.6",
+		"gulp-less": "~4.0",
+		"gulp-modify-css-urls": "~2.0",
+		"gulp-uglify": "~3.0",
+		"merge-stream": "~1.0",
+		"streamqueue": "~1.1"
+	}
 }
