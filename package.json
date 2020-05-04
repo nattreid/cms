@@ -1,7 +1,7 @@
 {
 	"name": "nattreid-cms",
 	"description": "CMS for Nette Framework",
-	"version": "1.6.28",
+	"version": "1.6.29",
 	"main": "./assets/cms.js",
 	"repository": {
 		"type": "git",
