@@ -13,6 +13,7 @@ namespace NAttreid\Cms\Configurator;
  * @property string $cmsLogo logo CMS
  * @property string $title nazev stranek (napr Netta.cz)
  * @property bool $mailPanel Mail panel misto zasilani mailu
+ * @property-read bool $disabledCrm Dostupne CRM
  *
  * @author Attreid <attreid@gmail.com>
  */

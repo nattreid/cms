@@ -4,6 +4,8 @@ sender: null
 front: null
 configurator: null
 
+disabled: false
+
 fileManagerDir: %appDir%/../
 infoRefresh: 15 # vteriny
 

@@ -118,7 +118,8 @@ class CmsExtension extends CompilerExtension
 		$defaults = $config['configurator'] ?? [];
 
 		$configurator = $builder->addDefinition($this->prefix('configurator'))
-			->setType(Configurator::class);
+			->setType(Configurator::class)
+		->setArguments([$config['disabled']]);
 
 		foreach ($defaults as $variable => $value) {
 			$configurator->addSetup('addDefault', [$variable, $value]);

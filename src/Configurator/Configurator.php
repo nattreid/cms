@@ -10,6 +10,7 @@ use NAttreid\Cms\Model\Orm;
 use NAttreid\Utils\Strings;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
+use Nette\InvalidArgumentException;
 use Nextras\Orm\Model\Model;
 
 /**
@@ -26,6 +27,9 @@ class Configurator implements IConfigurator
 		'mailPanel' => false
 	];
 
+	/** @var bool */
+	private $disabledCrm;
+
 	private $tag = 'cache/configuration';
 
 	/** @var Orm */
@@ -34,9 +38,10 @@ class Configurator implements IConfigurator
 	/** @var Cache */
 	private $cache;
 
-	public function __construct(Model $orm, IStorage $storage, AppManager $app)
+	public function __construct(bool $disabledCrm, Model $orm, IStorage $storage, AppManager $app)
 	{
 		$this->orm = $orm;
+		$this->disabledCrm = $disabledCrm;
 		$this->cache = new Cache($storage, 'nattreid-cms-configurator');
 		$app->onInvalidateCache[] = [$this, 'cleanCache'];
 		$this->orm->configuration->onFlush[] = function ($persisted, $removed) {
@@ -68,6 +73,9 @@ class Configurator implements IConfigurator
 
 	public function __get(string $name)
 	{
+		if ($name === 'disabledCrm') {
+			return $this->disabledCrm;
+		}
 		if (Strings::contains($name, '->')) {
 			list($name, $variable) = explode('->', $name);
 			return $this->get($name)->$variable ?? false;
@@ -99,6 +107,9 @@ class Configurator implements IConfigurator
 
 	public function __set(string $name, $value)
 	{
+		if ($name === 'disabledCrm') {
+			throw new InvalidArgumentException();
+		}
 		$configuration = $this->orm->configuration->getById($name);
 		if ($configuration === null) {
 			$configuration = new Configuration;

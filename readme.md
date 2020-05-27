@@ -12,6 +12,8 @@ cms:
     url: '/cms/'
     sender: 'Odesilatel <nejaky@mail.cz>'
     front: ':Front:Homepage:'
+
+    disabled: false # vypnuti CRM
     
     configurator:
     	defaultPromenna: 'hodnota' # nastaveni vychozich hodnot v configuratoru

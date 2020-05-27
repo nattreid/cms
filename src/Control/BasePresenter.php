@@ -87,6 +87,9 @@ abstract class BasePresenter extends Presenter
 	 */
 	protected function startup(): void
 	{
+		if ($this->configurator->disabledCrm) {
+			$this->terminate();
+		}
 		parent::startup();
 
 		$this['tryUser']->init();
