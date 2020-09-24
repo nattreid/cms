@@ -88,6 +88,11 @@ class LocalesMapper extends Mapper
 					'name' => 'he',
 					'default' => 0,
 					'allowed' => 1
+				], [
+					'id' => 12,
+					'name' => 'no',
+					'default' => 0,
+					'allowed' => 1
 				]
 			]);
 		};
