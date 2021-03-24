@@ -67,15 +67,15 @@ class LocaleService
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	protected function getDefault(): string
+	protected function getDefault(): ?string
 	{
 		$key = 'default';
 		$result = $this->cache->load($key);
 		if ($result === null) {
 			$result = $this->cache->save($key, function () {
-				return $this->orm->locales->getDefault()->name;
+				return $this->orm->locales->getDefault()->name ?? null;
 			}, [
 				Cache::TAGS => [$this->tag]
 			]);
@@ -84,11 +84,11 @@ class LocaleService
 	}
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	protected function getDefaultLocaleId(): int
+	protected function getDefaultLocaleId(): ?int
 	{
-		return $this->orm->locales->getDefault()->id;
+		return $this->orm->locales->getDefault()->id ?? null;
 	}
 
 	/**
@@ -118,11 +118,15 @@ class LocaleService
 
 	/**
 	 * Nastavi vychozi jazyk
-	 * @param int $localeId
+	 * @param int|null $localeId
 	 */
-	protected function setDefault(int $localeId): void
+	protected function setDefault(?int $localeId): void
 	{
-		$this->orm->locales->getById($localeId)->setDefault();
+		$locale = $this->orm->locales->getById($localeId);
+		if ($locale) {
+			$locale->setDefault();
+		}else
+			$this->orm->locales->unsetDefault();
 	}
 
 	/**

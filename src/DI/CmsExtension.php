@@ -119,7 +119,7 @@ class CmsExtension extends CompilerExtension
 
 		$configurator = $builder->addDefinition($this->prefix('configurator'))
 			->setType(Configurator::class)
-		->setArguments([$config['disabled']]);
+			->setArguments([$config['disabled']]);
 
 		foreach ($defaults as $variable => $value) {
 			$configurator->addSetup('addDefault', [$variable, $value]);
@@ -209,7 +209,7 @@ class CmsExtension extends CompilerExtension
 	{
 		$name = $file[0];
 		$locale = isset($file['locale']) ? $file['locale'] : null;
-		$remote = isset($file['remote']) ? (bool) $file['remote'] : false;
+		$remote = isset($file['remote']) ? (bool)$file['remote'] : false;
 		$this->checkFileExists($name);
 		if ($remote) {
 			$loader->addSetup('addRemoteFile', [$name, $locale]);
@@ -323,7 +323,7 @@ class CmsExtension extends CompilerExtension
 		try {
 			$builder->getDefinition($routerFactory)
 				->addSetup('addRouter', ['@' . $this->prefix('router'), RouterFactory::PRIORITY_APP])
-				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::default', '@' . $this->prefix('localeService') . '::allowed']);
+				->addSetup('setLocale', ['@' . $this->prefix('localeService') . '::allowed', '@' . $this->prefix('localeService') . '::default']);
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/routing'");
 		}

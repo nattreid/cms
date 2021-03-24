@@ -11,6 +11,7 @@ use Nextras\Orm\Collection\ICollection;
  * Locales Repository
  *
  * @method Locale getById($primaryValue)
+ * @method void unsetDefault()
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -24,9 +25,9 @@ class LocalesRepository extends Repository
 
 	/**
 	 * Vrati vychozi lokalizaci
-	 * @return Locale
+	 * @return Locale|null
 	 */
-	public function getDefault(): Locale
+	public function getDefault(): ?Locale
 	{
 		return $this->getBy(['default' => 1]);
 	}
@@ -57,5 +58,4 @@ class LocalesRepository extends Repository
 	{
 		return $this->findAllowed()->fetchPairs('id', 'name');
 	}
-
 }

@@ -73,7 +73,7 @@ class ConfigurationPresenter extends CmsPresenter
 		$form->addCheckbox('sendNewUserPassword', 'cms.settings.sendNewUserPassword');
 		$form->addCheckbox('sendChangePassword', 'cms.settings.sendChangePassword');
 		$form->addCheckbox('dockbarAdvanced', 'cms.settings.dockbarAdvanced');
-		$form->addSelectUntranslated('defaultLocale', 'cms.settings.defaultLocale', $this->localeService->fetch())
+		$form->addSelectUntranslated('defaultLocale', 'cms.settings.defaultLocale', $this->localeService->fetch(), 'form.none')
 			->setDefaultValue($this->localeService->defaultLocaleId);
 		$form->addMultiSelectUntranslated('allowedLocales', 'cms.settings.allowedLocales', $this->localeService->fetch())
 			->setDefaultValue($this->localeService->allowedLocaleIds)

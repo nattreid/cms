@@ -102,4 +102,11 @@ class LocalesMapper extends Mapper
 			]);
 		};
 	}
+
+	public function unsetDefault(): void
+	{
+		$this->connection->query('UPDATE %table SET %set', $this->getTableName(), [
+			'default' => 0
+		]);
+	}
 }
