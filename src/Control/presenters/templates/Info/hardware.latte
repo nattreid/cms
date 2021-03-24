@@ -1,53 +1,53 @@
 <div n:if="$hardware->data" class="cell hardwareInfo">
-    <div class="header">
-        {_'cms.info.hardware.info'}
-    </div>
-    <table>
-        {if $hardware->server}
-            <tr class="odd">
-                <th>{_'cms.info.hardware.server'}</th>
-            </tr>
-            <tr class="even">
-                <td>{$hardware->server}</td>
-            </tr>
-        {/if}
+	<div class="header">
+		{_'cms.info.hardware.info'}
+	</div>
+	<table>
+		{if $hardware->server}
+			<tr class="odd">
+				<th>{_'cms.info.hardware.server'}</th>
+			</tr>
+			<tr class="even">
+				<td>{$hardware->server}</td>
+			</tr>
+		{/if}
         {if $hardware->cpu}
-            <tr class="odd">
-                <th>{_'cms.info.hardware.cpu', count($hardware->cpu)}</th>
-            </tr>
-            <tr class="even" n:snippet="cpu">
-                <td>
-                    {ifset $hardware->cpu}
-                        {foreach $hardware->cpu as $cpu}
-                            <div>
-                                <strong>{$cpu->model}</strong>
-                            </div>
-                            <div>
-                                {_'cms.info.hardware.cpuLoad'}: <strong>{$cpu->usage|number:2,',':' '}%</strong>,
-                                {_'cms.info.hardware.cpuSpeed'}: <strong>{$cpu->speed|frequency}
+			<tr class="odd">
+				<th>{_'cms.info.hardware.cpu', count($hardware->cpu)}</th>
+			</tr>
+			<tr class="even" n:snippet="cpu">
+				<td>
+					{ifset $hardware->cpu}
+						{foreach $hardware->cpu as $cpu}
+							<div>
+								<strong>{$cpu->model}</strong>
+							</div>
+							<div>
+								{_'cms.info.hardware.cpuLoad'}: <strong>{$cpu->usage|number:2,',':' '}%</strong>,
+								{_'cms.info.hardware.cpuSpeed'}: <strong>{$cpu->speed|frequency}
                                     {if isset($cpu->speedMin) && isset($cpu->speedMax)}
-                                        ({$cpu->speedMin|frequency} / {$cpu->speedMax|frequency})
-                                    {/if}</strong>,
-                                {_'cms.info.hardware.cache'}:
-                                <strong>{$cpu->cache|size:0:true}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature.'°C'}
-                            </div>
-                            <div class="status-bar">
-                                <div style="width: {$cpu->usage|number:2,'.':''|noescape}%;"></div>
-                            </div>
-                        {/foreach}
-                    {/ifset}
-                </td>
-            </tr>
-        {/if}
+										({$cpu->speedMin|frequency} / {$cpu->speedMax|frequency})
+									{/if}</strong>,
+								{_'cms.info.hardware.cache'}:
+								<strong>{$cpu->cache|size:0:true}</strong>{isset($cpu->temperature) ? ', ' . $cpu->temperature . '°C'}
+							</div>
+							<div class="status-bar">
+								<div style="width: {$cpu->usage|number:2,'.':''|noescape}%;"></div>
+							</div>
+						{/foreach}
+					{/ifset}
+				</td>
+			</tr>
+		{/if}
         {if $hardware->scsi}
-            <tr class="odd">
-                <th>{_'cms.info.hardware.scsi'}</th>
-            </tr>
-            <tr class="even" n:foreach="$hardware->scsi as $scsi">
-                <td>
-                    <strong>{$scsi->name}</strong> ({$scsi->type})
-                </td>
-            </tr>
-        {/if}
-    </table>
+			<tr class="odd">
+				<th>{_'cms.info.hardware.scsi'}</th>
+			</tr>
+			<tr class="even" n:foreach="$hardware->scsi as $scsi">
+				<td>
+					<strong>{$scsi->name}</strong> ({$scsi->type})
+				</td>
+			</tr>
+		{/if}
+	</table>
 </div>

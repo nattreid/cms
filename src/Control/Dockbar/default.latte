@@ -1,59 +1,59 @@
 {snippet dockBar}
-    <div id="dockbar">
-        <div class="dockbar-content">
-            <ul class="button">
-                <li n:class="$shifted ? active">
-                    <div></div>
-                </li>
-            </ul>
-            <ul class="dockbar-menu">
-                <li class="frontPage">
-                    <a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
-                </li>
-                {include item, items => $items}
+	<div id="dockbar">
+		<div class="dockbar-content">
+			<ul class="button">
+				<li n:class="$shifted ? active">
+					<div></div>
+				</li>
+			</ul>
+			<ul class="dockbar-menu">
+				<li class="frontPage">
+					<a href="{plink $front}"><span>{_'dockbar.frontPage'}</span></a>
+				</li>
+				{include item, items => $items}
                 {include item, items => $leftItems}
-            </ul>
-            <ul class="dockbar-right">
-                {include item, items => $rightItems}
-                <li class="identity">
-                    <div>
+			</ul>
+			<ul class="dockbar-right">
+				{include item, items => $rightItems}
+				<li class="identity">
+					<div>
                         <span>
                             <span class="roles">({$roles})</span>
                             <strong>{$userName}</strong>
                         </span>
-                    </div>
-                    <ul class="menu">
-                        <li class="myProfile"><a href="{$profileLink}">{_'dockbar.myProfile'}</a></li>
-                        <li n:if="$tryUserEnable" class="closeTryUser">
-                            <a n:href="closeTryUser">{_'dockbar.closeTryUser'}</a>
-                        </li>
-                        <li class="logout">
-                            <a n:href="logout">{_'dockbar.logout'}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
+					</div>
+					<ul class="menu">
+						<li class="myProfile"><a href="{$profileLink}">{_'dockbar.myProfile'}</a></li>
+						<li n:if="$tryUserEnable" class="closeTryUser">
+							<a n:href="closeTryUser">{_'dockbar.closeTryUser'}</a>
+						</li>
+						<li class="logout">
+							<a n:href="logout">{_'dockbar.logout'}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
 {/snippet}
 
 {define item}
-    <li n:class="$item->class" n:foreach="$items as $item">
-        {if $item->isLink()}
-            <a
-                    n:class="$item->ajax ? ajax"
+	<li n:class="$item->class" n:foreach="$items as $item">
+		{if $item->isLink()}
+			<a
+					n:class="$item->ajax ? ajax"
                     {if $item->ajax}data-ajax-off="history"{/if}
                     {if $item->newWindow}target="_blank"{/if}
-                    href="{if $item->handler}{link $item->link}{else}{plink $item->link}{/if}"
-                    {if $item->confirm}data-confirm="{_$item->confirm}"{/if}
-            >
-                <span>{_$item->title}</span>
-            </a>
-        {else}
-            <div><span>{_$item->title}</span></div>
-            <ul>
-                {include item, items => $item->items}
-            </ul>
-        {/if}
-    </li>
+					href="{if $item->handler}{link $item->link}{else}{plink $item->link}{/if}"
+					{if $item->confirm}data-confirm="{_$item->confirm}"{/if}
+			>
+				<span>{_$item->title}</span>
+			</a>
+		{else}
+			<div><span>{_$item->title}</span></div>
+			<ul>
+				{include item, items => $item->items}
+			</ul>
+		{/if}
+	</li>
 {/define}

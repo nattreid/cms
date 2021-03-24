@@ -1,51 +1,51 @@
 <div class="cell basicInfo">
-    <div class="header">
-        {_'cms.info.basic.info'}
-    </div>
-    <table>
-        <tr class="odd" n:if="$system->hostname">
-            <td>{_'cms.info.basic.hostname'}</td>
-            <th>{$system->hostname}</th>
-        </tr>
-        <tr class="even">
-            <td>{_'cms.info.basic.listenIp'}</td>
-            <th>{$system->ip}</th>
-        </tr>
-        <tr class="odd" n:if="$system->distribution">
-            <td>{_'cms.info.basic.distribution'}</td>
-            <th>{$system->distribution}</th>
-        </tr>
-        <tr class="even">
-            <td>{_'cms.info.basic.kernel'}</td>
-            <th>{$system->kernel}</th>
-        </tr>
-        <tr class="odd" n:snippet="uptime">
-            {ifset $system->uptime}
-                <td>{_'cms.info.basic.uptime'}</td>
-                <th>
-                    {_'default.time.days', $system->uptime->days}
+	<div class="header">
+		{_'cms.info.basic.info'}
+	</div>
+	<table>
+		<tr class="odd" n:if="$system->hostname">
+			<td>{_'cms.info.basic.hostname'}</td>
+			<th>{$system->hostname}</th>
+		</tr>
+		<tr class="even">
+			<td>{_'cms.info.basic.listenIp'}</td>
+			<th>{$system->ip}</th>
+		</tr>
+		<tr class="odd" n:if="$system->distribution">
+			<td>{_'cms.info.basic.distribution'}</td>
+			<th>{$system->distribution}</th>
+		</tr>
+		<tr class="even">
+			<td>{_'cms.info.basic.kernel'}</td>
+			<th>{$system->kernel}</th>
+		</tr>
+		<tr class="odd" n:snippet="uptime">
+			{ifset $system->uptime}
+				<td>{_'cms.info.basic.uptime'}</td>
+				<th>
+					{_'default.time.days', $system->uptime->days}
                     {_'default.time.hours', $system->uptime->hours}
                     {_'default.time.minutes', $system->uptime->minutes}
-                </th>
-            {/ifset}
-        </tr>
-        <tr class="even" n:snippet="users">
-            {if !empty($system->users)}
-                <td>{_'cms.info.basic.users'}</td>
-                <th>{$system->users|length} ({$system->users|implode:', '})</th>
-            {/if}
-        </tr>
-        <tr class="odd" n:snippet="load">
-            {if $system->load}
-                <td>{_'cms.info.basic.load'}</td>
-                <th>{$system->load}</th>
-            {/if}
-        </tr>
-        <tr class="even" n:snippet="processes">
-            <td>{_'cms.info.basic.processes'}</td>
-            <th>{$system->processes->total} ({$system->processes->running} {_'cms.info.basic.running'}
-                , {$system->processes->sleeping} {_'cms.info.basic.sleeping'})
-            </th>
-        </tr>
-    </table>
+				</th>
+			{/ifset}
+		</tr>
+		<tr class="even" n:snippet="users">
+			{if !empty($system->users)}
+				<td>{_'cms.info.basic.users'}</td>
+				<th>{$system->users|length} ({$system->users|implode:', '})</th>
+			{/if}
+		</tr>
+		<tr class="odd" n:snippet="load">
+			{if $system->load}
+				<td>{_'cms.info.basic.load'}</td>
+				<th>{$system->load}</th>
+			{/if}
+		</tr>
+		<tr class="even" n:snippet="processes">
+			<td>{_'cms.info.basic.processes'}</td>
+			<th>{$system->processes->total} ({$system->processes->running} {_'cms.info.basic.running'}
+					, {$system->processes->sleeping} {_'cms.info.basic.sleeping'})
+			</th>
+		</tr>
+	</table>
 </div>

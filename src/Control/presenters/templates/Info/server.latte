@@ -1,13 +1,13 @@
 {block title}{_'dockbar.info.server'}{/block}
 {block content}
 {panel id => info}
-    <span class="data" data-refresh="{$refresh}" data-handleurl="{link refresh!}"></span>
-    {snippetArea server}
-        {include 'basic.latte'}
-        {include 'hardware.latte'}
-        <div class="space"></div>
-        {include 'memory.latte'}
-        {include 'fileSystem.latte'}
-        {include 'network.latte'}
-    {/snippetArea}
+	<span class="data" data-refresh="{$refresh}" data-handleurl="{link refresh!}"></span>
+	{snippetArea server}
+		{include 'basic.latte'}
+		{include 'hardware.latte'}
+		<div class="space"></div>
+		{include 'memory.latte'}
+		{include 'fileSystem.latte'}
+		{include 'network.latte'}
+	{/snippetArea}
 {/panel}

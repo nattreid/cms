@@ -125,8 +125,9 @@ class LocaleService
 		$locale = $this->orm->locales->getById($localeId);
 		if ($locale) {
 			$locale->setDefault();
-		}else
+		} else {
 			$this->orm->locales->unsetDefault();
+		}
 	}
 
 	/**

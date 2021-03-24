@@ -1,32 +1,32 @@
 <div class="cell fileSystemInfo">
-    <div class="header">
-        {_'cms.info.fileSystem.info'}
-    </div>
-    <table n:snippet="fileSystem">
-        <tr class="odd">
-            <th>{_'cms.info.fileSystem.mountPoint'}</th>
-            <th>{_'cms.info.fileSystem.type'}</th>
-            <th>{_'cms.info.fileSystem.partition'}</th>
-            <th>{_'cms.info.fileSystem.usage'}</th>
-            <th>{_'cms.info.fileSystem.free'}</th>
-            <th>{_'cms.info.fileSystem.used'}</th>
-            <th>{_'cms.info.fileSystem.size'}</th>
-        </tr>
-        {foreach $fileSystem as $row}
-            <tr n:class="$iterator->counter % 2 == 1 ? even">
-                <td><strong>{$row->mountPoint}</strong></td>
-                <td>{$row->type}</td>
-                <td>{$row->partition}</td>
-                <td class="status">
-                    <div class="status-bar">
-                        <div style="width: {$row->usage|noescape};"></div>
-                    </div>
-                    {$row->usage}
-                </td>
-                <td>{$row->free|size}</td>
-                <td>{$row->used|size}</td>
-                <td>{$row->size|size}</td>
-            </tr>
-        {/foreach}
-    </table>
+	<div class="header">
+		{_'cms.info.fileSystem.info'}
+	</div>
+	<table n:snippet="fileSystem">
+		<tr class="odd">
+			<th>{_'cms.info.fileSystem.mountPoint'}</th>
+			<th>{_'cms.info.fileSystem.type'}</th>
+			<th>{_'cms.info.fileSystem.partition'}</th>
+			<th>{_'cms.info.fileSystem.usage'}</th>
+			<th>{_'cms.info.fileSystem.free'}</th>
+			<th>{_'cms.info.fileSystem.used'}</th>
+			<th>{_'cms.info.fileSystem.size'}</th>
+		</tr>
+		{foreach $fileSystem as $row}
+			<tr n:class="$iterator->counter % 2 == 1 ? even">
+				<td><strong>{$row->mountPoint}</strong></td>
+				<td>{$row->type}</td>
+				<td>{$row->partition}</td>
+				<td class="status">
+					<div class="status-bar">
+						<div style="width: {$row->usage|noescape};"></div>
+					</div>
+					{$row->usage}
+				</td>
+				<td>{$row->free|size}</td>
+				<td>{$row->used|size}</td>
+				<td>{$row->size|size}</td>
+			</tr>
+		{/foreach}
+	</table>
 </div>

@@ -1,31 +1,31 @@
 {snippet network}
-    {if !empty($network)}
-        <div class="cell networkInfo">
-            <div class="header">
-                {_'cms.info.network.info'}
-            </div>
-            <table>
-                <tr class="odd">
-                    <th>{_'cms.info.network.device'}</th>
-                    <th>{_'cms.info.network.ip'}</th>
-                    <th>{_'cms.info.network.ip6'}</th>
-                    <th>{_'cms.info.network.mac'}</th>
-                    <th>{_'cms.info.network.recieve'}</th>
-                    <th>{_'cms.info.network.sent'}</th>
-                    <th>{_'cms.info.network.error'}/{_'cms.info.network.drop'}</th>
-                </tr>
-                {foreach $network as $row}
-                    <tr n:class="$iterator->counter % 2 == 1 ? even">
-                        <td><strong>{$row->name}</strong></td>
-                        <td>{isset($row->ip) ? $row->ip}</td>
-                        <td>{isset($row->ip6) ? $row->ip6}</td>
-                        <td>{isset($row->mac) ? $row->mac}</td>
-                        <td>{$row->recieve|size:2}</td>
-                        <td>{$row->sent|size:2}</td>
-                        <td>{$row->error}/{$row->drop}</td>
-                    </tr>
-                {/foreach}
-            </table>
-        </div>
-    {/if}
+	{if !empty($network)}
+		<div class="cell networkInfo">
+			<div class="header">
+				{_'cms.info.network.info'}
+			</div>
+			<table>
+				<tr class="odd">
+					<th>{_'cms.info.network.device'}</th>
+					<th>{_'cms.info.network.ip'}</th>
+					<th>{_'cms.info.network.ip6'}</th>
+					<th>{_'cms.info.network.mac'}</th>
+					<th>{_'cms.info.network.recieve'}</th>
+					<th>{_'cms.info.network.sent'}</th>
+					<th>{_'cms.info.network.error'}/{_'cms.info.network.drop'}</th>
+				</tr>
+				{foreach $network as $row}
+					<tr n:class="$iterator->counter % 2 == 1 ? even">
+						<td><strong>{$row->name}</strong></td>
+						<td>{isset($row->ip) ? $row->ip}</td>
+						<td>{isset($row->ip6) ? $row->ip6}</td>
+						<td>{isset($row->mac) ? $row->mac}</td>
+						<td>{$row->recieve|size:2}</td>
+						<td>{$row->sent|size:2}</td>
+						<td>{$row->error}/{$row->drop}</td>
+					</tr>
+				{/foreach}
+			</table>
+		</div>
+	{/if}
 {/snippet}

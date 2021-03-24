@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="{$locale}">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-    <meta name="viewport"
-          content="{ifset viewport}{include viewport|striptags|strip}{else}width=device-width,initial-scale=1{/ifset}">
+	<meta name="viewport"
+		  content="{ifset viewport}{include viewport|striptags|strip}{else}width=device-width,initial-scale=1{/ifset}">
 
-    <title>{ifset title}{include title|striptags|strip} | {/ifset} {_'cms.title'} | {$configurator->title}</title>
+	<title>{ifset title}{include title|striptags|strip} | {/ifset} {_'cms.title'} | {$configurator->title}</title>
 
-    <meta name="robots" content="noindex,nofollow"/>
-    <meta name="author" content=""/>
+	<meta name="robots" content="noindex,nofollow"/>
+	<meta name="author" content=""/>
 
-    {control loadJs}
+	{control loadJs}
     {control loadCss}
 
     {block head}{/block}
 </head>
 <body class="preload">
 {block body}
-    {control dockbar}
-    <div id="cms-container" n:class="$shifted ? shifted">
-        <div id="cms-menu-container">
-            <a n:if="$configurator->cmsLogo" n:href=":Cms:Homepage:">
-                <img n:img="$cmsLogo, '150x150', 'fit'" width="150">
-            </a>
-            {control menu}
-        </div>
-        <div id="cms-content">
-            {control flashMessages}
+	{control dockbar}
+	<div id="cms-container" n:class="$shifted ? shifted">
+		<div id="cms-menu-container">
+			<a n:if="$configurator->cmsLogo" n:href=":Cms:Homepage:">
+				<img n:img="$cmsLogo, '150x150', 'fit'" width="150">
+			</a>
+			{control menu}
+		</div>
+		<div id="cms-content">
+			{control flashMessages}
             {control breadcrumb, id => breadcrumb}
             {include content}
-            <div id="copyright">
-                {block copyright}{/block}
-            </div>
-        </div>
-    </div>
-    {block components}{/block}
+			<div id="copyright">
+				{block copyright}{/block}
+			</div>
+		</div>
+	</div>
+	{block components}{/block}
 {/block}
 </body>
 </html>

@@ -52,7 +52,7 @@ class DatabasePresenter extends CmsPresenter
 	public function uploadFormSucceeded(Form $form, ArrayHash $values): void
 	{
 		try {
-			$this->app->loadDatabase((string) $values->sql);
+			$this->app->loadDatabase((string)$values->sql);
 
 			$this->app->invalidateCache();
 			$this->flashNotifier->success('cms.database.uploaded');

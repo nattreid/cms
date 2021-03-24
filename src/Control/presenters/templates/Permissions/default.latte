@@ -1,8 +1,8 @@
 {block title}{_'dockbar.settings.permissions'}{/block}
 {block content}
 {panel}
-    {control rolesList}
-    {if $user->isAllowed('dockbar.settings.permissions.permissionsList', 'view')}
-        {control permissionsList}
-    {/if}
+	{control rolesList}
+	{if $user->isAllowed('dockbar.settings.permissions.permissionsList', 'view')}
+		{control permissionsList}
+	{/if}
 {/panel}
