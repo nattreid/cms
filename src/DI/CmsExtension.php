@@ -224,10 +224,8 @@ class CmsExtension extends CompilerExtension
 	 */
 	private function checkFileExists(string $file): void
 	{
-		if (!file_exists($file)) {
-			if (!file_exists($this->wwwDir . $file)) {
-				throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
-			}
+		if (!file_exists($this->wwwDir . $file) && !file_exists($file)) {
+			throw new FileNotFoundException(sprintf("Neither '%s' was found", $file));
 		}
 	}
 
