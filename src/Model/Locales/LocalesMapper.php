@@ -98,6 +98,11 @@ class LocalesMapper extends Mapper
 					'name' => 'sv',
 					'default' => 0,
 					'allowed' => 1
+				], [
+					'id' => 14,
+					'name' => 'jp',
+					'default' => 0,
+					'allowed' => 1
 				]
 			]);
 		};
