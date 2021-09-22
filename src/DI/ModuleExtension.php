@@ -86,6 +86,7 @@ abstract class ModuleExtension extends CompilerExtension
 
 		$menu = $builder->getByType(ICmsMenuFactory::class);
 		$builder->getDefinition($menu)
+			->getResultDefinition()
 			->addSetup('addMenu', [$items, null, $config['position']]);
 
 	}

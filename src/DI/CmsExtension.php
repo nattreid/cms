@@ -34,9 +34,9 @@ use NAttreid\Routing\RouterFactory;
 use NAttreid\Security\Authenticator\Authenticator;
 use NAttreid\TracyPlugin\Tracy;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Helpers;
 use Nette\DI\MissingServiceException;
-use Nette\DI\ServiceDefinition;
 use Nette\InvalidStateException;
 use Nette\Reflection\ClassType;
 use Nette\Utils\Finder;
@@ -76,17 +76,20 @@ class CmsExtension extends CompilerExtension
 		$config['layout'] = Helpers::expand($config['layout'], $builder->parameters);
 		$config['tracy']['mailPath'] = Helpers::expand($config['tracy']['mailPath'], $builder->parameters);
 
-		$builder->addDefinition($this->prefix('dockbar'))
+		$builder->addFactoryDefinition($this->prefix('dockbar'))
 			->setImplement(IDockbarFactory::class)
+			->getResultDefinition()
 			->setFactory(Dockbar::class)
 			->setArguments([$config['permissions'], $config['namespace'], $config['front']]);
 
-		$builder->addDefinition($this->prefix('permissionList'))
+		$builder->addFactoryDefinition($this->prefix('permissionList'))
 			->setImplement(IPermissionListFactory::class)
+			->getResultDefinition()
 			->setFactory(PermissionList::class);
 
-		$builder->addDefinition($this->prefix('fileManagerFactory'))
+		$builder->addFactoryDefinition($this->prefix('fileManagerFactory'))
 			->setImplement(IFileManagerFactory::class)
+			->getResultDefinition()
 			->setFactory(FileManager::class);
 
 		$builder->addDefinition($this->prefix('router'))
@@ -260,8 +263,9 @@ class CmsExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$menu = $builder->addDefinition($this->prefix('menu'))
+		$menu = $builder->addFactoryDefinition($this->prefix('menu'))
 			->setImplement(ICmsMenuFactory::class)
+			->getResultDefinition()
 			->setFactory(Menu::class);
 
 		if (!empty($config['menu'])) {
@@ -350,15 +354,15 @@ class CmsExtension extends CompilerExtension
 
 	private function setModule(array $config, string $namespace): void
 	{
-		foreach ($this->findByType(BasePresenter::class) as $def) {
+		foreach ($this->getContainerBuilder()->findByType(BasePresenter::class) as $def) {
 			$def->addSetup('setModule', [$config['namespace'], $namespace]);
 		}
 	}
 
 	private function setSettings(): void
 	{
-		$settings = $this->findByType(ISettings::class);
-		foreach ($this->findByType(AbstractPresenter::class) as $def) {
+		$settings = $this->getContainerBuilder()->findByType(ISettings::class);
+		foreach ($this->getContainerBuilder()->findByType(AbstractPresenter::class) as $def) {
 			$def->addSetup('setSettings', [$settings]);
 		}
 	}
@@ -366,14 +370,14 @@ class CmsExtension extends CompilerExtension
 	private function setLayout(array $config): void
 	{
 		if ($config['layout'] !== null) {
-			foreach ($this->findByType(CmsPresenter::class) as $def) {
+			foreach ($this->getContainerBuilder()->findByType(CmsPresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
-			foreach ($this->findByType(ModulePresenter::class) as $def) {
+			foreach ($this->getContainerBuilder()->findByType(ModulePresenter::class) as $def) {
 				$def->addSetup('setLayout', [$config['layout']]);
 			}
 		} else {
-			foreach ($this->findByType(ModulePresenter::class) as $def) {
+			foreach ($this->getContainerBuilder()->findByType(ModulePresenter::class) as $def) {
 				$def->addSetup('setLayout', [__DIR__ . '/../Control/presenters/templates/@layout.latte']);
 			}
 		}
@@ -398,19 +402,6 @@ class CmsExtension extends CompilerExtension
 		} catch (MissingServiceException $ex) {
 			throw new MissingServiceException("Missing extension 'nattreid/flash-messages'");
 		}
-	}
-
-	/**
-	 *
-	 * @param string $type
-	 * @return ServiceDefinition[]
-	 */
-	private function findByType(string $type): array
-	{
-		$type = ltrim($type, '\\');
-		return array_filter($this->getContainerBuilder()->getDefinitions(), function (ServiceDefinition $def) use ($type) {
-			return is_a($def->getType(), $type, true) || is_a($def->getImplement(), $type, true);
-		});
 	}
 
 	/**
