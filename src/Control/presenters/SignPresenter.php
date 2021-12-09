@@ -13,6 +13,7 @@ use NAttreid\Utils\Hasher;
 use Nette\Application\AbortException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
+use Nette\Security\UserStorage;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Random;
 use Nextras\Orm\Model\Model;
@@ -160,9 +161,9 @@ class SignPresenter extends BasePresenter
 		try {
 			$this->user->login($values->username, $values->password);
 			if ($values->remember) {
-				$this->user->setExpiration('+ ' . $this->sessionExpiration, false);
+				$this->user->setExpiration('+ ' . $this->sessionExpiration);
 			} else {
-				$this->user->setExpiration('+ ' . $this->loginExpiration, true);
+				$this->user->setExpiration('+ ' . $this->loginExpiration, UserStorage::LOGOUT_MANUAL);
 			}
 			$this->restoreRequest($this->backlink);
 			$this->redirect(":{$this->module}:Homepage:");
@@ -338,7 +339,7 @@ class SignPresenter extends BasePresenter
 
 		$this->orm->persistAndFlush($user);
 
-		$this->user->setExpiration('+ ' . $this->loginExpiration, true);
+		$this->user->setExpiration('+ ' . $this->loginExpiration);
 		$this->user->login($values->username, $password);
 
 		$this->flashNotifier->success('cms.user.dataSaved');
