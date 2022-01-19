@@ -210,10 +210,10 @@ class CmsExtension extends CompilerExtension
 		$name = $file[0];
 		$locale = isset($file['locale']) ? $file['locale'] : null;
 		$remote = isset($file['remote']) ? (bool)$file['remote'] : false;
-		$this->checkFileExists($name);
 		if ($remote) {
 			$loader->addSetup('addRemoteFile', [$name, $locale]);
 		} else {
+			$this->checkFileExists($name);
 			$loader->addSetup('addFile', [$name, $locale]);
 		}
 	}
