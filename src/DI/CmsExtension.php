@@ -309,7 +309,7 @@ class CmsExtension extends CompilerExtension
 
 		$authenticator = $builder->getByType(Authenticator::class);
 		$builder->getDefinition($authenticator)
-			->addSetup('addMapping', [$namespace, 'user']);
+			->addSetup('addMapping', [$namespace, '']);
 	}
 
 	public function afterCompile(\Nette\PhpGenerator\ClassType $class): void

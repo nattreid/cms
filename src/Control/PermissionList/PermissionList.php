@@ -34,7 +34,6 @@ class PermissionList extends Control
 
 	public function __construct(Model $orm, User $user)
 	{
-		parent::__construct();
 		$this->orm = $orm;
 		$this->user = $user;
 	}

@@ -19,6 +19,7 @@ use Nette\Utils\Html;
 use Nette\Utils\Random;
 use Nextras\Dbal\UniqueConstraintViolationException;
 use Nextras\Orm\Model\Model;
+use Ublaboo\DataGrid\Column\Action\Confirmation\CallbackConfirmation;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridColumnStatusException;
 use Ublaboo\DataGrid\Exception\DataGridException;
@@ -568,27 +569,30 @@ class UsersPresenter extends CmsPresenter
 		$state->onChange[] = [$this, 'setState'];
 
 		if ($this['tryUser']->isAllowed()) {
-			$grid->addAction('tryUser', null, 'tryUser!')
+			$grid->addAction('tryUser', '', 'tryUser!')
 				->addAttributes(['target' => '_blank'])
 				->setIcon('user')
 				->setTitle('cms.user.tryUser');
 		}
 
-		$grid->addAction('edit', null)
+		$grid->addAction('edit', '')
 			->setIcon('pencil')
 			->setTitle('cms.user.edit');
 
-		$grid->addAction('changePassword', null)
+		$grid->addAction('changePassword', '')
 			->setIcon('wrench')
 			->setTitle('cms.user.changePassword');
 
-		$grid->addAction('delete', null, 'delete!')
+		$grid->addAction('delete', '', 'delete!')
 			->setIcon('trash')
 			->setTitle('default.delete')
 			->setClass('btn btn-xs btn-danger ajax')
-			->setConfirm(function (User $user) {
-				return $this->translate('default.confirmDelete', null, ['name' => $user->fullName]);
-			});
+			->setConfirmation(
+				new CallbackConfirmation(
+					function (User $user) {
+						return $this->translate('default.confirmDelete', null, ['name' => $user->fullName]);
+					}
+				));
 
 		$grid->addGroupAction('default.activate')->onSelect[] = [$this, 'activateUsers'];
 		$grid->addGroupAction('default.deactivate')->onSelect[] = [$this, 'deactivateUsers'];

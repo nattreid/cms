@@ -62,7 +62,6 @@ class Dockbar extends Control
 
 	public function __construct(array $permissions, string $module, string $front, AppManager $app, User $user, Configurator $configurator, FlashNotifier $flashNotifier)
 	{
-		parent::__construct();
 		$this->app = $app;
 		$this->user = $user;
 		$this->configurator = $configurator;
