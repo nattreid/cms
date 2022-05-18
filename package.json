@@ -1,7 +1,7 @@
 {
 	"name": "nattreid-cms",
 	"description": "CMS for Nette Framework",
-	"version": "1.6.29",
+	"version": "1.8.9",
 	"main": "./assets/cms.js",
 	"repository": {
 		"type": "git",
@@ -16,13 +16,10 @@
 		"bootstrap": "~3.4",
 		"bootstrap-datepicker": "~1.8",
 		"bootstrap-select": "~1.13",
-		"happy": "attreid/happy#dev",
-		"history.nette.ajax.js": "attreid/history.nette.ajax.js#dev",
 		"jquery": "~3.5",
 		"jquery-ui": "~>1.12",
 		"jquery-ui-dist": "~>1.12",
 		"jquery-ui-touch-punch": "~0.2",
-		"kcfinder": "attreid/kcfinder#dev",
 		"live-form-validation": "~1.9",
 		"moment": "~>2.19",
 		"nattreid-file-manager": "^1.5.4",
