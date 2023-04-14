@@ -113,6 +113,16 @@ class LocalesMapper extends Mapper
 					'name' => 'da',
 					'default' => 0,
 					'allowed' => 1
+				], [
+					'id' => 17,
+					'name' => 'nl',
+					'default' => 0,
+					'allowed' => 1
+				], [
+					'id' => 18,
+					'name' => 'fi',
+					'default' => 0,
+					'allowed' => 1
 				]
 			]);
 		};
